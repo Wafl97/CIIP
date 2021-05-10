@@ -1,0 +1,50 @@
+[
+  {
+    "container": {
+      "id": 1,
+      "price": 10.10,
+      "name": "Berlin 2019 Legends",
+      "image": "2019BER_LEG.png"
+    }
+  },
+  {
+    "container": {
+      "id": 2,
+      "price": 10.1,
+      "name": "Berlin 2019 Minor",
+      "image": "2019BER_MIN.png"
+    }
+  },
+  {
+    "container": {
+      "id": 3,
+      "price": 10.1,
+      "name": "Berlin 2019 Returning",
+      "image": "2019BER_RET.png"
+    }
+  },
+  {
+    "container": {
+      "id": 4,
+      "price": 10.10,
+      "name": "RMR 2020 Challengers",
+      "image": "2020RMR_CHA.png"
+    }
+  },
+  {
+    "container": {
+      "id": 5,
+      "price": 10.10,
+      "name": "RMR 2020 Contenders",
+      "image": "2020RMR_CON.png"
+    }
+  },
+  {
+    "container": {
+      "id": 6,
+      "price": 10.10,
+      "name": "RMR 2020 Legends",
+      "image": "2020RMR_LEG.png"
+    }
+  }
+]

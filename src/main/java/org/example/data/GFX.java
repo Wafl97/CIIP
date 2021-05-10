@@ -21,7 +21,7 @@ public class GFX {
     /**
      * Saved directory path
      */
-    private static final String S_DIR = "/org/example/gfx/saved";
+    private static final String S_DIR = DIR+"saved";
 
     /**
      * App icon
@@ -30,7 +30,7 @@ public class GFX {
     /**
      * App icon
      */
-    private static final String LOGO_PATH = "/org/example/gfx/icon.png";
+    private static final String LOGO_PATH = DIR+"icon.png";
 
 
     private final Map<String,Image> imageMap = new HashMap<>();
@@ -44,7 +44,7 @@ public class GFX {
         return instance == null ? instance = new GFX() : instance;
     }
 
-    public GFX() {
+    private GFX() {
         try {
             logo = new Image(GFX.class.getResource(LOGO_PATH).toURI().toString());
             String s = GFX.class.getResource(S_DIR).toURI().toString();
@@ -52,8 +52,10 @@ public class GFX {
             String path = sA[1] + ":" +  sA[2];
             File f = new File(path);
             File[] fA = f.listFiles();
-            for (File file : fA){
-                imageMap.put(file.getName(),new Image(file.toURI().toString()));
+            if (fA != null) {
+                for (File file : fA) {
+                    imageMap.put(file.getName(), new Image(file.toURI().toString()));
+                }
             }
         } catch (URISyntaxException e) {
             e.printStackTrace();

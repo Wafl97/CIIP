@@ -1,0 +1,96 @@
+.label{
+    -fx-text-fill: #61AFEF;
+    -fx-font-family: Verdana;
+    -fx-font-size: 16;
+}
+
+.spinner .increment-arrow-button{
+    -fx-background-color: #282c34;
+    -fx-border-color: #5C6370;
+}
+.spinner .increment-arrow-button:hover{
+    -fx-background-color: #5C6370;
+}
+.spinner .increment-arrow-button:pressed{
+    -fx-background-color: #61AFEF;
+}
+.spinner .increment-arrow-button .increment-arrow{
+    -fx-background-color: #61AFEF;
+}
+.spinner .increment-arrow-button:pressed .increment-arrow{
+    -fx-background-color: #5C6370;
+}
+
+
+.spinner .decrement-arrow-button{
+    -fx-background-color: #282c34;
+    -fx-border-color: #5C6370;
+}
+.spinner .decrement-arrow-button:hover{
+    -fx-background-color: #5C6370;
+}
+.spinner .decrement-arrow-button:pressed{
+    -fx-background-color: #61AFEF;
+}
+.spinner .decrement-arrow-button .decrement-arrow{
+    -fx-background-color: #61AFEF;
+}
+.spinner .decrement-arrow-button:pressed .decrement-arrow{
+    -fx-background-color: #5C6370;
+}
+
+.text-field{
+    -fx-text-fill: #61AFEF;
+    -fx-font-family: Verdana;
+    -fx-font-size: 16;
+    -fx-background-color: #282c34;
+    -fx-border-color: #5C6370;
+}
+.text-field:hover{
+    -fx-background-color: #5C6370;
+    -fx-text-fill: #61AFEF;
+}
+.text-field:focused{
+    -fx-background-color: #5C6370;
+    -fx-text-fill: #61AFEF;
+}
+
+#background{
+    -fx-background-color: #282c34;
+}
+
+.button{
+    -fx-background-color: #282c34;
+    -fx-text-fill: #61AFEF;
+    -fx-font-family: Verdana;
+    -fx-font-size: 16;
+    -fx-border-color: #5C6370;
+}
+.button:hover{
+    -fx-background-color: #5C6370;
+    -fx-text-fill: #61AFEF;
+}
+.button:armed{
+    -fx-background-color: #61AFEF;
+    -fx-text-fill: #5C6370;
+}
+
+.list-cell{
+    -fx-background-color: #282c34;
+    -fx-text-fill: #61AFEF;
+    -fx-font-family: Verdana;
+    -fx-font-size: 16;
+}
+.list-cell:hover{
+    -fx-background-color: #5C6370;
+    -fx-text-fill: #61AFEF;
+}
+.list-cell:selected{
+    -fx-background-color: #61AFEF;
+    -fx-text-fill: #282c34;
+}
+
+.list-view{
+    -fx-border-color: #5C6370;
+    -fx-background-color: #282c34;
+}

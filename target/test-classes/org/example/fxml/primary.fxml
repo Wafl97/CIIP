@@ -6,7 +6,7 @@
 <?import javafx.geometry.Insets?>
 
 <?import javafx.scene.image.ImageView?>
-<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.presentation.PrimaryController">
+<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.presentation.MainController">
    <Button text="Create" mnemonicParsing="false" fx:id="b_Create"/>
    <Button text="Read" mnemonicParsing="false" fx:id="b_Read"/>
    <Button text="Update" mnemonicParsing="false" fx:id="b_Update"/>
