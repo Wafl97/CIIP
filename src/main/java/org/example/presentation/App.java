@@ -12,6 +12,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.example.data.GFX;
 import org.example.logic.Domain;
+import org.example.logic.Interfaces.Container;
 import org.example.logic.Interfaces.Factory;
 import org.example.logic.Interfaces.Investment;
 import org.example.logic.Interfaces.Logic;
@@ -40,6 +41,8 @@ public class App extends Application {
     static Operation operation;
 
     static Investment selectedInvestment;
+
+    static Container selectedContainer;
 
     static final String INVESTMENTFORM = "investmentform";
     static final String MAIN = "main";

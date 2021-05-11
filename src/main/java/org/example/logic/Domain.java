@@ -9,7 +9,7 @@ import org.example.logic.Interfaces.Logic;
 
 import java.util.List;
 
-public class Domain implements Logic {
+public final class Domain implements Logic {
 
     private static Domain instance;
 

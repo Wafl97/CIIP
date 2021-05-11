@@ -102,7 +102,7 @@ public class MainController extends App implements Initializable {
                 balance += container.getPrice() * investment.getAllContainers().get(container);
             }
         }
-        investmentListView.setItems(FXCollections.observableList(new ArrayList<>(allInvestments)));
+        investmentListView.setItems(FXCollections.observableList(allInvestments));
 
         //===Labels=====================================================================================================
         balanceLabel.setText("Total: " + balance);
@@ -123,8 +123,8 @@ public class MainController extends App implements Initializable {
                 total += container.getPrice() * investment.getAllContainers().get(container);
                 amount += investment.getAllContainers().get(container);
             }
-            investmentTotalLabel.setText("Investment Total: " + total);
-            totalContainersLabel.setText("Amount of Containers: " + amount + "€");
+            investmentTotalLabel.setText("Investment Total: " + total + "€");
+            totalContainersLabel.setText("Amount of Containers: " + amount );
         }
     }
 

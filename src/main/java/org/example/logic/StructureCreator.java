@@ -2,7 +2,7 @@ package org.example.logic;
 
 import org.example.logic.Interfaces.Factory;
 
-public class StructureCreator implements Factory {
+public final class StructureCreator implements Factory {
 
     private static StructureCreator instance;
 
