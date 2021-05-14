@@ -56,7 +56,15 @@ public class InvestmentController extends App implements Initializable {
                 else contentsListView.refresh();
             }
         });
-        removeButton.setOnAction(e -> System.out.println("REMOVE"));
+        removeButton.setOnAction(e -> {
+            if (contentsListView.getSelectionModel().getSelectedIndex() != -1 && amountSpinner.getValue() > 0){
+                Container container = contentsListView.getItems().get(contentsListView.getSelectionModel().getSelectedIndex());
+                long amount = tmpMap.get(container);
+                if (amount + amountSpinner.getValue() <= 0) contentsListView.getItems().remove(container);
+                else tmpMap.put(container, amount - amountSpinner.getValue());
+                contentsListView.refresh();
+            }
+        });
 
         //===ListViews==================================================================================================
         allContainersListView.setCellFactory(cell -> new ListCell<>() {

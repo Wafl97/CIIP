@@ -59,6 +59,39 @@
     -fx-background-color: #282c34;
 }
 
+#closeButton{
+    -fx-font-size: 0;
+    -fx-background-image: url("../gfx/cross_alpha_blue.png");
+    -fx-background-size: 15 15;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-color: #282c34;
+}
+#closeButton:hover{
+    -fx-font-size: 0;
+    -fx-background-image: url("../gfx/cross_alpha.png");
+    -fx-background-size: 15 15;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-color: #EF596F;
+}
+
+#minimizeButton{
+    -fx-font-size: 0;
+
+    -fx-background-size: 15 15;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+#maximizeButton{
+    -fx-font-size: 0;
+    -fx-background-image: url("../gfx/maximize_alpha_blue.png");
+    -fx-background-size: 15 15;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
 .button{
     -fx-background-color: #282c34;
     -fx-text-fill: #61AFEF;
