@@ -13,8 +13,8 @@ public final class StructureCreator implements Factory {
     }
 
     @Override
-    public Item emptyCapsule() {
-        return new Item();
+    public Capsule emptyCapsule() {
+        return new Capsule();
     }
 
     @Override

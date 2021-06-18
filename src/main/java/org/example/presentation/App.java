@@ -11,11 +11,10 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.example.data.GFX;
-import org.example.logic.Domain;
-import org.example.logic.Interfaces.Container;
+import org.example.logic.DomainFacade;
+import org.example.logic.Interfaces.IItem;
 import org.example.logic.Interfaces.Factory;
 import org.example.logic.Interfaces.Investment;
-import org.example.logic.Interfaces.Logic;
 import org.example.logic.StructureCreator;
 
 import java.io.IOException;
@@ -31,26 +30,35 @@ public class App extends Application {
     /**
      * Link to logic layer
      */
-    static final Logic DOMAIN = Domain.getInstance();
+    static final DomainFacade DOMAIN = DomainFacade.getInstance();
 
     /**
      * Date factory
      */
     static final Factory CREATOR = StructureCreator.getInstance();
 
+    /**
+     * App instance
+     */
+    private static App instance;
+
     static Operation operation;
 
     static Investment selectedInvestment;
 
-    static Container selectedContainer;
+    static IItem selectedContainer;
 
     static final String INVESTMENTFORM = "investmentform";
     static final String MAIN = "main";
 
+    public static App getInstance(){
+        return instance == null ? instance = new App() : instance;
+    }
+
     @Override
     public void start(Stage stage) throws IOException {
         scene = new Scene(loadFXML("main"), 1080, 720);
-        stage.getIcons().add(DOMAIN.getGFX().getLogo());
+        stage.getIcons().add(DOMAIN.getDataFacade().getGFX().getLogo());
         stage.setTitle("CIP");
         stage.setScene(scene);
         stage.show();
@@ -97,6 +105,10 @@ public class App extends Application {
         stage.setScene(new Scene(pane,300,100));
         stage.showAndWait();
         return answer.get();
+    }
+
+    void openWeb(String url){
+        getHostServices().showDocument(url);
     }
 
     private static Parent loadFXML(String fxml) throws IOException {

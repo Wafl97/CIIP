@@ -1,6 +1,6 @@
 package org.example.data;
 
-import org.example.logic.Interfaces.Container;
+import org.example.logic.Interfaces.IItem;
 import org.example.logic.Interfaces.Investment;
 
 import java.util.List;
@@ -13,10 +13,10 @@ public interface DataConnection {
     void updateInvestment(long id, Investment investment);
     void deleteInvestment(long id);
 
-    List<Container> readAllContainers();
-    void createContainer(Container container);
-    Container readContainer(long id);
-    void updateContainer(long id, Container container);
-    void deleteContainer(long id);
+    List<IItem> readAllCapsules();
+    void createCapsule(IItem capsule);
+    IItem readCapsule(long id);
+    void updateCapsule(long id, IItem capsule);
+    void deleteCapsule(long id);
 
 }

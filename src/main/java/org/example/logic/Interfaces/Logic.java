@@ -1,16 +1,16 @@
 package org.example.logic.Interfaces;
 
 import org.example.data.GFX;
-import org.example.logic.Interfaces.Container;
+import org.example.data.IDataFacade;
+import org.example.logic.FileHandler;
 
 import java.util.List;
-import java.util.Set;
 
 public interface Logic {
-    List<Container> readAllContainers();
-    void createContainer(Container container);
-    Container readContainer(long id);
-    void updateContainer(long id, Container container);
+    List<IItem> readAllContainers();
+    void createContainer(IItem container);
+    IItem readContainer(long id);
+    void updateContainer(long id, IItem container);
     void deleteContainer(long id);
 
     List<Investment> readAllInvestments();
@@ -18,6 +18,4 @@ public interface Logic {
     Investment readInvestment(long id);
     void updateInvestment(long id,Investment investment);
     void deleteInvestment(long id);
-
-    GFX getGFX();
 }

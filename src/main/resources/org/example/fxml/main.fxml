@@ -19,15 +19,18 @@
             <Button fx:id="deleteButton" mnemonicParsing="false" prefHeight="34.0" prefWidth="133.0" text="Delete" />
          </children>
       </VBox>
-      <VBox layoutX="716.0" layoutY="360.0" prefHeight="350.0" prefWidth="350.0">
+      <VBox layoutX="716.0" layoutY="436.0" prefHeight="226.0" prefWidth="350.0">
          <children>
             <Label text="Total Stats" />
-            <Label fx:id="balanceLabel" prefWidth="200.0" text="Label" />
+            <Label fx:id="globalTotalInvestedLabel" />
+            <Label fx:id="globalTotalItemsLabel" />
+            <Label fx:id="globalTotalMadeLabel" />
             <Label />
             <Label text="Selected Investment" />
             <Label fx:id="totalContainersLabel" text="Label" />
-            <Label fx:id="investmentTotalLabel" text="Label" />
-            <Button fx:id="tmpButton" mnemonicParsing="false" text="TEMP" />
+            <Label fx:id="totalInvestedLabel" text="Label" />
+            <Label fx:id="totalSellValueLabel" />
+            <Label fx:id="totalMadeLabel" />
          </children>
       </VBox>
       <ListView fx:id="itemListView" layoutX="348.0" layoutY="49.0" onMouseClicked="#itemHandler" prefHeight="657.0" prefWidth="350.0" />
@@ -35,8 +38,12 @@
          <Label fx:id="itemName" />
          <ImageView fx:id="itemImage" />
          <Label fx:id="itemAmount" />
-         <Label fx:id="itemPrice" />
+         <Label fx:id="itemInitPrice" />
+         <Label fx:id="itemCurrPrice" />
+         <Label fx:id="itemDiffPrice" />
       </VBox>
+      <Button fx:id="itemViewButton" layoutX="234.0" layoutY="672.0" mnemonicParsing="false" text="All Items" />
+      <Button layoutX="1041.0" layoutY="686.0" mnemonicParsing="false" text="(:" onAction="#nice"/>
    </children>
    <stylesheets>
       <URL value="@../css/cip.css" />

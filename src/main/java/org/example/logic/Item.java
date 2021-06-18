@@ -1,29 +1,24 @@
 package org.example.logic;
 
-import org.example.logic.Interfaces.Container;
+import org.example.logic.Interfaces.IItem;
 
-public final class Item implements Container {
+public abstract class Item implements IItem {
 
-    private long id;
-    private double price;
-    private String name;
-    private String image;
-
-    public Item(long id, double price, String name, String image){
-        this.id = id;
-        this.price = price;
-        this.name = name;
-        this.image = image;
-    }
-
-    public Item(){}
+    protected long id;
+    protected double initPrice;
+    protected double currPrice;
+    protected String name;
+    protected String image;
+    protected String link;
 
     @Override
-    public Container populate(long id, double price, String name, String image) {
+    public IItem populate(long id, double initPrice, String name, String image, String stashLink) {
         setId(id);
-        setPrice(price);
+        setInitPrice(initPrice);
         setName(name);
         setImage(image);
+        setStashLink(stashLink);
+        updateCurrPrice();
         return this;
     }
 
@@ -38,13 +33,28 @@ public final class Item implements Container {
     }
 
     @Override
-    public double getPrice() {
-        return price;
+    public double getInitPrice() {
+        return initPrice;
     }
 
     @Override
-    public void setPrice(double price) {
-        this.price = price;
+    public void setInitPrice(double price) {
+        this.initPrice = price;
+    }
+
+    @Override
+    public double getCurrPrice() {
+        return currPrice;
+    }
+
+    @Override
+    public void setCurrPrice(double price) {
+        this.currPrice = price;
+    }
+
+    @Override
+    public double getDiffPrice() {
+        return currPrice - initPrice;
     }
 
     @Override
@@ -68,12 +78,25 @@ public final class Item implements Container {
     }
 
     @Override
+    public String getStashLink() {
+        return link;
+    }
+
+    @Override
+    public void setStashLink(String link) {
+        this.link = link;
+    }
+
+    @Override
     public String toString() {
-        return "Item{" +
+        return  getClass().getSimpleName() + "{" +
                 "id=" + id +
-                ", price=" + price +
+                ", initPrice=" + initPrice +
+                ", currPrice=" + currPrice +
                 ", name='" + name + '\'' +
                 ", image='" + image + '\'' +
+                ", link='" + link + '\'' +
                 '}';
     }
+
 }

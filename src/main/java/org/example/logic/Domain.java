@@ -1,9 +1,7 @@
 package org.example.logic;
 
-import org.example.data.DataConnection;
-import org.example.data.GFX;
-import org.example.data.JsonConnection;
-import org.example.logic.Interfaces.Container;
+import org.example.data.*;
+import org.example.logic.Interfaces.IItem;
 import org.example.logic.Interfaces.Investment;
 import org.example.logic.Interfaces.Logic;
 
@@ -22,28 +20,28 @@ public final class Domain implements Logic {
     private Domain(){}
 
     @Override
-    public List<Container> readAllContainers(){
-        return CONNECTION.readAllContainers();
+    public List<IItem> readAllContainers(){
+        return CONNECTION.readAllCapsules();
     }
 
     @Override
-    public void createContainer(Container container) {
-        CONNECTION.createContainer(container);
+    public void createContainer(IItem container) {
+        CONNECTION.createCapsule(container);
     }
 
     @Override
-    public Container readContainer(long id) {
-        return CONNECTION.readContainer(id);
+    public IItem readContainer(long id) {
+        return CONNECTION.readCapsule(id);
     }
 
     @Override
-    public void updateContainer(long id, Container container) {
-        CONNECTION.updateContainer(id,container);
+    public void updateContainer(long id, IItem container) {
+        CONNECTION.updateCapsule(id,container);
     }
 
     @Override
     public void deleteContainer(long id) {
-        CONNECTION.deleteContainer(id);
+        CONNECTION.deleteCapsule(id);
     }
 
     @Override
@@ -71,8 +69,4 @@ public final class Domain implements Logic {
         CONNECTION.deleteInvestment(id);
     }
 
-    @Override
-    public GFX getGFX() {
-        return GFX.getInstance();
-    }
 }

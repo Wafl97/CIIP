@@ -1,6 +1,6 @@
 package org.example.data;
 
-import org.example.logic.Interfaces.Container;
+import org.example.logic.Interfaces.IItem;
 import org.example.logic.Interfaces.Factory;
 import org.example.logic.Interfaces.Investment;
 import org.example.logic.StructureCreator;
@@ -21,12 +21,12 @@ public class JsonConnection implements DataConnection {
     private static final String PATH = "org/example/datacollection/";
     private static final String INVESTMENTS = "investments";
     private static final String VAULT = "vault";
-    private static final String CONTAINERS = "containers";
-    private static final String CONTAINER = "container";
+    private static final String CAPSULES = "capsules";
+    private static final String CAPSULE = "capsule";
 
     private static JsonConnection instance;
     private List<Investment> investments;
-    private List<Container> containers;
+    private List<IItem> containers;
     private final Factory factory = StructureCreator.getInstance();
     private final Map<String,File> fileMap = new HashMap<>();
 
@@ -92,6 +92,22 @@ public class JsonConnection implements DataConnection {
         }
     }
 
+    private long findMaxInvestmentId(){
+        long maxValue = investments.get(0).getId();
+        for (Investment investment : investments) {
+            if (investment.getId() > maxValue) maxValue = investment.getId();
+        }
+        return maxValue;
+    }
+
+    private long findMaxContainerId(){
+        long maxValue = containers.get(0).getId();
+        for (IItem container : containers) {
+            if (container.getId() > maxValue) maxValue = container.getId();
+        }
+        return maxValue;
+    }
+
     @Override
     public List<Investment> readAllInvestments() {
         if (investments == null){
@@ -106,11 +122,11 @@ public class JsonConnection implements DataConnection {
                             (long) vault.get("id"),
                             (String) vault.get("name")
                     );
-                    JSONArray capArray = (JSONArray) vault.get(CONTAINERS);
+                    JSONArray capArray = (JSONArray) vault.get(CAPSULES);
                     for (Object object : capArray) {
                         JSONObject jsonCaps = (JSONObject) object;
-                        JSONObject cap = (JSONObject) jsonCaps.get(CONTAINER);
-                        investment.addContainers(readContainer((long) cap.get("container_id")), (long) cap.get("amount"));
+                        JSONObject cap = (JSONObject) jsonCaps.get(CAPSULE);
+                        investment.addItems(readCapsule((long) cap.get("capsule_id")), (long) cap.get("amount"));
                     }
                     investments.add(investment);
                 }
@@ -121,21 +137,22 @@ public class JsonConnection implements DataConnection {
 
     @Override
     public void createInvestment(Investment investment) {
-        if (investments == null) readAllContainers();
+        if (investments == null) readAllCapsules();
         investments.add(investment);
         JSONObject investObj = new JSONObject();
-        investObj.put("id",investment.getId());
+        long maxId = findMaxInvestmentId() + 1;
+        investObj.put("id",maxId);
         investObj.put("name",investment.getName());
         JSONArray containerArray = new JSONArray();
-        for (Container container : investment.getContainers()){
+        for (IItem container : investment.getItems()){
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("container_id",container.getId());
+            jsonObject.put("capsule_id",container.getId());
             jsonObject.put("amount",investment.getAllContainers().get(container));
             JSONObject containerObj = new JSONObject();
-            containerObj.put("container",jsonObject);
+            containerObj.put("capsule",jsonObject);
             containerArray.add(containerObj);
         }
-        investObj.put("containers",containerArray);
+        investObj.put("capsules",containerArray);
         JSONObject vaultObj = new JSONObject();
         vaultObj.put("vault",investObj);
         JSONArray jsonArray = loadFile(INVESTMENTS);
@@ -160,15 +177,15 @@ public class JsonConnection implements DataConnection {
         investObj.put("id",investment.getId());
         investObj.put("name",investment.getName());
         JSONArray containerArray = new JSONArray();
-        for (Container container : investment.getContainers()){
+        for (IItem container : investment.getItems()){
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("container_id",container.getId());
+            jsonObject.put("capsule_id",container.getId());
             jsonObject.put("amount",investment.getAllContainers().get(container));
             JSONObject containerObj = new JSONObject();
-            containerObj.put("container",jsonObject);
+            containerObj.put("capsule",jsonObject);
             containerArray.add(containerObj);
         }
-        investObj.put("containers",containerArray);
+        investObj.put("capsules",containerArray);
         JSONObject vaultObj = new JSONObject();
         vaultObj.put("vault",investObj);
         for (Object o : jsonArray){
@@ -198,20 +215,21 @@ public class JsonConnection implements DataConnection {
     }
 
     @Override
-    public List<Container> readAllContainers() {
+    public List<IItem> readAllCapsules() {
         if (containers == null){
             containers = new ArrayList<>();
-            JSONArray jsonArray = loadFile(CONTAINERS);
+            JSONArray jsonArray = loadFile(CAPSULES);
             if (jsonArray != null) {
                 for (Object o : jsonArray) {
-                    Container container = factory.emptyCapsule();
+                    IItem container = factory.emptyCapsule();
                     JSONObject jsonObject = (JSONObject) o;
-                    JSONObject cap = (JSONObject) jsonObject.get(CONTAINER);
+                    JSONObject cap = (JSONObject) jsonObject.get(CAPSULE);
                     container.populate(
                             (long) cap.get("id"),
-                            (double) cap.get("price"),
+                            (double) cap.get("init_price"),
                             (String) cap.get("name"),
-                            (String) cap.get("image")
+                            (String) cap.get("image"),
+                            (String) cap.get("stash_link")
                     );
                     containers.add(container);
                 }
@@ -221,26 +239,28 @@ public class JsonConnection implements DataConnection {
     }
 
     @Override
-    public void createContainer(Container container) {
-        if (containers == null) readAllContainers();
+    public void createCapsule(IItem container) {
+        if (containers == null) readAllCapsules();
         containers.add(container);
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("id",container.getId());
-        jsonObject.put("price",container.getPrice());
+        long maxId = findMaxContainerId() + 1;
+        jsonObject.put("id",maxId);
+        jsonObject.put("init_price",container.getInitPrice());
         jsonObject.put("name",container.getName());
         jsonObject.put("image",container.getImage());
+        jsonObject.put("stash_link",container.getStashLink());
         JSONObject containerObj = new JSONObject();
-        containerObj.put("container",jsonObject);
-        JSONArray jsonArray = loadFile(CONTAINERS);
+        containerObj.put("capsule",jsonObject);
+        JSONArray jsonArray = loadFile(CAPSULES);
         jsonArray.add(containerObj);
-        saveFile(jsonArray,CONTAINERS);
+        saveFile(jsonArray, CAPSULES);
     }
 
     @Override
-    public Container readContainer(long id) {
-        if (containers == null) readAllContainers();
-        Container container = null;
-        for (Container capsule : containers) {
+    public IItem readCapsule(long id) {
+        if (containers == null) readAllCapsules();
+        IItem container = null;
+        for (IItem capsule : containers) {
             if (capsule.getId() == id){
                 container = capsule;
             }
@@ -249,29 +269,29 @@ public class JsonConnection implements DataConnection {
     }
 
     @Override
-    public void updateContainer(long id, Container container) {
-        JSONArray jsonArray = loadFile(CONTAINERS);
+    public void updateCapsule(long id, IItem container) {
+        JSONArray jsonArray = loadFile(CAPSULES);
         JSONObject containerObj = new JSONObject();
         containerObj.put("id",container.getId());
         containerObj.put("name",container.getName());
-        containerObj.put("price",container.getPrice());
+        containerObj.put("price",container.getInitPrice());
         containerObj.put("image",container.getImage());
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("container",containerObj);
+        jsonObject.put("capsule",containerObj);
         for (Object o : jsonArray){
             JSONObject jObject = (JSONObject) o;
-            JSONObject internalObject = (JSONObject) jObject.get("container");
+            JSONObject internalObject = (JSONObject) jObject.get("capsule");
             if ((long)internalObject.get("id") == id){
                 jsonArray.remove(jsonArray.indexOf(o));
                 jsonArray.add(jsonObject);
                 break;
             }
         }
-        saveFile(jsonArray,CONTAINERS);
+        saveFile(jsonArray, CAPSULES);
     }
 
     @Override
-    public void deleteContainer(long id) {
+    public void deleteCapsule(long id) {
         System.out.println("NOT YET IMPLEMENTED");
     }
 }

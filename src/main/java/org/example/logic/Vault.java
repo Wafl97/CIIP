@@ -1,6 +1,6 @@
 package org.example.logic;
 
-import org.example.logic.Interfaces.Container;
+import org.example.logic.Interfaces.IItem;
 import org.example.logic.Interfaces.Investment;
 
 import java.util.HashMap;
@@ -10,18 +10,10 @@ import java.util.Set;
 public final class Vault implements Investment {
 
     private long id;
-    private Map<Container,Long> containers;
+    private Map<IItem,Long> containers = new HashMap<>();
     private String name;
 
-    public Vault(long id, String name){
-        this.id = id;
-        this.name = name;
-        containers = new HashMap<>();
-    }
-
-    public Vault(){
-        containers = new HashMap<>();
-    }
+    public Vault() {}
 
     @Override
     public long getId() {
@@ -44,27 +36,27 @@ public final class Vault implements Investment {
     }
 
     @Override
-    public Map<Container,Long> getAllContainers(){
+    public Map<IItem,Long> getAllContainers(){
         return containers;
     }
 
     @Override
-    public void setAllContainers(Map<Container,Long> map){
+    public void setAllItems(Map<IItem,Long> map){
         this.containers = map;
     }
 
     @Override
-    public Set<Container> getContainers() {
+    public Set<IItem> getItems() {
         return containers.keySet();
     }
 
     @Override
-    public void addContainers(Container container, long amount) {
+    public void addItems(IItem container, long amount) {
         containers.put(container,amount);
     }
 
     @Override
-    public void removeContainers(Container container) {
+    public void removeItem(IItem container) {
         containers.remove(container);
     }
 

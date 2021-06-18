@@ -1,7 +1,7 @@
 package org.example.data;
 
 import junit.framework.TestCase;
-import org.example.logic.Interfaces.Container;
+import org.example.logic.Interfaces.IItem;
 import org.example.logic.Interfaces.Factory;
 import org.example.logic.StructureCreator;
 import org.junit.jupiter.api.BeforeEach;
@@ -41,16 +41,16 @@ public class DataConnectionTest extends TestCase {
 
     @Test
     public void testReadAllContainers() {
-        System.out.println(connection.readAllContainers());
-        Container c = creator.emptyCapsule().populate(10,3.14,"NAME","OBAMA.png");
-        connection.createContainer(c);
-        System.out.println(connection.readAllContainers());
+        System.out.println(connection.readAllCapsules());
+        IItem c = creator.emptyCapsule().populate(10,3.14,"NAME","OBAMA.png","LINK.dk");
+        connection.createCapsule(c);
+        System.out.println(connection.readAllCapsules());
     }
 
     @Test
     public void testCreateContainer() {
-        Container c = creator.emptyCapsule().populate(10,3.14,"NAME","OBAMA.png");
-        connection.createContainer(c);
+        IItem c = creator.emptyCapsule().populate(10,3.14,"NAME","OBAMA.png","URL.com");
+        connection.createCapsule(c);
     }
 
     public void testReadContainer() {
