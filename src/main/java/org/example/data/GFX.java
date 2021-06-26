@@ -1,6 +1,7 @@
 package org.example.data;
 
 import javafx.scene.image.Image;
+import org.example.data.Interfaces.IGFX;
 
 import java.io.*;
 import java.net.URISyntaxException;
@@ -12,7 +13,7 @@ import java.util.Map;
  * This class loads and holds all the graphical elements
  * It is a singleton, so not to load the assets more than once
  */
-public class GFX implements IGFX{
+public class GFX implements IGFX {
 
     /**
      * Directory path

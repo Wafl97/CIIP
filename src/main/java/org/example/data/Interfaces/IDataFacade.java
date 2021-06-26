@@ -1,4 +1,4 @@
-package org.example.data;
+package org.example.data.Interfaces;
 
 public interface IDataFacade {
 
