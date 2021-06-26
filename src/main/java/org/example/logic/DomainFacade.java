@@ -1,7 +1,7 @@
 package org.example.logic;
 
 import org.example.data.DataFacade;
-import org.example.data.IDataFacade;
+import org.example.data.Interfaces.IDataFacade;
 import org.example.logic.Interfaces.IDomainFacade;
 import org.example.logic.Interfaces.IFileHandler;
 import org.example.logic.Interfaces.Logic;

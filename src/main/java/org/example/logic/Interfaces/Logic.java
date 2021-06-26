@@ -1,9 +1,5 @@
 package org.example.logic.Interfaces;
 
-import org.example.data.GFX;
-import org.example.data.IDataFacade;
-import org.example.logic.FileHandler;
-
 import java.util.List;
 
 public interface Logic {

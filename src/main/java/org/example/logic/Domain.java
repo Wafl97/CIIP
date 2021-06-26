@@ -1,6 +1,7 @@
 package org.example.logic;
 
 import org.example.data.*;
+import org.example.data.Interfaces.DataConnection;
 import org.example.logic.Interfaces.IItem;
 import org.example.logic.Interfaces.Investment;
 import org.example.logic.Interfaces.Logic;

@@ -1,6 +1,10 @@
 package org.example.data;
 
-public class DataFacade implements IDataFacade{
+import org.example.data.Interfaces.DataConnection;
+import org.example.data.Interfaces.IDataFacade;
+import org.example.data.Interfaces.IGFX;
+
+public class DataFacade implements IDataFacade {
 
     private static DataFacade instance;
 

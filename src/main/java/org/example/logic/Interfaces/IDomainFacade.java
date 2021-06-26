@@ -1,7 +1,6 @@
 package org.example.logic.Interfaces;
 
-import org.example.data.IDataFacade;
-import org.example.logic.FileHandler;
+import org.example.data.Interfaces.IDataFacade;
 
 public interface IDomainFacade {
 

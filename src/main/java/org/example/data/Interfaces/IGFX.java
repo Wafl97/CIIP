@@ -1,4 +1,4 @@
-package org.example.data;
+package org.example.data.Interfaces;
 
 import javafx.scene.image.Image;
 

@@ -5,11 +5,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
-import org.example.logic.Domain;
 import org.example.logic.DomainFacade;
 import org.example.logic.Interfaces.IItem;
 
@@ -17,7 +15,6 @@ import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.UUID;
 
 public class CapsuleController extends App implements Initializable {
 
@@ -104,7 +101,7 @@ public class CapsuleController extends App implements Initializable {
         imageFile = fileChooser.showOpenDialog(null);
         if (imageFile != null){
             DomainFacade.getInstance().getFileHandler().save(imageFile);
-            itemImageView.setImage(DomainFacade.getInstance().getDataFacade().getGFX().getImageMap().get(imageFile.getName()));
+            itemImageView.setImage(DOMAIN.getDataFacade().getGFX().getImageMap().get(imageFile.getName()));
         }
     }
 }

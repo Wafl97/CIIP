@@ -1,4 +1,4 @@
-package org.example.data;
+package org.example.data.Interfaces;
 
 import org.example.logic.Interfaces.IItem;
 import org.example.logic.Interfaces.Investment;

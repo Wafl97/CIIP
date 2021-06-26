@@ -10,8 +10,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import org.example.data.GFX;
 import org.example.logic.DomainFacade;
+import org.example.logic.Interfaces.IDomainFacade;
 import org.example.logic.Interfaces.IItem;
 import org.example.logic.Interfaces.Factory;
 import org.example.logic.Interfaces.Investment;
@@ -101,7 +101,7 @@ public class App extends Application {
         stage.setTitle(title);
         stage.setResizable(false);
         stage.initModality(Modality.APPLICATION_MODAL);
-        stage.getIcons().add(GFX.getInstance().getLogo());
+        stage.getIcons().add(DOMAIN.getDataFacade().getGFX().getLogo());
         stage.setScene(new Scene(pane,300,100));
         stage.showAndWait();
         return answer.get();
