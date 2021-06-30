@@ -12,7 +12,7 @@ public final class Domain implements Logic {
 
     private static Domain instance;
 
-    private static final DataConnection CONNECTION = JsonConnection.getInstance();
+    private static final DataConnection CONNECTION = DataFacade.getInstance().getDataConnection();
 
     public static Domain getInstance(){
         return instance == null ? instance = new Domain() : instance;

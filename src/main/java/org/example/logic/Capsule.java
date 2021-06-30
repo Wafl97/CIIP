@@ -1,9 +1,6 @@
 package org.example.logic;
 
-import org.example.logic.Interfaces.IItem;
-
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -36,8 +33,6 @@ public final class Capsule extends Item {
             if (priceMatcher.find()) {
                 d = Double.parseDouble(priceMatcher.group(1).replace(",", "."));
             }
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }

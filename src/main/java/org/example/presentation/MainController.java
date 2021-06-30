@@ -23,7 +23,7 @@ import org.example.logic.Interfaces.Investment;
 public class MainController extends App implements Initializable {
 
     @FXML
-    private Button createButton, editButton, deleteButton, itemViewButton;
+    private Button createButton, editButton, deleteButton, itemViewButton, itemCreateButton, itemUpdateButton;
     @FXML
     private ListView<Investment> investmentListView;
     @FXML
@@ -42,31 +42,24 @@ public class MainController extends App implements Initializable {
     private int itemIndex = -1;
 
 
-    /**
-     *
-     * @param url ?
-     * @param resourceBundle ?
-     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //===Buttons====================================================================================================
-        createButton.setOnAction(e -> setRoot(INVESTMENTFORM,Operation.CREATE));
+        createButton.setOnAction(e -> App.getInstance().goNext(MP, CC));
         editButton.setOnAction(e -> {
             if (investIndex != -1) {
-                selectedInvestment = investmentListView.getItems().get(investIndex);
-                setRoot(INVESTMENTFORM, Operation.EDIT);
+                setSelectedInvestment(investmentListView.getItems().get(investIndex));
+                App.getInstance().goNext(MP, CE);
             }
         });
         deleteButton.setOnAction(e -> {
             if (investmentListView.getSelectionModel().getSelectedIndex() != -1) {
-                if (openWarning("DELETE", "Are you sure?", "Delete the selected element")) {
-                    DOMAIN.getDomain().deleteInvestment(investmentListView.getItems().get(investmentListView.getSelectionModel().getSelectedIndex()).getId());
-                    investmentListView.getItems().remove(investmentListView.getSelectionModel().getSelectedIndex());
-                    itemListView.getItems().clear();
-                }
+                openWarning("DELETE", "Are you sure?", "Delete the selected element", this::deleteInvestment,false);
             }
         });
-        itemViewButton.setOnAction(e -> setRoot("capsuleform",Operation.PASS));
+        itemViewButton.setOnAction(e -> App.getInstance().goNext(MP, IP));
+        itemCreateButton.setOnAction(e -> App.getInstance().goNext(MP, IC));
+        itemUpdateButton.setOnAction(e -> App.getInstance().goNext(MP, IE));
 
         //===ListViews==================================================================================================
         investmentListView.setCellFactory(cell -> new ListCell<>() {
@@ -119,6 +112,12 @@ public class MainController extends App implements Initializable {
         totalContainersLabel.setText("");
         totalSellValueLabel.setText("");
         totalMadeLabel.setText("");
+    }
+
+    private void deleteInvestment() {
+        DOMAIN.getDomain().deleteInvestment(investmentListView.getItems().get(investmentListView.getSelectionModel().getSelectedIndex()).getId());
+        investmentListView.getItems().remove(investmentListView.getSelectionModel().getSelectedIndex());
+        itemListView.getItems().clear();
     }
 
     /**

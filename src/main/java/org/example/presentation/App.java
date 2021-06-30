@@ -10,14 +10,15 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 import org.example.logic.DomainFacade;
-import org.example.logic.Interfaces.IDomainFacade;
 import org.example.logic.Interfaces.IItem;
 import org.example.logic.Interfaces.Factory;
 import org.example.logic.Interfaces.Investment;
 import org.example.logic.StructureCreator;
 
 import java.io.IOException;
+import java.util.Stack;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -25,7 +26,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class App extends Application {
 
-    private static Scene scene;
 
     /**
      * Link to logic layer
@@ -42,14 +42,33 @@ public class App extends Application {
      */
     private static App instance;
 
-    static Operation operation;
+    private static Scene scene;
 
-    static Investment selectedInvestment;
+    private Operation operation = PASS;
 
-    static IItem selectedContainer;
+    private Investment selectedInvestment;
+
+    private IItem selectedItem;
+
+    private static final Stack<Pair<String,Operation>> fxmlStack = new Stack<>();
 
     static final String INVESTMENTFORM = "investmentform";
     static final String MAIN = "main";
+    static final String CAPSULEFORM = "capsuleform";
+
+    static final Operation PASS = Operation.PASS;
+    static final Operation EDIT = Operation.EDIT;
+    static final Operation CREATE = Operation.CREATE;
+
+    final Pair<String,Operation> MP = new Pair<>(MAIN,PASS);
+
+    final Pair<String,Operation> CP = new Pair<>(CAPSULEFORM,PASS);
+    final Pair<String,Operation> CE = new Pair<>(CAPSULEFORM,EDIT);
+    final Pair<String,Operation> CC = new Pair<>(CAPSULEFORM,CREATE);
+
+    final Pair<String,Operation> IP = new Pair<>(INVESTMENTFORM,PASS);
+    final Pair<String,Operation> IE = new Pair<>(INVESTMENTFORM,EDIT);
+    final Pair<String,Operation> IC = new Pair<>(INVESTMENTFORM,CREATE);
 
     public static App getInstance(){
         return instance == null ? instance = new App() : instance;
@@ -57,15 +76,17 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("main"), 1080, 720);
+        //Initial set FXML and Operation
+        //fxmlStack.push(new Pair<>(MAIN,PASS));
+
+        scene = new Scene(loadFXML(MAIN), 1080, 720);
         stage.getIcons().add(DOMAIN.getDataFacade().getGFX().getLogo());
         stage.setTitle("CIP");
         stage.setScene(scene);
         stage.show();
     }
 
-    static void setRoot(String fxml, Operation op) {
-        operation = op;
+    void setRoot(String fxml) {
         try {
             scene.setRoot(loadFXML(fxml));
         } catch (IOException e) {
@@ -73,7 +94,61 @@ public class App extends Application {
         }
     }
 
-    static boolean openWarning(String title,String shortMes, String longMes){
+    private void setOperation(Operation op){
+        System.out.println("Set: " + operation);
+        operation = op;
+    }
+
+    Operation getOperation(){
+        System.out.println("Get: " + operation);
+        return operation;
+    }
+
+    void setSelectedInvestment(Investment investment){
+        System.out.println("Set: " + selectedInvestment);
+        selectedInvestment = investment;
+    }
+
+    Investment getSelectedInvestment(){
+        System.out.println("Get: " + selectedInvestment);
+        return selectedInvestment;
+    }
+
+    void setSelectedItem(IItem item){
+        System.out.println("Set: " + selectedItem);
+        selectedItem = item;
+    }
+
+    IItem getSelectedItem(){
+        System.out.println("Get: " + selectedItem);
+        return selectedItem;
+    }
+
+    void goBack(){
+        if (!fxmlStack.empty()) {
+            Pair<String, Operation> tmp = fxmlStack.pop();
+            setOperation(tmp.getValue());
+            setRoot(tmp.getKey());
+            return;
+        }
+        setOperation(PASS);
+        setRoot(MAIN);
+    }
+
+    void goNext(Pair<String,Operation> current, Pair<String,Operation> next){
+        fxmlStack.push(current);
+        System.out.println(fxmlStack);
+        setOperation(next.getValue());
+        setRoot(next.getKey());
+    }
+
+    void openWarning(String title, String shortMes, String longMes, CallBack callBack, boolean goBack){
+        boolean answer = openWarningWindow(title, shortMes,longMes);
+        if (answer) callBack.exec();
+        if (goBack) goBack();
+    }
+
+    boolean openWarningWindow(String title,String shortMes, String longMes){
         Stage stage = new Stage();
         AtomicBoolean answer = new AtomicBoolean(false);
         AnchorPane pane = new AnchorPane();
@@ -107,6 +182,10 @@ public class App extends Application {
         return answer.get();
     }
 
+    /**
+     * This methode opens the system default browser on the given url
+     * @param url for the browser
+     */
     void openWeb(String url){
         getHostServices().showDocument(url);
     }
@@ -124,5 +203,9 @@ public class App extends Application {
         CREATE,
         EDIT,
         PASS;
+    }
+
+    interface CallBack{
+        void exec();
     }
 }

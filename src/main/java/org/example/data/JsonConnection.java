@@ -275,8 +275,9 @@ public class JsonConnection implements DataConnection {
         JSONObject containerObj = new JSONObject();
         containerObj.put("id",container.getId());
         containerObj.put("name",container.getName());
-        containerObj.put("price",container.getInitPrice());
+        containerObj.put("init_price",container.getInitPrice());
         containerObj.put("image",container.getImage());
+        containerObj.put("stash_link",container.getStashLink());
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("capsule",containerObj);
         for (Object o : jsonArray){

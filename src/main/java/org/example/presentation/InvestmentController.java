@@ -30,22 +30,25 @@ public class InvestmentController extends App implements Initializable {
 
     private Map<IItem,Long> tmpMap;
 
+    private Investment loadedInvestment;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         //===Operation==================================================================================================
+        Operation operation = getOperation();
         System.out.println(operation);
-        if (operation == Operation.EDIT) readInvestment();
-        else if (operation == Operation.CREATE){
+        if (operation == EDIT) readInvestment();
+        else if (operation == CREATE){
             tmpMap = new HashMap<>();
-            selectedInvestment = CREATOR.emptyVault();
+            setSelectedInvestment(CREATOR.emptyVault());
         }
 
         //===Buttons====================================================================================================
-        backButton.setOnAction(e -> setRoot(MAIN,Operation.PASS));
+        backButton.setOnAction(e -> App.getInstance().goBack());
         saveButton.setOnAction(e -> {
-            if (operation == Operation.CREATE) createInvestment();
-            else if (operation == Operation.EDIT) updateInvestment();
+            if (operation == CREATE) createInvestment();
+            else if (operation == EDIT) updateInvestment();
         });
         addButton.setOnAction(e -> {
             if (allContainersListView.getSelectionModel().getSelectedIndex() != -1 && amountSpinner.getValue() > 0) {
@@ -114,21 +117,22 @@ public class InvestmentController extends App implements Initializable {
     }
 
     private void readInvestment(){
+        Investment loadedInvestment = getSelectedInvestment();
         //===Name===
-        nameTextField.setText(selectedInvestment.getName());
+        nameTextField.setText(loadedInvestment.getName());
         //===Content===
-        ObservableList<IItem> contentsContainers = FXCollections.observableList(new ArrayList<>(selectedInvestment.getItems()));
+        ObservableList<IItem> contentsContainers = FXCollections.observableList(new ArrayList<>(loadedInvestment.getItems()));
         contentsListView.setItems(contentsContainers);
-        tmpMap = new HashMap<>(selectedInvestment.getAllContainers());
+        tmpMap = new HashMap<>(loadedInvestment.getAllContainers());
     }
 
     private void updateInvestment(){
         //===Name===
-        selectedInvestment.setName(nameTextField.getText());
+        loadedInvestment.setName(nameTextField.getText());
         //===Content===
-        selectedInvestment.setAllItems(tmpMap);
+        loadedInvestment.setAllItems(tmpMap);
         //===Domain===
-        DOMAIN.getDomain().updateInvestment(selectedInvestment.getId(), selectedInvestment);
+        DOMAIN.getDomain().updateInvestment(loadedInvestment.getId(), loadedInvestment);
     }
 
     private void deleteInvestment(){
