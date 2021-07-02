@@ -1,9 +1,7 @@
 package org.example.data;
 
 import org.example.data.Interfaces.DataConnection;
-import org.example.logic.Interfaces.IItem;
-import org.example.logic.Interfaces.Factory;
-import org.example.logic.Interfaces.Investment;
+import org.example.logic.Interfaces.*;
 import org.example.logic.StructureCreator;
 
 import org.json.simple.JSONArray;
@@ -19,11 +17,23 @@ import java.util.*;
 
 public class JsonConnection implements DataConnection {
 
+    //Data path
     private static final String PATH = "org/example/datacollection/";
+
+    //File names
     private static final String INVESTMENTS = "investments";
-    private static final String VAULT = "vault";
     private static final String CAPSULES = "capsules";
+
+    //Data attributes
+    private static final String VAULT = "vault";
     private static final String CAPSULE = "capsule";
+    private static final String ID = "id";
+    private static final String INIT_PRICE = "init_price";
+    private static final String NAME = "name";
+    private static final String AMOUNT = "amount";
+    private static final String IMAGE = "image";
+    private static final String STASH_LINK = "stash_link";
+    private static final String CAPSULE_ID = "capsule_id";
 
     private static JsonConnection instance;
     private List<Investment> investments;
@@ -120,14 +130,16 @@ public class JsonConnection implements DataConnection {
                     JSONObject jsonObject = (JSONObject) o;
                     JSONObject vault = (JSONObject) jsonObject.get(VAULT);
                     investment.populate(
-                            (long) vault.get("id"),
-                            (String) vault.get("name")
+                            (long) vault.get(ID),
+                            (String) vault.get(NAME)
                     );
                     JSONArray capArray = (JSONArray) vault.get(CAPSULES);
                     for (Object object : capArray) {
                         JSONObject jsonCaps = (JSONObject) object;
                         JSONObject cap = (JSONObject) jsonCaps.get(CAPSULE);
-                        investment.addItems(readCapsule((long) cap.get("capsule_id")), (long) cap.get("amount"));
+                        investment.addItems(readCapsule(
+                                (long) cap.get(CAPSULE_ID)),
+                                (long) cap.get(AMOUNT));
                     }
                     investments.add(investment);
                 }
@@ -142,20 +154,20 @@ public class JsonConnection implements DataConnection {
         investments.add(investment);
         JSONObject investObj = new JSONObject();
         long maxId = findMaxInvestmentId() + 1;
-        investObj.put("id",maxId);
-        investObj.put("name",investment.getName());
+        investObj.put(ID,maxId);
+        investObj.put(NAME,investment.getName());
         JSONArray containerArray = new JSONArray();
         for (IItem container : investment.getItems()){
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("capsule_id",container.getId());
-            jsonObject.put("amount",investment.getAllContainers().get(container));
+            jsonObject.put(CAPSULE_ID,container.getId());
+            jsonObject.put(AMOUNT,investment.getAllContainers().get(container));
             JSONObject containerObj = new JSONObject();
-            containerObj.put("capsule",jsonObject);
+            containerObj.put(CAPSULE,jsonObject);
             containerArray.add(containerObj);
         }
-        investObj.put("capsules",containerArray);
+        investObj.put(CAPSULES,containerArray);
         JSONObject vaultObj = new JSONObject();
-        vaultObj.put("vault",investObj);
+        vaultObj.put(VAULT,investObj);
         JSONArray jsonArray = loadFile(INVESTMENTS);
         jsonArray.add(vaultObj);
         saveFile(jsonArray,INVESTMENTS);
@@ -172,28 +184,29 @@ public class JsonConnection implements DataConnection {
     }
 
     @Override
-    public void updateInvestment(long id, Investment investment) {
+    public void updateInvestment(Investment investment) {
+        long id = investment.getId();
         JSONArray jsonArray = loadFile(INVESTMENTS);
         JSONObject investObj = new JSONObject();
-        investObj.put("id",investment.getId());
-        investObj.put("name",investment.getName());
+        investObj.put(ID,investment.getId());
+        investObj.put(NAME,investment.getName());
         JSONArray containerArray = new JSONArray();
         for (IItem container : investment.getItems()){
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("capsule_id",container.getId());
-            jsonObject.put("amount",investment.getAllContainers().get(container));
+            jsonObject.put(CAPSULE_ID,container.getId());
+            jsonObject.put(AMOUNT,investment.getAllContainers().get(container));
             JSONObject containerObj = new JSONObject();
-            containerObj.put("capsule",jsonObject);
+            containerObj.put(CAPSULE,jsonObject);
             containerArray.add(containerObj);
         }
-        investObj.put("capsules",containerArray);
+        investObj.put(CAPSULES,containerArray);
         JSONObject vaultObj = new JSONObject();
-        vaultObj.put("vault",investObj);
+        vaultObj.put(VAULT,investObj);
         for (Object o : jsonArray){
             JSONObject jsonObject = (JSONObject) o;
-            JSONObject internalObject = (JSONObject) jsonObject.get("vault");
-            if ((long)internalObject.get("id") == id){
-                jsonArray.remove(jsonArray.indexOf(o));
+            JSONObject internalObject = (JSONObject) jsonObject.get(VAULT);
+            if ((long)internalObject.get(ID) == id){
+                jsonArray.remove(o);
                 jsonArray.add(vaultObj);
                 break;
             }
@@ -206,9 +219,9 @@ public class JsonConnection implements DataConnection {
         JSONArray jsonArray = loadFile(INVESTMENTS);
         for (Object o : jsonArray){
             JSONObject jsonObject = (JSONObject) o;
-            JSONObject internal = (JSONObject) jsonObject.get("vault");
-            if ((long)internal.get("id") == id){
-                jsonArray.remove(jsonArray.indexOf(o));
+            JSONObject internal = (JSONObject) jsonObject.get(VAULT);
+            if ((long)internal.get(ID) == id){
+                jsonArray.remove(o);
                 break;
             }
         }
@@ -226,11 +239,11 @@ public class JsonConnection implements DataConnection {
                     JSONObject jsonObject = (JSONObject) o;
                     JSONObject cap = (JSONObject) jsonObject.get(CAPSULE);
                     container.populate(
-                            (long) cap.get("id"),
-                            (double) cap.get("init_price"),
-                            (String) cap.get("name"),
-                            (String) cap.get("image"),
-                            (String) cap.get("stash_link")
+                            (long) cap.get(ID),
+                            (double) cap.get(INIT_PRICE),
+                            (String) cap.get(NAME),
+                            (String) cap.get(IMAGE),
+                            (String) cap.get(STASH_LINK)
                     );
                     containers.add(container);
                 }
@@ -245,13 +258,13 @@ public class JsonConnection implements DataConnection {
         containers.add(container);
         JSONObject jsonObject = new JSONObject();
         long maxId = findMaxContainerId() + 1;
-        jsonObject.put("id",maxId);
-        jsonObject.put("init_price",container.getInitPrice());
-        jsonObject.put("name",container.getName());
-        jsonObject.put("image",container.getImage());
-        jsonObject.put("stash_link",container.getStashLink());
+        jsonObject.put(ID,maxId);
+        jsonObject.put(INIT_PRICE,container.getInitPrice());
+        jsonObject.put(NAME,container.getName());
+        jsonObject.put(IMAGE,container.getImage());
+        jsonObject.put(STASH_LINK,container.getStashLink());
         JSONObject containerObj = new JSONObject();
-        containerObj.put("capsule",jsonObject);
+        containerObj.put(CAPSULE,jsonObject);
         JSONArray jsonArray = loadFile(CAPSULES);
         jsonArray.add(containerObj);
         saveFile(jsonArray, CAPSULES);
@@ -270,21 +283,22 @@ public class JsonConnection implements DataConnection {
     }
 
     @Override
-    public void updateCapsule(long id, IItem container) {
+    public void updateCapsule(IItem container) {
+        long id = container.getId();
         JSONArray jsonArray = loadFile(CAPSULES);
         JSONObject containerObj = new JSONObject();
-        containerObj.put("id",container.getId());
-        containerObj.put("name",container.getName());
-        containerObj.put("init_price",container.getInitPrice());
-        containerObj.put("image",container.getImage());
-        containerObj.put("stash_link",container.getStashLink());
+        containerObj.put(ID,container.getId());
+        containerObj.put(NAME,container.getName());
+        containerObj.put(INIT_PRICE,container.getInitPrice());
+        containerObj.put(IMAGE,container.getImage());
+        containerObj.put(STASH_LINK,container.getStashLink());
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("capsule",containerObj);
+        jsonObject.put(CAPSULE,containerObj);
         for (Object o : jsonArray){
             JSONObject jObject = (JSONObject) o;
-            JSONObject internalObject = (JSONObject) jObject.get("capsule");
-            if ((long)internalObject.get("id") == id){
-                jsonArray.remove(jsonArray.indexOf(o));
+            JSONObject internalObject = (JSONObject) jObject.get(CAPSULE);
+            if ((long)internalObject.get(ID) == id){
+                jsonArray.remove(o);
                 jsonArray.add(jsonObject);
                 break;
             }
@@ -294,6 +308,33 @@ public class JsonConnection implements DataConnection {
 
     @Override
     public void deleteCapsule(long id) {
-        System.out.println("NOT YET IMPLEMENTED");
+        //Remove from investments
+        JSONArray investArray = loadFile(INVESTMENTS);
+        for (Object o : investArray){
+            JSONObject investObj = (JSONObject) o;
+            JSONObject innerObj = (JSONObject) investObj.get(VAULT);
+            JSONArray innerInvestArray = (JSONArray) innerObj.get(CAPSULES);
+            for (Object obj : innerInvestArray){
+                JSONObject investCapsule = (JSONObject) obj;
+                JSONObject finalObj = (JSONObject) investCapsule.get(CAPSULE);
+                if ((long)finalObj.get(CAPSULE_ID) == id){
+                    innerInvestArray.remove(obj);
+                    break;
+                }
+            }
+        }
+        saveFile(investArray,INVESTMENTS);
+
+        //Remove from capsules list
+        JSONArray jsonArray = loadFile(CAPSULES);
+        for (Object o : jsonArray){
+            JSONObject capObj = (JSONObject) o;
+            JSONObject finalObj = (JSONObject) capObj.get(CAPSULE);
+            if ((long) finalObj.get(ID) == id){
+                jsonArray.remove(o);
+                break;
+            }
+        }
+        saveFile(jsonArray,CAPSULES);
     }
 }

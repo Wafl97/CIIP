@@ -1,6 +1,6 @@
 package org.example.logic;
 
-import org.example.data.*;
+import org.example.data.DataFacade;
 import org.example.data.Interfaces.DataConnection;
 import org.example.logic.Interfaces.IItem;
 import org.example.logic.Interfaces.Investment;
@@ -36,8 +36,8 @@ public final class Domain implements Logic {
     }
 
     @Override
-    public void updateContainer(long id, IItem container) {
-        CONNECTION.updateCapsule(id,container);
+    public void updateContainer(IItem container) {
+        CONNECTION.updateCapsule(container);
     }
 
     @Override
@@ -61,8 +61,8 @@ public final class Domain implements Logic {
     }
 
     @Override
-    public void updateInvestment(long id, Investment investment) {
-        CONNECTION.updateInvestment(id,investment);
+    public void updateInvestment(Investment investment) {
+        CONNECTION.updateInvestment(investment);
     }
 
     @Override

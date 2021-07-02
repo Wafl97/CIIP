@@ -8,7 +8,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
-import org.example.logic.DomainFacade;
+
 import org.example.logic.Interfaces.IItem;
 
 import java.io.File;
@@ -18,7 +18,7 @@ import java.util.ResourceBundle;
 public class CapsuleController extends App implements Initializable {
 
     @FXML
-    private Button backButton, submitButton, browserButton, enableEditButton,
+    private Button backButton, submitButton, browserButton, enableEditButton, deleteButton,
             add0_25, lower0_25, add0_5, lower0_5, add1, lower1, add10, lower10, add100, lower100;
     @FXML
     private TextField nameTextField, linkTextField;
@@ -38,7 +38,8 @@ public class CapsuleController extends App implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         backButton.setOnAction(e -> App.getInstance().goBack());
-
+        //FIXME
+        deleteButton.setOnAction(e -> DOMAIN_FACADE.getDomain().deleteContainer(1));
         switch (App.getInstance().getOperation()){
             case CREATE:
                 enableEditButton.setDisable(true);
@@ -67,13 +68,13 @@ public class CapsuleController extends App implements Initializable {
             @Override
             protected void updateItem(IItem container, boolean bool){
                 super.updateItem(container, bool);
-                if (bool || container == null || container.getName() == null || DOMAIN.getDataFacade().getGFX().getImageMap().get(container.getImage()) == null){
+                if (bool || container == null || container.getName() == null || DOMAIN_FACADE.getDataFacade().getGFX().getImageMap().get(container.getImage()) == null){
                     setGraphic(null);
                     setText(null);
                 }
                 else {
                     setText(container.getName());
-                    ImageView imageView = new ImageView(DOMAIN.getDataFacade().getGFX().getImageMap().get(container.getImage()));
+                    ImageView imageView = new ImageView(DOMAIN_FACADE.getDataFacade().getGFX().getImageMap().get(container.getImage()));
                     imageView.setPreserveRatio(true);
                     imageView.setFitHeight(25);
                     setGraphic(imageView);
@@ -81,7 +82,7 @@ public class CapsuleController extends App implements Initializable {
             }
         });
 
-        containerListView.setItems(FXCollections.observableList(DOMAIN.getDomain().readAllContainers()));
+        containerListView.setItems(FXCollections.observableList(DOMAIN_FACADE.getDomain().readAllContainers()));
         containerListView.refresh();
     }
 
@@ -100,7 +101,7 @@ public class CapsuleController extends App implements Initializable {
         itemIndex = containerListView.getSelectionModel().getSelectedIndex();
         if (itemIndex != -1) {
             loadedItem = containerListView.getSelectionModel().getSelectedItem();
-            itemImageView.setImage(DOMAIN.getDataFacade().getGFX().getImageMap().get(loadedItem.getImage()));
+            itemImageView.setImage(DOMAIN_FACADE.getDataFacade().getGFX().getImageMap().get(loadedItem.getImage()));
             nameTextField.setText(loadedItem.getName());
             priceSpinner.getValueFactory().setValue(loadedItem.getInitPrice());
             linkTextField.setText(loadedItem.getStashLink());
@@ -120,11 +121,11 @@ public class CapsuleController extends App implements Initializable {
                 imageName,
                 link
         );
-        DOMAIN.getDomain().updateContainer(id,getSelectedItem());
+        DOMAIN_FACADE.getDomain().updateContainer(DOMAIN_FACADE.getSelectedItem());
     }
 
     private void createItem(){
-        DOMAIN.getDomain().createContainer(CREATOR.emptyCapsule().populate(
+        DOMAIN_FACADE.getDomain().createContainer(DOMAIN_FACADE.getFactory().emptyCapsule().populate(
                 -1,
                 priceSpinner.getValue(),
                 nameTextField.getText(),
@@ -137,8 +138,8 @@ public class CapsuleController extends App implements Initializable {
         FileChooser fileChooser = new FileChooser();
         imageFile = fileChooser.showOpenDialog(null);
         if (imageFile != null){
-            DomainFacade.getInstance().getFileHandler().save(imageFile);
-            itemImageView.setImage(DOMAIN.getDataFacade().getGFX().getImageMap().get(imageFile.getName()));
+            DOMAIN_FACADE.getFileHandler().save(imageFile);
+            itemImageView.setImage(DOMAIN_FACADE.getDataFacade().getGFX().getImageMap().get(imageFile.getName()));
         }
     }
 

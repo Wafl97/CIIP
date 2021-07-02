@@ -17,6 +17,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+
 import org.example.logic.Interfaces.IItem;
 import org.example.logic.Interfaces.Investment;
 
@@ -45,11 +46,11 @@ public class MainController extends App implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //===Buttons====================================================================================================
-        createButton.setOnAction(e -> App.getInstance().goNext(MP, CC));
+        createButton.setOnAction(e -> App.getInstance().goNext(MP, IC));
         editButton.setOnAction(e -> {
             if (investIndex != -1) {
-                setSelectedInvestment(investmentListView.getItems().get(investIndex));
-                App.getInstance().goNext(MP, CE);
+                DOMAIN_FACADE.setSelectedInvestment(investmentListView.getItems().get(investIndex));
+                App.getInstance().goNext(MP, IE);
             }
         });
         deleteButton.setOnAction(e -> {
@@ -57,9 +58,9 @@ public class MainController extends App implements Initializable {
                 openWarning("DELETE", "Are you sure?", "Delete the selected element", this::deleteInvestment,false);
             }
         });
-        itemViewButton.setOnAction(e -> App.getInstance().goNext(MP, IP));
-        itemCreateButton.setOnAction(e -> App.getInstance().goNext(MP, IC));
-        itemUpdateButton.setOnAction(e -> App.getInstance().goNext(MP, IE));
+        itemViewButton.setOnAction(e -> App.getInstance().goNext(MP, CP));
+        itemCreateButton.setOnAction(e -> App.getInstance().goNext(MP, CC));
+        itemUpdateButton.setOnAction(e -> App.getInstance().goNext(MP, CE));
 
         //===ListViews==================================================================================================
         investmentListView.setCellFactory(cell -> new ListCell<>() {
@@ -79,19 +80,19 @@ public class MainController extends App implements Initializable {
             protected void updateItem(IItem container, boolean empty) {
                 super.updateItem(container, empty);
 
-                if (empty || container == null || container.getName() == null || DOMAIN.getDataFacade().getGFX().getImageMap().get(container.getImage()) == null) {
+                if (empty || container == null || container.getName() == null || DOMAIN_FACADE.getDataFacade().getGFX().getImageMap().get(container.getImage()) == null) {
                     setText(null);
                     setGraphic(null);
                 } else {
                     setText(container.getName());
-                    ImageView imageView = new ImageView(DOMAIN.getDataFacade().getGFX().getImageMap().get(container.getImage()));
+                    ImageView imageView = new ImageView(DOMAIN_FACADE.getDataFacade().getGFX().getImageMap().get(container.getImage()));
                     imageView.setPreserveRatio(true);
                     imageView.setFitHeight(25);
                     setGraphic(imageView);
                 }
             }
         });
-        allInvestments = DOMAIN.getDomain().readAllInvestments();
+        allInvestments = DOMAIN_FACADE.getDomain().readAllInvestments();
         float totalInvested = 0;
         int totalItems = 0;
         float totalSell = 0;
@@ -115,7 +116,7 @@ public class MainController extends App implements Initializable {
     }
 
     private void deleteInvestment() {
-        DOMAIN.getDomain().deleteInvestment(investmentListView.getItems().get(investmentListView.getSelectionModel().getSelectedIndex()).getId());
+        DOMAIN_FACADE.getDomain().deleteInvestment(investmentListView.getItems().get(investmentListView.getSelectionModel().getSelectedIndex()).getId());
         investmentListView.getItems().remove(investmentListView.getSelectionModel().getSelectedIndex());
         itemListView.getItems().clear();
     }
@@ -156,7 +157,7 @@ public class MainController extends App implements Initializable {
         if (itemIndex != -1) {
             IItem container = itemListView.getItems().get(itemIndex);
             itemName.setText(container.getName());
-            itemImage.setImage(DOMAIN.getDataFacade().getGFX().getImageMap().get(container.getImage()));
+            itemImage.setImage(DOMAIN_FACADE.getDataFacade().getGFX().getImageMap().get(container.getImage()));
             itemAmount.setText("Amount:\t" + allInvestments.get(investIndex).getAllContainers().get(container));
             itemInitPrice.setText("Buy Price:\t" + container.getInitPrice() + "€");
             itemCurrPrice.setText("Sell Price:\t" + container.getCurrPrice() + "€");

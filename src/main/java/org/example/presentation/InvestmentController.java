@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+
 import org.example.logic.Interfaces.IItem;
 import org.example.logic.Interfaces.Investment;
 
@@ -41,7 +42,7 @@ public class InvestmentController extends App implements Initializable {
         if (operation == EDIT) readInvestment();
         else if (operation == CREATE){
             tmpMap = new HashMap<>();
-            setSelectedInvestment(CREATOR.emptyVault());
+            DOMAIN_FACADE.setSelectedInvestment(DOMAIN_FACADE.getFactory().emptyVault());
         }
 
         //===Buttons====================================================================================================
@@ -82,7 +83,7 @@ public class InvestmentController extends App implements Initializable {
                 }
             }
         });
-        ObservableList<IItem> allContainers = FXCollections.observableList(DOMAIN.getDomain().readAllContainers());
+        ObservableList<IItem> allContainers = FXCollections.observableList(DOMAIN_FACADE.getDomain().readAllContainers());
         allContainersListView.setItems(allContainers);
         contentsListView.setCellFactory(cell -> new ListCell<>() {
             @Override
@@ -93,12 +94,12 @@ public class InvestmentController extends App implements Initializable {
                         container == null ||
                         container.getName() == null ||
                         !tmpMap.containsKey(container) ||
-                        DOMAIN.getDataFacade().getGFX().getImageMap().get(container.getImage()) == null) {
+                        DOMAIN_FACADE.getDataFacade().getGFX().getImageMap().get(container.getImage()) == null) {
                     setText(null);
                     setGraphic(null);
                 } else {
                     setText(tmpMap.get(container) + "\t" + container.getName());
-                    ImageView imageView = new ImageView(DOMAIN.getDataFacade().getGFX().getImageMap().get(container.getImage()));
+                    ImageView imageView = new ImageView(DOMAIN_FACADE.getDataFacade().getGFX().getImageMap().get(container.getImage()));
                     imageView.setPreserveRatio(true);
                     imageView.setFitHeight(25);
                     setGraphic(imageView);
@@ -109,15 +110,15 @@ public class InvestmentController extends App implements Initializable {
 
     private void createInvestment(){
         //===Name===
-        Investment newInvestment = CREATOR.emptyVault().populate(-1,nameTextField.getText());
+        Investment newInvestment = DOMAIN_FACADE.getFactory().emptyVault().populate(-1,nameTextField.getText());
         //===Content===
         newInvestment.setAllItems(tmpMap);
         //===Domain===
-        DOMAIN.getDomain().createInvestment(newInvestment);
+        DOMAIN_FACADE.getDomain().createInvestment(newInvestment);
     }
 
     private void readInvestment(){
-        Investment loadedInvestment = getSelectedInvestment();
+        Investment loadedInvestment = DOMAIN_FACADE.getSelectedInvestment();
         //===Name===
         nameTextField.setText(loadedInvestment.getName());
         //===Content===
@@ -132,7 +133,7 @@ public class InvestmentController extends App implements Initializable {
         //===Content===
         loadedInvestment.setAllItems(tmpMap);
         //===Domain===
-        DOMAIN.getDomain().updateInvestment(loadedInvestment.getId(), loadedInvestment);
+        DOMAIN_FACADE.getDomain().updateInvestment(loadedInvestment);
     }
 
     private void deleteInvestment(){
