@@ -18,6 +18,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
+import org.example.logic.Capsule;
 import org.example.logic.Interfaces.IItem;
 import org.example.logic.Interfaces.Investment;
 
@@ -34,7 +35,7 @@ public class MainController extends App implements Initializable {
     @FXML
     private AnchorPane background;
     @FXML
-    private ListView<IItem> itemListView;
+    private ListView<Capsule> itemListView;
     @FXML
     private ImageView itemImage;
 
@@ -46,11 +47,11 @@ public class MainController extends App implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //===Buttons====================================================================================================
-        createButton.setOnAction(e -> App.getInstance().goNext(MP, IC));
+        createButton.setOnAction(e -> goNext(MAIN_PASS, INVEST_CREATE));
         editButton.setOnAction(e -> {
             if (investIndex != -1) {
                 DOMAIN_FACADE.setSelectedInvestment(investmentListView.getItems().get(investIndex));
-                App.getInstance().goNext(MP, IE);
+                goNext(MAIN_PASS, INVEST_EDIT);
             }
         });
         deleteButton.setOnAction(e -> {
@@ -58,9 +59,9 @@ public class MainController extends App implements Initializable {
                 openWarning("DELETE", "Are you sure?", "Delete the selected element", this::deleteInvestment,false);
             }
         });
-        itemViewButton.setOnAction(e -> App.getInstance().goNext(MP, CP));
-        itemCreateButton.setOnAction(e -> App.getInstance().goNext(MP, CC));
-        itemUpdateButton.setOnAction(e -> App.getInstance().goNext(MP, CE));
+        itemViewButton.setOnAction(e -> goNext(MAIN_PASS, CAPSULE_PASS));
+        itemCreateButton.setOnAction(e -> goNext(MAIN_PASS, CAPSULE_CREATE));
+        itemUpdateButton.setOnAction(e -> goNext(MAIN_PASS, CAPSULE_EDIT));
 
         //===ListViews==================================================================================================
         investmentListView.setCellFactory(cell -> new ListCell<>() {
@@ -77,15 +78,15 @@ public class MainController extends App implements Initializable {
         });
         itemListView.setCellFactory(cell -> new ListCell<>() {
             @Override
-            protected void updateItem(IItem container, boolean empty) {
-                super.updateItem(container, empty);
+            protected void updateItem(Capsule capsule, boolean empty) {
+                super.updateItem(capsule, empty);
 
-                if (empty || container == null || container.getName() == null || DOMAIN_FACADE.getDataFacade().getGFX().getImageMap().get(container.getImage()) == null) {
+                if (empty || capsule == null || capsule.getName() == null || DOMAIN_FACADE.getDataFacade().getGFX().getImageMap().get(capsule.getImage()) == null) {
                     setText(null);
                     setGraphic(null);
                 } else {
-                    setText(container.getName());
-                    ImageView imageView = new ImageView(DOMAIN_FACADE.getDataFacade().getGFX().getImageMap().get(container.getImage()));
+                    setText(capsule.getName());
+                    ImageView imageView = new ImageView(DOMAIN_FACADE.getDataFacade().getGFX().getImageMap().get(capsule.getImage()));
                     imageView.setPreserveRatio(true);
                     imageView.setFitHeight(25);
                     setGraphic(imageView);
@@ -97,10 +98,12 @@ public class MainController extends App implements Initializable {
         int totalItems = 0;
         float totalSell = 0;
         for (Investment investment : allInvestments) {
-            for (IItem item : investment.getAllContainers().keySet()){
-                totalInvested += item.getInitPrice() * investment.getAllContainers().get(item);
-                totalSell += item.getCurrPrice() * investment.getAllContainers().get(item);
-                totalItems += investment.getAllContainers().get(item);
+            for (Object obj : investment.getAllContainers().keySet()){
+                IItem item = (IItem) obj;
+                long l = (long) investment.getAllContainers().get(item);
+                totalInvested += item.getInitPrice() * l;
+                totalSell += item.getCurrPrice() * l;
+                totalItems += l;
             }
         }
         investmentListView.setItems(FXCollections.observableList(allInvestments));
@@ -130,15 +133,17 @@ public class MainController extends App implements Initializable {
         investIndex = investmentListView.getSelectionModel().getSelectedIndex();
         if (investIndex != -1) {
             Investment investment = investmentListView.getItems().get(investIndex);
-            ObservableList<IItem> containers = FXCollections.observableList(new ArrayList<>(investment.getItems()));
-            itemListView.setItems(containers);
+            ObservableList<Capsule> capsules = FXCollections.observableList(new ArrayList<>(investment.getItems()));
+            itemListView.setItems(capsules);
             float totalBuy = 0;
             float totalSell = 0;
             int amount = 0;
-            for (IItem item : investment.getAllContainers().keySet()){
-                totalBuy += item.getInitPrice() * investment.getAllContainers().get(item);
-                totalSell += item.getCurrPrice() * investment.getAllContainers().get(item);
-                amount += investment.getAllContainers().get(item);
+            for (Object obj : investment.getAllContainers().keySet()){
+                IItem item = (IItem) obj;
+                long l = (long) investment.getAllContainers().get(item);
+                totalBuy += item.getInitPrice() * l;
+                totalSell += item.getCurrPrice() * l;
+                amount += l;
             }
             totalInvestedLabel.setText("Total Invested: " + totalBuy + "€");
             totalContainersLabel.setText("Amount of Containers: " + amount );

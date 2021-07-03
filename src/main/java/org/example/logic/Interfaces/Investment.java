@@ -3,7 +3,7 @@ package org.example.logic.Interfaces;
 import java.util.Map;
 import java.util.Set;
 
-public interface Investment {
+public interface Investment<T> extends Convertible<T>, Identifiable {
 
     long getId();
     void setId(long id);
@@ -17,6 +17,6 @@ public interface Investment {
     void addItems(IItem item, long amount);
     void removeItem(IItem item);
 
-    Investment populate(long id, String name);
+    T populate(long id, String name);
 
 }

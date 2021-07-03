@@ -1,0 +1,56 @@
+[
+  {
+    "CAPSULE": {
+      "ID": 1,
+      "INIT_PRICE": 0.22,
+      "NAME": "Berlin 2019 Legends",
+      "IMAGE": "2019BER_LEG.png",
+      "STASH_LINK": "https://csgostash.com/stickers/capsule/278/Berlin-2019-Legends-Holo-Foil"
+    }
+  },
+  {
+    "CAPSULE": {
+      "ID": 2,
+      "INIT_PRICE": 0.22,
+      "NAME": "Berlin 2019 Minor",
+      "IMAGE": "2019BER_MIN.png",
+      "STASH_LINK": "https://csgostash.com/stickers/capsule/280/Berlin-2019-Minor-Challengers-Holo-Foil"
+    }
+  },
+  {
+    "CAPSULE": {
+      "ID": 3,
+      "INIT_PRICE": 0.22,
+      "NAME": "Berlin 2019 Returning",
+      "IMAGE": "2019BER_RET.png",
+      "STASH_LINK": "https://csgostash.com/stickers/capsule/279/Berlin-2019-Returning-Challengers-Holo-Foil"
+    }
+  },
+  {
+    "CAPSULE": {
+      "ID": 4,
+      "INIT_PRICE": 0.2,
+      "NAME": "RMR 2020 Challengers",
+      "IMAGE": "2020RMR_CHA.png",
+      "STASH_LINK": "https://csgostash.com/stickers/capsule/312/2020-RMR-Challengers"
+    }
+  },
+  {
+    "CAPSULE": {
+      "ID": 5,
+      "INIT_PRICE": 0.2,
+      "NAME": "RMR 2020 Contenders",
+      "IMAGE": "2020RMR_CON.png",
+      "STASH_LINK": "https://csgostash.com/stickers/capsule/313/2020-RMR-Contenders"
+    }
+  },
+  {
+    "CAPSULE": {
+      "ID": 6,
+      "INIT_PRICE": 0.2,
+      "NAME": "RMR 2020 Legends",
+      "IMAGE": "2020RMR_LEG.png",
+      "STASH_LINK": "https://csgostash.com/stickers/capsule/311/2020-RMR-Legends"
+    }
+  }
+]

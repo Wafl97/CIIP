@@ -1,22 +1,24 @@
 package org.example.data.Interfaces;
 
+import org.example.logic.Capsule;
 import org.example.logic.Interfaces.IItem;
 import org.example.logic.Interfaces.Investment;
+import org.json.simple.JSONObject;
 
 import java.util.List;
 
 public interface DataConnection {
 
-    List<Investment> readAllInvestments();
-    void createInvestment(Investment investment);
-    Investment readInvestment(long id);
-    void updateInvestment(Investment investment);
+    List<JSONObject> readAllInvestments();
+    void createInvestment(JSONObject jsonObject);
+    JSONObject readInvestment(long id);
+    void updateInvestment(JSONObject jsonObject);
     void deleteInvestment(long id);
 
-    List<IItem> readAllCapsules();
-    void createCapsule(IItem capsule);
-    IItem readCapsule(long id);
-    void updateCapsule(IItem capsule);
+    List<JSONObject> readAllCapsules();
+    void createCapsule(JSONObject jsonObject);
+    JSONObject readCapsule(long id);
+    void updateCapsule(JSONObject jsonObject);
     void deleteCapsule(long id);
 
 }

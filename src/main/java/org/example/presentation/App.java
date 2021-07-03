@@ -23,24 +23,18 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class App extends Application {
 
-
     /**
      * Link to logic layer
      */
     static final DomainFacade DOMAIN_FACADE = DomainFacade.getInstance();
 
-
-    /**
-     * App instance
-     */
-    private static App instance;
-
     private static Scene scene;
 
-    private Operation operation = PASS;
+    private static Operation operation;
 
     private static final Stack<Pair<String,Operation>> fxmlStack = new Stack<>();
 
+    static final String TITLE = "CIP";
     static final String INVESTMENTFORM = "investmentform";
     static final String MAIN = "main";
     static final String CAPSULEFORM = "capsuleform";
@@ -49,19 +43,15 @@ public class App extends Application {
     static final Operation EDIT = Operation.EDIT;
     static final Operation CREATE = Operation.CREATE;
 
-    final Pair<String,Operation> MP = new Pair<>(MAIN,PASS);
+    final Pair<String,Operation> MAIN_PASS = new Pair<>(MAIN,PASS);
 
-    final Pair<String,Operation> CP = new Pair<>(CAPSULEFORM,PASS);
-    final Pair<String,Operation> CE = new Pair<>(CAPSULEFORM,EDIT);
-    final Pair<String,Operation> CC = new Pair<>(CAPSULEFORM,CREATE);
+    final Pair<String,Operation> CAPSULE_PASS = new Pair<>(CAPSULEFORM,PASS);
+    final Pair<String,Operation> CAPSULE_EDIT = new Pair<>(CAPSULEFORM,EDIT);
+    final Pair<String,Operation> CAPSULE_CREATE = new Pair<>(CAPSULEFORM,CREATE);
 
-    final Pair<String,Operation> IP = new Pair<>(INVESTMENTFORM,PASS);
-    final Pair<String,Operation> IE = new Pair<>(INVESTMENTFORM,EDIT);
-    final Pair<String,Operation> IC = new Pair<>(INVESTMENTFORM,CREATE);
-
-    public static App getInstance(){
-        return instance == null ? instance = new App() : instance;
-    }
+    final Pair<String,Operation> INVEST_PASS = new Pair<>(INVESTMENTFORM,PASS);
+    final Pair<String,Operation> INVEST_EDIT = new Pair<>(INVESTMENTFORM,EDIT);
+    final Pair<String,Operation> INVEST_CREATE = new Pair<>(INVESTMENTFORM,CREATE);
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -70,7 +60,7 @@ public class App extends Application {
 
         scene = new Scene(loadFXML(MAIN), 1080, 720);
         stage.getIcons().add(DOMAIN_FACADE.getDataFacade().getGFX().getLogo());
-        stage.setTitle("CIP");
+        stage.setTitle(TITLE);
         stage.setScene(scene);
         stage.show();
     }
@@ -83,19 +73,18 @@ public class App extends Application {
         }
     }
 
-    private void setOperation(Operation op){
-        System.out.println("Set: " + operation);
+    void setOperation(Operation op){
         operation = op;
     }
 
     Operation getOperation(){
-        System.out.println("Get: " + operation);
         return operation;
     }
 
     void goBack(){
         if (!fxmlStack.empty()) {
             Pair<String, Operation> tmp = fxmlStack.pop();
+            System.out.println(tmp);
             setOperation(tmp.getValue());
             setRoot(tmp.getKey());
             return;
@@ -106,7 +95,7 @@ public class App extends Application {
 
     void goNext(Pair<String,Operation> current, Pair<String,Operation> next){
         fxmlStack.push(current);
-        System.out.println(fxmlStack);
+        System.out.println(next);
         setOperation(next.getValue());
         setRoot(next.getKey());
     }

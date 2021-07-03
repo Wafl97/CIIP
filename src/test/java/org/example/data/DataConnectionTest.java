@@ -42,16 +42,16 @@ public class DataConnectionTest extends TestCase {
 
     @Test
     public void testReadAllContainers() {
-        System.out.println(connection.readAllCapsules());
-        IItem c = creator.emptyCapsule().populate(10,3.14,"NAME","OBAMA.png","LINK.dk");
-        connection.createCapsule(c);
-        System.out.println(connection.readAllCapsules());
+        //System.out.println(connection.readAllCapsules());
+        //IItem c = creator.emptyCapsule().populate(10,3.14,"NAME","OBAMA.png","LINK.dk");
+        //connection.createCapsule(c);
+        //System.out.println(connection.readAllCapsules());
     }
 
     @Test
     public void testCreateContainer() {
-        IItem c = creator.emptyCapsule().populate(10,3.14,"NAME","OBAMA.png","URL.com");
-        connection.createCapsule(c);
+        //IItem c = creator.emptyCapsule().populate(10,3.14,"NAME","OBAMA.png","URL.com");
+        //connection.createCapsule(c);
     }
 
     public void testReadContainer() {

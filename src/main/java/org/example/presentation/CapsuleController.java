@@ -9,7 +9,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 
-import org.example.logic.Interfaces.IItem;
+import org.example.logic.Capsule;
 
 import java.io.File;
 import java.net.URL;
@@ -27,28 +27,28 @@ public class CapsuleController extends App implements Initializable {
     @FXML
     private ImageView itemImageView;
     @FXML
-    private ListView<IItem> containerListView;
+    private ListView<Capsule> containerListView;
 
     private File imageFile;
 
     private int itemIndex = -1;
 
-    private IItem loadedItem;
+    private Capsule loadedItem;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        backButton.setOnAction(e -> App.getInstance().goBack());
+        backButton.setOnAction(e -> goBack());
         //FIXME
-        deleteButton.setOnAction(e -> DOMAIN_FACADE.getDomain().deleteContainer(1));
-        switch (App.getInstance().getOperation()){
+        deleteButton.setOnAction(e -> DOMAIN_FACADE.getDomain().deleteCapsule(1));
+        switch (getOperation()){
             case CREATE:
                 enableEditButton.setDisable(true);
-                submitButton.setOnAction(e -> App.getInstance().openWarning("Create Item","Are you sure?","You are creating a new item",this::createItem,true));
+                submitButton.setOnAction(e -> openWarning("Create Item","Are you sure?","You are creating a new item",this::createItem,true));
                 break;
             case EDIT:
                 enableEditButton.setDisable(true);
-                submitButton.setOnAction(e -> App.getInstance().openWarning("Update Item","Are you sure?","You are changing date for this item!",this::updateItem,true));
-                                break;
+                submitButton.setOnAction(e -> openWarning("Update Item","Are you sure?","You are changing date for this item!",this::updateItem,true));
+                break;
             case PASS:
                 enableEditButton.setOnAction(e -> enableEdit(true));
                 enableEdit(false);
@@ -57,24 +57,23 @@ public class CapsuleController extends App implements Initializable {
                 System.out.println("Something went wrong!!!");
                 break;
         }
-        System.out.println(getOperation());
 
-        browserButton.setOnAction(e -> App.getInstance().openWeb("www.csgostash.com"));
+        browserButton.setOnAction(e -> openWeb("www.csgostash.com"));
 
         add0_25.setUserData(0.25d);      add0_5.setUserData(0.5d);  add1.setUserData(1.0d);     add10.setUserData(10.0d);       add100.setUserData(100.0d);
         lower0_25.setUserData(-0.25d);   lower0_5.setUserData(-0.5d); lower1.setUserData(-1.0d);  lower10.setUserData(-10.0d);    lower100.setUserData(-100.0d);
 
         containerListView.setCellFactory(cell -> new ListCell<>(){
             @Override
-            protected void updateItem(IItem container, boolean bool){
-                super.updateItem(container, bool);
-                if (bool || container == null || container.getName() == null || DOMAIN_FACADE.getDataFacade().getGFX().getImageMap().get(container.getImage()) == null){
+            protected void updateItem(Capsule capsule, boolean bool){
+                super.updateItem(capsule, bool);
+                if (bool || capsule == null || capsule.getName() == null || DOMAIN_FACADE.getDataFacade().getGFX().getImageMap().get(capsule.getImage()) == null){
                     setGraphic(null);
                     setText(null);
                 }
                 else {
-                    setText(container.getName());
-                    ImageView imageView = new ImageView(DOMAIN_FACADE.getDataFacade().getGFX().getImageMap().get(container.getImage()));
+                    setText(capsule.getName());
+                    ImageView imageView = new ImageView(DOMAIN_FACADE.getDataFacade().getGFX().getImageMap().get(capsule.getImage()));
                     imageView.setPreserveRatio(true);
                     imageView.setFitHeight(25);
                     setGraphic(imageView);
@@ -82,7 +81,7 @@ public class CapsuleController extends App implements Initializable {
             }
         });
 
-        containerListView.setItems(FXCollections.observableList(DOMAIN_FACADE.getDomain().readAllContainers()));
+        containerListView.setItems(FXCollections.observableList(DOMAIN_FACADE.getDomain().readAllCapsules()));
         containerListView.refresh();
     }
 
@@ -121,11 +120,11 @@ public class CapsuleController extends App implements Initializable {
                 imageName,
                 link
         );
-        DOMAIN_FACADE.getDomain().updateContainer(DOMAIN_FACADE.getSelectedItem());
+        DOMAIN_FACADE.getDomain().updateCapsule((Capsule) DOMAIN_FACADE.getSelectedItem());
     }
 
     private void createItem(){
-        DOMAIN_FACADE.getDomain().createContainer(DOMAIN_FACADE.getFactory().emptyCapsule().populate(
+        DOMAIN_FACADE.getDomain().createCapsule(DOMAIN_FACADE.getFactory().emptyCapsule().populate(
                 -1,
                 priceSpinner.getValue(),
                 nameTextField.getText(),

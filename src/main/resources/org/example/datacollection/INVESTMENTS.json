@@ -1,0 +1,56 @@
+[
+  {
+    "VAULT": {
+      "ID": 1,
+      "NAME": "Berlin",
+      "CAPSULES": [
+        {
+          "CAPSULE": {
+            "CAPSULE_ID": 1,
+            "AMOUNT": 10
+          }
+        },
+        {
+          "CAPSULE": {
+            "CAPSULE_ID": 2,
+            "AMOUNT": 10
+          }
+        },
+        {
+          "CAPSULE": {
+            "CAPSULE_ID": 3,
+            "AMOUNT": 10
+          }
+        }
+      ]
+    }
+  },
+  {
+    "VAULT": {
+      "ID": 2,
+      "NAME": "RMR",
+      "CAPSULES": [
+        {
+          "CAPSULE": {
+            "CAPSULE_ID": 4,
+            "AMOUNT": 10
+          }
+        },
+        {
+          "CAPSULE": {
+            "CAPSULE_ID": 5,
+            "AMOUNT": 10
+          }
+        },
+        {
+          "CAPSULE": {
+            "CAPSULE_ID": 6,
+            "AMOUNT": 10
+          }
+        }
+      ]
+    }
+  }
+]
+
+

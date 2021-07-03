@@ -65,6 +65,7 @@ public class FileTest {
 
     @Test
     public void browserTest(){
-        App.getInstance().getHostServices().showDocument("www.google.com");
+        App app = new App();
+        app.getHostServices().showDocument("www.google.com");
     }
 }

@@ -2,7 +2,7 @@ package org.example.logic;
 
 import org.example.logic.Interfaces.IItem;
 
-public abstract class Item implements IItem {
+public abstract class Item<T> implements IItem<T> {
 
     protected long id;
     protected double initPrice;
@@ -12,14 +12,14 @@ public abstract class Item implements IItem {
     protected String link;
 
     @Override
-    public IItem populate(long id, double initPrice, String name, String image, String stashLink) {
+    public T populate(long id, double initPrice, String name, String image, String stashLink) {
         setId(id);
         setInitPrice(initPrice);
         setName(name);
         setImage(image);
         setStashLink(stashLink);
         updateCurrPrice();
-        return this;
+        return (T) this;
     }
 
     @Override

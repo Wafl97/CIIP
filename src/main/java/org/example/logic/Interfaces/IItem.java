@@ -1,6 +1,6 @@
 package org.example.logic.Interfaces;
 
-public interface IItem {
+public interface IItem<T> extends Convertible<T> {
 
     long getId();
     void setId(long id);
@@ -23,5 +23,5 @@ public interface IItem {
     String getStashLink();
     void setStashLink(String link);
 
-    IItem populate(long id, double initPrice, String name, String image, String stashLink);
+    T populate(long id, double initPrice, String name, String image, String stashLink);
 }
