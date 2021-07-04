@@ -1,8 +1,5 @@
 package org.example.data.Interfaces;
 
-import org.example.logic.Capsule;
-import org.example.logic.Interfaces.IItem;
-import org.example.logic.Interfaces.Investment;
 import org.json.simple.JSONObject;
 
 import java.util.List;

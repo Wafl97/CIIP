@@ -7,6 +7,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -69,7 +70,7 @@ public final class Vault implements Investment<Vault>, Identifiable {
 
     @Override
     public Vault populate(long id, String name){
-        setId(id);
+        setId(id == -1 ? findMaxID() + 1 : id);
         setName(name);
         return this;
     }
@@ -123,6 +124,11 @@ public final class Vault implements Investment<Vault>, Identifiable {
 
     @Override
     public long findMaxID() {
-        throw new UnsupportedOperationException("Not yet implemented");
+        List<Investment> cache = Domain.getInstance().readAllInvestments();
+        long maxValue = cache.get(0).getId();
+        for (Investment investment : cache) {
+            if (investment.getId() > maxValue) maxValue = investment.getId();
+        }
+        return maxValue;
     }
 }

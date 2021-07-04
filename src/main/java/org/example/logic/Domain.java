@@ -30,14 +30,12 @@ public final class Domain implements Logic {
     @Override
     public List<Capsule> readAllCapsules() {
         if (capsulesCache == null) {
-            System.out.println("NOT CACHED");
             capsulesCache = new ArrayList<>();
             for (Object o : CONNECTION.readAllCapsules()) {
                 Capsule newCapsule = CREATOR.emptyCapsule().convert2Obj((JSONObject) o);
                 capsulesCache.add(newCapsule);
             }
         }
-        System.out.println("IS CACHED");
         return capsulesCache;
     }
 
@@ -73,7 +71,6 @@ public final class Domain implements Logic {
     @Override
     public List<Investment> readAllInvestments() {
         if (vaultCache == null) {
-            System.out.println("GETTING CACHED");
             vaultCache = new ArrayList<>();
             for (Object o : CONNECTION.readAllInvestments()) {
                 Vault newInvestment = CREATOR.emptyVault().convert2Obj((JSONObject) o);

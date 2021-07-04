@@ -38,7 +38,6 @@ public class InvestmentController extends App implements Initializable {
 
         //===Operation==================================================================================================
         Operation operation = getOperation();
-        System.out.println(operation);
         if (operation == EDIT) readInvestment();
         else if (operation == CREATE){
             tmpMap = new HashMap<>();

@@ -84,7 +84,6 @@ public class App extends Application {
     void goBack(){
         if (!fxmlStack.empty()) {
             Pair<String, Operation> tmp = fxmlStack.pop();
-            System.out.println(tmp);
             setOperation(tmp.getValue());
             setRoot(tmp.getKey());
             return;
@@ -95,7 +94,6 @@ public class App extends Application {
 
     void goNext(Pair<String,Operation> current, Pair<String,Operation> next){
         fxmlStack.push(current);
-        System.out.println(next);
         setOperation(next.getValue());
         setRoot(next.getKey());
     }

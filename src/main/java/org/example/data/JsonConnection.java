@@ -85,22 +85,6 @@ public class JsonConnection implements DataConnection {
         }
     }
 
-    //private long findMaxInvestmentId(){
-    //    long maxValue = investments.get(0).getId();
-    //    for (Investment investment : investments) {
-    //        if (investment.getId() > maxValue) maxValue = investment.getId();
-    //    }
-    //    return maxValue;
-    //}
-//
-    //private long findMaxContainerId(){
-    //    long maxValue = containers.get(0).getId();
-    //    for (IItem container : containers) {
-    //        if (container.getId() > maxValue) maxValue = container.getId();
-    //    }
-    //    return maxValue;
-    //}
-
     private void removeObjFromTable(long id, String table, String objName) {
         JSONArray jsonArray = loadFile(table);
         if (jsonArray != null) {
@@ -134,7 +118,6 @@ public class JsonConnection implements DataConnection {
 
     @Override
     public List<JSONObject> readAllInvestments() {
-        System.out.println("READ ALL INV");
         return new ArrayList<JSONObject>(loadFile(INVESTMENTS.toString()));
     }
 
@@ -147,7 +130,6 @@ public class JsonConnection implements DataConnection {
 
     @Override
     public JSONObject readInvestment(long id) {
-        System.out.println("READ ONE INV");
         for (Object obj : readAllInvestments()){
             JSONObject shellObj = (JSONObject) obj;
             JSONObject innerObj = (JSONObject) shellObj.get(VAULT);
@@ -171,7 +153,6 @@ public class JsonConnection implements DataConnection {
 
     @Override
     public List<JSONObject> readAllCapsules() {
-        System.out.println("READ ALL CAP");
         return new ArrayList<JSONObject>(loadFile(CAPSULES.toString()));
     }
 
@@ -184,7 +165,6 @@ public class JsonConnection implements DataConnection {
 
     @Override
     public JSONObject readCapsule(long id) {
-        System.out.println("READ ONE CAP");
         for (Object obj : readAllCapsules()){
             JSONObject shellObj = (JSONObject) obj;
             JSONObject innerObj = (JSONObject) shellObj.get(CAPSULE.toString());
@@ -208,12 +188,12 @@ public class JsonConnection implements DataConnection {
         if (investArray != null) {
             for (Object o : investArray) {
                 JSONObject investObj = (JSONObject) o;
-                JSONObject innerObj = (JSONObject) investObj.get(VAULT);
-                JSONArray innerInvestArray = (JSONArray) innerObj.get(CAPSULES);
+                JSONObject innerObj = (JSONObject) investObj.get(VAULT.toString());
+                JSONArray innerInvestArray = (JSONArray) innerObj.get(CAPSULES.toString());
                 for (Object obj : innerInvestArray) {
                     JSONObject investCapsule = (JSONObject) obj;
-                    JSONObject finalObj = (JSONObject) investCapsule.get(CAPSULE);
-                    if ((long) finalObj.get(CAPSULE_ID) == id) {
+                    JSONObject finalObj = (JSONObject) investCapsule.get(CAPSULE.toString());
+                    if ((long) finalObj.get(CAPSULE_ID.toString()) == id) {
                         innerInvestArray.remove(obj);
                         break;
                     }

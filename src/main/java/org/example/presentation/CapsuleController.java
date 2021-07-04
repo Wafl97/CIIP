@@ -38,7 +38,7 @@ public class CapsuleController extends App implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         backButton.setOnAction(e -> goBack());
-        //FIXME
+        // FIXME: 04-07-2021
         deleteButton.setOnAction(e -> DOMAIN_FACADE.getDomain().deleteCapsule(1));
         switch (getOperation()){
             case CREATE:
