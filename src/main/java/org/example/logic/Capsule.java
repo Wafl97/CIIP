@@ -1,6 +1,7 @@
 package org.example.logic;
 
-import org.example.logic.Interfaces.Identifiable;
+import org.example.logic.Interfaces.ICapsule;
+import org.example.logic.Interfaces.Comps.Identifiable;
 import org.json.simple.JSONObject;
 
 import java.io.IOException;
@@ -12,12 +13,47 @@ import java.util.regex.Pattern;
 
 import static org.example.Util.Attributes.*;
 
-public final class Capsule extends Item<Capsule> implements Identifiable {
+public final class Capsule implements ICapsule, Identifiable {
+
+    private long id;
+    private double initPrice;
+    private double currPrice;
+    private String name;
+    private String image;
+    private String link;
 
     private static final Pattern PRICE_PATTERN = Pattern.compile("<span class=\"pull-right\">([0-9,]+)(.)</span></a>");
     private static final Pattern STOP_PATTERN = Pattern.compile("<span class=\"pull-left\"><img class=\"item-table-icon\" src=\"https://csgostash.com/img/core/bitskins.png\\?id=[0-9a-zA-Z]+\" alt=\"BitSkins Logo\">BitSkins</span>");
 
-    public Capsule(){}
+    @Override
+    public long getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    @Override
+    public double getInitPrice() {
+        return initPrice;
+    }
+
+    @Override
+    public void setInitPrice(double price) {
+        this.initPrice = price;
+    }
+
+    @Override
+    public double getCurrPrice() {
+        return currPrice;
+    }
+
+    @Override
+    public void setCurrPrice(double price) {
+        this.currPrice = price;
+    }
 
     @Override
     public void updateCurrPrice() {
@@ -44,6 +80,51 @@ public final class Capsule extends Item<Capsule> implements Identifiable {
     }
 
     @Override
+    public double getDiffPrice() {
+        return initPrice - currPrice;
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String getImage() {
+        return image;
+    }
+
+    @Override
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    @Override
+    public String getStashLink() {
+        return link;
+    }
+
+    @Override
+    public void setStashLink(String link) {
+        this.link = link;
+    }
+
+    @Override
+    public ICapsule populate(long id, double initPrice, String name, String image, String stashLink) {
+        setId(id);
+        setInitPrice(initPrice);
+        setName(name);
+        setImage(image);
+        setStashLink(stashLink);
+        return this;
+    }
+
+    @Override
     public JSONObject convert2JSON() {
         JSONObject shellObj = new JSONObject();
         JSONObject innerObj = new JSONObject();
@@ -57,7 +138,7 @@ public final class Capsule extends Item<Capsule> implements Identifiable {
     }
 
     @Override
-    public Capsule convert2Obj(JSONObject jsonObject) {
+    public ICapsule convert2Obj(JSONObject jsonObject) {
         JSONObject innerObj = (JSONObject) jsonObject.get(CAPSULE.toString());
         return  populate(
                 (long)      innerObj.get(ID.toString()),
@@ -70,9 +151,9 @@ public final class Capsule extends Item<Capsule> implements Identifiable {
 
     @Override
     public long findMaxID() {
-        List<Capsule> cache = Domain.getInstance().readAllCapsules();
+        List<ICapsule> cache = Domain.getInstance().readAllCapsules();
         long maxValue = cache.get(0).getId();
-        for (Capsule capsule : cache) {
+        for (ICapsule capsule : cache) {
             if (capsule.getId() > maxValue) maxValue = capsule.getId();
         }
         return maxValue;

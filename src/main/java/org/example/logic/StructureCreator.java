@@ -1,6 +1,6 @@
 package org.example.logic;
 
-import org.example.logic.Interfaces.Factory;
+import org.example.logic.Interfaces.*;
 
 public final class StructureCreator implements Factory {
 
@@ -13,12 +13,22 @@ public final class StructureCreator implements Factory {
     }
 
     @Override
-    public Capsule emptyCapsule() {
+    public ICapsule emptyCapsule() {
         return new Capsule();
     }
 
     @Override
-    public Vault emptyVault() {
+    public ISouvenirCase emptySouvenirCase() {
+        return new SouvenirCase();
+    }
+
+    @Override
+    public ISkin emptySkin() {
+        return new Skin();
+    }
+
+    @Override
+    public IVault emptyVault() {
         return new Vault();
     }
 }

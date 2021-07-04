@@ -13,5 +13,6 @@ public enum Attributes {
     CAPSULE_ID,
     INVESTMENTS;
 
+    // FIXME: 05-07-2021 add new attributes for Skin and Souvenir
     Attributes(){}
 }

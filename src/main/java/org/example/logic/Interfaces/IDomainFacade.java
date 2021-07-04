@@ -4,10 +4,10 @@ import org.example.data.Interfaces.IDataFacade;
 
 public interface IDomainFacade {
 
-    void setSelectedInvestment(Investment investment);
-    Investment getSelectedInvestment();
-    void setSelectedItem(IItem item);
-    IItem getSelectedItem();
+    void setSelectedInvestment(IVault investment);
+    IVault getSelectedInvestment();
+    void setSelectedCapsule(ICapsule capsule);
+    ICapsule getSelectedCapsule();
 
     Logic getDomain();
     IDataFacade getDataFacade();

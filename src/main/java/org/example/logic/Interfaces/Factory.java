@@ -5,6 +5,8 @@ import org.example.logic.Vault;
 
 public interface Factory {
 
-    Capsule emptyCapsule();
-    Vault emptyVault();
+    ICapsule emptyCapsule();
+    ISouvenirCase emptySouvenirCase();
+    ISkin emptySkin();
+    IVault emptyVault();
 }

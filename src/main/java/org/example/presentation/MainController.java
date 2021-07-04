@@ -18,16 +18,15 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
-import org.example.logic.Capsule;
-import org.example.logic.Interfaces.IItem;
-import org.example.logic.Interfaces.Investment;
+import org.example.logic.Interfaces.ICapsule;
+import org.example.logic.Interfaces.IVault;
 
 public class MainController extends App implements Initializable {
 
     @FXML
     private Button createButton, editButton, deleteButton, itemViewButton, itemCreateButton, itemUpdateButton;
     @FXML
-    private ListView<Investment> investmentListView;
+    private ListView<IVault> investmentListView;
     @FXML
     private Label globalTotalInvestedLabel, globalTotalMadeLabel, globalTotalItemsLabel,
             itemName, itemAmount, itemInitPrice, itemCurrPrice, itemDiffPrice, totalContainersLabel,
@@ -35,11 +34,11 @@ public class MainController extends App implements Initializable {
     @FXML
     private AnchorPane background;
     @FXML
-    private ListView<Capsule> itemListView;
+    private ListView<ICapsule> itemListView;
     @FXML
     private ImageView itemImage;
 
-    private List<Investment> allInvestments;
+    private List<IVault> allInvestments;
     private int investIndex = -1;
     private int itemIndex = -1;
 
@@ -66,7 +65,7 @@ public class MainController extends App implements Initializable {
         //===ListViews==================================================================================================
         investmentListView.setCellFactory(cell -> new ListCell<>() {
             @Override
-            protected void updateItem(Investment investment, boolean empty) {
+            protected void updateItem(IVault investment, boolean empty) {
                 super.updateItem(investment, empty);
 
                 if (empty || investment == null || investment.getName() == null) {
@@ -78,7 +77,7 @@ public class MainController extends App implements Initializable {
         });
         itemListView.setCellFactory(cell -> new ListCell<>() {
             @Override
-            protected void updateItem(Capsule capsule, boolean empty) {
+            protected void updateItem(ICapsule capsule, boolean empty) {
                 super.updateItem(capsule, empty);
 
                 if (empty || capsule == null || capsule.getName() == null || DOMAIN_FACADE.getDataFacade().getGFX().getImageMap().get(capsule.getImage()) == null) {
@@ -97,12 +96,12 @@ public class MainController extends App implements Initializable {
         float totalInvested = 0;
         int totalItems = 0;
         float totalSell = 0;
-        for (Investment investment : allInvestments) {
+        for (IVault investment : allInvestments) {
             for (Object obj : investment.getAllContainers().keySet()){
-                IItem item = (IItem) obj;
-                long l = (long) investment.getAllContainers().get(item);
-                totalInvested += item.getInitPrice() * l;
-                totalSell += item.getCurrPrice() * l;
+                ICapsule capsule = (ICapsule) obj;
+                long l = (long) investment.getAllContainers().get(capsule);
+                totalInvested += capsule.getInitPrice() * l;
+                totalSell += capsule.getCurrPrice() * l;
                 totalItems += l;
             }
         }
@@ -132,17 +131,17 @@ public class MainController extends App implements Initializable {
     public void investmentHandler(MouseEvent mouseEvent) {
         investIndex = investmentListView.getSelectionModel().getSelectedIndex();
         if (investIndex != -1) {
-            Investment investment = investmentListView.getItems().get(investIndex);
-            ObservableList<Capsule> capsules = FXCollections.observableList(new ArrayList<>(investment.getItems()));
+            IVault investment = investmentListView.getItems().get(investIndex);
+            ObservableList<ICapsule> capsules = FXCollections.observableList(new ArrayList<>(investment.getItems()));
             itemListView.setItems(capsules);
             float totalBuy = 0;
             float totalSell = 0;
             int amount = 0;
             for (Object obj : investment.getAllContainers().keySet()){
-                IItem item = (IItem) obj;
-                long l = (long) investment.getAllContainers().get(item);
-                totalBuy += item.getInitPrice() * l;
-                totalSell += item.getCurrPrice() * l;
+                ICapsule capsule = (ICapsule) obj;
+                long l = (long) investment.getAllContainers().get(capsule);
+                totalBuy += capsule.getInitPrice() * l;
+                totalSell += capsule.getCurrPrice() * l;
                 amount += l;
             }
             totalInvestedLabel.setText("Total Invested: " + totalBuy + "€");
@@ -160,13 +159,13 @@ public class MainController extends App implements Initializable {
     public void itemHandler(MouseEvent mouseEvent) {
         itemIndex = itemListView.getSelectionModel().getSelectedIndex();
         if (itemIndex != -1) {
-            IItem container = itemListView.getItems().get(itemIndex);
-            itemName.setText(container.getName());
-            itemImage.setImage(DOMAIN_FACADE.getDataFacade().getGFX().getImageMap().get(container.getImage()));
-            itemAmount.setText("Amount:\t" + allInvestments.get(investIndex).getAllContainers().get(container));
-            itemInitPrice.setText("Buy Price:\t" + container.getInitPrice() + "€");
-            itemCurrPrice.setText("Sell Price:\t" + container.getCurrPrice() + "€");
-            itemDiffPrice.setText("Diff Price:\t" + container.getDiffPrice() + "€");
+            ICapsule capsule = itemListView.getItems().get(itemIndex);
+            itemName.setText(capsule.getName());
+            itemImage.setImage(DOMAIN_FACADE.getDataFacade().getGFX().getImageMap().get(capsule.getImage()));
+            itemAmount.setText("Amount:\t" + allInvestments.get(investIndex).getAllContainers().get(capsule));
+            itemInitPrice.setText("Buy Price:\t" + capsule.getInitPrice() + "€");
+            itemCurrPrice.setText("Sell Price:\t" + capsule.getCurrPrice() + "€");
+            itemDiffPrice.setText("Diff Price:\t" + capsule.getDiffPrice() + "€");
         }
     }
 

@@ -2,7 +2,6 @@ package org.example.data;
 
 import junit.framework.TestCase;
 import org.example.data.Interfaces.DataConnection;
-import org.example.logic.Interfaces.IItem;
 import org.example.logic.Interfaces.Factory;
 import org.example.logic.StructureCreator;
 import org.junit.jupiter.api.BeforeEach;

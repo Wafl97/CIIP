@@ -13,8 +13,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 
-import org.example.logic.Capsule;
-import org.example.logic.Interfaces.Investment;
+import org.example.logic.Interfaces.ICapsule;
+import org.example.logic.Interfaces.IVault;
 
 public class InvestmentController extends App implements Initializable {
 
@@ -23,15 +23,15 @@ public class InvestmentController extends App implements Initializable {
     @FXML
     private TextField nameTextField;
     @FXML
-    private ListView<Capsule> contentsListView;
+    private ListView<ICapsule> contentsListView;
     @FXML
-    private ListView<Capsule> allContainersListView;
+    private ListView<ICapsule> allContainersListView;
     @FXML
     private Spinner<Integer> amountSpinner;
 
-    private Map<Capsule,Long> tmpMap;
+    private Map<ICapsule,Long> tmpMap;
 
-    private Investment loadedInvestment;
+    private IVault loadedInvestment;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -52,7 +52,7 @@ public class InvestmentController extends App implements Initializable {
         });
         addButton.setOnAction(e -> {
             if (allContainersListView.getSelectionModel().getSelectedIndex() != -1 && amountSpinner.getValue() > 0) {
-                Capsule capsule = allContainersListView.getItems().get(allContainersListView.getSelectionModel().getSelectedIndex());
+                ICapsule capsule = allContainersListView.getItems().get(allContainersListView.getSelectionModel().getSelectedIndex());
                 long initialAmount = tmpMap.containsKey(capsule) ? tmpMap.get(capsule) : 0;
                 tmpMap.put(capsule, initialAmount + (long) amountSpinner.getValue());
                 if (!contentsListView.getItems().contains(capsule)) contentsListView.getItems().add(capsule);
@@ -61,7 +61,7 @@ public class InvestmentController extends App implements Initializable {
         });
         removeButton.setOnAction(e -> {
             if (contentsListView.getSelectionModel().getSelectedIndex() != -1 && amountSpinner.getValue() > 0){
-                Capsule capsule = contentsListView.getItems().get(contentsListView.getSelectionModel().getSelectedIndex());
+                ICapsule capsule = contentsListView.getItems().get(contentsListView.getSelectionModel().getSelectedIndex());
                 long amount = tmpMap.get(capsule);
                 if (amount + amountSpinner.getValue() <= 0) contentsListView.getItems().remove(capsule);
                 else tmpMap.put(capsule, amount - amountSpinner.getValue());
@@ -72,7 +72,7 @@ public class InvestmentController extends App implements Initializable {
         //===ListViews==================================================================================================
         allContainersListView.setCellFactory(cell -> new ListCell<>() {
             @Override
-            protected void updateItem(Capsule capsule, boolean empty) {
+            protected void updateItem(ICapsule capsule, boolean empty) {
                 super.updateItem(capsule, empty);
 
                 if (empty || capsule == null || capsule.getName() == null) {
@@ -82,11 +82,11 @@ public class InvestmentController extends App implements Initializable {
                 }
             }
         });
-        ObservableList<Capsule> allContainers = FXCollections.observableList(DOMAIN_FACADE.getDomain().readAllCapsules());
+        ObservableList<ICapsule> allContainers = FXCollections.observableList(DOMAIN_FACADE.getDomain().readAllCapsules());
         allContainersListView.setItems(allContainers);
         contentsListView.setCellFactory(cell -> new ListCell<>() {
             @Override
-            protected void updateItem(Capsule capsule, boolean empty) {
+            protected void updateItem(ICapsule capsule, boolean empty) {
                 super.updateItem(capsule, empty);
 
                 if (    empty ||
@@ -109,7 +109,7 @@ public class InvestmentController extends App implements Initializable {
 
     private void createInvestment(){
         //===Name===
-        Investment newInvestment = DOMAIN_FACADE.getFactory().emptyVault().populate(-1,nameTextField.getText());
+        IVault newInvestment = DOMAIN_FACADE.getFactory().emptyVault().populate(-1,nameTextField.getText());
         //===Content===
         newInvestment.setAllItems(tmpMap);
         //===Domain===
@@ -117,11 +117,11 @@ public class InvestmentController extends App implements Initializable {
     }
 
     private void readInvestment(){
-        Investment loadedInvestment = DOMAIN_FACADE.getSelectedInvestment();
+        IVault loadedInvestment = DOMAIN_FACADE.getSelectedInvestment();
         //===Name===
         nameTextField.setText(loadedInvestment.getName());
         //===Content===
-        ObservableList<Capsule> contentsContainers = FXCollections.observableList(new ArrayList<>(loadedInvestment.getItems()));
+        ObservableList<ICapsule> contentsContainers = FXCollections.observableList(new ArrayList<>(loadedInvestment.getItems()));
         contentsListView.setItems(contentsContainers);
         tmpMap = new HashMap<>(loadedInvestment.getAllContainers());
     }

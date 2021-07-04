@@ -1,8 +1,7 @@
 package org.example.logic;
 
-import org.example.logic.Interfaces.IItem;
-import org.example.logic.Interfaces.Identifiable;
-import org.example.logic.Interfaces.Investment;
+import org.example.logic.Interfaces.ICapsule;
+import org.example.logic.Interfaces.IVault;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -13,10 +12,12 @@ import java.util.Set;
 
 import static org.example.Util.Attributes.*;
 
-public final class Vault implements Investment<Vault>, Identifiable {
+// FIXME: 05-07-2021 Add the ability to store Skin and Souvenir
+
+public final class Vault implements IVault {
 
     private long id;
-    private Map<IItem,Long> containers;
+    private Map<ICapsule,Long> containers;
     private String name;
 
     public Vault() {
@@ -44,32 +45,32 @@ public final class Vault implements Investment<Vault>, Identifiable {
     }
 
     @Override
-    public Map<IItem,Long> getAllContainers(){
+    public Map<ICapsule,Long> getAllContainers(){
         return containers;
     }
 
     @Override
-    public void setAllItems(Map<IItem,Long> map){
+    public void setAllItems(Map<ICapsule,Long> map){
         this.containers = map;
     }
 
     @Override
-    public Set<IItem> getItems() {
+    public Set<ICapsule> getItems() {
         return containers.keySet();
     }
 
     @Override
-    public void addItems(IItem container, long amount) {
-        containers.put(container,amount);
+    public void addItems(ICapsule capsule, long amount) {
+        containers.put(capsule,amount);
     }
 
     @Override
-    public void removeItem(IItem container) {
-        containers.remove(container);
+    public void removeItem(ICapsule capsule) {
+        containers.remove(capsule);
     }
 
     @Override
-    public Vault populate(long id, String name){
+    public IVault populate(long id, String name){
         setId(id == -1 ? findMaxID() + 1 : id);
         setName(name);
         return this;
@@ -94,7 +95,7 @@ public final class Vault implements Investment<Vault>, Identifiable {
 
         //Create the inner array
         JSONArray capsules = new JSONArray();
-        for (IItem item : containers.keySet()){
+        for (ICapsule item : containers.keySet()){
             //Inner obj
             JSONObject capsule = new JSONObject();
             capsule.put(CAPSULE_ID.toString(), item.getId());
@@ -124,9 +125,9 @@ public final class Vault implements Investment<Vault>, Identifiable {
 
     @Override
     public long findMaxID() {
-        List<Investment> cache = Domain.getInstance().readAllInvestments();
+        List<IVault> cache = Domain.getInstance().readAllInvestments();
         long maxValue = cache.get(0).getId();
-        for (Investment investment : cache) {
+        for (IVault investment : cache) {
             if (investment.getId() > maxValue) maxValue = investment.getId();
         }
         return maxValue;

@@ -1,1 +1,0 @@
-add stashLink to containers JSON and implement the update currPrice methode

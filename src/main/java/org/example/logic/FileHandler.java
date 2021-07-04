@@ -5,7 +5,7 @@ import org.example.logic.Interfaces.IFileHandler;
 
 import java.io.File;
 
-public class FileHandler implements IFileHandler {
+public final class FileHandler implements IFileHandler {
 
     private static FileHandler instance;
 

@@ -9,7 +9,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 
-import org.example.logic.Capsule;
+import org.example.logic.Interfaces.ICapsule;
 
 import java.io.File;
 import java.net.URL;
@@ -27,13 +27,13 @@ public class CapsuleController extends App implements Initializable {
     @FXML
     private ImageView itemImageView;
     @FXML
-    private ListView<Capsule> containerListView;
+    private ListView<ICapsule> containerListView;
 
     private File imageFile;
 
     private int itemIndex = -1;
 
-    private Capsule loadedItem;
+    private ICapsule loadedItem;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -65,7 +65,7 @@ public class CapsuleController extends App implements Initializable {
 
         containerListView.setCellFactory(cell -> new ListCell<>(){
             @Override
-            protected void updateItem(Capsule capsule, boolean bool){
+            protected void updateItem(ICapsule capsule, boolean bool){
                 super.updateItem(capsule, bool);
                 if (bool || capsule == null || capsule.getName() == null || DOMAIN_FACADE.getDataFacade().getGFX().getImageMap().get(capsule.getImage()) == null){
                     setGraphic(null);
@@ -120,7 +120,7 @@ public class CapsuleController extends App implements Initializable {
                 imageName,
                 link
         );
-        DOMAIN_FACADE.getDomain().updateCapsule((Capsule) DOMAIN_FACADE.getSelectedItem());
+        DOMAIN_FACADE.getDomain().updateCapsule(DOMAIN_FACADE.getSelectedCapsule());
     }
 
     private void createItem(){

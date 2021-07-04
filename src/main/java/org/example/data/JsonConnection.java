@@ -117,20 +117,20 @@ public class JsonConnection implements DataConnection {
     }
 
     @Override
-    public List<JSONObject> readAllInvestments() {
+    public List<JSONObject> readAllVaults() {
         return new ArrayList<JSONObject>(loadFile(INVESTMENTS.toString()));
     }
 
     @Override
-    public void createInvestment(JSONObject jsonObject) {
+    public void createVault(JSONObject jsonObject) {
         JSONArray jsonArray = loadFile(INVESTMENTS.toString());
         jsonArray.add(jsonObject);
         saveFile(jsonArray,INVESTMENTS.toString());
     }
 
     @Override
-    public JSONObject readInvestment(long id) {
-        for (Object obj : readAllInvestments()){
+    public JSONObject readVault(long id) {
+        for (Object obj : readAllVaults()){
             JSONObject shellObj = (JSONObject) obj;
             JSONObject innerObj = (JSONObject) shellObj.get(VAULT);
             if ((long) innerObj.get(ID) == id){
@@ -141,13 +141,13 @@ public class JsonConnection implements DataConnection {
     }
 
     @Override
-    public void updateInvestment(JSONObject jsonObject) {
+    public void updateVault(JSONObject jsonObject) {
         long id = (long) ((JSONObject) jsonObject.get(VAULT)).get(ID);
         updateObjInTable(id, jsonObject, VAULT.toString(), INVESTMENTS.toString());
     }
 
     @Override
-    public void deleteInvestment(long id) {
+    public void deleteVault(long id) {
         removeObjFromTable(id, INVESTMENTS.toString(), VAULT.toString());
     }
 
@@ -204,5 +204,65 @@ public class JsonConnection implements DataConnection {
 
         //Remove from capsules list
         removeObjFromTable(id, CAPSULES.toString(), CAPSULE.toString());
+    }
+
+    // FIXME: 05-07-2021
+    @Override
+    public List<JSONObject> readAllSouvenirs() {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    // FIXME: 05-07-2021
+    @Override
+    public void createSouvenir(JSONObject jsonObject) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    // FIXME: 05-07-2021
+    @Override
+    public JSONObject readSouvenir(long id) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    // FIXME: 05-07-2021
+    @Override
+    public void updateSouvenir(JSONObject jsonObject) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    // FIXME: 05-07-2021
+    @Override
+    public void deleteSouvenir(long id) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    // FIXME: 05-07-2021
+    @Override
+    public List<JSONObject> readAllSkins() {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    // FIXME: 05-07-2021
+    @Override
+    public void createSkin(JSONObject jsonObject) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    // FIXME: 05-07-2021
+    @Override
+    public JSONObject readSkin(long id) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    // FIXME: 05-07-2021
+    @Override
+    public void updateSkin(JSONObject jsonObject) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    // FIXME: 05-07-2021
+    @Override
+    public void deleteSKin(long id) {
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 }

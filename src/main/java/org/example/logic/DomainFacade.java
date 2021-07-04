@@ -4,10 +4,10 @@ import org.example.data.DataFacade;
 import org.example.data.Interfaces.IDataFacade;
 import org.example.logic.Interfaces.*;
 
-public class DomainFacade implements IDomainFacade {
+public final class DomainFacade implements IDomainFacade {
 
-    private Investment selectedInvestment;
-    private IItem selectedItem;
+    private IVault selectedInvestment;
+    private ICapsule selectedCapsule;
 
     private static DomainFacade instance;
 
@@ -19,23 +19,23 @@ public class DomainFacade implements IDomainFacade {
 
 
     @Override
-    public void setSelectedInvestment(Investment investment) {
+    public void setSelectedInvestment(IVault investment) {
         selectedInvestment = investment;
     }
 
     @Override
-    public Investment getSelectedInvestment() {
+    public IVault getSelectedInvestment() {
         return selectedInvestment;
     }
 
     @Override
-    public void setSelectedItem(IItem item) {
-        selectedItem = item;
+    public void setSelectedCapsule(ICapsule item) {
+        selectedCapsule = item;
     }
 
     @Override
-    public IItem getSelectedItem() {
-        return selectedItem;
+    public ICapsule getSelectedCapsule() {
+        return selectedCapsule;
     }
 
     @Override

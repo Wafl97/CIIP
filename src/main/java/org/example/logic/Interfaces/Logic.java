@@ -1,19 +1,17 @@
 package org.example.logic.Interfaces;
 
-import org.example.logic.Capsule;
-
 import java.util.List;
 
 public interface Logic {
-    List<Capsule> readAllCapsules();
-    void createCapsule(Capsule capsule);
-    Capsule readCapsule(long id);
-    void updateCapsule(Capsule capsule);
+    List<ICapsule> readAllCapsules();
+    void createCapsule(ICapsule capsule);
+    ICapsule readCapsule(long id);
+    void updateCapsule(ICapsule capsule);
     void deleteCapsule(long id);
 
-    List<Investment> readAllInvestments();
-    void createInvestment(Investment investment);
-    Investment readInvestment(long id);
-    void updateInvestment(Investment investment);
+    List<IVault> readAllInvestments();
+    void createInvestment(IVault investment);
+    IVault readInvestment(long id);
+    void updateInvestment(IVault investment);
     void deleteInvestment(long id);
 }
