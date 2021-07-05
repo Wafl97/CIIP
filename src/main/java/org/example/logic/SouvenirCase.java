@@ -1,6 +1,6 @@
 package org.example.logic;
 
-import org.example.logic.Interfaces.ISouvenirCase;
+import org.example.logic.interfaces.ISouvenirCase;
 import org.json.simple.JSONObject;
 
 

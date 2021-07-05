@@ -1,9 +1,16 @@
-package org.example.Util;
+package org.example.util;
 
 public enum Attributes {
+    SOUVENIRS,
+    SKINS,
     CAPSULES,
+    VAULTS,
     VAULT,
     CAPSULE,
+    SKIN,
+    SOUVENIR,
+    STAT_TRACK,
+    WEAR_FLOAT,
     ID,
     INIT_PRICE,
     NAME,
@@ -11,8 +18,8 @@ public enum Attributes {
     IMAGE,
     STASH_LINK,
     CAPSULE_ID,
-    INVESTMENTS;
+    SKIN_ID,
+    SOUVENIR_ID;
 
-    // FIXME: 05-07-2021 add new attributes for Skin and Souvenir
     Attributes(){}
 }

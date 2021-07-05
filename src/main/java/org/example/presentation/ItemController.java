@@ -1,6 +1,5 @@
 package org.example.presentation;
 
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -9,16 +8,18 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 
-import org.example.logic.Interfaces.ICapsule;
+import org.example.logic.interfaces.comps.Displayable;
+import org.example.logic.interfaces.ICapsule;
+import org.example.logic.interfaces.ISkin;
 
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class CapsuleController extends App implements Initializable {
+public class ItemController extends App implements Initializable {
 
     @FXML
-    private Button backButton, submitButton, browserButton, enableEditButton, deleteButton,
+    private Button backButton, submitButton, browserButton, enableEditButton, deleteButton, chooseImageButton,
             add0_25, lower0_25, add0_5, lower0_5, add1, lower1, add10, lower10, add100, lower100;
     @FXML
     private TextField nameTextField, linkTextField;
@@ -27,20 +28,72 @@ public class CapsuleController extends App implements Initializable {
     @FXML
     private ImageView itemImageView;
     @FXML
-    private ListView<ICapsule> containerListView;
+    private ListView<Displayable> itemsListView;
 
     private File imageFile;
 
     private int itemIndex = -1;
 
-    private ICapsule loadedItem;
+    private Displayable loadedItem;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        backButton.setOnAction(e -> goBack());
+
         // FIXME: 04-07-2021
         deleteButton.setOnAction(e -> DOMAIN_FACADE.getDomain().deleteCapsule(1));
-        switch (getOperation()){
+        buttonConfig(getOperation());
+
+        itemsListView.setCellFactory(cell -> new ListCell<>(){
+            @Override
+            protected void updateItem(Displayable capsule, boolean bool){
+                super.updateItem(capsule, bool);
+                if (bool || capsule == null || capsule.getName() == null || DOMAIN_FACADE.getDataFacade().getGFX().getImageMap().get(capsule.getImage()) == null){
+                    setGraphic(null);
+                    setText(null);
+                }
+                else {
+                    setText(capsule.getName());
+                    ImageView imageView = new ImageView(DOMAIN_FACADE.getDataFacade().getGFX().getImageMap().get(capsule.getImage()));
+                    imageView.setPreserveRatio(true);
+                    imageView.setFitHeight(25);
+                    setGraphic(imageView);
+                }
+            }
+        });
+
+        for (Displayable item : DOMAIN_FACADE.getDomain().readAllCapsules()){
+            itemsListView.getItems().add(item);
+        }
+        for (Displayable item : DOMAIN_FACADE.getDomain().readAllSkins()){
+            itemsListView.getItems().add(item);
+        }
+        itemsListView.refresh();
+    }
+
+    @FXML
+    private void addToPriceSpinner(ActionEvent event){
+        double value = (double) ((Button) event.getTarget()).getUserData();
+        if (priceSpinner.getValue() + value < 0) {
+            priceSpinner.getValueFactory().setValue(0.0d);
+        } else {
+            priceSpinner.getValueFactory().setValue(priceSpinner.getValue() + value);
+        }
+    }
+
+    @FXML
+    private void readItem(MouseEvent event){
+        itemIndex = itemsListView.getSelectionModel().getSelectedIndex();
+        if (itemIndex != -1) {
+            loadedItem = itemsListView.getSelectionModel().getSelectedItem();
+            itemImageView.setImage(DOMAIN_FACADE.getDataFacade().getGFX().getImageMap().get(loadedItem.getImage()));
+            nameTextField.setText(loadedItem.getName());
+            priceSpinner.getValueFactory().setValue(loadedItem.getInitPrice());
+            linkTextField.setText(loadedItem.getStashLink());
+        }
+    }
+
+    private void buttonConfig(Operation operation){
+        switch (operation){
             case CREATE:
                 enableEditButton.setDisable(true);
                 submitButton.setOnAction(e -> openWarning("Create Item","Are you sure?","You are creating a new item",this::createItem,true));
@@ -57,54 +110,10 @@ public class CapsuleController extends App implements Initializable {
                 System.out.println("Something went wrong!!!");
                 break;
         }
-
         browserButton.setOnAction(e -> openWeb("www.csgostash.com"));
-
+        backButton.setOnAction(e -> goBack());
         add0_25.setUserData(0.25d);      add0_5.setUserData(0.5d);  add1.setUserData(1.0d);     add10.setUserData(10.0d);       add100.setUserData(100.0d);
         lower0_25.setUserData(-0.25d);   lower0_5.setUserData(-0.5d); lower1.setUserData(-1.0d);  lower10.setUserData(-10.0d);    lower100.setUserData(-100.0d);
-
-        containerListView.setCellFactory(cell -> new ListCell<>(){
-            @Override
-            protected void updateItem(ICapsule capsule, boolean bool){
-                super.updateItem(capsule, bool);
-                if (bool || capsule == null || capsule.getName() == null || DOMAIN_FACADE.getDataFacade().getGFX().getImageMap().get(capsule.getImage()) == null){
-                    setGraphic(null);
-                    setText(null);
-                }
-                else {
-                    setText(capsule.getName());
-                    ImageView imageView = new ImageView(DOMAIN_FACADE.getDataFacade().getGFX().getImageMap().get(capsule.getImage()));
-                    imageView.setPreserveRatio(true);
-                    imageView.setFitHeight(25);
-                    setGraphic(imageView);
-                }
-            }
-        });
-
-        containerListView.setItems(FXCollections.observableList(DOMAIN_FACADE.getDomain().readAllCapsules()));
-        containerListView.refresh();
-    }
-
-    @FXML
-    private void addToPriceSpinner(ActionEvent event){
-        double value = (double) ((Button) event.getTarget()).getUserData();
-        if (priceSpinner.getValue() + value < 0) {
-            priceSpinner.getValueFactory().setValue(0.0d);
-        } else {
-            priceSpinner.getValueFactory().setValue(priceSpinner.getValue() + value);
-        }
-    }
-
-    @FXML
-    private void readItem(MouseEvent event){
-        itemIndex = containerListView.getSelectionModel().getSelectedIndex();
-        if (itemIndex != -1) {
-            loadedItem = containerListView.getSelectionModel().getSelectedItem();
-            itemImageView.setImage(DOMAIN_FACADE.getDataFacade().getGFX().getImageMap().get(loadedItem.getImage()));
-            nameTextField.setText(loadedItem.getName());
-            priceSpinner.getValueFactory().setValue(loadedItem.getInitPrice());
-            linkTextField.setText(loadedItem.getStashLink());
-        }
     }
 
     private void updateItem(){
@@ -113,14 +122,32 @@ public class CapsuleController extends App implements Initializable {
         String name = (nameTextField.getText() == null || nameTextField.getText().equals("")? loadedItem.getName() : nameTextField.getText());
         String imageName = (imageFile == null || imageFile.getName().equals("") ? getStringFromString(itemImageView.getImage().getUrl(),"/") : imageFile.getName());
         String link = (linkTextField.getText() == null || linkTextField.getText().equals("") ? loadedItem.getStashLink() : linkTextField.getText());
-        loadedItem.populate(
-                id,
-                initPrice,
-                name,
-                imageName,
-                link
-        );
-        DOMAIN_FACADE.getDomain().updateCapsule(DOMAIN_FACADE.getSelectedCapsule());
+        if (loadedItem instanceof ISkin) {
+            double wearFloat = 0.0;
+            boolean statTrack = false;
+            boolean souvenir = false;
+            ((ISkin) loadedItem).populate(
+                    id,
+                    initPrice,
+                    name,
+                    imageName,
+                    link,
+                    wearFloat,
+                    statTrack,
+                    souvenir
+            );
+            DOMAIN_FACADE.getDomain().updateSkin((ISkin) loadedItem);
+        }
+        else if (loadedItem instanceof ICapsule){
+            ((ICapsule) loadedItem).populate(
+                    id,
+                    initPrice,
+                    name,
+                    imageName,
+                    link
+            );
+            DOMAIN_FACADE.getDomain().updateCapsule((ICapsule) loadedItem);
+        }
     }
 
     private void createItem(){
@@ -162,6 +189,7 @@ public class CapsuleController extends App implements Initializable {
         priceSpinner.setDisable(b);
         submitButton.setDisable(b);
         browserButton.setDisable(b);
+        chooseImageButton.setDisable(b);
         add0_25.setDisable(b);
         lower0_25.setDisable(b);
         add0_5.setDisable(b);
@@ -172,5 +200,6 @@ public class CapsuleController extends App implements Initializable {
         lower10.setDisable(b);
         add100.setDisable(b);
         lower100.setDisable(b);
+        if (bool) buttonConfig(EDIT);
     }
 }

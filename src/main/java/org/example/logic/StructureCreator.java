@@ -1,6 +1,6 @@
 package org.example.logic;
 
-import org.example.logic.Interfaces.*;
+import org.example.logic.interfaces.*;
 
 public final class StructureCreator implements Factory {
 

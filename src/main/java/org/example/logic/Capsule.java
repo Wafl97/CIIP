@@ -1,7 +1,7 @@
 package org.example.logic;
 
-import org.example.logic.Interfaces.ICapsule;
-import org.example.logic.Interfaces.Comps.Identifiable;
+import org.example.logic.interfaces.comps.Displayable;
+import org.example.logic.interfaces.ICapsule;
 import org.json.simple.JSONObject;
 
 import java.io.IOException;
@@ -11,9 +11,9 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static org.example.Util.Attributes.*;
+import static org.example.util.Attributes.*;
 
-public final class Capsule implements ICapsule, Identifiable {
+public final class Capsule implements ICapsule {
 
     private long id;
     private double initPrice;
@@ -153,7 +153,7 @@ public final class Capsule implements ICapsule, Identifiable {
     public long findMaxID() {
         List<ICapsule> cache = Domain.getInstance().readAllCapsules();
         long maxValue = cache.get(0).getId();
-        for (ICapsule capsule : cache) {
+        for (Displayable capsule : cache) {
             if (capsule.getId() > maxValue) maxValue = capsule.getId();
         }
         return maxValue;

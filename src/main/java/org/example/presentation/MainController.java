@@ -18,8 +18,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
-import org.example.logic.Interfaces.ICapsule;
-import org.example.logic.Interfaces.IVault;
+import org.example.logic.interfaces.comps.Displayable;
+import org.example.logic.interfaces.IVault;
 
 public class MainController extends App implements Initializable {
 
@@ -34,7 +34,7 @@ public class MainController extends App implements Initializable {
     @FXML
     private AnchorPane background;
     @FXML
-    private ListView<ICapsule> itemListView;
+    private ListView<Displayable> itemListView;
     @FXML
     private ImageView itemImage;
 
@@ -46,11 +46,11 @@ public class MainController extends App implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //===Buttons====================================================================================================
-        createButton.setOnAction(e -> goNext(MAIN_PASS, INVEST_CREATE));
+        createButton.setOnAction(e -> goNext(MAIN_PASS, VAULT_CREATE));
         editButton.setOnAction(e -> {
             if (investIndex != -1) {
                 DOMAIN_FACADE.setSelectedInvestment(investmentListView.getItems().get(investIndex));
-                goNext(MAIN_PASS, INVEST_EDIT);
+                goNext(MAIN_PASS, VAULT_EDIT);
             }
         });
         deleteButton.setOnAction(e -> {
@@ -58,9 +58,9 @@ public class MainController extends App implements Initializable {
                 openWarning("DELETE", "Are you sure?", "Delete the selected element", this::deleteInvestment,false);
             }
         });
-        itemViewButton.setOnAction(e -> goNext(MAIN_PASS, CAPSULE_PASS));
-        itemCreateButton.setOnAction(e -> goNext(MAIN_PASS, CAPSULE_CREATE));
-        itemUpdateButton.setOnAction(e -> goNext(MAIN_PASS, CAPSULE_EDIT));
+        itemViewButton.setOnAction(e -> goNext(MAIN_PASS, ITEM_PASS));
+        itemCreateButton.setOnAction(e -> goNext(MAIN_PASS, ITEM_CREATE));
+        itemUpdateButton.setOnAction(e -> goNext(MAIN_PASS, ITEM_EDIT));
 
         //===ListViews==================================================================================================
         investmentListView.setCellFactory(cell -> new ListCell<>() {
@@ -77,7 +77,7 @@ public class MainController extends App implements Initializable {
         });
         itemListView.setCellFactory(cell -> new ListCell<>() {
             @Override
-            protected void updateItem(ICapsule capsule, boolean empty) {
+            protected void updateItem(Displayable capsule, boolean empty) {
                 super.updateItem(capsule, empty);
 
                 if (empty || capsule == null || capsule.getName() == null || DOMAIN_FACADE.getDataFacade().getGFX().getImageMap().get(capsule.getImage()) == null) {
@@ -92,16 +92,16 @@ public class MainController extends App implements Initializable {
                 }
             }
         });
-        allInvestments = DOMAIN_FACADE.getDomain().readAllInvestments();
+        allInvestments = DOMAIN_FACADE.getDomain().readAllVaults();
         float totalInvested = 0;
         int totalItems = 0;
         float totalSell = 0;
         for (IVault investment : allInvestments) {
-            for (Object obj : investment.getAllContainers().keySet()){
-                ICapsule capsule = (ICapsule) obj;
-                long l = (long) investment.getAllContainers().get(capsule);
-                totalInvested += capsule.getInitPrice() * l;
-                totalSell += capsule.getCurrPrice() * l;
+            for (Object obj : investment.getAllItems().keySet()){
+                Displayable item = (Displayable) obj;
+                long l = (long) investment.getAllItems().get(item);
+                totalInvested += item.getInitPrice() * l;
+                totalSell += item.getCurrPrice() * l;
                 totalItems += l;
             }
         }
@@ -118,7 +118,7 @@ public class MainController extends App implements Initializable {
     }
 
     private void deleteInvestment() {
-        DOMAIN_FACADE.getDomain().deleteInvestment(investmentListView.getItems().get(investmentListView.getSelectionModel().getSelectedIndex()).getId());
+        DOMAIN_FACADE.getDomain().deleteVault(investmentListView.getItems().get(investmentListView.getSelectionModel().getSelectedIndex()).getId());
         investmentListView.getItems().remove(investmentListView.getSelectionModel().getSelectedIndex());
         itemListView.getItems().clear();
     }
@@ -132,16 +132,16 @@ public class MainController extends App implements Initializable {
         investIndex = investmentListView.getSelectionModel().getSelectedIndex();
         if (investIndex != -1) {
             IVault investment = investmentListView.getItems().get(investIndex);
-            ObservableList<ICapsule> capsules = FXCollections.observableList(new ArrayList<>(investment.getItems()));
+            ObservableList<Displayable> capsules = FXCollections.observableList(new ArrayList<>(investment.getItems()));
             itemListView.setItems(capsules);
             float totalBuy = 0;
             float totalSell = 0;
             int amount = 0;
-            for (Object obj : investment.getAllContainers().keySet()){
-                ICapsule capsule = (ICapsule) obj;
-                long l = (long) investment.getAllContainers().get(capsule);
-                totalBuy += capsule.getInitPrice() * l;
-                totalSell += capsule.getCurrPrice() * l;
+            for (Object obj : investment.getAllItems().keySet()){
+                Displayable item = (Displayable) obj;
+                long l = (long) investment.getAllItems().get(item);
+                totalBuy += item.getInitPrice() * l;
+                totalSell += item.getCurrPrice() * l;
                 amount += l;
             }
             totalInvestedLabel.setText("Total Invested: " + totalBuy + "€");
@@ -159,10 +159,10 @@ public class MainController extends App implements Initializable {
     public void itemHandler(MouseEvent mouseEvent) {
         itemIndex = itemListView.getSelectionModel().getSelectedIndex();
         if (itemIndex != -1) {
-            ICapsule capsule = itemListView.getItems().get(itemIndex);
+            Displayable capsule = itemListView.getItems().get(itemIndex);
             itemName.setText(capsule.getName());
             itemImage.setImage(DOMAIN_FACADE.getDataFacade().getGFX().getImageMap().get(capsule.getImage()));
-            itemAmount.setText("Amount:\t" + allInvestments.get(investIndex).getAllContainers().get(capsule));
+            itemAmount.setText("Amount:\t" + allInvestments.get(investIndex).getAllItems().get(capsule));
             itemInitPrice.setText("Buy Price:\t" + capsule.getInitPrice() + "€");
             itemCurrPrice.setText("Sell Price:\t" + capsule.getCurrPrice() + "€");
             itemDiffPrice.setText("Diff Price:\t" + capsule.getDiffPrice() + "€");

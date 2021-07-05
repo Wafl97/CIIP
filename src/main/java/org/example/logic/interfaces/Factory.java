@@ -1,7 +1,4 @@
-package org.example.logic.Interfaces;
-
-import org.example.logic.Capsule;
-import org.example.logic.Vault;
+package org.example.logic.interfaces;
 
 public interface Factory {
 

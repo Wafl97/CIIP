@@ -1,4 +1,4 @@
-package org.example.logic.Interfaces;
+package org.example.logic.interfaces;
 
 import java.io.File;
 

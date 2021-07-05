@@ -1,7 +1,7 @@
 package org.example.logic;
 
 import org.example.data.DataFacade;
-import org.example.logic.Interfaces.IFileHandler;
+import org.example.logic.interfaces.IFileHandler;
 
 import java.io.File;
 

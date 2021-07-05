@@ -1,133 +1,171 @@
 package org.example.logic;
 
-import org.example.logic.Interfaces.ISkin;
+import org.example.logic.interfaces.ISkin;
 import org.json.simple.JSONObject;
 
-// FIXME: 05-07-2021
+import static org.example.util.Attributes.*;
+
 public final class Skin implements ISkin {
 
-    private boolean stat_track;
+    private long id;
+    private double initPrice;
+    private double currPrice;
+    private String name;
+    private String image;
+    private String link;
+    private boolean statTrack;
     private boolean souvenir;
-    private float wear_float;
+    private double wearFloat;
 
     @Override
     public long getId() {
-        return 0;
+        return id;
     }
 
     @Override
     public void setId(long id) {
-
+        this.id = id;
     }
 
     @Override
     public double getInitPrice() {
-        return 0;
+        return initPrice;
     }
 
     @Override
     public void setInitPrice(double price) {
-
+        this.initPrice = price;
     }
 
     @Override
     public double getCurrPrice() {
-        return 0;
+        return currPrice;
     }
 
     @Override
     public void setCurrPrice(double price) {
-
+        this.currPrice = price;
     }
 
     @Override
     public void updateCurrPrice() {
-
+        // FIXME: 05-07-2021
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 
     @Override
     public double getDiffPrice() {
-        return 0;
+        return initPrice - currPrice;
     }
 
     @Override
     public String getName() {
-        return null;
+        return name;
     }
 
     @Override
     public void setName(String name) {
-
+        this.name = name;
     }
 
     @Override
     public String getImage() {
-        return null;
+        return image;
     }
 
     @Override
     public void setImage(String image) {
-
+        this.image = image;
     }
 
     @Override
     public String getStashLink() {
-        return null;
+        return link;
     }
 
     @Override
     public void setStashLink(String link) {
-
+        this.link = link;
     }
 
     @Override
-    public ISkin populate(long id, double initPrice, String name, String image, String stashLink) {
-        return null;
+    public void setStatTrack(boolean statTrack) {
+        this.statTrack = statTrack;
+    }
+
+    @Override
+    public boolean isStatTrack() {
+        return statTrack;
+    }
+
+    @Override
+    public void setSouvenir(boolean souvenir) {
+        this.souvenir = souvenir;
+    }
+
+    @Override
+    public boolean isSouvenir() {
+        return souvenir;
+    }
+
+    @Override
+    public void setWearFloat(double wearFloat) {
+        this.wearFloat = wearFloat;
+    }
+
+    @Override
+    public double getWearFloat() {
+        return wearFloat;
+    }
+
+    @Override
+    public ISkin populate(long id, double initPrice, String name, String image, String stashLink, double wearFloat, boolean statTrack, boolean souvenir) {
+        setId(id);
+        setInitPrice(initPrice);
+        setName(name);
+        setImage(image);
+        setStashLink(stashLink);
+        setWearFloat(wearFloat);
+        setStatTrack(statTrack);
+        setSouvenir(souvenir);
+        return this;
     }
 
 
     @Override
     public JSONObject convert2JSON() {
-        return null;
+        JSONObject shellObj = new JSONObject();
+        JSONObject innerObj = new JSONObject();
+        innerObj.put(ID.toString(),getId());
+        innerObj.put(INIT_PRICE.toString(),getInitPrice());
+        innerObj.put(NAME.toString(),getName());
+        innerObj.put(IMAGE.toString(),getImage());
+        innerObj.put(STASH_LINK.toString(),getStashLink());
+        innerObj.put(WEAR_FLOAT.toString(),getWearFloat());
+        innerObj.put(STAT_TRACK.toString(),isStatTrack());
+        innerObj.put(SOUVENIR.toString(),isSouvenir());
+        shellObj.put(SKIN.toString(),innerObj);
+        return shellObj;
     }
 
     @Override
     public ISkin convert2Obj(JSONObject jsonObject) {
-        return null;
+        JSONObject innerObj = (JSONObject) jsonObject.get(SKIN.toString());
+        return populate(
+                (long)      innerObj.get(ID.toString()),
+                (double)    innerObj.get(INIT_PRICE.toString()),
+                (String)    innerObj.get(NAME.toString()),
+                (String)    innerObj.get(IMAGE.toString()),
+                (String)    innerObj.get(STASH_LINK.toString()),
+                (double)    innerObj.get(WEAR_FLOAT.toString()),
+                (boolean)   innerObj.get(STAT_TRACK.toString()),
+                (boolean)   innerObj.get(SOUVENIR.toString())
+        );
     }
 
     @Override
     public long findMaxID() {
-        return 0;
-    }
-
-    @Override
-    public void setStatTrack(boolean statTrack) {
-
-    }
-
-    @Override
-    public boolean isStatTrack() {
-        return false;
-    }
-
-    @Override
-    public void setSouvenir(boolean souvenir) {
-
-    }
-
-    @Override
-    public boolean isSouvenir() {
-        return false;
-    }
-
-    @Override
-    public void setWearFloat(float wearFloat) {
-
-    }
-
-    @Override
-    public float getWearFloat() {
+        // FIXME: 05-07-2021
         return 0;
     }
 }

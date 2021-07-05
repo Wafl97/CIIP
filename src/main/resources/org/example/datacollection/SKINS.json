@@ -1,0 +1,14 @@
+[
+  {
+    "SKIN": {
+      "ID": 0,
+      "NAME": "TEST",
+      "INIT_PRICE": 100.0,
+      "IMAGE": "img.png",
+      "STAT_TRACK": false,
+      "SOUVENIR": false,
+      "WEAR_FLOAT": 1.0,
+      "STASH_LINK": "https://fake.com"
+    }
+  }
+]

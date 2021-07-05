@@ -1,4 +1,4 @@
-package org.example.logic.Interfaces.Comps;
+package org.example.logic.interfaces.comps;
 
 import org.json.simple.JSONObject;
 

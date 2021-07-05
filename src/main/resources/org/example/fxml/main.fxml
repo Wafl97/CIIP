@@ -36,7 +36,7 @@
       <ListView fx:id="itemListView" layoutX="348.0" layoutY="49.0" onMouseClicked="#itemHandler" prefHeight="657.0" prefWidth="350.0" />
       <VBox layoutX="716.0" layoutY="24.0" prefHeight="184.0" prefWidth="200.0">
          <Label fx:id="itemName" />
-         <ImageView fx:id="itemImage" />
+         <ImageView fx:id="itemImage" preserveRatio="true" fitHeight="256.0"/>
          <Label fx:id="itemAmount" />
          <Label fx:id="itemInitPrice" />
          <Label fx:id="itemCurrPrice" />

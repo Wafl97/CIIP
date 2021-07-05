@@ -1,4 +1,4 @@
-package org.example.logic.Interfaces.Comps;
+package org.example.logic.interfaces.comps;
 
 public interface Identifiable {
 

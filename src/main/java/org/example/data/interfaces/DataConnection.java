@@ -1,10 +1,12 @@
-package org.example.data.Interfaces;
+package org.example.data.interfaces;
 
 import org.json.simple.JSONObject;
 
 import java.util.List;
 
 public interface DataConnection {
+
+    boolean connect();
 
     List<JSONObject> readAllVaults();
     void createVault(JSONObject jsonObject);

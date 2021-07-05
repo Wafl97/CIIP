@@ -1,7 +1,7 @@
 package org.example.data;
 
 import javafx.scene.image.Image;
-import org.example.data.Interfaces.IGFX;
+import org.example.data.interfaces.IGFX;
 
 import java.io.*;
 import java.net.URISyntaxException;

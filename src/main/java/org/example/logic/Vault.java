@@ -1,7 +1,10 @@
 package org.example.logic;
 
-import org.example.logic.Interfaces.ICapsule;
-import org.example.logic.Interfaces.IVault;
+import org.example.logic.interfaces.comps.Displayable;
+import org.example.logic.interfaces.comps.Identifiable;
+import org.example.logic.interfaces.ICapsule;
+import org.example.logic.interfaces.ISkin;
+import org.example.logic.interfaces.IVault;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -10,14 +13,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static org.example.Util.Attributes.*;
+import static org.example.util.Attributes.*;
 
 // FIXME: 05-07-2021 Add the ability to store Skin and Souvenir
 
 public final class Vault implements IVault {
 
     private long id;
-    private Map<ICapsule,Long> containers;
+    private Map<Displayable,Long> containers;
     private String name;
 
     public Vault() {
@@ -45,27 +48,27 @@ public final class Vault implements IVault {
     }
 
     @Override
-    public Map<ICapsule,Long> getAllContainers(){
+    public Map<Displayable,Long> getAllItems(){
         return containers;
     }
 
     @Override
-    public void setAllItems(Map<ICapsule,Long> map){
+    public void setAllItems(Map<Displayable,Long> map){
         this.containers = map;
     }
 
     @Override
-    public Set<ICapsule> getItems() {
+    public Set<Displayable> getItems() {
         return containers.keySet();
     }
 
     @Override
-    public void addItems(ICapsule capsule, long amount) {
+    public void addItems(Displayable capsule, long amount) {
         containers.put(capsule,amount);
     }
 
     @Override
-    public void removeItem(ICapsule capsule) {
+    public void removeItem(Displayable capsule) {
         containers.remove(capsule);
     }
 
@@ -90,22 +93,33 @@ public final class Vault implements IVault {
         //Create outer JSON obj
         JSONObject returnObj = new JSONObject();
         JSONObject innerObj = new JSONObject();
-        innerObj.put(ID.toString(),this.id);
-        innerObj.put(NAME.toString(),this.name);
+        innerObj.put(ID.toString(),getId());
+        innerObj.put(NAME.toString(),getName());
 
         //Create the inner array
         JSONArray capsules = new JSONArray();
-        for (ICapsule item : containers.keySet()){
+        JSONArray skins = new JSONArray();
+        for (Identifiable item : containers.keySet()){
             //Inner obj
-            JSONObject capsule = new JSONObject();
-            capsule.put(CAPSULE_ID.toString(), item.getId());
-            capsule.put(AMOUNT.toString(), containers.get(item));
-            //Shell obj
-            JSONObject shell = new JSONObject();
-            shell.put(CAPSULE.toString(), capsule);
-            capsules.add(shell);
+            if (item instanceof ICapsule) {
+                JSONObject capsule = new JSONObject();
+                capsule.put(CAPSULE_ID.toString(), item.getId());
+                capsule.put(AMOUNT.toString(), containers.get(item));
+                JSONObject shell = new JSONObject();
+                shell.put(CAPSULE.toString(), capsule);
+                capsules.add(shell);
+            }
+            else if (item instanceof ISkin){
+                JSONObject skin = new JSONObject();
+                skin.put(SKIN_ID.toString(), item.getId());
+                skin.put(AMOUNT.toString(), containers.get(item));
+                JSONObject shell = new JSONObject();
+                shell.put(SKIN.toString(), skin);
+                skins.add(shell);
+            }
         }
         innerObj.put(CAPSULES.toString(),capsules);
+        innerObj.put(SKINS.toString(),skins);
         returnObj.put(VAULT.toString(),innerObj);
         return returnObj;
     }
@@ -120,12 +134,16 @@ public final class Vault implements IVault {
             JSONObject capsule = (JSONObject) ((JSONObject) o).get(CAPSULE.toString());
             containers.put(Domain.getInstance().readCapsule((long) capsule.get(CAPSULE_ID.toString())), (long) capsule.get(AMOUNT.toString()));
         }
+        for (Object o : (JSONArray) innerObj.get(SKINS.toString())){
+            JSONObject skin = (JSONObject) ((JSONObject) o).get(SKIN.toString());
+            containers.put(Domain.getInstance().readSkin((long) skin.get(SKIN_ID.toString())), (long) skin.get(AMOUNT.toString()));
+        }
         return this;
     }
 
     @Override
     public long findMaxID() {
-        List<IVault> cache = Domain.getInstance().readAllInvestments();
+        List<IVault> cache = Domain.getInstance().readAllVaults();
         long maxValue = cache.get(0).getId();
         for (IVault investment : cache) {
             if (investment.getId() > maxValue) maxValue = investment.getId();

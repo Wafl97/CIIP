@@ -1,8 +1,8 @@
 package org.example.logic;
 
 import org.example.data.DataFacade;
-import org.example.data.Interfaces.IDataFacade;
-import org.example.logic.Interfaces.*;
+import org.example.data.interfaces.IDataFacade;
+import org.example.logic.interfaces.*;
 
 public final class DomainFacade implements IDomainFacade {
 

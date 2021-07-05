@@ -1,8 +1,8 @@
 package org.example.data;
 
-import org.example.data.Interfaces.DataConnection;
-import org.example.data.Interfaces.IDataFacade;
-import org.example.data.Interfaces.IGFX;
+import org.example.data.interfaces.DataConnection;
+import org.example.data.interfaces.IDataFacade;
+import org.example.data.interfaces.IGFX;
 
 public class DataFacade implements IDataFacade {
 

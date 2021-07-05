@@ -1,11 +1,8 @@
 package org.example.logic;
 
 import org.example.data.DataFacade;
-import org.example.data.Interfaces.DataConnection;
-import org.example.logic.Interfaces.Factory;
-import org.example.logic.Interfaces.ICapsule;
-import org.example.logic.Interfaces.IVault;
-import org.example.logic.Interfaces.Logic;
+import org.example.data.interfaces.DataConnection;
+import org.example.logic.interfaces.*;
 import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
@@ -21,12 +18,18 @@ public final class Domain implements Logic {
 
     private List<ICapsule> capsulesCache;
     private List<IVault> vaultCache;
+    private List<ISkin> skinCache;
 
     public static Domain getInstance(){
         return instance == null ? instance = new Domain() : instance;
     }
 
-    private Domain(){}
+    private Domain(){
+        System.out.println("Starting");
+        System.out.println("Connection type:\t" + CONNECTION.getClass().getSimpleName());
+        System.out.println("Connection success:\t" + CONNECTION.connect());
+        System.out.println("Start complete");
+    }
 
     @Override
     public List<ICapsule> readAllCapsules() {
@@ -70,7 +73,48 @@ public final class Domain implements Logic {
     }
 
     @Override
-    public List<IVault> readAllInvestments() {
+    public List<ISkin> readAllSkins() {
+        if (skinCache == null){
+            skinCache = new ArrayList<>();
+            for (Object o : CONNECTION.readAllSkins()) {
+                ISkin newSkin = CREATOR.emptySkin().convert2Obj((JSONObject) o);
+                skinCache.add(newSkin);
+            }
+        }
+        return skinCache;
+    }
+
+    @Override
+    public void createSkin(ISkin skin) {
+        if (skinCache == null) readAllCapsules();
+        CONNECTION.createSkin(skin.convert2JSON());
+        skinCache.add(skin);
+    }
+
+    @Override
+    public ISkin readSkin(long id) {
+        if (skinCache == null) readAllSkins();
+        return skinCache.stream().filter(skin -> skin.getId() == id).findFirst().get();
+    }
+
+    @Override
+    public void updateSkin(ISkin skin) {
+        if (skinCache == null) readAllSkins();
+        CONNECTION.updateSkin(skin.convert2JSON());
+        long id = skin.getId();
+        skinCache.removeIf(skn -> skn.getId() == id);
+        skinCache.add(skin);
+    }
+
+    @Override
+    public void deleteSkin(long id) {
+        if (skinCache == null) readAllSkins();
+        CONNECTION.deleteSKin(id);
+        skinCache.removeIf(skin -> skin.getId() == id);
+    }
+
+    @Override
+    public List<IVault> readAllVaults() {
         if (vaultCache == null) {
             vaultCache = new ArrayList<>();
             for (Object o : CONNECTION.readAllVaults()) {
@@ -82,30 +126,30 @@ public final class Domain implements Logic {
     }
 
     @Override
-    public void createInvestment(IVault vault) {
-        if (vaultCache == null) readAllInvestments();
+    public void createVault(IVault vault) {
+        if (vaultCache == null) this.readAllVaults();
         CONNECTION.createVault(vault.convert2JSON());
         vaultCache.add(vault);
     }
 
     @Override
-    public IVault readInvestment(long id) {
-        if (vaultCache == null) readAllInvestments();
+    public IVault readVault(long id) {
+        if (vaultCache == null) this.readAllVaults();
         return vaultCache.stream().filter(vault -> vault.getId() == id).findAny().get();
     }
 
     @Override
-    public void updateInvestment(IVault investment) {
-        if (vaultCache == null) readAllInvestments();
-        CONNECTION.updateVault(investment.convert2JSON());
-        long id = investment.getId();
-        vaultCache.removeIf(vault -> vault.getId() == id);
-        vaultCache.add(investment);
+    public void updateVault(IVault vault) {
+        if (vaultCache == null) this.readAllVaults();
+        CONNECTION.updateVault(vault.convert2JSON());
+        long id = vault.getId();
+        vaultCache.removeIf(v -> v.getId() == id);
+        vaultCache.add(vault);
     }
 
     @Override
-    public void deleteInvestment(long id) {
-        if (vaultCache == null) readAllInvestments();
+    public void deleteVault(long id) {
+        if (vaultCache == null) this.readAllVaults();
         CONNECTION.deleteVault(id);
         vaultCache.removeIf(vault -> vault.getId() == id);
     }

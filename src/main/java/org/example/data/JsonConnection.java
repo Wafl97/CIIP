@@ -1,6 +1,6 @@
 package org.example.data;
 
-import org.example.data.Interfaces.DataConnection;
+import org.example.data.interfaces.DataConnection;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -13,7 +13,7 @@ import java.net.URL;
 import java.nio.file.NotDirectoryException;
 import java.util.*;
 
-import static org.example.Util.Attributes.*;
+import static org.example.util.Attributes.*;
 
 public class JsonConnection implements DataConnection {
 
@@ -24,15 +24,15 @@ public class JsonConnection implements DataConnection {
     private final Map<String,File> fileMap = new HashMap<>();
 
     private JsonConnection(){
-        System.out.println("JSON connection: " + connect());
     }
 
     public static DataConnection getInstance() {
         return instance == null ? instance = new JsonConnection() : instance;
     }
 
-
-    private boolean connect(){
+    @Override
+    public boolean connect(){
+        System.out.println("Initiating connecting");
         try {
             // Get the path for the database
             URL url = getClass().getClassLoader().getResource(PATH);
@@ -50,10 +50,11 @@ public class JsonConnection implements DataConnection {
             if(files == null) throw new NotDirectoryException(PATH + " is not a directory.");
 
             // Populate tables hashmap
+            System.out.println("Loading files");
             for(File file : files) {
                 // Get name of file
                 String fileName = file.getName().split("\\.")[0];
-
+                System.out.println(file);
                 fileMap.put(fileName, file);
             }
             return true;
@@ -85,6 +86,23 @@ public class JsonConnection implements DataConnection {
         }
     }
 
+    private JSONObject readOneObj(long id, List<JSONObject> objs, String objName){
+        for (Object obj : objs){
+            JSONObject shellObj = (JSONObject) obj;
+            JSONObject innerObj = (JSONObject) shellObj.get(objName);
+            if ((long) innerObj.get(ID.toString()) == id){
+                return shellObj;
+            }
+        }
+        return null;
+    }
+
+    private void addObjToTable(JSONObject obj, String table){
+        JSONArray array = loadFile(table);
+        array.add(obj);
+        saveFile(array,table);
+    }
+
     private void removeObjFromTable(long id, String table, String objName) {
         JSONArray jsonArray = loadFile(table);
         if (jsonArray != null) {
@@ -100,55 +118,46 @@ public class JsonConnection implements DataConnection {
         }
     }
 
-    private void updateObjInTable(long id, JSONObject jsonObject, String capsule, String capsules) {
-        JSONArray jsonArray = loadFile(CAPSULES.toString());
+    private void updateObjInTable(JSONObject jsonObject, String table, String objName) {
+        long id = (long) ((JSONObject) jsonObject.get(objName)).get(ID.toString());
+        JSONArray jsonArray = loadFile(table);
         if (jsonArray != null) {
             for (Object o : jsonArray) {
                 JSONObject jObject = (JSONObject) o;
-                JSONObject internalObject = (JSONObject) jObject.get(capsule);
-                if ((long) internalObject.get(ID) == id) {
+                JSONObject internalObject = (JSONObject) jObject.get(objName);
+                if ((long) internalObject.get(ID.toString()) == id) {
                     jsonArray.remove(o);
                     jsonArray.add(jsonObject);
                     break;
                 }
             }
-            saveFile(jsonArray, capsules);
+            saveFile(jsonArray, table);
         }
     }
 
     @Override
     public List<JSONObject> readAllVaults() {
-        return new ArrayList<JSONObject>(loadFile(INVESTMENTS.toString()));
+        return new ArrayList<JSONObject>(loadFile(VAULTS.toString()));
     }
 
     @Override
     public void createVault(JSONObject jsonObject) {
-        JSONArray jsonArray = loadFile(INVESTMENTS.toString());
-        jsonArray.add(jsonObject);
-        saveFile(jsonArray,INVESTMENTS.toString());
+        addObjToTable(jsonObject,VAULTS.toString());
     }
 
     @Override
     public JSONObject readVault(long id) {
-        for (Object obj : readAllVaults()){
-            JSONObject shellObj = (JSONObject) obj;
-            JSONObject innerObj = (JSONObject) shellObj.get(VAULT);
-            if ((long) innerObj.get(ID) == id){
-                return shellObj;
-            }
-        }
-        return null;
+        return readOneObj(id, readAllVaults(), VAULT.toString());
     }
 
     @Override
     public void updateVault(JSONObject jsonObject) {
-        long id = (long) ((JSONObject) jsonObject.get(VAULT)).get(ID);
-        updateObjInTable(id, jsonObject, VAULT.toString(), INVESTMENTS.toString());
+        updateObjInTable(jsonObject, VAULTS.toString(), VAULT.toString());
     }
 
     @Override
     public void deleteVault(long id) {
-        removeObjFromTable(id, INVESTMENTS.toString(), VAULT.toString());
+        removeObjFromTable(id, VAULTS.toString(), VAULT.toString());
     }
 
     @Override
@@ -158,33 +167,24 @@ public class JsonConnection implements DataConnection {
 
     @Override
     public void createCapsule(JSONObject jsonObject) {
-        JSONArray jsonArray = loadFile(CAPSULES.toString());
-        jsonArray.add(jsonObject);
-        saveFile(jsonArray, CAPSULES.toString());
+        addObjToTable(jsonObject,CAPSULES.toString());
     }
 
     @Override
     public JSONObject readCapsule(long id) {
-        for (Object obj : readAllCapsules()){
-            JSONObject shellObj = (JSONObject) obj;
-            JSONObject innerObj = (JSONObject) shellObj.get(CAPSULE.toString());
-            if ((long) innerObj.get(ID.toString()) == id){
-                return shellObj;
-            }
-        }
-        return null;
+        return readOneObj(id, readAllCapsules(), CAPSULE.toString());
     }
 
     @Override
     public void updateCapsule(JSONObject jsonObject) {
-        long id = (long) ((JSONObject) jsonObject.get(CAPSULE)).get(ID);
-        updateObjInTable(id, jsonObject, CAPSULE.toString(), CAPSULES.toString());
+        updateObjInTable(jsonObject,CAPSULES.toString(),CAPSULE.toString());
     }
 
+    // FIXME: 05-07-2021 SIMPLIFY
     @Override
     public void deleteCapsule(long id) {
         //Remove from investments
-        JSONArray investArray = loadFile(INVESTMENTS.toString());
+        JSONArray investArray = loadFile(VAULTS.toString());
         if (investArray != null) {
             for (Object o : investArray) {
                 JSONObject investObj = (JSONObject) o;
@@ -199,7 +199,7 @@ public class JsonConnection implements DataConnection {
                     }
                 }
             }
-            saveFile(investArray, INVESTMENTS.toString());
+            saveFile(investArray, VAULTS.toString());
         }
 
         //Remove from capsules list
@@ -236,33 +236,28 @@ public class JsonConnection implements DataConnection {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
-    // FIXME: 05-07-2021
     @Override
     public List<JSONObject> readAllSkins() {
-        throw new UnsupportedOperationException("Not yet implemented");
+        return new ArrayList<JSONObject>(loadFile(SKINS.toString()));
     }
 
-    // FIXME: 05-07-2021
     @Override
     public void createSkin(JSONObject jsonObject) {
-        throw new UnsupportedOperationException("Not yet implemented");
+        addObjToTable(jsonObject,SKINS.toString());
     }
 
-    // FIXME: 05-07-2021
     @Override
     public JSONObject readSkin(long id) {
-        throw new UnsupportedOperationException("Not yet implemented");
+        return  readOneObj(id,readAllSkins(),SKIN.toString());
     }
 
-    // FIXME: 05-07-2021
     @Override
     public void updateSkin(JSONObject jsonObject) {
-        throw new UnsupportedOperationException("Not yet implemented");
+        updateObjInTable(jsonObject,SKINS.toString(),SKIN.toString());
     }
 
-    // FIXME: 05-07-2021
     @Override
     public void deleteSKin(long id) {
-        throw new UnsupportedOperationException("Not yet implemented");
+        removeObjFromTable(id,SKINS.toString(),SKIN.toString());
     }
 }

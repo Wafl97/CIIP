@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="background" prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.presentation.CapsuleController">
+<AnchorPane fx:id="background" prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.presentation.ItemController">
     <Button fx:id="backButton" layoutX="12.0" layoutY="674.0" mnemonicParsing="false" text="Back" />
     <Button fx:id="submitButton" layoutX="262.0" layoutY="43.0" mnemonicParsing="false" text="Submit" />
     <TextField fx:id="nameTextField" layoutX="12.0" layoutY="42.0" prefHeight="34.0" prefWidth="200.0" promptText="Insert name" />
@@ -51,7 +51,7 @@
          </VBox>
       </children>
    </HBox>
-   <Button layoutX="400.0" layoutY="42.0" mnemonicParsing="false" onAction="#imageHandler" prefHeight="34.0" prefWidth="200.0" text="Choose Image" />
+   <Button fx:id="chooseImageButton" layoutX="400.0" layoutY="42.0" mnemonicParsing="false" onAction="#imageHandler" prefHeight="34.0" prefWidth="200.0" text="Choose Image" />
    <ImageView fx:id="itemImageView" fitHeight="200.0" fitWidth="200.0" layoutX="400.0" layoutY="76.0" pickOnBounds="true" preserveRatio="true">
       <image>
          <Image url="@../gfx/cs-go-logo.png" />
@@ -59,7 +59,7 @@
    </ImageView>
    <Label layoutX="12.0" layoutY="14.0" text="Item" />
    <Label layoutX="112.0" layoutY="292.0" text="Price" />
-    <ListView fx:id="containerListView" layoutX="729.0" layoutY="42.0" onMouseClicked="#readItem" prefHeight="670.0" prefWidth="340.0" />
+    <ListView fx:id="itemsListView" layoutX="729.0" layoutY="42.0" onMouseClicked="#readItem" prefHeight="670.0" prefWidth="340.0" />
    <Label layoutX="729.0" layoutY="14.0" text="All items" />
    <Label layoutX="14.0" layoutY="544.0" text="Stash Link" />
    <TextField fx:id="linkTextField" layoutX="14.0" layoutY="571.0" prefHeight="34.0" prefWidth="586.0" promptText="Enter link to CSGO Stash" />

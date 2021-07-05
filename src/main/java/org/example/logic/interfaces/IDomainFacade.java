@@ -1,6 +1,6 @@
-package org.example.logic.Interfaces;
+package org.example.logic.interfaces;
 
-import org.example.data.Interfaces.IDataFacade;
+import org.example.data.interfaces.IDataFacade;
 
 public interface IDomainFacade {
 

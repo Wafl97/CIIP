@@ -35,9 +35,9 @@ public class App extends Application {
     private static final Stack<Pair<String,Operation>> fxmlStack = new Stack<>();
 
     static final String TITLE = "CIP";
-    static final String INVESTMENTFORM = "investmentform";
+    static final String VAULTFORM = "vaultform";
     static final String MAIN = "main";
-    static final String CAPSULEFORM = "capsuleform";
+    static final String ITEMFORM = "itemform";
 
     static final Operation PASS = Operation.PASS;
     static final Operation EDIT = Operation.EDIT;
@@ -45,13 +45,13 @@ public class App extends Application {
 
     final Pair<String,Operation> MAIN_PASS = new Pair<>(MAIN,PASS);
 
-    final Pair<String,Operation> CAPSULE_PASS = new Pair<>(CAPSULEFORM,PASS);
-    final Pair<String,Operation> CAPSULE_EDIT = new Pair<>(CAPSULEFORM,EDIT);
-    final Pair<String,Operation> CAPSULE_CREATE = new Pair<>(CAPSULEFORM,CREATE);
+    final Pair<String,Operation> ITEM_PASS = new Pair<>(ITEMFORM,PASS);
+    final Pair<String,Operation> ITEM_EDIT = new Pair<>(ITEMFORM,EDIT);
+    final Pair<String,Operation> ITEM_CREATE = new Pair<>(ITEMFORM,CREATE);
 
-    final Pair<String,Operation> INVEST_PASS = new Pair<>(INVESTMENTFORM,PASS);
-    final Pair<String,Operation> INVEST_EDIT = new Pair<>(INVESTMENTFORM,EDIT);
-    final Pair<String,Operation> INVEST_CREATE = new Pair<>(INVESTMENTFORM,CREATE);
+    final Pair<String,Operation> VAULT_PASS = new Pair<>(VAULTFORM,PASS);
+    final Pair<String,Operation> VAULT_EDIT = new Pair<>(VAULTFORM,EDIT);
+    final Pair<String,Operation> VAULT_CREATE = new Pair<>(VAULTFORM,CREATE);
 
     @Override
     public void start(Stage stage) throws IOException {
