@@ -8,12 +8,15 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 
+import org.example.logic.Domain;
+import org.example.logic.interfaces.ISouvenirCase;
 import org.example.logic.interfaces.comps.Displayable;
 import org.example.logic.interfaces.ICapsule;
 import org.example.logic.interfaces.ISkin;
 
 import java.io.File;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class ItemController extends App implements Initializable {
@@ -22,7 +25,11 @@ public class ItemController extends App implements Initializable {
     private Button backButton, submitButton, browserButton, enableEditButton, deleteButton, chooseImageButton,
             add0_25, lower0_25, add0_5, lower0_5, add1, lower1, add10, lower10, add100, lower100;
     @FXML
-    private TextField nameTextField, linkTextField;
+    private RadioButton skinRadioButton, capsuleRadioButton, souvenirRadioButton;
+    @FXML
+    private ToggleButton statTrackToggleButton, souvenirToggleButton;
+    @FXML
+    private TextField nameTextField, linkTextField, wearFloatTextField;
     @FXML
     private Spinner<Double> priceSpinner;
     @FXML
@@ -36,8 +43,18 @@ public class ItemController extends App implements Initializable {
 
     private Displayable loadedItem;
 
+    private ViewProfile skinProfile;
+
+    private ToggleGroup radioToggle;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        skinProfile = new ViewProfile();
+        skinProfile.addToggleButton(statTrackToggleButton);
+        skinProfile.addToggleButton(souvenirToggleButton);
+        skinProfile.addTextField(wearFloatTextField);
+        skinProfile.use(false);
 
         // FIXME: 04-07-2021
         deleteButton.setOnAction(e -> DOMAIN_FACADE.getDomain().deleteCapsule(1));
@@ -67,7 +84,107 @@ public class ItemController extends App implements Initializable {
         for (Displayable item : DOMAIN_FACADE.getDomain().readAllSkins()){
             itemsListView.getItems().add(item);
         }
+        for (Displayable item : DOMAIN_FACADE.getDomain().readAllSouvenirCases()){
+            itemsListView.getItems().add(item);
+        }
         itemsListView.refresh();
+    }
+
+    @FXML
+    private void readItem(MouseEvent event){
+        itemIndex = itemsListView.getSelectionModel().getSelectedIndex();
+        if (itemIndex != -1) {
+            loadedItem = itemsListView.getSelectionModel().getSelectedItem();
+            itemImageView.setImage(DOMAIN_FACADE.getDataFacade().getGFX().getImageMap().get(loadedItem.getImage()));
+            nameTextField.setText(loadedItem.getName());
+            priceSpinner.getValueFactory().setValue(loadedItem.getInitPrice());
+            linkTextField.setText(loadedItem.getStashLink());
+        }
+    }
+
+    private void updateItem(){
+        long id = loadedItem.getId();
+        double initPrice = (priceSpinner.getValue() == null || priceSpinner.getValue() == 0.0 ? loadedItem.getInitPrice() : priceSpinner.getValue());
+        String name = (nameTextField.getText() == null || nameTextField.getText().equals("")? loadedItem.getName() : nameTextField.getText());
+        String imageName = (imageFile == null || imageFile.getName().equals("") ? getStringFromString(itemImageView.getImage().getUrl(),"/") : imageFile.getName());
+        String link = (linkTextField.getText() == null || linkTextField.getText().equals("") ? loadedItem.getStashLink() : linkTextField.getText());
+        if (loadedItem instanceof ISkin) {
+            double wearFloat = Double.parseDouble(wearFloatTextField.getText());
+            boolean statTrack = statTrackToggleButton.isSelected();
+            boolean souvenir = souvenirRadioButton.isSelected();
+            ((ISkin) loadedItem).populate(
+                    id,
+                    initPrice,
+                    name,
+                    imageName,
+                    link,
+                    wearFloat,
+                    statTrack,
+                    souvenir
+            );
+            DOMAIN_FACADE.getDomain().updateSkin((ISkin) loadedItem);
+        }
+        else if (loadedItem instanceof ICapsule){
+            ((ICapsule) loadedItem).populate(
+                    id,
+                    initPrice,
+                    name,
+                    imageName,
+                    link
+            );
+            DOMAIN_FACADE.getDomain().updateCapsule((ICapsule) loadedItem);
+        }
+        else if (loadedItem instanceof ISouvenirCase){
+            ((ISouvenirCase) loadedItem).populate(
+                    id,
+                    initPrice,
+                    name,
+                    imageName,
+                    link
+            );
+            DOMAIN_FACADE.getDomain().updateSouvenirCase((ISouvenirCase) loadedItem);
+        }
+    }
+
+    private void createItem(){
+        if (radioToggle.getUserData() instanceof ISkin){
+            DOMAIN_FACADE.getDomain().createSkin(DOMAIN_FACADE.getFactory().emptySkin().populate(
+                    -1,
+                    priceSpinner.getValue(),
+                    nameTextField.getText(),
+                    imageFile.getName(),
+                    linkTextField.getText(),
+                    Double.parseDouble(wearFloatTextField.getText()),
+                    statTrackToggleButton.isSelected(),
+                    souvenirRadioButton.isSelected()
+            ));
+        }
+        else if (radioToggle.getUserData() instanceof ICapsule){
+            DOMAIN_FACADE.getDomain().createCapsule(DOMAIN_FACADE.getFactory().emptyCapsule().populate(
+                    -1,
+                    priceSpinner.getValue(),
+                    nameTextField.getText(),
+                    imageFile.getName(),
+                    linkTextField.getText()
+            ));
+        }
+        else if (radioToggle.getUserData() instanceof ISouvenirCase){
+            DOMAIN_FACADE.getDomain().createSouvenirCase(DOMAIN_FACADE.getFactory().emptySouvenirCase().populate(
+                    -1,
+                    priceSpinner.getValue(),
+                    nameTextField.getText(),
+                    imageFile.getName(),
+                    linkTextField.getText()
+            ));
+        }
+
+    }
+
+    @FXML
+    private void selectionHandler(ActionEvent event){
+        RadioButton target = (RadioButton) event.getTarget();
+
+        skinProfile.use(target == skinRadioButton);
     }
 
     @FXML
@@ -81,14 +198,12 @@ public class ItemController extends App implements Initializable {
     }
 
     @FXML
-    private void readItem(MouseEvent event){
-        itemIndex = itemsListView.getSelectionModel().getSelectedIndex();
-        if (itemIndex != -1) {
-            loadedItem = itemsListView.getSelectionModel().getSelectedItem();
-            itemImageView.setImage(DOMAIN_FACADE.getDataFacade().getGFX().getImageMap().get(loadedItem.getImage()));
-            nameTextField.setText(loadedItem.getName());
-            priceSpinner.getValueFactory().setValue(loadedItem.getInitPrice());
-            linkTextField.setText(loadedItem.getStashLink());
+    public void imageHandler(ActionEvent event){
+        FileChooser fileChooser = new FileChooser();
+        imageFile = fileChooser.showOpenDialog(null);
+        if (imageFile != null){
+            DOMAIN_FACADE.getFileHandler().save(imageFile);
+            itemImageView.setImage(DOMAIN_FACADE.getDataFacade().getGFX().getImageMap().get(imageFile.getName()));
         }
     }
 
@@ -114,59 +229,18 @@ public class ItemController extends App implements Initializable {
         backButton.setOnAction(e -> goBack());
         add0_25.setUserData(0.25d);      add0_5.setUserData(0.5d);  add1.setUserData(1.0d);     add10.setUserData(10.0d);       add100.setUserData(100.0d);
         lower0_25.setUserData(-0.25d);   lower0_5.setUserData(-0.5d); lower1.setUserData(-1.0d);  lower10.setUserData(-10.0d);    lower100.setUserData(-100.0d);
-    }
 
-    private void updateItem(){
-        long id = loadedItem.getId();
-        double initPrice = (priceSpinner.getValue() == null || priceSpinner.getValue() == 0.0 ? loadedItem.getInitPrice() : priceSpinner.getValue());
-        String name = (nameTextField.getText() == null || nameTextField.getText().equals("")? loadedItem.getName() : nameTextField.getText());
-        String imageName = (imageFile == null || imageFile.getName().equals("") ? getStringFromString(itemImageView.getImage().getUrl(),"/") : imageFile.getName());
-        String link = (linkTextField.getText() == null || linkTextField.getText().equals("") ? loadedItem.getStashLink() : linkTextField.getText());
-        if (loadedItem instanceof ISkin) {
-            double wearFloat = 0.0;
-            boolean statTrack = false;
-            boolean souvenir = false;
-            ((ISkin) loadedItem).populate(
-                    id,
-                    initPrice,
-                    name,
-                    imageName,
-                    link,
-                    wearFloat,
-                    statTrack,
-                    souvenir
-            );
-            DOMAIN_FACADE.getDomain().updateSkin((ISkin) loadedItem);
-        }
-        else if (loadedItem instanceof ICapsule){
-            ((ICapsule) loadedItem).populate(
-                    id,
-                    initPrice,
-                    name,
-                    imageName,
-                    link
-            );
-            DOMAIN_FACADE.getDomain().updateCapsule((ICapsule) loadedItem);
-        }
-    }
+        radioToggle = new ToggleGroup();
+        skinRadioButton.setToggleGroup(radioToggle);
+        skinRadioButton.setUserData(DOMAIN_FACADE.getFactory().emptySkin());
+        capsuleRadioButton.setToggleGroup(radioToggle);
+        capsuleRadioButton.setUserData(DOMAIN_FACADE.getFactory().emptyCapsule());
+        souvenirRadioButton.setToggleGroup(radioToggle);
+        souvenirRadioButton.setUserData((DOMAIN_FACADE.getFactory().emptyVault()));
 
-    private void createItem(){
-        DOMAIN_FACADE.getDomain().createCapsule(DOMAIN_FACADE.getFactory().emptyCapsule().populate(
-                -1,
-                priceSpinner.getValue(),
-                nameTextField.getText(),
-                imageFile.getName(),
-                linkTextField.getText()));
-    }
-
-    @FXML
-    public void imageHandler(ActionEvent event){
-        FileChooser fileChooser = new FileChooser();
-        imageFile = fileChooser.showOpenDialog(null);
-        if (imageFile != null){
-            DOMAIN_FACADE.getFileHandler().save(imageFile);
-            itemImageView.setImage(DOMAIN_FACADE.getDataFacade().getGFX().getImageMap().get(imageFile.getName()));
-        }
+        ToggleGroup toggle = new ToggleGroup();
+        statTrackToggleButton.setToggleGroup(toggle);
+        souvenirToggleButton.setToggleGroup(toggle);
     }
 
     /**

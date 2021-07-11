@@ -13,7 +13,7 @@ import java.util.Map;
  * This class loads and holds all the graphical elements
  * It is a singleton, so not to load the assets more than once
  */
-public class GFX implements IGFX {
+final class GFX implements IGFX {
 
     /**
      * Directory path

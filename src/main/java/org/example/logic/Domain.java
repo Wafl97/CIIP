@@ -19,6 +19,7 @@ public final class Domain implements Logic {
     private List<ICapsule> capsulesCache;
     private List<IVault> vaultCache;
     private List<ISkin> skinCache;
+    private List<ISouvenirCase> souvenirCaseCache;
 
     public static Domain getInstance(){
         return instance == null ? instance = new Domain() : instance;
@@ -111,6 +112,47 @@ public final class Domain implements Logic {
         if (skinCache == null) readAllSkins();
         CONNECTION.deleteSKin(id);
         skinCache.removeIf(skin -> skin.getId() == id);
+    }
+
+    @Override
+    public List<ISouvenirCase> readAllSouvenirCases() {
+        if (souvenirCaseCache == null){
+            souvenirCaseCache = new ArrayList<>();
+            for (Object o : CONNECTION.readAllSouvenirs()){
+                ISouvenirCase newSouvenir = CREATOR.emptySouvenirCase().convert2Obj((JSONObject) o);
+                souvenirCaseCache.add(newSouvenir);
+            }
+        }
+        return souvenirCaseCache;
+    }
+
+    @Override
+    public void createSouvenirCase(ISouvenirCase souvenirCase) {
+        if (souvenirCaseCache == null) readAllSouvenirCases();
+        CONNECTION.createSouvenir(souvenirCase.convert2JSON());
+        souvenirCaseCache.add(souvenirCase);
+    }
+
+    @Override
+    public ISouvenirCase readSouvenirCase(long id) {
+        if (souvenirCaseCache == null) readAllSouvenirCases();
+        return souvenirCaseCache.stream().filter(souvenir -> souvenir.getId() == id).findFirst().get();
+    }
+
+    @Override
+    public void updateSouvenirCase(ISouvenirCase souvenirCase) {
+        if (souvenirCaseCache == null) readAllSouvenirCases();
+        CONNECTION.updateSouvenir(souvenirCase.convert2JSON());
+        long id = souvenirCase.getId();
+        souvenirCaseCache.removeIf(svn -> svn.getId() == id);
+        souvenirCaseCache.add(souvenirCase);
+    }
+
+    @Override
+    public void deleteSouvenirCase(long id) {
+        if (souvenirCaseCache == null) readAllSouvenirCases();
+        CONNECTION.deleteSouvenir(id);
+        souvenirCaseCache.removeIf(souvenirCase -> souvenirCase.getId() == id);
     }
 
     @Override

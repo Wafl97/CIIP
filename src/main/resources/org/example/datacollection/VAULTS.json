@@ -30,6 +30,8 @@
             "AMOUNT": 1
           }
         }
+      ],
+      "SOUVENIRS":[
       ]
     }
   },
@@ -58,6 +60,12 @@
         }
       ],
       "SKINS": [
+      ],
+      "SOUVENIRS":[
+        {
+          "SOUVENIR_ID": 0,
+          "AMOUNT": 100
+        }
       ]
     }
   }

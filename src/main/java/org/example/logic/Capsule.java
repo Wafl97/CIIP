@@ -158,4 +158,16 @@ public final class Capsule implements ICapsule {
         }
         return maxValue;
     }
+
+    @Override
+    public String toString() {
+        return "Capsule{" +
+                "id=" + id +
+                ", initPrice=" + initPrice +
+                ", currPrice=" + currPrice +
+                ", name='" + name + '\'' +
+                ", image='" + image + '\'' +
+                ", link='" + link + '\'' +
+                '}';
+    }
 }

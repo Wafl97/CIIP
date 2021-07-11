@@ -168,4 +168,19 @@ public final class Skin implements ISkin {
         // FIXME: 05-07-2021
         return 0;
     }
+
+    @Override
+    public String toString() {
+        return "Skin{" +
+                "id=" + id +
+                ", initPrice=" + initPrice +
+                ", currPrice=" + currPrice +
+                ", name='" + name + '\'' +
+                ", image='" + image + '\'' +
+                ", link='" + link + '\'' +
+                ", statTrack=" + statTrack +
+                ", souvenir=" + souvenir +
+                ", wearFloat=" + wearFloat +
+                '}';
+    }
 }

@@ -15,7 +15,7 @@ import java.util.*;
 
 import static org.example.util.Attributes.*;
 
-public class JsonConnection implements DataConnection {
+final class JsonConnection implements DataConnection {
 
     //Data path
     private static final String PATH = "org/example/datacollection/";

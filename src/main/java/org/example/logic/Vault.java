@@ -80,15 +80,6 @@ public final class Vault implements IVault {
     }
 
     @Override
-    public String toString() {
-        return "Vault{" +
-                "id=" + id +
-                ", containers=" + containers +
-                ", name='" + name + '\'' +
-                '}';
-    }
-
-    @Override
     public JSONObject convert2JSON() {
         //Create outer JSON obj
         JSONObject returnObj = new JSONObject();
@@ -149,5 +140,14 @@ public final class Vault implements IVault {
             if (investment.getId() > maxValue) maxValue = investment.getId();
         }
         return maxValue;
+    }
+
+    @Override
+    public String toString() {
+        return "Vault{" +
+                "id=" + id +
+                ", containers=" + containers +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

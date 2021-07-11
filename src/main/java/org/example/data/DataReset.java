@@ -2,7 +2,7 @@ package org.example.data;
 
 import java.io.*;
 
-public class DataReset {
+public final class DataReset {
 
     private static DataReset instance;
 

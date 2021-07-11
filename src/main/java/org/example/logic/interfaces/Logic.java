@@ -15,6 +15,12 @@ public interface Logic {
     void updateSkin(ISkin skin);
     void deleteSkin(long id);
 
+    List<ISouvenirCase> readAllSouvenirCases();
+    void createSouvenirCase(ISouvenirCase souvenirCase);
+    ISouvenirCase readSouvenirCase(long id);
+    void updateSouvenirCase(ISouvenirCase souvenirCase);
+    void deleteSouvenirCase(long id);
+
     List<IVault> readAllVaults();
     void createVault(IVault vault);
     IVault readVault(long id);

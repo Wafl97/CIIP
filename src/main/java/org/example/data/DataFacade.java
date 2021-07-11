@@ -4,7 +4,7 @@ import org.example.data.interfaces.DataConnection;
 import org.example.data.interfaces.IDataFacade;
 import org.example.data.interfaces.IGFX;
 
-public class DataFacade implements IDataFacade {
+public final class DataFacade implements IDataFacade {
 
     private static DataFacade instance;
 
