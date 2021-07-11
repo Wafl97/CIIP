@@ -4,6 +4,7 @@ import junit.framework.TestCase;
 import org.example.data.interfaces.DataConnection;
 import org.example.logic.interfaces.Factory;
 import org.example.logic.StructureCreator;
+import org.example.logic.interfaces.ICapsule;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,6 +15,7 @@ public class DataConnectionTest extends TestCase {
     DataReset reSetter = DataReset.getInstance();
 
     public void setUp() throws Exception {
+        connection.connect();
     }
 
     public void tearDown() throws Exception {
@@ -41,16 +43,16 @@ public class DataConnectionTest extends TestCase {
 
     @Test
     public void testReadAllContainers() {
-        //System.out.println(connection.readAllCapsules());
-        //IItem c = creator.emptyCapsule().populate(10,3.14,"NAME","OBAMA.png","LINK.dk");
-        //connection.createCapsule(c);
-        //System.out.println(connection.readAllCapsules());
+        System.out.println(connection.readAllCapsules());
+        ICapsule c = creator.emptyCapsule().populate(10,3.14,"NAME","OBAMA.png","LINK.dk");
+        connection.createCapsule(c.convert2JSON());
+        System.out.println(connection.readAllCapsules());
     }
 
     @Test
     public void testCreateContainer() {
-        //IItem c = creator.emptyCapsule().populate(10,3.14,"NAME","OBAMA.png","URL.com");
-        //connection.createCapsule(c);
+        ICapsule c = creator.emptyCapsule().populate(10,3.14,"NAME","OBAMA.png","URL.com");
+        connection.createCapsule(c.convert2JSON());
     }
 
     public void testReadContainer() {

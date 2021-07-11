@@ -22,6 +22,7 @@ final class JsonConnection implements DataConnection {
 
     private static JsonConnection instance;
     private final Map<String,File> fileMap = new HashMap<>();
+    private boolean connected = false;
 
     private JsonConnection(){
     }
@@ -32,35 +33,41 @@ final class JsonConnection implements DataConnection {
 
     @Override
     public boolean connect(){
-        System.out.println("Initiating connecting");
-        try {
-            // Get the path for the database
-            URL url = getClass().getClassLoader().getResource(PATH);
-            // Check if the path is valid
-            if(url == null) throw new FileNotFoundException("Directory: " + PATH + " does not exist.");
-            // Creates the a file object to the directory
-            File directory = new File(url.toURI());
+        if (!connected) {
+            System.out.println("Initiating connecting");
+            try {
+                // Get the path for the database
+                URL url = getClass().getClassLoader().getResource(PATH);
+                // Check if the path is valid
+                if (url == null) throw new FileNotFoundException("Directory: " + PATH + " does not exist.");
+                // Creates the a file object to the directory
+                File directory = new File(url.toURI());
 
-            if(!directory.isDirectory()) throw new NotDirectoryException(PATH + " is not a directory.");
+                if (!directory.isDirectory()) throw new NotDirectoryException(PATH + " is not a directory.");
 
-            // Get all files from directory
-            File[] files = directory.listFiles();
+                // Get all files from directory
+                File[] files = directory.listFiles();
 
-            // Check if is directory
-            if(files == null) throw new NotDirectoryException(PATH + " is not a directory.");
+                // Check if is directory
+                if (files == null) throw new NotDirectoryException(PATH + " is not a directory.");
 
-            // Populate tables hashmap
-            System.out.println("Loading files");
-            for(File file : files) {
-                // Get name of file
-                String fileName = file.getName().split("\\.")[0];
-                System.out.println(file);
-                fileMap.put(fileName, file);
+                // Populate tables hashmap
+                System.out.println("Loading files");
+                for (File file : files) {
+                    // Get name of file
+                    String fileName = file.getName().split("\\.")[0];
+                    System.out.println(file);
+                    fileMap.put(fileName, file);
+                }
+                connected = true;
+                return true;
+            } catch (URISyntaxException | FileNotFoundException | NotDirectoryException e) {
+                connected = false;
+                return false;
             }
-            return true;
-        } catch (URISyntaxException | FileNotFoundException | NotDirectoryException e) {
-            return false;
         }
+        System.out.println("Already connected");
+        return true;
     }
 
     private void saveFile(JSONArray jsonArray, String file){
