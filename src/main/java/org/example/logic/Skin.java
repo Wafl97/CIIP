@@ -3,6 +3,9 @@ package org.example.logic;
 import org.example.logic.interfaces.ISkin;
 import org.json.simple.JSONObject;
 
+import java.util.List;
+import java.util.regex.Pattern;
+
 import static org.example.util.Attributes.*;
 
 public final class Skin implements ISkin {
@@ -16,6 +19,27 @@ public final class Skin implements ISkin {
     private boolean statTrack;
     private boolean souvenir;
     private double wearFloat;
+
+    //Normal
+    private static final Pattern FN_STOP_PATTERN = Pattern.compile("");
+    private static final Pattern MW_STOP_PATTERN = Pattern.compile("");
+    private static final Pattern FT_STOP_PATTERN = Pattern.compile("");
+    private static final Pattern WW_STOP_PATTERN = Pattern.compile("");
+    private static final Pattern BS_STOP_PATTERN = Pattern.compile("");
+
+    //StatTrack
+    private static final Pattern ST_FN_STOP_PATTERN = Pattern.compile("");
+    private static final Pattern ST_MW_STOP_PATTERN = Pattern.compile("");
+    private static final Pattern ST_FT_STOP_PATTERN = Pattern.compile("");
+    private static final Pattern ST_WW_STOP_PATTERN = Pattern.compile("");
+    private static final Pattern ST_BS_STOP_PATTERN = Pattern.compile("");
+
+    //Souvenir
+    private static final Pattern SV_FN_STOP_PATTERN = Pattern.compile("");
+    private static final Pattern SV_MW_STOP_PATTERN = Pattern.compile("");
+    private static final Pattern SV_FT_STOP_PATTERN = Pattern.compile("");
+    private static final Pattern SV_WW_STOP_PATTERN = Pattern.compile("");
+    private static final Pattern SV_BS_STOP_PATTERN = Pattern.compile("");
 
     @Override
     public long getId() {
@@ -49,8 +73,50 @@ public final class Skin implements ISkin {
 
     @Override
     public void updateCurrPrice() {
+        if (statTrack) {
+            System.out.print("ST ");
+            if (wearFloat <= 0.07d) {           //Factory New
+                System.out.println("FN");
+            } else if (wearFloat <= 0.15d) {    //Minimal Wear
+                System.out.println("MW");
+            } else if (wearFloat <= 0.38d) {    //Field Tested
+                System.out.println("FT");
+            } else if (wearFloat <= 0.45d) {    //Well Worn
+                System.out.println("WW");
+            } else {                            //Battle Scared
+                System.out.println("BS");
+            }
+        }
+        else if (souvenir){
+            System.out.print("SV ");
+            if (wearFloat <= 0.07d) {           //Factory New
+                System.out.println("FN");
+            } else if (wearFloat <= 0.15d) {    //Minimal Wear
+                System.out.println("MW");
+            } else if (wearFloat <= 0.38d) {    ///Field Tested
+                System.out.println("FT");
+            } else if (wearFloat <= 0.45d) {    ///Well Worn
+                System.out.println("WW");
+            } else {                            //Battle Scared
+                System.out.println("BS");
+            }
+        }
+        else {
+            System.out.print("NM ");
+            if (wearFloat <= 0.07d) {           //Factory New
+                System.out.println("FN");
+            } else if (wearFloat <= 0.15d) {    //Minimal Wear
+                System.out.println("MW");
+            } else if (wearFloat <= 0.38d) {    //Field Tested
+                System.out.println("FT");
+            } else if (wearFloat <= 0.45d) {    //Well Worn
+                System.out.println("WW");
+            } else {                            //Battle Scared
+                System.out.println("BS");
+            }
+        }
+
         // FIXME: 05-07-2021
-        throw new UnsupportedOperationException("Not yet implemented");
     }
 
     @Override
@@ -165,8 +231,12 @@ public final class Skin implements ISkin {
 
     @Override
     public long findMaxID() {
-        // FIXME: 05-07-2021
-        return 0;
+        List<ISkin> cache = Domain.getInstance().readAllSkins();
+        long maxValue = cache.get(0).getId();
+        for (ISkin skin : cache){
+            if (skin.getId() > maxValue) maxValue = skin.getId();
+        }
+        return maxValue;
     }
 
     @Override
