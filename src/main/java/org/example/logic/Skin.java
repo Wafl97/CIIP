@@ -21,6 +21,7 @@ public final class Skin implements ISkin {
     private double wearFloat;
 
     //Normal
+    // TODO: 11-07-2021
     private static final Pattern FN_STOP_PATTERN = Pattern.compile("");
     private static final Pattern MW_STOP_PATTERN = Pattern.compile("");
     private static final Pattern FT_STOP_PATTERN = Pattern.compile("");
@@ -28,6 +29,7 @@ public final class Skin implements ISkin {
     private static final Pattern BS_STOP_PATTERN = Pattern.compile("");
 
     //StatTrack
+    // TODO: 11-07-2021
     private static final Pattern ST_FN_STOP_PATTERN = Pattern.compile("");
     private static final Pattern ST_MW_STOP_PATTERN = Pattern.compile("");
     private static final Pattern ST_FT_STOP_PATTERN = Pattern.compile("");
@@ -35,11 +37,15 @@ public final class Skin implements ISkin {
     private static final Pattern ST_BS_STOP_PATTERN = Pattern.compile("");
 
     //Souvenir
+    // TODO: 11-07-2021
     private static final Pattern SV_FN_STOP_PATTERN = Pattern.compile("");
     private static final Pattern SV_MW_STOP_PATTERN = Pattern.compile("");
     private static final Pattern SV_FT_STOP_PATTERN = Pattern.compile("");
     private static final Pattern SV_WW_STOP_PATTERN = Pattern.compile("");
     private static final Pattern SV_BS_STOP_PATTERN = Pattern.compile("");
+
+    // TODO: 11-07-2021
+    private static final Pattern PRICE_PATTERN = Pattern.compile("");
 
     @Override
     public long getId() {
@@ -73,6 +79,7 @@ public final class Skin implements ISkin {
 
     @Override
     public void updateCurrPrice() {
+// FIXME: 11-07-2021
         if (statTrack) {
             System.out.print("ST ");
             if (wearFloat <= 0.07d) {           //Factory New
@@ -115,8 +122,6 @@ public final class Skin implements ISkin {
                 System.out.println("BS");
             }
         }
-
-        // FIXME: 05-07-2021
     }
 
     @Override
@@ -156,6 +161,7 @@ public final class Skin implements ISkin {
 
     @Override
     public void setStatTrack(boolean statTrack) {
+        if (statTrack && isSouvenir()) throw new IllegalArgumentException("Cannot be StatTrack and Souvenir at the same time");
         this.statTrack = statTrack;
     }
 
@@ -166,6 +172,7 @@ public final class Skin implements ISkin {
 
     @Override
     public void setSouvenir(boolean souvenir) {
+        if (souvenir && isStatTrack()) throw new IllegalArgumentException("Cannot be Souvenir and StatTrack at the same time");
         this.souvenir = souvenir;
     }
 
@@ -176,6 +183,7 @@ public final class Skin implements ISkin {
 
     @Override
     public void setWearFloat(double wearFloat) {
+        if (wearFloat > 1 || wearFloat < 0) throw new IllegalArgumentException("Float has to be between 0 to 1");
         this.wearFloat = wearFloat;
     }
 
