@@ -11,8 +11,7 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Pair;
-
-import org.example.logic.DomainFacade;
+import org.example.logic.Domain;
 
 import java.io.IOException;
 import java.util.Stack;
@@ -26,7 +25,7 @@ public class App extends Application {
     /**
      * Link to logic layer
      */
-    static final DomainFacade DOMAIN_FACADE = DomainFacade.getInstance();
+    static final Domain DOMAIN = Domain.getInstance();
 
     private static Scene scene;
 
@@ -59,7 +58,7 @@ public class App extends Application {
         //fxmlStack.push(new Pair<>(MAIN,PASS));
 
         scene = new Scene(loadFXML(MAIN), 1080, 720);
-        stage.getIcons().add(DOMAIN_FACADE.getDataFacade().getGFX().getLogo());
+        stage.getIcons().add(DOMAIN.getDataFacade().getGFX().getLogo());
         stage.setTitle(TITLE);
         stage.setScene(scene);
         stage.show();
@@ -132,7 +131,7 @@ public class App extends Application {
         stage.setTitle(title);
         stage.setResizable(false);
         stage.initModality(Modality.APPLICATION_MODAL);
-        stage.getIcons().add(DOMAIN_FACADE.getDataFacade().getGFX().getLogo());
+        stage.getIcons().add(DOMAIN.getDataFacade().getGFX().getLogo());
         stage.setScene(new Scene(pane,300,100));
         stage.showAndWait();
         return answer.get();

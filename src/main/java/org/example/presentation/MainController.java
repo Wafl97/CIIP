@@ -49,7 +49,7 @@ public class MainController extends App implements Initializable {
         createButton.setOnAction(e -> goNext(MAIN_PASS, VAULT_CREATE));
         editButton.setOnAction(e -> {
             if (investIndex != -1) {
-                DOMAIN_FACADE.setSelectedInvestment(investmentListView.getItems().get(investIndex));
+                DOMAIN.setSelectedVault(investmentListView.getItems().get(investIndex));
                 goNext(MAIN_PASS, VAULT_EDIT);
             }
         });
@@ -80,19 +80,19 @@ public class MainController extends App implements Initializable {
             protected void updateItem(Displayable capsule, boolean empty) {
                 super.updateItem(capsule, empty);
 
-                if (empty || capsule == null || capsule.getName() == null || DOMAIN_FACADE.getDataFacade().getGFX().getImageMap().get(capsule.getImage()) == null) {
+                if (empty || capsule == null || capsule.getName() == null || DOMAIN.getDataFacade().getGFX().getImageMap().get(capsule.getImage()) == null) {
                     setText(null);
                     setGraphic(null);
                 } else {
                     setText(capsule.getName());
-                    ImageView imageView = new ImageView(DOMAIN_FACADE.getDataFacade().getGFX().getImageMap().get(capsule.getImage()));
+                    ImageView imageView = new ImageView(DOMAIN.getDataFacade().getGFX().getImageMap().get(capsule.getImage()));
                     imageView.setPreserveRatio(true);
                     imageView.setFitHeight(25);
                     setGraphic(imageView);
                 }
             }
         });
-        allInvestments = DOMAIN_FACADE.getDomain().readAllVaults();
+        allInvestments = DOMAIN.readAllVaults();
         float totalInvested = 0;
         int totalItems = 0;
         float totalSell = 0;
@@ -118,7 +118,7 @@ public class MainController extends App implements Initializable {
     }
 
     private void deleteInvestment() {
-        DOMAIN_FACADE.getDomain().deleteVault(investmentListView.getItems().get(investmentListView.getSelectionModel().getSelectedIndex()).getId());
+        DOMAIN.deleteVault(investmentListView.getItems().get(investmentListView.getSelectionModel().getSelectedIndex()).getId());
         investmentListView.getItems().remove(investmentListView.getSelectionModel().getSelectedIndex());
         itemListView.getItems().clear();
     }
@@ -161,7 +161,7 @@ public class MainController extends App implements Initializable {
         if (itemIndex != -1) {
             Displayable capsule = itemListView.getItems().get(itemIndex);
             itemName.setText(capsule.getName());
-            itemImage.setImage(DOMAIN_FACADE.getDataFacade().getGFX().getImageMap().get(capsule.getImage()));
+            itemImage.setImage(DOMAIN.getDataFacade().getGFX().getImageMap().get(capsule.getImage()));
             itemAmount.setText("Amount:\t" + allInvestments.get(investIndex).getAllItems().get(capsule));
             itemInitPrice.setText("Buy Price:\t" + capsule.getInitPrice() + "€");
             itemCurrPrice.setText("Sell Price:\t" + capsule.getCurrPrice() + "€");

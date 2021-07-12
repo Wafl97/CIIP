@@ -68,7 +68,7 @@
    </VBox>
    <ToggleButton fx:id="souvenirToggleButton" layoutX="94.0" layoutY="191.0" mnemonicParsing="false" text="Souvenir" />
    <ToggleButton fx:id="statTrackToggleButton" layoutX="94.0" layoutY="166.0" mnemonicParsing="false" text="Stat Track" />
-   <TextField fx:id="wearFloatTextField" layoutX="88.0" layoutY="134.0" text="float" />
+   <TextField fx:id="wearFloatTextField" layoutX="88.0" layoutY="134.0" promptText="float" />
     <stylesheets>
         <URL value="@../css/cip.css" />
     </stylesheets>
