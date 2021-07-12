@@ -1,7 +1,6 @@
 package org.example.logic;
 
 import org.example.data.DataFacade;
-import org.example.data.interfaces.DataConnection;
 import org.example.data.interfaces.IDataFacade;
 import org.example.logic.interfaces.*;
 import org.json.simple.JSONObject;
