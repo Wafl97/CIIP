@@ -84,9 +84,9 @@ public class ItemController extends App implements Initializable {
         for (Displayable item : DOMAIN_FACADE.getDomain().readAllSkins()){
             itemsListView.getItems().add(item);
         }
-        for (Displayable item : DOMAIN_FACADE.getDomain().readAllSouvenirCases()){
-            itemsListView.getItems().add(item);
-        }
+//        for (Displayable item : DOMAIN_FACADE.getDomain().readAllSouvenirCases()){
+//            itemsListView.getItems().add(item);
+//        }
         itemsListView.refresh();
     }
 
@@ -99,6 +99,12 @@ public class ItemController extends App implements Initializable {
             nameTextField.setText(loadedItem.getName());
             priceSpinner.getValueFactory().setValue(loadedItem.getInitPrice());
             linkTextField.setText(loadedItem.getStashLink());
+            skinProfile.use(loadedItem instanceof ISkin);
+            if (loadedItem instanceof ISkin){
+                wearFloatTextField.setText(String.valueOf(((ISkin) loadedItem).getWearFloat()));
+                statTrackToggleButton.setSelected(((ISkin) loadedItem).isStatTrack());
+                souvenirToggleButton.setSelected(((ISkin) loadedItem).isSouvenir());
+            }
         }
     }
 

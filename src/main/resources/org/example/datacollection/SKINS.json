@@ -1,13 +1,37 @@
 [
   {
     "SKIN": {
-      "ID": 0,
+      "ID": 1,
       "NAME": "TEST",
       "INIT_PRICE": 100.0,
       "IMAGE": "img.png",
       "STAT_TRACK": false,
       "SOUVENIR": false,
       "WEAR_FLOAT": 1.0,
+      "STASH_LINK": "https://fake.com"
+    }
+  },
+  {
+    "SKIN": {
+      "ID": 2,
+      "NAME": "ABC",
+      "INIT_PRICE": 50.0,
+      "IMAGE": "img.png",
+      "STAT_TRACK": true,
+      "SOUVENIR": false,
+      "WEAR_FLOAT": 0.0,
+      "STASH_LINK": "https://fake.com"
+    }
+  },
+  {
+    "SKIN": {
+      "ID": 2,
+      "NAME": "ABC",
+      "INIT_PRICE": 150.0,
+      "IMAGE": "img.png",
+      "STAT_TRACK": false,
+      "SOUVENIR": true,
+      "WEAR_FLOAT": 0.005,
       "STASH_LINK": "https://fake.com"
     }
   }

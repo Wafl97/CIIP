@@ -56,8 +56,9 @@ final class JsonConnection implements DataConnection {
                 for (File file : files) {
                     // Get name of file
                     String fileName = file.getName().split("\\.")[0];
-                    System.out.println(file);
+                    System.out.print(file);
                     fileMap.put(fileName, file);
+                    System.out.println("\t success");
                 }
                 connected = true;
                 return true;
