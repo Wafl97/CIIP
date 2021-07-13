@@ -20,6 +20,7 @@ public final class Domain implements Logic {
     private List<IVault> vaultCache;
     private List<ISkin> skinCache;
     private List<ISouvenirCase> souvenirCaseCache;
+    private List<ISticker> stickerCache;
 
     private IVault selectedVault;
     private ICapsule selectedCapsule;
@@ -123,8 +124,7 @@ public final class Domain implements Logic {
     public void updateCapsule(ICapsule capsule) {
         if (capsulesCache == null) readAllCapsules();
         DATA_FACADE.getDataConnection().updateCapsule(capsule.convert2JSON());
-        long id = capsule.getId();
-        capsulesCache.removeIf(cap -> cap.getId() == id);
+        capsulesCache.removeIf(cap -> cap.getId() == capsule.getId());
         capsulesCache.add(capsule);
     }
 
@@ -164,8 +164,7 @@ public final class Domain implements Logic {
     public void updateSkin(ISkin skin) {
         if (skinCache == null) readAllSkins();
         DATA_FACADE.getDataConnection().updateSkin(skin.convert2JSON());
-        long id = skin.getId();
-        skinCache.removeIf(skn -> skn.getId() == id);
+        skinCache.removeIf(skn -> skn.getId() == skin.getId());
         skinCache.add(skin);
     }
 
@@ -205,8 +204,7 @@ public final class Domain implements Logic {
     public void updateSouvenirCase(ISouvenirCase souvenirCase) {
         if (souvenirCaseCache == null) readAllSouvenirCases();
         DATA_FACADE.getDataConnection().updateSouvenir(souvenirCase.convert2JSON());
-        long id = souvenirCase.getId();
-        souvenirCaseCache.removeIf(svn -> svn.getId() == id);
+        souvenirCaseCache.removeIf(svn -> svn.getId() == souvenirCase.getId());
         souvenirCaseCache.add(souvenirCase);
     }
 
@@ -239,15 +237,14 @@ public final class Domain implements Logic {
     @Override
     public IVault readVault(long id) {
         if (vaultCache == null) this.readAllVaults();
-        return vaultCache.stream().filter(vault -> vault.getId() == id).findAny().get();
+        return vaultCache.stream().filter(vault -> vault.getId() == id).findFirst().get();
     }
 
     @Override
     public void updateVault(IVault vault) {
         if (vaultCache == null) this.readAllVaults();
         DATA_FACADE.getDataConnection().updateVault(vault.convert2JSON());
-        long id = vault.getId();
-        vaultCache.removeIf(v -> v.getId() == id);
+        vaultCache.removeIf(v -> v.getId() == vault.getId());
         vaultCache.add(vault);
     }
 
@@ -256,6 +253,44 @@ public final class Domain implements Logic {
         if (vaultCache == null) this.readAllVaults();
         DATA_FACADE.getDataConnection().deleteVault(id);
         vaultCache.removeIf(vault -> vault.getId() == id);
+    }
+
+    @Override
+    public List<ISticker> readAllStickers() {
+        if (stickerCache == null){
+            stickerCache = new ArrayList<>();
+            for (Object o : DATA_FACADE.getDataConnection().readAllStickers()){
+                ISticker sticker = CREATOR.emptySticker().convert2Obj((JSONObject) o);
+                stickerCache.add(sticker);
+            }
+        }
+        return stickerCache;
+    }
+
+    @Override
+    public void createSticker(ISticker sticker) {
+        if (stickerCache == null) readAllStickers();
+        stickerCache.add(sticker);
+    }
+
+    @Override
+    public ISticker readSticker(long id) {
+        if (stickerCache == null) readAllStickers();
+        return stickerCache.stream().filter(sticker -> sticker.getId() == id).findFirst().get();
+    }
+
+    @Override
+    public void updateSticker(ISticker sticker) {
+        if (stickerCache == null) readAllStickers();
+        DATA_FACADE.getDataConnection().updateSticker(sticker.convert2JSON());
+        stickerCache.removeIf(stk -> stk.getId() == sticker.getId());
+        stickerCache.add(sticker);
+    }
+
+    @Override
+    public void deleteSticker(long id) {
+        if (stickerCache == null) readAllStickers();
+        stickerCache.removeIf(sticker -> sticker.getId() == id);
     }
 
 }

@@ -1,14 +1,11 @@
 import javafx.util.Pair;
-import org.example.presentation.App;
 import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.Map;
 import java.util.Scanner;
-import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -154,11 +151,5 @@ public class FileTest {
         String test = "<span class=\"pull-left\"><img class=\"item-table-icon\" src=\"https://csgostash.com/img/core/bitskins.png?id=4726663ef591c414c8c6\" alt=\"BitSkins Logo\">BitSkins</span>";
         Matcher m = stopPattern.matcher(test);
         System.out.println(m.find());
-    }
-
-    @Test
-    public void browserTest(){
-        App app = new App();
-        app.getHostServices().showDocument("www.google.com");
     }
 }

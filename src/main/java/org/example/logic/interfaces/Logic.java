@@ -1,6 +1,7 @@
 package org.example.logic.interfaces;
 
 import org.example.data.interfaces.IDataFacade;
+import org.json.simple.JSONObject;
 
 import java.util.List;
 
@@ -41,4 +42,10 @@ public interface Logic {
     IVault readVault(long id);
     void updateVault(IVault vault);
     void deleteVault(long id);
+
+    List<ISticker> readAllStickers();
+    void createSticker(ISticker sticker);
+    ISticker readSticker(long id);
+    void updateSticker(ISticker sticker);
+    void deleteSticker(long id);
 }

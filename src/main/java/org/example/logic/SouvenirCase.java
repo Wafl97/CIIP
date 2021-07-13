@@ -1,6 +1,8 @@
 package org.example.logic;
 
 import org.example.logic.interfaces.ISouvenirCase;
+import org.example.logic.interfaces.comps.Displayable;
+import org.example.logic.interfaces.comps.Identifiable;
 import org.json.simple.JSONObject;
 
 
@@ -76,8 +78,11 @@ public final class SouvenirCase implements ISouvenirCase {
 
     @Override
     public long findMaxID() {
-        // FIXME: 07-07-2021
-        return 0;
+        long maxValue = 0;
+        for (Identifiable souvenirCase : Domain.getInstance().readAllSouvenirCases()) {
+            if (souvenirCase.getId() > maxValue) maxValue = souvenirCase.getId();
+        }
+        return maxValue;
     }
 
     @Override
@@ -108,5 +113,17 @@ public final class SouvenirCase implements ISouvenirCase {
     @Override
     public double getDiffPrice() {
         return currPrice - initPrice;
+    }
+
+    @Override
+    public String toString() {
+        return "SouvenirCase{" +
+                "id=" + getId() +
+                ", initPrice=" + getInitPrice() +
+                ", currPrice=" + getCurrPrice() +
+                ", name='" + getName() + '\'' +
+                ", image='" + getImage() + '\'' +
+                ", link='" + getStashLink() + '\'' +
+                '}';
     }
 }

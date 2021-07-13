@@ -2,6 +2,7 @@ package org.example.logic;
 
 import org.example.logic.interfaces.comps.Displayable;
 import org.example.logic.interfaces.ICapsule;
+import org.example.logic.interfaces.comps.Identifiable;
 import org.json.simple.JSONObject;
 
 import java.io.IOException;
@@ -60,14 +61,14 @@ public final class Capsule implements ICapsule {
         double d = 0.0d;
         try {
             Scanner input = new Scanner(new URL(link).openStream());
-            StringBuffer result = new StringBuffer();
+            String result = "";
 
             Matcher stopMatcher;
             //Skip to relevant
             while (input.hasNext()) {
                 stopMatcher = STOP_PATTERN.matcher(input.nextLine());
                 if (stopMatcher.find()){
-                    result.append(input.nextLine());
+                    result = input.nextLine();
                     break;
                 }
             }
@@ -154,9 +155,8 @@ public final class Capsule implements ICapsule {
 
     @Override
     public long findMaxID() {
-        List<ICapsule> cache = Domain.getInstance().readAllCapsules();
-        long maxValue = cache.get(0).getId();
-        for (Displayable capsule : cache) {
+        long maxValue = 0;
+        for (Identifiable capsule : Domain.getInstance().readAllCapsules()) {
             if (capsule.getId() > maxValue) maxValue = capsule.getId();
         }
         return maxValue;
@@ -165,12 +165,12 @@ public final class Capsule implements ICapsule {
     @Override
     public String toString() {
         return "Capsule{" +
-                "id=" + id +
-                ", initPrice=" + initPrice +
-                ", currPrice=" + currPrice +
-                ", name='" + name + '\'' +
-                ", image='" + image + '\'' +
-                ", link='" + link + '\'' +
+                "id=" + getId() +
+                ", initPrice=" + getInitPrice() +
+                ", currPrice=" + getCurrPrice() +
+                ", name='" + getName() + '\'' +
+                ", image='" + getImage() + '\'' +
+                ", link='" + getStashLink() + '\'' +
                 '}';
     }
 }

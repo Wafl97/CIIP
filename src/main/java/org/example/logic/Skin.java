@@ -1,11 +1,11 @@
 package org.example.logic;
 
 import org.example.logic.interfaces.ISkin;
+import org.example.logic.interfaces.comps.Identifiable;
 import org.json.simple.JSONObject;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -209,9 +209,8 @@ public final class Skin implements ISkin {
 
     @Override
     public long findMaxID() {
-        List<ISkin> cache = Domain.getInstance().readAllSkins();
-        long maxValue = cache.get(0).getId();
-        for (ISkin skin : cache){
+        long maxValue = 0;
+        for (Identifiable skin : Domain.getInstance().readAllSkins()){
             if (skin.getId() > maxValue) maxValue = skin.getId();
         }
         return maxValue;
@@ -220,15 +219,15 @@ public final class Skin implements ISkin {
     @Override
     public String toString() {
         return "Skin{" +
-                "id=" + id +
-                ", initPrice=" + initPrice +
-                ", currPrice=" + currPrice +
-                ", name='" + name + '\'' +
-                ", image='" + image + '\'' +
-                ", link='" + link + '\'' +
-                ", statTrack=" + statTrak +
-                ", souvenir=" + souvenir +
-                ", wearFloat=" + wearFloat +
+                "id=" + getStashLink() +
+                ", initPrice=" + getInitPrice() +
+                ", currPrice=" + getCurrPrice() +
+                ", name='" + getName() + '\'' +
+                ", image='" + getImage() + '\'' +
+                ", link='" + getStashLink() + '\'' +
+                ", statTrack=" + isStatTrak() +
+                ", souvenir=" + isSouvenir() +
+                ", wearFloat=" + getWearFloat() +
                 '}';
     }
 

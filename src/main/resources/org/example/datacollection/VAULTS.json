@@ -6,19 +6,19 @@
       "CAPSULES": [
         {
           "CAPSULE": {
-            "CAPSULE_ID": 1,
+            "ID": 1,
             "AMOUNT": 10
           }
         },
         {
           "CAPSULE": {
-            "CAPSULE_ID": 2,
+            "ID": 2,
             "AMOUNT": 10
           }
         },
         {
           "CAPSULE": {
-            "CAPSULE_ID": 3,
+            "ID": 3,
             "AMOUNT": 10
           }
         }
@@ -26,12 +26,26 @@
       "SKINS": [
         {
           "SKIN": {
-            "SKIN_ID": 1,
+            "ID": 1,
             "AMOUNT": 1
           }
         }
       ],
       "SOUVENIRS":[
+      ],
+      "STICKERS": [
+        {
+          "STICKER": {
+            "ID": 1,
+            "AMOUNT": 1
+          }
+        },
+        {
+          "STICKER": {
+            "ID": 2,
+            "AMOUNT": 1
+          }
+        }
       ]
     }
   },
@@ -42,19 +56,19 @@
       "CAPSULES": [
         {
           "CAPSULE": {
-            "CAPSULE_ID": 4,
+            "ID": 4,
             "AMOUNT": 10
           }
         },
         {
           "CAPSULE": {
-            "CAPSULE_ID": 5,
+            "ID": 5,
             "AMOUNT": 10
           }
         },
         {
           "CAPSULE": {
-            "CAPSULE_ID": 6,
+            "ID": 6,
             "AMOUNT": 10
           }
         }
@@ -63,8 +77,16 @@
       ],
       "SOUVENIRS":[
         {
-          "SOUVENIR_ID": 0,
+          "ID": 0,
           "AMOUNT": 100
+        }
+      ],
+      "STICKERS": [
+        {
+          "STICKER": {
+            "ID": 2,
+            "AMOUNT": 1
+          }
         }
       ]
     }
