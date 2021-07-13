@@ -32,6 +32,14 @@
         }
       ],
       "SOUVENIRS":[
+      ],
+      "STICKERS": [
+        {
+          "STICKER": {
+            "STICKER_ID": 1,
+            "AMOUNT": 1
+          }
+        }
       ]
     }
   },
@@ -65,6 +73,14 @@
         {
           "SOUVENIR_ID": 0,
           "AMOUNT": 100
+        }
+      ],
+      "STICKERS": [
+        {
+          "STICKER": {
+            "STICKER_ID": 2,
+            "AMOUNT": 1
+          }
         }
       ]
     }

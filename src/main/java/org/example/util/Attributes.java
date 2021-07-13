@@ -1,10 +1,12 @@
 package org.example.util;
 
 public enum Attributes {
+    STICKERS,
     SOUVENIRS,
     SKINS,
     CAPSULES,
     VAULTS,
+    STICKER,
     VAULT,
     CAPSULE,
     SKIN,
@@ -19,7 +21,8 @@ public enum Attributes {
     STASH_LINK,
     CAPSULE_ID,
     SKIN_ID,
-    SOUVENIR_ID;
+    SOUVENIR_ID,
+    STICKER_ID;
 
     Attributes(){}
 }

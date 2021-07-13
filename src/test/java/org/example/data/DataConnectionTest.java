@@ -15,7 +15,6 @@ public class DataConnectionTest extends TestCase {
     DataReset reSetter = DataReset.getInstance();
 
     public void setUp() throws Exception {
-        ;
         connection.connect();
     }
 

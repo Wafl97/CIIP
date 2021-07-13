@@ -2,6 +2,7 @@ package org.example.data;
 
 import org.example.data.interfaces.DataConnection;
 
+import org.example.util.Attributes;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -74,8 +75,8 @@ final class JsonConnection implements DataConnection {
         return true;
     }
 
-    private void saveFile(JSONArray jsonArray, String file){
-        File jsonFile = fileMap.get(file);
+    private void saveFile(JSONArray jsonArray, Attributes file){
+        File jsonFile = fileMap.get(file.toString());
         try {
             FileWriter fileWriter = new FileWriter(jsonFile);
             fileWriter.write(jsonArray.toJSONString());
@@ -86,8 +87,8 @@ final class JsonConnection implements DataConnection {
         }
     }
 
-    private JSONArray loadFile(String file){
-        try(FileReader reader = new FileReader(fileMap.get(file).getPath())) {
+    private JSONArray loadFile(Attributes file){
+        try(FileReader reader = new FileReader(fileMap.get(file.toString()).getPath())) {
             JSONParser parser = new JSONParser();
             Object obj = parser.parse(reader);
             return (JSONArray) obj;
@@ -97,10 +98,10 @@ final class JsonConnection implements DataConnection {
         }
     }
 
-    private JSONObject readOneObj(long id, List<JSONObject> objs, String objName){
+    private JSONObject readOneObj(long id, List<JSONObject> objs, Attributes objName){
         for (Object obj : objs){
             JSONObject shellObj = (JSONObject) obj;
-            JSONObject innerObj = (JSONObject) shellObj.get(objName);
+            JSONObject innerObj = (JSONObject) shellObj.get(objName.toString());
             if ((long) innerObj.get(ID.toString()) == id){
                 return shellObj;
             }
@@ -108,18 +109,18 @@ final class JsonConnection implements DataConnection {
         return null;
     }
 
-    private void addObjToTable(JSONObject obj, String table){
+    private void addObjToTable(JSONObject obj, Attributes table){
         JSONArray array = loadFile(table);
         array.add(obj);
         saveFile(array,table);
     }
 
-    private void removeObjFromTable(long id, String table, String objName) {
+    private void removeObjFromTable(long id, Attributes table, Attributes objName) {
         JSONArray jsonArray = loadFile(table);
         if (jsonArray != null) {
             for (Object o : jsonArray) {
                 JSONObject outerObj = (JSONObject) o;
-                JSONObject innerObj = (JSONObject) outerObj.get(objName);
+                JSONObject innerObj = (JSONObject) outerObj.get(objName.toString());
                 if ((long) innerObj.get(ID.toString()) == id) {
                     jsonArray.remove(o);
                     break;
@@ -129,13 +130,13 @@ final class JsonConnection implements DataConnection {
         }
     }
 
-    private void updateObjInTable(JSONObject jsonObject, String table, String objName) {
-        long id = (long) ((JSONObject) jsonObject.get(objName)).get(ID.toString());
+    private void updateObjInTable(JSONObject jsonObject, Attributes table, Attributes objName) {
+        long id = (long) ((JSONObject) jsonObject.get(objName.toString())).get(ID.toString());
         JSONArray jsonArray = loadFile(table);
         if (jsonArray != null) {
             for (Object o : jsonArray) {
                 JSONObject jObject = (JSONObject) o;
-                JSONObject internalObject = (JSONObject) jObject.get(objName);
+                JSONObject internalObject = (JSONObject) jObject.get(objName.toString());
                 if ((long) internalObject.get(ID.toString()) == id) {
                     jsonArray.remove(o);
                     jsonArray.add(jsonObject);
@@ -148,58 +149,59 @@ final class JsonConnection implements DataConnection {
 
     @Override
     public List<JSONObject> readAllVaults() {
-        return new ArrayList<JSONObject>(loadFile(VAULTS.toString()));
+        return new ArrayList<JSONObject>(loadFile(VAULTS));
     }
 
     @Override
     public void createVault(JSONObject jsonObject) {
-        addObjToTable(jsonObject,VAULTS.toString());
+        addObjToTable(jsonObject,VAULTS);
     }
 
     @Override
     public JSONObject readVault(long id) {
-        return readOneObj(id, readAllVaults(), VAULT.toString());
+        return readOneObj(id, readAllVaults(), VAULT);
     }
 
     @Override
     public void updateVault(JSONObject jsonObject) {
-        updateObjInTable(jsonObject, VAULTS.toString(), VAULT.toString());
+        updateObjInTable(jsonObject, VAULTS, VAULT);
     }
 
     @Override
     public void deleteVault(long id) {
-        removeObjFromTable(id, VAULTS.toString(), VAULT.toString());
+        removeObjFromTable(id, VAULTS, VAULT);
     }
 
     @Override
     public List<JSONObject> readAllCapsules() {
-        return new ArrayList<JSONObject>(loadFile(CAPSULES.toString()));
+        return new ArrayList<JSONObject>(loadFile(CAPSULES));
     }
 
     @Override
     public void createCapsule(JSONObject jsonObject) {
-        addObjToTable(jsonObject,CAPSULES.toString());
+        addObjToTable(jsonObject,CAPSULES);
     }
 
     @Override
     public JSONObject readCapsule(long id) {
-        return readOneObj(id, readAllCapsules(), CAPSULE.toString());
+        return readOneObj(id, readAllCapsules(), CAPSULE);
     }
 
     @Override
     public void updateCapsule(JSONObject jsonObject) {
-        updateObjInTable(jsonObject,CAPSULES.toString(),CAPSULE.toString());
+        updateObjInTable(jsonObject,CAPSULES,CAPSULE);
     }
 
     // TODO: 05-07-2021 SIMPLIFY
     @Override
     public void deleteCapsule(long id) {
         //Remove from investments
-        JSONArray investArray = loadFile(VAULTS.toString());
+        JSONArray investArray = loadFile(VAULTS);
         if (investArray != null) {
             for (Object o : investArray) {
                 JSONObject investObj = (JSONObject) o;
                 JSONObject innerObj = (JSONObject) investObj.get(VAULT.toString());
+                // TODO: 13-07-2021 Add support for other Data-types
                 JSONArray innerInvestArray = (JSONArray) innerObj.get(CAPSULES.toString());
                 for (Object obj : innerInvestArray) {
                     JSONObject investCapsule = (JSONObject) obj;
@@ -210,11 +212,11 @@ final class JsonConnection implements DataConnection {
                     }
                 }
             }
-            saveFile(investArray, VAULTS.toString());
+            saveFile(investArray, VAULTS);
         }
 
         //Remove from capsules list
-        removeObjFromTable(id, CAPSULES.toString(), CAPSULE.toString());
+        removeObjFromTable(id, CAPSULES, CAPSULE);
     }
 
     // FIXME: 05-07-2021
@@ -249,26 +251,26 @@ final class JsonConnection implements DataConnection {
 
     @Override
     public List<JSONObject> readAllSkins() {
-        return new ArrayList<JSONObject>(loadFile(SKINS.toString()));
+        return new ArrayList<JSONObject>(loadFile(SKINS));
     }
 
     @Override
     public void createSkin(JSONObject jsonObject) {
-        addObjToTable(jsonObject,SKINS.toString());
+        addObjToTable(jsonObject,SKINS);
     }
 
     @Override
     public JSONObject readSkin(long id) {
-        return  readOneObj(id,readAllSkins(),SKIN.toString());
+        return  readOneObj(id,readAllSkins(),SKIN);
     }
 
     @Override
     public void updateSkin(JSONObject jsonObject) {
-        updateObjInTable(jsonObject,SKINS.toString(),SKIN.toString());
+        updateObjInTable(jsonObject,SKINS,SKIN);
     }
 
     @Override
     public void deleteSKin(long id) {
-        removeObjFromTable(id,SKINS.toString(),SKIN.toString());
+        removeObjFromTable(id,SKINS,SKIN);
     }
 }
