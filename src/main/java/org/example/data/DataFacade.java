@@ -20,8 +20,8 @@ public final class DataFacade implements IDataFacade {
         CONNECTION = JsonConnection.getInstance();
         System.out.println("\t - Connection type: [" + CONNECTION.getClass().getSimpleName() + "]");
         System.out.println("\t - Running Connection:");
-        CONNECTION.connect();
-        System.out.println("\t - Connection success: [" + CONNECTION.connect() + "]");
+        CONNECTION.connect(true);
+        System.out.println("\t - Connection success: [" + CONNECTION.connect(true) + "]");
 
         System.out.println("Persistence Done");
     }

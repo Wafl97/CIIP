@@ -220,15 +220,15 @@ public final class Skin implements ISkin {
     @Override
     public String toString() {
         return "Skin{" +
-                "id=" + id +
-                ", initPrice=" + initPrice +
-                ", currPrice=" + currPrice +
-                ", name='" + name + '\'' +
-                ", image='" + image + '\'' +
-                ", link='" + link + '\'' +
-                ", statTrack=" + statTrak +
-                ", souvenir=" + souvenir +
-                ", wearFloat=" + wearFloat +
+                "id=" + getStashLink() +
+                ", initPrice=" + getInitPrice() +
+                ", currPrice=" + getCurrPrice() +
+                ", name='" + getName() + '\'' +
+                ", image='" + getImage() + '\'' +
+                ", link='" + getStashLink() + '\'' +
+                ", statTrack=" + isStatTrak() +
+                ", souvenir=" + isSouvenir() +
+                ", wearFloat=" + getWearFloat() +
                 '}';
     }
 

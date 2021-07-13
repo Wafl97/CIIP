@@ -6,4 +6,5 @@ public interface Factory {
     ISouvenirCase emptySouvenirCase();
     ISkin emptySkin();
     IVault emptyVault();
+    ISticker emptySticker();
 }

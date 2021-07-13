@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface DataConnection {
 
-    boolean connect();
+    boolean connect(boolean print);
 
     List<JSONObject> readAllVaults();
     void createVault(JSONObject jsonObject);
@@ -31,4 +31,10 @@ public interface DataConnection {
     JSONObject readSkin(long id);
     void updateSkin(JSONObject jsonObject);
     void deleteSKin(long id);
+
+    List<JSONObject> readAllStickers();
+    void createSticker(JSONObject jsonObject);
+    JSONObject readSticker(long id);
+    void updateSticker(JSONObject jsonObject);
+    void deleteSticker(long id);
 }

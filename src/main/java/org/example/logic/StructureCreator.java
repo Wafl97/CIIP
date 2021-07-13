@@ -31,4 +31,8 @@ public final class StructureCreator implements Factory {
     public IVault emptyVault() {
         return new Vault();
     }
+
+    public ISticker emptySticker() {
+        return new Sticker();
+    }
 }

@@ -18,11 +18,7 @@ public enum Attributes {
     NAME,
     AMOUNT,
     IMAGE,
-    STASH_LINK,
-    CAPSULE_ID,
-    SKIN_ID,
-    SOUVENIR_ID,
-    STICKER_ID;
+    STASH_LINK;
 
     Attributes(){}
 }

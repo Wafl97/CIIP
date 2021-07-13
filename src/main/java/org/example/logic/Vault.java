@@ -94,7 +94,7 @@ public final class Vault implements IVault {
             //Inner obj
             if (item instanceof ICapsule) {
                 JSONObject capsule = new JSONObject();
-                capsule.put(CAPSULE_ID.toString(), item.getId());
+                capsule.put(ID.toString(), item.getId());
                 capsule.put(AMOUNT.toString(), containers.get(item));
                 JSONObject shell = new JSONObject();
                 shell.put(CAPSULE.toString(), capsule);
@@ -102,7 +102,7 @@ public final class Vault implements IVault {
             }
             else if (item instanceof ISkin){
                 JSONObject skin = new JSONObject();
-                skin.put(SKIN_ID.toString(), item.getId());
+                skin.put(ID.toString(), item.getId());
                 skin.put(AMOUNT.toString(), containers.get(item));
                 JSONObject shell = new JSONObject();
                 shell.put(SKIN.toString(), skin);
@@ -123,11 +123,11 @@ public final class Vault implements IVault {
                 (String)    innerObj.get(NAME.toString()));
         for (Object o : (JSONArray) innerObj.get(CAPSULES.toString())){
             JSONObject capsule = (JSONObject) ((JSONObject) o).get(CAPSULE.toString());
-            containers.put(Domain.getInstance().readCapsule((long) capsule.get(CAPSULE_ID.toString())), (long) capsule.get(AMOUNT.toString()));
+            containers.put(Domain.getInstance().readCapsule((long) capsule.get(ID.toString())), (long) capsule.get(AMOUNT.toString()));
         }
         for (Object o : (JSONArray) innerObj.get(SKINS.toString())){
             JSONObject skin = (JSONObject) ((JSONObject) o).get(SKIN.toString());
-            containers.put(Domain.getInstance().readSkin((long) skin.get(SKIN_ID.toString())), (long) skin.get(AMOUNT.toString()));
+            containers.put(Domain.getInstance().readSkin((long) skin.get(ID.toString())), (long) skin.get(AMOUNT.toString()));
         }
         return this;
     }
@@ -145,9 +145,9 @@ public final class Vault implements IVault {
     @Override
     public String toString() {
         return "Vault{" +
-                "id=" + id +
-                ", containers=" + containers +
-                ", name='" + name + '\'' +
+                "id=" + getId() +
+                ", name='" + getName() + '\'' +
+                ", containers=" + getAllItems() +
                 '}';
     }
 }

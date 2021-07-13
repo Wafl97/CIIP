@@ -33,10 +33,12 @@ final class JsonConnection implements DataConnection {
     }
 
     @Override
-    public boolean connect(){
+    public boolean connect(boolean print){
         if (!connected) {
-            System.out.println("\n||===========================================");
-            System.out.println("|| Initiating connection");
+            if (print) {
+                System.out.println("\n||===========================================");
+                System.out.println("|| Initiating connection");
+            }
             try {
                 // Get the path for the database
                 URL url = getClass().getClassLoader().getResource(PATH);
@@ -46,24 +48,26 @@ final class JsonConnection implements DataConnection {
                 File directory = new File(url.toURI());
 
                 if (!directory.isDirectory()) throw new NotDirectoryException(PATH + " is not a directory.");
-                System.out.println("|| Loading files from [" + directory + "]");
+                if (print) System.out.println("|| Loading files from [" + directory + "]");
 
                 // Get all files from directory
                 File[] files = directory.listFiles();
 
                 // Check if is directory
                 if (files == null) throw new NotDirectoryException(PATH + " is not a directory.");
-                System.out.println("|| Total files found [" + files.length + "]");
+                if (print) System.out.println("|| Total files found [" + files.length + "]");
 
                 // Populate tables hashmap
                 for (File file : files) {
                     // Get name of file
                     String fileName = file.getName().split("\\.")[0];
-                    System.out.println("|| Found file [" + fileName + "]");
+                    if (print) System.out.println("|| Found file [" + fileName + "]");
                     fileMap.put(fileName, file);
                 }
-                System.out.println("|| Initialisation done");
-                System.out.println("||===========================================\n");
+                if (print) {
+                    System.out.println("|| Initialisation done");
+                    System.out.println("||===========================================\n");
+                }
                 connected = true;
                 return true;
             } catch (URISyntaxException | FileNotFoundException | NotDirectoryException e) {
@@ -115,7 +119,7 @@ final class JsonConnection implements DataConnection {
         saveFile(array,table);
     }
 
-    private void removeObjFromTable(long id, Attributes table, Attributes objName) {
+    private void removeObjFromTable(long id, Attributes table, Attributes objName, boolean cascade) {
         JSONArray jsonArray = loadFile(table);
         if (jsonArray != null) {
             for (Object o : jsonArray) {
@@ -127,6 +131,27 @@ final class JsonConnection implements DataConnection {
                 }
             }
             saveFile(jsonArray, table);
+        }
+        if (cascade){
+            //Remove from investments
+            JSONArray investArray = loadFile(VAULTS);
+            if (investArray != null) {
+                for (Object o : investArray) {
+                    JSONObject investObj = (JSONObject) o;
+                    JSONObject innerObj = (JSONObject) investObj.get(VAULT.toString());
+                    // TODO: 13-07-2021 Add support for other Data-types
+                    JSONArray innerInvestArray = (JSONArray) innerObj.get(table.toString());
+                    for (Object obj : innerInvestArray) {
+                        JSONObject investCapsule = (JSONObject) obj;
+                        JSONObject finalObj = (JSONObject) investCapsule.get(objName.toString());
+                        if ((long) finalObj.get(ID.toString()) == id) {
+                            innerInvestArray.remove(obj);
+                            break;
+                        }
+                    }
+                }
+                saveFile(investArray, VAULTS);
+            }
         }
     }
 
@@ -169,7 +194,7 @@ final class JsonConnection implements DataConnection {
 
     @Override
     public void deleteVault(long id) {
-        removeObjFromTable(id, VAULTS, VAULT);
+        removeObjFromTable(id, VAULTS, VAULT, false);
     }
 
     @Override
@@ -195,28 +220,7 @@ final class JsonConnection implements DataConnection {
     // TODO: 05-07-2021 SIMPLIFY
     @Override
     public void deleteCapsule(long id) {
-        //Remove from investments
-        JSONArray investArray = loadFile(VAULTS);
-        if (investArray != null) {
-            for (Object o : investArray) {
-                JSONObject investObj = (JSONObject) o;
-                JSONObject innerObj = (JSONObject) investObj.get(VAULT.toString());
-                // TODO: 13-07-2021 Add support for other Data-types
-                JSONArray innerInvestArray = (JSONArray) innerObj.get(CAPSULES.toString());
-                for (Object obj : innerInvestArray) {
-                    JSONObject investCapsule = (JSONObject) obj;
-                    JSONObject finalObj = (JSONObject) investCapsule.get(CAPSULE.toString());
-                    if ((long) finalObj.get(CAPSULE_ID.toString()) == id) {
-                        innerInvestArray.remove(obj);
-                        break;
-                    }
-                }
-            }
-            saveFile(investArray, VAULTS);
-        }
-
-        //Remove from capsules list
-        removeObjFromTable(id, CAPSULES, CAPSULE);
+        removeObjFromTable(id, CAPSULES, CAPSULE, true);
     }
 
     // FIXME: 05-07-2021
@@ -271,6 +275,31 @@ final class JsonConnection implements DataConnection {
 
     @Override
     public void deleteSKin(long id) {
-        removeObjFromTable(id,SKINS,SKIN);
+        removeObjFromTable(id,SKINS,SKIN,true);
+    }
+
+    @Override
+    public List<JSONObject> readAllStickers() {
+        return new ArrayList<>(loadFile(STICKERS));
+    }
+
+    @Override
+    public void createSticker(JSONObject jsonObject) {
+        addObjToTable(jsonObject,STICKERS);
+    }
+
+    @Override
+    public JSONObject readSticker(long id) {
+        return readOneObj(id,readAllStickers(),STICKER);
+    }
+
+    @Override
+    public void updateSticker(JSONObject jsonObject) {
+        updateObjInTable(jsonObject,STICKERS,STICKER);
+    }
+
+    @Override
+    public void deleteSticker(long id) {
+        removeObjFromTable(id,STICKERS,STICKER,true);
     }
 }
