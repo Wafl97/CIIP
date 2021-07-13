@@ -1,7 +1,11 @@
 package org.example.logic;
 
+import org.example.logic.interfaces.ISkin;
 import org.example.logic.interfaces.ISticker;
+import org.example.logic.interfaces.comps.Identifiable;
 import org.json.simple.JSONObject;
+
+import java.util.List;
 
 import static org.example.util.Attributes.*;
 
@@ -81,8 +85,11 @@ public class Sticker implements ISticker {
 
     @Override
     public long findMaxID() {
-        // TODO: 13-07-2021
-        return 0;
+        long maxValue = 0;
+        for (Identifiable sticker : Domain.getInstance().readAllStickers()){
+            if (sticker.getId() > maxValue) maxValue = sticker.getId();
+        }
+        return maxValue;
     }
 
     @Override

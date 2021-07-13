@@ -152,9 +152,8 @@ public final class Vault implements IVault {
 
     @Override
     public long findMaxID() {
-        List<IVault> cache = Domain.getInstance().readAllVaults();
-        long maxValue = cache.get(0).getId();
-        for (IVault investment : cache) {
+        long maxValue = 0;
+        for (Identifiable investment : Domain.getInstance().readAllVaults()) {
             if (investment.getId() > maxValue) maxValue = investment.getId();
         }
         return maxValue;

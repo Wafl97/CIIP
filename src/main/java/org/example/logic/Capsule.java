@@ -2,6 +2,7 @@ package org.example.logic;
 
 import org.example.logic.interfaces.comps.Displayable;
 import org.example.logic.interfaces.ICapsule;
+import org.example.logic.interfaces.comps.Identifiable;
 import org.json.simple.JSONObject;
 
 import java.io.IOException;
@@ -154,9 +155,8 @@ public final class Capsule implements ICapsule {
 
     @Override
     public long findMaxID() {
-        List<ICapsule> cache = Domain.getInstance().readAllCapsules();
-        long maxValue = cache.get(0).getId();
-        for (Displayable capsule : cache) {
+        long maxValue = 0;
+        for (Identifiable capsule : Domain.getInstance().readAllCapsules()) {
             if (capsule.getId() > maxValue) maxValue = capsule.getId();
         }
         return maxValue;
