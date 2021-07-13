@@ -24,13 +24,16 @@ public final class Domain implements Logic {
     private IVault selectedVault;
     private ICapsule selectedCapsule;
 
+    private static final String APP_NAME = "CIP";
+    private static final String VERSION = "v0.5";
+
     public static Domain getInstance(){
         return instance == null ? instance = new Domain() : instance;
     }
 
     private Domain(){
         System.out.println("||======================================||");
-        System.out.println("||\t\t\tStarting CIP - v0.5\t\t\t||");
+        System.out.println("||\t\t\tStarting " + APP_NAME +" - "+ VERSION +"\t\t\t||");
         System.out.println("||======================================||");
 
         System.out.println("\t - Getting Factory");
@@ -59,6 +62,16 @@ public final class Domain implements Logic {
     @Override
     public Factory getFactory() {
         return CREATOR;
+    }
+
+    @Override
+    public String getVersion() {
+        return VERSION;
+    }
+
+    @Override
+    public String getAppName() {
+        return APP_NAME;
     }
 
     @Override

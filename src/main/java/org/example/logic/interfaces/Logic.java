@@ -10,6 +10,9 @@ public interface Logic {
     IFileHandler getFileHandler();
     Factory getFactory();
 
+    String getVersion();
+    String getAppName();
+
     void setSelectedVault(IVault vault);
     IVault getSelectedVault();
     void setSelectedCapsule(ICapsule capsule);

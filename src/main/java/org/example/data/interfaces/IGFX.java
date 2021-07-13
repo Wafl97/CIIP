@@ -11,7 +11,7 @@ public interface IGFX {
 
     Map<String, Image> getImageMap();
 
-    void reloadImages(boolean clear);
+    void loadImages(boolean clear);
 
     void uploadImage(File imageFile);
 }

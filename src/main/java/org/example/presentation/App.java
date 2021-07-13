@@ -33,7 +33,7 @@ public class App extends Application {
 
     private static final Stack<Pair<String,Operation>> fxmlStack = new Stack<>();
 
-    static final String TITLE = "CIP";
+    static final String TITLE = DOMAIN.getAppName() + " - " + DOMAIN.getVersion();
     static final String VAULTFORM = "vaultform";
     static final String MAIN = "main";
     static final String ITEMFORM = "itemform";
