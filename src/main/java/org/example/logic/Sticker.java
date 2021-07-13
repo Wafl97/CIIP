@@ -1,15 +1,23 @@
 package org.example.logic;
 
-import org.example.logic.interfaces.ISkin;
 import org.example.logic.interfaces.ISticker;
 import org.example.logic.interfaces.comps.Identifiable;
 import org.json.simple.JSONObject;
 
-import java.util.List;
+import java.io.IOException;
+import java.net.URL;
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static org.example.util.Attributes.*;
 
 public class Sticker implements ISticker {
+
+    private static final Pattern PRICE_PATTERN = Pattern.compile("<span class=\"pull-right\">([0-9,-]+)(.)</span>");
+    private static final Pattern STOP_PATTERN = Pattern.compile("<span class=\"pull-left\"><img class=\"item-table-icon\" src=\"https://csgostash.com/img/core/bitskins.png\\?id=[0-9a-zA-Z]+\" alt=\"BitSkins Logo\">BitSkins</span>");
+
+
 
     private long id;
     private double initPrice;
@@ -114,7 +122,29 @@ public class Sticker implements ISticker {
 
     @Override
     public void updateCurrPrice() {
-        // TODO: 13-07-2021
+        double d = 0.0d;
+        try {
+            Scanner input = new Scanner(new URL(link).openStream());
+            String result = "";
+
+            Matcher stopMatcher;
+            //Skip to relevant
+            while (input.hasNext()) {
+                stopMatcher = STOP_PATTERN.matcher(input.nextLine());
+                if (stopMatcher.find()){
+                    result = input.nextLine();
+                    break;
+                }
+            }
+            input.close();
+            Matcher priceMatcher = PRICE_PATTERN.matcher(result);
+            if (priceMatcher.find()) {
+                d = Double.parseDouble(priceMatcher.group(1).replace(",", "."));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        currPrice = d;
     }
 
     @Override
@@ -142,5 +172,12 @@ public class Sticker implements ISticker {
                 ", image='" + getImage() + '\'' +
                 ", link='" + getStashLink() + '\'' +
                 '}';
+    }
+
+    public static void main(String[] args) {
+        ISticker sticker = StructureCreator.getInstance().emptySticker();
+        sticker.setStashLink("https://csgostash.com/sticker/2657/Global-Elite-Foil");
+        sticker.updateCurrPrice();
+        System.out.println(sticker.getCurrPrice());
     }
 }

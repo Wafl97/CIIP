@@ -61,14 +61,14 @@ public final class Capsule implements ICapsule {
         double d = 0.0d;
         try {
             Scanner input = new Scanner(new URL(link).openStream());
-            StringBuffer result = new StringBuffer();
+            String result = "";
 
             Matcher stopMatcher;
             //Skip to relevant
             while (input.hasNext()) {
                 stopMatcher = STOP_PATTERN.matcher(input.nextLine());
                 if (stopMatcher.find()){
-                    result.append(input.nextLine());
+                    result = input.nextLine();
                     break;
                 }
             }
