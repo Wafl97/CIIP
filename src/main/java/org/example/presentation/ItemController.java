@@ -8,7 +8,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 
-import org.example.logic.Domain;
 import org.example.logic.interfaces.ISouvenirCase;
 import org.example.logic.interfaces.comps.Displayable;
 import org.example.logic.interfaces.ICapsule;
@@ -16,7 +15,6 @@ import org.example.logic.interfaces.ISkin;
 
 import java.io.File;
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class ItemController extends App implements Initializable {
@@ -57,20 +55,20 @@ public class ItemController extends App implements Initializable {
         skinProfile.use(false);
 
         // FIXME: 04-07-2021
-        deleteButton.setOnAction(e -> DOMAIN_FACADE.getDomain().deleteCapsule(1));
+        deleteButton.setOnAction(e -> DOMAIN.deleteCapsule(1));
         buttonConfig(getOperation());
 
         itemsListView.setCellFactory(cell -> new ListCell<>(){
             @Override
             protected void updateItem(Displayable capsule, boolean bool){
                 super.updateItem(capsule, bool);
-                if (bool || capsule == null || capsule.getName() == null || DOMAIN_FACADE.getDataFacade().getGFX().getImageMap().get(capsule.getImage()) == null){
+                if (bool || capsule == null || capsule.getName() == null || DOMAIN.getDataFacade().getGFX().getImageMap().get(capsule.getImage()) == null){
                     setGraphic(null);
                     setText(null);
                 }
                 else {
                     setText(capsule.getName());
-                    ImageView imageView = new ImageView(DOMAIN_FACADE.getDataFacade().getGFX().getImageMap().get(capsule.getImage()));
+                    ImageView imageView = new ImageView(DOMAIN.getDataFacade().getGFX().getImageMap().get(capsule.getImage()));
                     imageView.setPreserveRatio(true);
                     imageView.setFitHeight(25);
                     setGraphic(imageView);
@@ -78,15 +76,15 @@ public class ItemController extends App implements Initializable {
             }
         });
 
-        for (Displayable item : DOMAIN_FACADE.getDomain().readAllCapsules()){
+        for (Displayable item : DOMAIN.readAllCapsules()){
             itemsListView.getItems().add(item);
         }
-        for (Displayable item : DOMAIN_FACADE.getDomain().readAllSkins()){
+        for (Displayable item : DOMAIN.readAllSkins()){
             itemsListView.getItems().add(item);
         }
-        for (Displayable item : DOMAIN_FACADE.getDomain().readAllSouvenirCases()){
-            itemsListView.getItems().add(item);
-        }
+//        for (Displayable item : DOMAIN.getDomain().readAllSouvenirCases()){
+//            itemsListView.getItems().add(item);
+//        }
         itemsListView.refresh();
     }
 
@@ -95,10 +93,16 @@ public class ItemController extends App implements Initializable {
         itemIndex = itemsListView.getSelectionModel().getSelectedIndex();
         if (itemIndex != -1) {
             loadedItem = itemsListView.getSelectionModel().getSelectedItem();
-            itemImageView.setImage(DOMAIN_FACADE.getDataFacade().getGFX().getImageMap().get(loadedItem.getImage()));
+            itemImageView.setImage(DOMAIN.getDataFacade().getGFX().getImageMap().get(loadedItem.getImage()));
             nameTextField.setText(loadedItem.getName());
             priceSpinner.getValueFactory().setValue(loadedItem.getInitPrice());
             linkTextField.setText(loadedItem.getStashLink());
+            skinProfile.use(loadedItem instanceof ISkin);
+            if (loadedItem instanceof ISkin){
+                wearFloatTextField.setText(String.valueOf(((ISkin) loadedItem).getWearFloat()));
+                statTrackToggleButton.setSelected(((ISkin) loadedItem).isStatTrak());
+                souvenirToggleButton.setSelected(((ISkin) loadedItem).isSouvenir());
+            }
         }
     }
 
@@ -122,7 +126,7 @@ public class ItemController extends App implements Initializable {
                     statTrack,
                     souvenir
             );
-            DOMAIN_FACADE.getDomain().updateSkin((ISkin) loadedItem);
+            DOMAIN.updateSkin((ISkin) loadedItem);
         }
         else if (loadedItem instanceof ICapsule){
             ((ICapsule) loadedItem).populate(
@@ -132,7 +136,7 @@ public class ItemController extends App implements Initializable {
                     imageName,
                     link
             );
-            DOMAIN_FACADE.getDomain().updateCapsule((ICapsule) loadedItem);
+            DOMAIN.updateCapsule((ICapsule) loadedItem);
         }
         else if (loadedItem instanceof ISouvenirCase){
             ((ISouvenirCase) loadedItem).populate(
@@ -142,13 +146,13 @@ public class ItemController extends App implements Initializable {
                     imageName,
                     link
             );
-            DOMAIN_FACADE.getDomain().updateSouvenirCase((ISouvenirCase) loadedItem);
+            DOMAIN.updateSouvenirCase((ISouvenirCase) loadedItem);
         }
     }
 
     private void createItem(){
         if (radioToggle.getUserData() instanceof ISkin){
-            DOMAIN_FACADE.getDomain().createSkin(DOMAIN_FACADE.getFactory().emptySkin().populate(
+            DOMAIN.createSkin(DOMAIN.getFactory().emptySkin().populate(
                     -1,
                     priceSpinner.getValue(),
                     nameTextField.getText(),
@@ -160,7 +164,7 @@ public class ItemController extends App implements Initializable {
             ));
         }
         else if (radioToggle.getUserData() instanceof ICapsule){
-            DOMAIN_FACADE.getDomain().createCapsule(DOMAIN_FACADE.getFactory().emptyCapsule().populate(
+            DOMAIN.createCapsule(DOMAIN.getFactory().emptyCapsule().populate(
                     -1,
                     priceSpinner.getValue(),
                     nameTextField.getText(),
@@ -169,7 +173,7 @@ public class ItemController extends App implements Initializable {
             ));
         }
         else if (radioToggle.getUserData() instanceof ISouvenirCase){
-            DOMAIN_FACADE.getDomain().createSouvenirCase(DOMAIN_FACADE.getFactory().emptySouvenirCase().populate(
+            DOMAIN.createSouvenirCase(DOMAIN.getFactory().emptySouvenirCase().populate(
                     -1,
                     priceSpinner.getValue(),
                     nameTextField.getText(),
@@ -202,8 +206,8 @@ public class ItemController extends App implements Initializable {
         FileChooser fileChooser = new FileChooser();
         imageFile = fileChooser.showOpenDialog(null);
         if (imageFile != null){
-            DOMAIN_FACADE.getFileHandler().save(imageFile);
-            itemImageView.setImage(DOMAIN_FACADE.getDataFacade().getGFX().getImageMap().get(imageFile.getName()));
+            DOMAIN.getFileHandler().save(imageFile);
+            itemImageView.setImage(DOMAIN.getDataFacade().getGFX().getImageMap().get(imageFile.getName()));
         }
     }
 
@@ -232,11 +236,11 @@ public class ItemController extends App implements Initializable {
 
         radioToggle = new ToggleGroup();
         skinRadioButton.setToggleGroup(radioToggle);
-        skinRadioButton.setUserData(DOMAIN_FACADE.getFactory().emptySkin());
+        skinRadioButton.setUserData(DOMAIN.getFactory().emptySkin());
         capsuleRadioButton.setToggleGroup(radioToggle);
-        capsuleRadioButton.setUserData(DOMAIN_FACADE.getFactory().emptyCapsule());
+        capsuleRadioButton.setUserData(DOMAIN.getFactory().emptyCapsule());
         souvenirRadioButton.setToggleGroup(radioToggle);
-        souvenirRadioButton.setUserData((DOMAIN_FACADE.getFactory().emptyVault()));
+        souvenirRadioButton.setUserData((DOMAIN.getFactory().emptyVault()));
 
         ToggleGroup toggle = new ToggleGroup();
         statTrackToggleButton.setToggleGroup(toggle);

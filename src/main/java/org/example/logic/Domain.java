@@ -1,7 +1,7 @@
 package org.example.logic;
 
 import org.example.data.DataFacade;
-import org.example.data.interfaces.DataConnection;
+import org.example.data.interfaces.IDataFacade;
 import org.example.logic.interfaces.*;
 import org.json.simple.JSONObject;
 
@@ -12,31 +12,93 @@ public final class Domain implements Logic {
 
     private static Domain instance;
 
-    private final DataConnection CONNECTION = DataFacade.getInstance().getDataConnection();
-
-    private final Factory CREATOR = StructureCreator.getInstance();
+    private final IDataFacade DATA_FACADE;
+    private final Factory CREATOR;
+    private final IFileHandler FILE_HANDLER;
 
     private List<ICapsule> capsulesCache;
     private List<IVault> vaultCache;
     private List<ISkin> skinCache;
     private List<ISouvenirCase> souvenirCaseCache;
 
+    private IVault selectedVault;
+    private ICapsule selectedCapsule;
+
+    private static final String APP_NAME = "CIP";
+    private static final String VERSION = "v0.5";
+
     public static Domain getInstance(){
         return instance == null ? instance = new Domain() : instance;
     }
 
     private Domain(){
-        System.out.println("Starting");
-        System.out.println("Connection type:\t" + CONNECTION.getClass().getSimpleName());
-        System.out.println("Connection success:\t" + CONNECTION.connect());
-        System.out.println("Start complete");
+        System.out.println("||======================================||");
+        System.out.println("||\t\t\tStarting " + APP_NAME +" - "+ VERSION +"\t\t\t||");
+        System.out.println("||======================================||");
+
+        System.out.println("\t - Getting Factory");
+        CREATOR = StructureCreator.getInstance();
+        System.out.println("\t - Factory type: [" + CREATOR.getClass().getSimpleName() + "]");
+
+        System.out.println("\t - Getting FileHandler");
+        FILE_HANDLER = FileHandler.getInstance();
+
+        System.out.println("\t - Getting DataFacade");
+        DATA_FACADE = DataFacade.getInstance();
+
+        System.out.println("Start Complete");
+    }
+
+    @Override
+    public IDataFacade getDataFacade() {
+        return DATA_FACADE;
+    }
+
+    @Override
+    public IFileHandler getFileHandler() {
+        return FILE_HANDLER;
+    }
+
+    @Override
+    public Factory getFactory() {
+        return CREATOR;
+    }
+
+    @Override
+    public String getVersion() {
+        return VERSION;
+    }
+
+    @Override
+    public String getAppName() {
+        return APP_NAME;
+    }
+
+    @Override
+    public void setSelectedVault(IVault vault) {
+        selectedVault = vault;
+    }
+
+    @Override
+    public IVault getSelectedVault() {
+        return selectedVault;
+    }
+
+    @Override
+    public void setSelectedCapsule(ICapsule capsule) {
+        selectedCapsule = capsule;
+    }
+
+    @Override
+    public ICapsule getSelectedCapsule() {
+        return selectedCapsule;
     }
 
     @Override
     public List<ICapsule> readAllCapsules() {
         if (capsulesCache == null) {
             capsulesCache = new ArrayList<>();
-            for (Object o : CONNECTION.readAllCapsules()) {
+            for (Object o : DATA_FACADE.getDataConnection().readAllCapsules()) {
                 ICapsule newCapsule = CREATOR.emptyCapsule().convert2Obj((JSONObject) o);
                 capsulesCache.add(newCapsule);
             }
@@ -47,7 +109,7 @@ public final class Domain implements Logic {
     @Override
     public void createCapsule(ICapsule capsule) {
         if (capsulesCache == null) readAllCapsules();
-        CONNECTION.createCapsule(capsule.convert2JSON());
+        DATA_FACADE.getDataConnection().createCapsule(capsule.convert2JSON());
         capsulesCache.add(capsule);
     }
 
@@ -60,7 +122,7 @@ public final class Domain implements Logic {
     @Override
     public void updateCapsule(ICapsule capsule) {
         if (capsulesCache == null) readAllCapsules();
-        CONNECTION.updateCapsule(capsule.convert2JSON());
+        DATA_FACADE.getDataConnection().updateCapsule(capsule.convert2JSON());
         long id = capsule.getId();
         capsulesCache.removeIf(cap -> cap.getId() == id);
         capsulesCache.add(capsule);
@@ -69,7 +131,7 @@ public final class Domain implements Logic {
     @Override
     public void deleteCapsule(long id) {
         if (capsulesCache == null) readAllCapsules();
-        CONNECTION.deleteCapsule(id);
+        DATA_FACADE.getDataConnection().deleteCapsule(id);
         capsulesCache.removeIf(capsule -> capsule.getId() == id);
     }
 
@@ -77,7 +139,7 @@ public final class Domain implements Logic {
     public List<ISkin> readAllSkins() {
         if (skinCache == null){
             skinCache = new ArrayList<>();
-            for (Object o : CONNECTION.readAllSkins()) {
+            for (Object o : DATA_FACADE.getDataConnection().readAllSkins()) {
                 ISkin newSkin = CREATOR.emptySkin().convert2Obj((JSONObject) o);
                 skinCache.add(newSkin);
             }
@@ -88,7 +150,7 @@ public final class Domain implements Logic {
     @Override
     public void createSkin(ISkin skin) {
         if (skinCache == null) readAllCapsules();
-        CONNECTION.createSkin(skin.convert2JSON());
+        DATA_FACADE.getDataConnection().createSkin(skin.convert2JSON());
         skinCache.add(skin);
     }
 
@@ -101,7 +163,7 @@ public final class Domain implements Logic {
     @Override
     public void updateSkin(ISkin skin) {
         if (skinCache == null) readAllSkins();
-        CONNECTION.updateSkin(skin.convert2JSON());
+        DATA_FACADE.getDataConnection().updateSkin(skin.convert2JSON());
         long id = skin.getId();
         skinCache.removeIf(skn -> skn.getId() == id);
         skinCache.add(skin);
@@ -110,7 +172,7 @@ public final class Domain implements Logic {
     @Override
     public void deleteSkin(long id) {
         if (skinCache == null) readAllSkins();
-        CONNECTION.deleteSKin(id);
+        DATA_FACADE.getDataConnection().deleteSKin(id);
         skinCache.removeIf(skin -> skin.getId() == id);
     }
 
@@ -118,7 +180,7 @@ public final class Domain implements Logic {
     public List<ISouvenirCase> readAllSouvenirCases() {
         if (souvenirCaseCache == null){
             souvenirCaseCache = new ArrayList<>();
-            for (Object o : CONNECTION.readAllSouvenirs()){
+            for (Object o : DATA_FACADE.getDataConnection().readAllSouvenirs()){
                 ISouvenirCase newSouvenir = CREATOR.emptySouvenirCase().convert2Obj((JSONObject) o);
                 souvenirCaseCache.add(newSouvenir);
             }
@@ -129,7 +191,7 @@ public final class Domain implements Logic {
     @Override
     public void createSouvenirCase(ISouvenirCase souvenirCase) {
         if (souvenirCaseCache == null) readAllSouvenirCases();
-        CONNECTION.createSouvenir(souvenirCase.convert2JSON());
+        DATA_FACADE.getDataConnection().createSouvenir(souvenirCase.convert2JSON());
         souvenirCaseCache.add(souvenirCase);
     }
 
@@ -142,7 +204,7 @@ public final class Domain implements Logic {
     @Override
     public void updateSouvenirCase(ISouvenirCase souvenirCase) {
         if (souvenirCaseCache == null) readAllSouvenirCases();
-        CONNECTION.updateSouvenir(souvenirCase.convert2JSON());
+        DATA_FACADE.getDataConnection().updateSouvenir(souvenirCase.convert2JSON());
         long id = souvenirCase.getId();
         souvenirCaseCache.removeIf(svn -> svn.getId() == id);
         souvenirCaseCache.add(souvenirCase);
@@ -151,7 +213,7 @@ public final class Domain implements Logic {
     @Override
     public void deleteSouvenirCase(long id) {
         if (souvenirCaseCache == null) readAllSouvenirCases();
-        CONNECTION.deleteSouvenir(id);
+        DATA_FACADE.getDataConnection().deleteSouvenir(id);
         souvenirCaseCache.removeIf(souvenirCase -> souvenirCase.getId() == id);
     }
 
@@ -159,7 +221,7 @@ public final class Domain implements Logic {
     public List<IVault> readAllVaults() {
         if (vaultCache == null) {
             vaultCache = new ArrayList<>();
-            for (Object o : CONNECTION.readAllVaults()) {
+            for (Object o : DATA_FACADE.getDataConnection().readAllVaults()) {
                 IVault newVault = CREATOR.emptyVault().convert2Obj((JSONObject) o);
                 vaultCache.add(newVault);
             }
@@ -170,7 +232,7 @@ public final class Domain implements Logic {
     @Override
     public void createVault(IVault vault) {
         if (vaultCache == null) this.readAllVaults();
-        CONNECTION.createVault(vault.convert2JSON());
+        DATA_FACADE.getDataConnection().createVault(vault.convert2JSON());
         vaultCache.add(vault);
     }
 
@@ -183,7 +245,7 @@ public final class Domain implements Logic {
     @Override
     public void updateVault(IVault vault) {
         if (vaultCache == null) this.readAllVaults();
-        CONNECTION.updateVault(vault.convert2JSON());
+        DATA_FACADE.getDataConnection().updateVault(vault.convert2JSON());
         long id = vault.getId();
         vaultCache.removeIf(v -> v.getId() == id);
         vaultCache.add(vault);
@@ -192,7 +254,7 @@ public final class Domain implements Logic {
     @Override
     public void deleteVault(long id) {
         if (vaultCache == null) this.readAllVaults();
-        CONNECTION.deleteVault(id);
+        DATA_FACADE.getDataConnection().deleteVault(id);
         vaultCache.removeIf(vault -> vault.getId() == id);
     }
 

@@ -3,6 +3,13 @@ package org.example.logic;
 import org.example.logic.interfaces.ISkin;
 import org.json.simple.JSONObject;
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.List;
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import static org.example.util.Attributes.*;
 
 public final class Skin implements ISkin {
@@ -13,9 +20,11 @@ public final class Skin implements ISkin {
     private String name;
     private String image;
     private String link;
-    private boolean statTrack;
+    private boolean statTrak;
     private boolean souvenir;
     private double wearFloat;
+
+    private static final Pattern PRICE_PATTERN = Pattern.compile("<span class=\"pull-right\">([0-9,-]+)(.)</span>");
 
     @Override
     public long getId() {
@@ -49,8 +58,40 @@ public final class Skin implements ISkin {
 
     @Override
     public void updateCurrPrice() {
-        // FIXME: 05-07-2021
-        throw new UnsupportedOperationException("Not yet implemented");
+// TODO: 13-07-2021 Optimise 
+        Pattern wear = Pattern.compile( wearFloat <= 0.07 ? Wear.FACTORY_NEW.getRegex() :
+                                        wearFloat <= 0.15 ? Wear.MINIMAL_WEAR.getRegex() :
+                                        wearFloat <= 0.38 ? Wear.FIELD_TESTED.getRegex() :
+                                        wearFloat <= 0.45 ? Wear.WELL_WORN.getRegex() :
+                                                            Wear.BATTLE_SCARED.getRegex());
+        Double[] prices = new Double[2];
+        try {
+            Scanner input = new Scanner(new URL(link).openStream());
+            String result;
+            Matcher wearStopper;
+            Matcher priceStopper;
+            int pIndex = -2;
+
+            while (input.hasNext()) {
+                wearStopper = wear.matcher(input.nextLine());
+                if (wearStopper.find()){
+                    result = input.nextLine();
+                    priceStopper = PRICE_PATTERN.matcher(result);
+                    if (priceStopper.find() && pIndex >= 0){
+                        prices[pIndex] = Double.parseDouble(priceStopper.group(1).replace(",", ".").replace("-","0"));
+                    }
+                    else if (pIndex >= 0) {
+                        prices[pIndex] = -1.0;
+                    }
+                    pIndex++;
+                }
+            }
+            input.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (isStatTrak() || isSouvenir())   setCurrPrice(prices[0]);
+        else                                setCurrPrice(prices[1]);
     }
 
     @Override
@@ -89,17 +130,19 @@ public final class Skin implements ISkin {
     }
 
     @Override
-    public void setStatTrack(boolean statTrack) {
-        this.statTrack = statTrack;
+    public void setStatTrak(boolean statTrak) {
+        if (statTrak && isSouvenir()) throw new IllegalArgumentException("Cannot be StatTrack and Souvenir at the same time");
+        this.statTrak = statTrak;
     }
 
     @Override
-    public boolean isStatTrack() {
-        return statTrack;
+    public boolean isStatTrak() {
+        return statTrak;
     }
 
     @Override
     public void setSouvenir(boolean souvenir) {
+        if (souvenir && isStatTrak()) throw new IllegalArgumentException("Cannot be Souvenir and StatTrack at the same time");
         this.souvenir = souvenir;
     }
 
@@ -110,6 +153,7 @@ public final class Skin implements ISkin {
 
     @Override
     public void setWearFloat(double wearFloat) {
+        if (wearFloat > 1 || wearFloat < 0) throw new IllegalArgumentException("Float has to be between 0 to 1");
         this.wearFloat = wearFloat;
     }
 
@@ -126,7 +170,7 @@ public final class Skin implements ISkin {
         setImage(image);
         setStashLink(stashLink);
         setWearFloat(wearFloat);
-        setStatTrack(statTrack);
+        setStatTrak(statTrack);
         setSouvenir(souvenir);
         return this;
     }
@@ -142,7 +186,7 @@ public final class Skin implements ISkin {
         innerObj.put(IMAGE.toString(),getImage());
         innerObj.put(STASH_LINK.toString(),getStashLink());
         innerObj.put(WEAR_FLOAT.toString(),getWearFloat());
-        innerObj.put(STAT_TRACK.toString(),isStatTrack());
+        innerObj.put(STAT_TRACK.toString(), isStatTrak());
         innerObj.put(SOUVENIR.toString(),isSouvenir());
         shellObj.put(SKIN.toString(),innerObj);
         return shellObj;
@@ -165,8 +209,12 @@ public final class Skin implements ISkin {
 
     @Override
     public long findMaxID() {
-        // FIXME: 05-07-2021
-        return 0;
+        List<ISkin> cache = Domain.getInstance().readAllSkins();
+        long maxValue = cache.get(0).getId();
+        for (ISkin skin : cache){
+            if (skin.getId() > maxValue) maxValue = skin.getId();
+        }
+        return maxValue;
     }
 
     @Override
@@ -178,9 +226,27 @@ public final class Skin implements ISkin {
                 ", name='" + name + '\'' +
                 ", image='" + image + '\'' +
                 ", link='" + link + '\'' +
-                ", statTrack=" + statTrack +
+                ", statTrack=" + statTrak +
                 ", souvenir=" + souvenir +
                 ", wearFloat=" + wearFloat +
                 '}';
+    }
+
+    private enum Wear {
+        FACTORY_NEW("<span class=\"pull-left\">Factory New</span>"),
+        MINIMAL_WEAR("<span class=\"pull-left\">Minimal Wear</span>"),
+        FIELD_TESTED("<span class=\"pull-left\">Field-Tested</span>"),
+        WELL_WORN("<span class=\"pull-left\">Well-Worn</span>"),
+        BATTLE_SCARED("<span class=\"pull-left\">Battle-Scarred</span>");
+
+        private final String regex;
+
+        Wear(String regex){
+            this.regex = regex;
+        }
+
+        public String getRegex() {
+            return regex;
+        }
     }
 }

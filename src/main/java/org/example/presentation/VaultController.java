@@ -43,7 +43,7 @@ public class VaultController extends App implements Initializable {
         if (operation == EDIT) readInvestment();
         else if (operation == CREATE){
             tmpMap = new HashMap<>();
-            DOMAIN_FACADE.setSelectedInvestment(DOMAIN_FACADE.getFactory().emptyVault());
+            DOMAIN.setSelectedVault(DOMAIN.getFactory().emptyVault());
         }
 
         //===Buttons====================================================================================================
@@ -87,10 +87,10 @@ public class VaultController extends App implements Initializable {
                 }
             }
         });
-        for (ICapsule capsule : DOMAIN_FACADE.getDomain().readAllCapsules()){
+        for (ICapsule capsule : DOMAIN.readAllCapsules()){
             allItemsListView.getItems().add(capsule);
         }
-        for (ISkin skin : DOMAIN_FACADE.getDomain().readAllSkins()){
+        for (ISkin skin : DOMAIN.readAllSkins()){
             allItemsListView.getItems().add(skin);
         }
         //allItemsListView.setItems(allCapsules);
@@ -103,12 +103,12 @@ public class VaultController extends App implements Initializable {
                         capsule == null ||
                         capsule.getName() == null ||
                         !tmpMap.containsKey(capsule) ||
-                        DOMAIN_FACADE.getDataFacade().getGFX().getImageMap().get(capsule.getImage()) == null) {
+                        DOMAIN.getDataFacade().getGFX().getImageMap().get(capsule.getImage()) == null) {
                     setText(null);
                     setGraphic(null);
                 } else {
                     setText(tmpMap.get(capsule) + "\t" + capsule.getName());
-                    ImageView imageView = new ImageView(DOMAIN_FACADE.getDataFacade().getGFX().getImageMap().get(capsule.getImage()));
+                    ImageView imageView = new ImageView(DOMAIN.getDataFacade().getGFX().getImageMap().get(capsule.getImage()));
                     imageView.setPreserveRatio(true);
                     imageView.setFitHeight(25);
                     setGraphic(imageView);
@@ -119,15 +119,15 @@ public class VaultController extends App implements Initializable {
 
     private void createInvestment(){
         //===Name===
-        IVault newInvestment = DOMAIN_FACADE.getFactory().emptyVault().populate(-1,nameTextField.getText());
+        IVault newInvestment = DOMAIN.getFactory().emptyVault().populate(-1,nameTextField.getText());
         //===Content===
         newInvestment.setAllItems(tmpMap);
         //===Domain===
-        DOMAIN_FACADE.getDomain().createVault(newInvestment);
+        DOMAIN.createVault(newInvestment);
     }
 
     private void readInvestment(){
-        loadedInvestment = DOMAIN_FACADE.getSelectedInvestment();
+        loadedInvestment = DOMAIN.getSelectedVault();
         //===Name===
         nameTextField.setText(loadedInvestment.getName());
         //===Content===
@@ -142,7 +142,7 @@ public class VaultController extends App implements Initializable {
         //===Content===
         loadedInvestment.setAllItems(tmpMap);
         //===Domain===
-        DOMAIN_FACADE.getDomain().updateVault(loadedInvestment);
+        DOMAIN.updateVault(loadedInvestment);
     }
 
     private void deleteInvestment(){

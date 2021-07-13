@@ -22,6 +22,7 @@ final class JsonConnection implements DataConnection {
 
     private static JsonConnection instance;
     private final Map<String,File> fileMap = new HashMap<>();
+    private boolean connected = false;
 
     private JsonConnection(){
     }
@@ -32,35 +33,45 @@ final class JsonConnection implements DataConnection {
 
     @Override
     public boolean connect(){
-        System.out.println("Initiating connecting");
-        try {
-            // Get the path for the database
-            URL url = getClass().getClassLoader().getResource(PATH);
-            // Check if the path is valid
-            if(url == null) throw new FileNotFoundException("Directory: " + PATH + " does not exist.");
-            // Creates the a file object to the directory
-            File directory = new File(url.toURI());
+        if (!connected) {
+            System.out.println("\n||===========================================");
+            System.out.println("|| Initiating connection");
+            try {
+                // Get the path for the database
+                URL url = getClass().getClassLoader().getResource(PATH);
+                // Check if the path is valid
+                if (url == null) throw new FileNotFoundException("Directory: " + PATH + " does not exist.");
+                // Creates the a file object to the directory
+                File directory = new File(url.toURI());
 
-            if(!directory.isDirectory()) throw new NotDirectoryException(PATH + " is not a directory.");
+                if (!directory.isDirectory()) throw new NotDirectoryException(PATH + " is not a directory.");
+                System.out.println("|| Loading files from [" + directory + "]");
 
-            // Get all files from directory
-            File[] files = directory.listFiles();
+                // Get all files from directory
+                File[] files = directory.listFiles();
 
-            // Check if is directory
-            if(files == null) throw new NotDirectoryException(PATH + " is not a directory.");
+                // Check if is directory
+                if (files == null) throw new NotDirectoryException(PATH + " is not a directory.");
+                System.out.println("|| Total files found [" + files.length + "]");
 
-            // Populate tables hashmap
-            System.out.println("Loading files");
-            for(File file : files) {
-                // Get name of file
-                String fileName = file.getName().split("\\.")[0];
-                System.out.println(file);
-                fileMap.put(fileName, file);
+                // Populate tables hashmap
+                for (File file : files) {
+                    // Get name of file
+                    String fileName = file.getName().split("\\.")[0];
+                    System.out.println("|| Found file [" + fileName + "]");
+                    fileMap.put(fileName, file);
+                }
+                System.out.println("|| Initialisation done");
+                System.out.println("||===========================================\n");
+                connected = true;
+                return true;
+            } catch (URISyntaxException | FileNotFoundException | NotDirectoryException e) {
+                connected = false;
+                return false;
             }
-            return true;
-        } catch (URISyntaxException | FileNotFoundException | NotDirectoryException e) {
-            return false;
         }
+        System.out.println("Connected");
+        return true;
     }
 
     private void saveFile(JSONArray jsonArray, String file){
@@ -180,7 +191,7 @@ final class JsonConnection implements DataConnection {
         updateObjInTable(jsonObject,CAPSULES.toString(),CAPSULE.toString());
     }
 
-    // FIXME: 05-07-2021 SIMPLIFY
+    // TODO: 05-07-2021 SIMPLIFY
     @Override
     public void deleteCapsule(long id) {
         //Remove from investments

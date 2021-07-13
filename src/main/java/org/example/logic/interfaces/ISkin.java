@@ -5,8 +5,8 @@ import org.example.logic.interfaces.comps.Convertible;
 
 public interface ISkin extends Displayable, Convertible<ISkin> {
 
-    void setStatTrack(boolean statTrack);
-    boolean isStatTrack();
+    void setStatTrak(boolean statTrak);
+    boolean isStatTrak();
 
     void setSouvenir(boolean souvenir);
     boolean isSouvenir();

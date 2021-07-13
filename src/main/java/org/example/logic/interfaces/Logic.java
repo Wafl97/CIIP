@@ -1,8 +1,23 @@
 package org.example.logic.interfaces;
 
+import org.example.data.interfaces.IDataFacade;
+
 import java.util.List;
 
 public interface Logic {
+
+    IDataFacade getDataFacade();
+    IFileHandler getFileHandler();
+    Factory getFactory();
+
+    String getVersion();
+    String getAppName();
+
+    void setSelectedVault(IVault vault);
+    IVault getSelectedVault();
+    void setSelectedCapsule(ICapsule capsule);
+    ICapsule getSelectedCapsule();
+
     List<ICapsule> readAllCapsules();
     void createCapsule(ICapsule capsule);
     ICapsule readCapsule(long id);
