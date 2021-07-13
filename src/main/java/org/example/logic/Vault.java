@@ -1,5 +1,6 @@
 package org.example.logic;
 
+import org.example.logic.interfaces.ISticker;
 import org.example.logic.interfaces.comps.Displayable;
 import org.example.logic.interfaces.comps.Identifiable;
 import org.example.logic.interfaces.ICapsule;
@@ -15,7 +16,7 @@ import java.util.Set;
 
 import static org.example.util.Attributes.*;
 
-// FIXME: 05-07-2021 Add the ability to store Skin and Souvenir
+// FIXME: 05-07-2021 Add the ability to store SouvenirCases
 
 public final class Vault implements IVault {
 
@@ -90,6 +91,7 @@ public final class Vault implements IVault {
         //Create the inner array
         JSONArray capsules = new JSONArray();
         JSONArray skins = new JSONArray();
+        JSONArray stickers = new JSONArray();
         for (Identifiable item : containers.keySet()){
             //Inner obj
             if (item instanceof ICapsule) {
@@ -108,9 +110,18 @@ public final class Vault implements IVault {
                 shell.put(SKIN.toString(), skin);
                 skins.add(shell);
             }
+            else if (item instanceof ISticker){
+                JSONObject sticker = new JSONObject();
+                sticker.put(ID.toString(), item.getId());
+                sticker.put(AMOUNT.toString(), containers.get(item));
+                JSONObject shell = new JSONObject();
+                shell.put(STICKER.toString(), sticker);
+                stickers.add(shell);
+            }
         }
         innerObj.put(CAPSULES.toString(),capsules);
         innerObj.put(SKINS.toString(),skins);
+        innerObj.put(STICKERS.toString(),stickers);
         returnObj.put(VAULT.toString(),innerObj);
         return returnObj;
     }
@@ -121,13 +132,20 @@ public final class Vault implements IVault {
         this.populate(
                 (long)      innerObj.get(ID.toString()),
                 (String)    innerObj.get(NAME.toString()));
+        //Add Capsules
         for (Object o : (JSONArray) innerObj.get(CAPSULES.toString())){
             JSONObject capsule = (JSONObject) ((JSONObject) o).get(CAPSULE.toString());
             containers.put(Domain.getInstance().readCapsule((long) capsule.get(ID.toString())), (long) capsule.get(AMOUNT.toString()));
         }
+        //Add Skins
         for (Object o : (JSONArray) innerObj.get(SKINS.toString())){
             JSONObject skin = (JSONObject) ((JSONObject) o).get(SKIN.toString());
             containers.put(Domain.getInstance().readSkin((long) skin.get(ID.toString())), (long) skin.get(AMOUNT.toString()));
+        }
+        //Add Stickers
+        for (Object o : (JSONArray) innerObj.get(STICKERS.toString())){
+            JSONObject sticker = (JSONObject) ((JSONObject) o).get(STICKER.toString());
+            containers.put(Domain.getInstance().readSticker((long) sticker.get(ID.toString())), (long) sticker.get(AMOUNT.toString()));
         }
         return this;
     }

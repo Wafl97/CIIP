@@ -5,7 +5,7 @@
       "NAME": "name",
       "INIT_PRICE": 99.99,
       "STASH_LINK": "link",
-      "IMAGE": "image"
+      "IMAGE": "260fx260f.png"
     }
   },
   {
@@ -14,7 +14,7 @@
       "NAME": "namesdf",
       "INIT_PRICE": 66.66,
       "STASH_LINK": "linksdf",
-      "IMAGE": "imagedsf"
+      "IMAGE": "260fx260f.png"
     }
   }
 ]

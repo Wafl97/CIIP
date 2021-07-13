@@ -77,15 +77,15 @@ public class MainController extends App implements Initializable {
         });
         itemListView.setCellFactory(cell -> new ListCell<>() {
             @Override
-            protected void updateItem(Displayable capsule, boolean empty) {
-                super.updateItem(capsule, empty);
+            protected void updateItem(Displayable item, boolean empty) {
+                super.updateItem(item, empty);
 
-                if (empty || capsule == null || capsule.getName() == null || DOMAIN.getDataFacade().getGFX().getImageMap().get(capsule.getImage()) == null) {
+                if (empty || item == null || item.getName() == null || DOMAIN.getDataFacade().getGFX().getImageMap().get(item.getImage()) == null) {
                     setText(null);
                     setGraphic(null);
                 } else {
-                    setText(capsule.getName());
-                    ImageView imageView = new ImageView(DOMAIN.getDataFacade().getGFX().getImageMap().get(capsule.getImage()));
+                    setText(item.getName());
+                    ImageView imageView = new ImageView(DOMAIN.getDataFacade().getGFX().getImageMap().get(item.getImage()));
                     imageView.setPreserveRatio(true);
                     imageView.setFitHeight(25);
                     setGraphic(imageView);

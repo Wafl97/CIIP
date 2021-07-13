@@ -39,6 +39,12 @@
             "ID": 1,
             "AMOUNT": 1
           }
+        },
+        {
+          "STICKER": {
+            "ID": 2,
+            "AMOUNT": 1
+          }
         }
       ]
     }
