@@ -25,30 +25,6 @@ public final class Skin implements ISkin {
     private double wearFloat;
 
     private static final Pattern PRICE_PATTERN = Pattern.compile("<span class=\"pull-right\">([0-9,-]+)(.)</span>");
-//
-//    //Normal
-//    // TODO: 11-07-2021
-//    private static final Pattern FN_STOP_PATTERN = Pattern.compile("");
-//    private static final Pattern MW_STOP_PATTERN = Pattern.compile("");
-//    private static final Pattern FT_STOP_PATTERN = Pattern.compile("");
-//    private static final Pattern WW_STOP_PATTERN = Pattern.compile("");
-//    private static final Pattern BS_STOP_PATTERN = Pattern.compile("");
-//
-//    //StatTrak
-//    // TODO: 11-07-2021
-//    private static final Pattern ST_FN_STOP_PATTERN = Pattern.compile("");
-//    private static final Pattern ST_MW_STOP_PATTERN = Pattern.compile("");
-//    private static final Pattern ST_FT_STOP_PATTERN = Pattern.compile("");
-//    private static final Pattern ST_WW_STOP_PATTERN = Pattern.compile("");
-//    private static final Pattern ST_BS_STOP_PATTERN = Pattern.compile("");
-//
-//    //Souvenir
-//    // TODO: 11-07-2021
-//    private static final Pattern SV_FN_STOP_PATTERN = Pattern.compile("");
-//    private static final Pattern SV_MW_STOP_PATTERN = Pattern.compile("");
-//    private static final Pattern SV_FT_STOP_PATTERN = Pattern.compile("");
-//    private static final Pattern SV_WW_STOP_PATTERN = Pattern.compile("");
-//    private static final Pattern SV_BS_STOP_PATTERN = Pattern.compile("");
 
     @Override
     public long getId() {
@@ -82,7 +58,7 @@ public final class Skin implements ISkin {
 
     @Override
     public void updateCurrPrice() {
-// FIXME: 11-07-2021
+// TODO: 13-07-2021 Optimise 
         Pattern wear = Pattern.compile( wearFloat <= 0.07 ? Wear.FACTORY_NEW.getRegex() :
                                         wearFloat <= 0.15 ? Wear.MINIMAL_WEAR.getRegex() :
                                         wearFloat <= 0.38 ? Wear.FIELD_TESTED.getRegex() :

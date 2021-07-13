@@ -191,7 +191,7 @@ final class JsonConnection implements DataConnection {
         updateObjInTable(jsonObject,CAPSULES.toString(),CAPSULE.toString());
     }
 
-    // FIXME: 05-07-2021 SIMPLIFY
+    // TODO: 05-07-2021 SIMPLIFY
     @Override
     public void deleteCapsule(long id) {
         //Remove from investments
