@@ -34,8 +34,8 @@ final class JsonConnection implements DataConnection {
     @Override
     public boolean connect(){
         if (!connected) {
-            System.out.println("\n[");
-            System.out.println("Initiating connection");
+            System.out.println("\n||===========================================");
+            System.out.println("|| Initiating connection");
             try {
                 // Get the path for the database
                 URL url = getClass().getClassLoader().getResource(PATH);
@@ -45,24 +45,24 @@ final class JsonConnection implements DataConnection {
                 File directory = new File(url.toURI());
 
                 if (!directory.isDirectory()) throw new NotDirectoryException(PATH + " is not a directory.");
-                System.out.println("Loading files from [" + directory + "]");
+                System.out.println("|| Loading files from [" + directory + "]");
 
                 // Get all files from directory
                 File[] files = directory.listFiles();
 
                 // Check if is directory
                 if (files == null) throw new NotDirectoryException(PATH + " is not a directory.");
-                System.out.println("Total files found [" + files.length + "]");
+                System.out.println("|| Total files found [" + files.length + "]");
 
                 // Populate tables hashmap
                 for (File file : files) {
                     // Get name of file
                     String fileName = file.getName().split("\\.")[0];
-                    System.out.println("Found file [" + fileName + "]");
+                    System.out.println("|| Found file [" + fileName + "]");
                     fileMap.put(fileName, file);
                 }
-                System.out.println("Initialisation done");
-                System.out.println("]\n");
+                System.out.println("|| Initialisation done");
+                System.out.println("||===========================================\n");
                 connected = true;
                 return true;
             } catch (URISyntaxException | FileNotFoundException | NotDirectoryException e) {

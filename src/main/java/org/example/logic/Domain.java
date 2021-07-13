@@ -29,11 +29,13 @@ public final class Domain implements Logic {
     }
 
     private Domain(){
-        System.out.println("Starting Domain");
+        System.out.println("||======================================||");
+        System.out.println("||\t\t\tStarting CIP - v0.5\t\t\t||");
+        System.out.println("||======================================||");
 
         System.out.println("\t - Getting Factory");
         CREATOR = StructureCreator.getInstance();
-        System.out.println("\t - Factory type:\t" + CREATOR.getClass().getSimpleName());
+        System.out.println("\t - Factory type: [" + CREATOR.getClass().getSimpleName() + "]");
 
         System.out.println("\t - Getting FileHandler");
         FILE_HANDLER = FileHandler.getInstance();

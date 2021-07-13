@@ -100,7 +100,7 @@ public class ItemController extends App implements Initializable {
             skinProfile.use(loadedItem instanceof ISkin);
             if (loadedItem instanceof ISkin){
                 wearFloatTextField.setText(String.valueOf(((ISkin) loadedItem).getWearFloat()));
-                statTrackToggleButton.setSelected(((ISkin) loadedItem).isStatTrack());
+                statTrackToggleButton.setSelected(((ISkin) loadedItem).isStatTrak());
                 souvenirToggleButton.setSelected(((ISkin) loadedItem).isSouvenir());
             }
         }
