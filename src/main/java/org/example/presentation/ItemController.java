@@ -232,8 +232,6 @@ public class ItemController extends App implements Initializable {
     }
 
     private void buttonConfig(Operation operation){
-        // FIXME: 04-07-2021
-        deleteButton.setOnAction(e -> DOMAIN.deleteCapsule(1));
         switch (operation){
             case CREATE:
                 enableEditButton.setDisable(true);
