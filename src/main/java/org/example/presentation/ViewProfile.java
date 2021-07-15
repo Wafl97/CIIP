@@ -7,6 +7,7 @@ import javafx.scene.control.ToggleButton;
 import java.util.HashSet;
 import java.util.Set;
 
+// TODO: 15-07-2021 This class is very overkill for hvad i am doing
 public class ViewProfile {
 
     private final Set<Button> buttons;

@@ -23,7 +23,7 @@ public class ItemController extends App implements Initializable {
     private Button backButton, submitButton, browserButton, enableEditButton, deleteButton, chooseImageButton,
             add0_25, lower0_25, add0_5, lower0_5, add1, lower1, add10, lower10, add100, lower100;
     @FXML
-    private RadioButton skinRadioButton, capsuleRadioButton, souvenirRadioButton;
+    private RadioButton skinRadioButton, capsuleRadioButton, souvenirRadioButton, stickerRadioButton;
     @FXML
     private ToggleButton statTrackToggleButton, souvenirToggleButton;
     @FXML
@@ -76,16 +76,7 @@ public class ItemController extends App implements Initializable {
             }
         });
 
-        for (Displayable item : DOMAIN.readAllCapsules()){
-            itemsListView.getItems().add(item);
-        }
-        for (Displayable item : DOMAIN.readAllSkins()){
-            itemsListView.getItems().add(item);
-        }
-        for (Displayable item : DOMAIN.readAllStickers()){
-            itemsListView.getItems().add(item);
-        }
-        for (Displayable item : DOMAIN.readAllSouvenirCases()){
+        for (Displayable item : DOMAIN.readAllItems()){
             itemsListView.getItems().add(item);
         }
         itemsListView.refresh();
@@ -239,11 +230,9 @@ public class ItemController extends App implements Initializable {
 
         radioToggle = new ToggleGroup();
         skinRadioButton.setToggleGroup(radioToggle);
-        skinRadioButton.setUserData(DOMAIN.getFactory().emptySkin());
         capsuleRadioButton.setToggleGroup(radioToggle);
-        capsuleRadioButton.setUserData(DOMAIN.getFactory().emptyCapsule());
         souvenirRadioButton.setToggleGroup(radioToggle);
-        souvenirRadioButton.setUserData((DOMAIN.getFactory().emptyVault()));
+        stickerRadioButton.setToggleGroup(radioToggle);
 
         ToggleGroup toggle = new ToggleGroup();
         statTrackToggleButton.setToggleGroup(toggle);

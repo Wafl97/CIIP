@@ -1,7 +1,7 @@
 package org.example.logic.interfaces;
 
 import org.example.data.interfaces.IDataFacade;
-import org.json.simple.JSONObject;
+import org.example.logic.interfaces.comps.Displayable;
 
 import java.util.List;
 
@@ -18,6 +18,8 @@ public interface Logic {
     IVault getSelectedVault();
     void setSelectedCapsule(ICapsule capsule);
     ICapsule getSelectedCapsule();
+
+    List<Displayable> readAllItems();
 
     List<ICapsule> readAllCapsules();
     void createCapsule(ICapsule capsule);

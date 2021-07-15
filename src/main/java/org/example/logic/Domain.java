@@ -3,6 +3,7 @@ package org.example.logic;
 import org.example.data.DataFacade;
 import org.example.data.interfaces.IDataFacade;
 import org.example.logic.interfaces.*;
+import org.example.logic.interfaces.comps.Displayable;
 import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
@@ -93,6 +94,16 @@ public final class Domain implements Logic {
     @Override
     public ICapsule getSelectedCapsule() {
         return selectedCapsule;
+    }
+
+    @Override
+    public List<Displayable> readAllItems(){
+        List<Displayable> rtn = new ArrayList<>();
+        rtn.addAll(readAllCapsules());
+        rtn.addAll(readAllSkins());
+        rtn.addAll(readAllStickers());
+        rtn.addAll(readAllSouvenirCases());
+        return rtn;
     }
 
     @Override
