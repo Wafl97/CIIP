@@ -10,13 +10,10 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import static org.example.util.Attributes.*;
-
-// FIXME: 05-07-2021 Add the ability to store SouvenirCases
 
 public final class Vault implements IVault {
 

@@ -41,12 +41,6 @@ public abstract class GenericItem<T> implements Item<T> {
     }
 
     @Override
-    public long findMaxID() {
-        // TODO: 15-07-2021
-        return 0;
-    }
-
-    @Override
     public String getName() {
         return name;
     }

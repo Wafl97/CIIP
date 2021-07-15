@@ -6,7 +6,6 @@ import org.json.simple.JSONObject;
 
 import static org.example.util.Attributes.*;
 
-// FIXME: 04-07-2021 
 public final class SouvenirCase extends GenericItem<ISouvenirCase> implements ISouvenirCase {
 
     public SouvenirCase(){

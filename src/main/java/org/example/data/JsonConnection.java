@@ -139,7 +139,6 @@ final class JsonConnection implements DataConnection {
                 for (Object o : investArray) {
                     JSONObject investObj = (JSONObject) o;
                     JSONObject innerObj = (JSONObject) investObj.get(VAULT.toString());
-                    // TODO: 13-07-2021 Add support for other Data-types
                     JSONArray innerInvestArray = (JSONArray) innerObj.get(table.toString());
                     for (Object obj : innerInvestArray) {
                         JSONObject investCapsule = (JSONObject) obj;
