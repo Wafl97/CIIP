@@ -6,8 +6,6 @@ import org.example.logic.interfaces.comps.Identifiable;
 
 import java.util.Map;
 import java.util.Set;
-// TODO: 05-07-2021 Add the ability to store Skin and Souvenir:
-//  05-07-2021 Skins added
 
 public interface IVault extends Convertible<IVault>, Identifiable {
 

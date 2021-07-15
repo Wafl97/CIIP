@@ -19,8 +19,8 @@ public class DataConnectionTest extends TestCase {
     DataReset reSetter = DataReset.getInstance();
 
     //Dummy objs
-    ISticker st1 = creator.emptySticker().populate(1,99.99,"name","image","link");
-    ISticker st2 = creator.emptySticker().populate(2,66.66,"namesdf","imagedsf","linksdf");
+    ISticker st1 = creator.emptySticker().populate(1,99.99,"name","260fx260f.png","link");
+    ISticker st2 = creator.emptySticker().populate(2,66.66,"namesdf","260fx260f.png","linksdf");
     List<JSONObject> expectedList = Arrays.asList(st1.convert2JSON(),st2.convert2JSON());
 
     public void setUp() throws Exception {
@@ -96,7 +96,6 @@ public class DataConnectionTest extends TestCase {
         ISticker sticker = creator.emptySticker().convert2Obj(connection.readSticker(2));
         sticker.setName("new name");
         connection.updateSticker(sticker.convert2JSON());
-        System.out.println(connection.readSticker(2));
         assertEquals(sticker.convert2JSON(),connection.readSticker(2));
     }
 

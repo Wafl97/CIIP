@@ -10,13 +10,10 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import static org.example.util.Attributes.*;
-
-// FIXME: 05-07-2021 Add the ability to store SouvenirCases
 
 public final class Vault implements IVault {
 
@@ -146,6 +143,11 @@ public final class Vault implements IVault {
         for (Object o : (JSONArray) innerObj.get(STICKERS.toString())){
             JSONObject sticker = (JSONObject) ((JSONObject) o).get(STICKER.toString());
             containers.put(Domain.getInstance().readSticker((long) sticker.get(ID.toString())), (long) sticker.get(AMOUNT.toString()));
+        }
+        //Add SouvenirCases
+        for (Object o : (JSONArray) innerObj.get(SOUVENIRS.toString())){
+            JSONObject souvenir = (JSONObject) ((JSONObject) o).get(SOUVENIR.toString());
+            containers.put(Domain.getInstance().readSouvenirCase((long) souvenir.get(ID.toString())), (long) souvenir.get(AMOUNT.toString()));
         }
         return this;
     }

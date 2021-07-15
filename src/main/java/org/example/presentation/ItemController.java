@@ -85,9 +85,9 @@ public class ItemController extends App implements Initializable {
         for (Displayable item : DOMAIN.readAllStickers()){
             itemsListView.getItems().add(item);
         }
-//        for (Displayable item : DOMAIN.getDomain().readAllSouvenirCases()){
-//            itemsListView.getItems().add(item);
-//        }
+        for (Displayable item : DOMAIN.readAllSouvenirCases()){
+            itemsListView.getItems().add(item);
+        }
         itemsListView.refresh();
     }
 

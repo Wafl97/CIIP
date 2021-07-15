@@ -12,49 +12,17 @@ import java.util.regex.Pattern;
 
 import static org.example.util.Attributes.*;
 
-public final class Skin implements ISkin {
+public final class Skin extends GenericItem<ISkin> implements ISkin {
 
-    private long id;
-    private double initPrice;
-    private double currPrice;
-    private String name;
-    private String image;
-    private String link;
+    public Skin(){
+        super(SKIN);
+    }
+
     private boolean statTrak;
     private boolean souvenir;
     private double wearFloat;
 
     private static final Pattern PRICE_PATTERN = Pattern.compile("<span class=\"pull-right\">([0-9,-]+)(.)</span>");
-
-    @Override
-    public long getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    @Override
-    public double getInitPrice() {
-        return initPrice;
-    }
-
-    @Override
-    public void setInitPrice(double price) {
-        this.initPrice = price;
-    }
-
-    @Override
-    public double getCurrPrice() {
-        return currPrice;
-    }
-
-    @Override
-    public void setCurrPrice(double price) {
-        this.currPrice = price;
-    }
 
     @Override
     public void updateCurrPrice() {
@@ -95,41 +63,6 @@ public final class Skin implements ISkin {
     }
 
     @Override
-    public double getDiffPrice() {
-        return initPrice - currPrice;
-    }
-
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public String getImage() {
-        return image;
-    }
-
-    @Override
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    @Override
-    public String getStashLink() {
-        return link;
-    }
-
-    @Override
-    public void setStashLink(String link) {
-        this.link = link;
-    }
-
-    @Override
     public void setStatTrak(boolean statTrak) {
         if (statTrak && isSouvenir()) throw new IllegalArgumentException("Cannot be StatTrack and Souvenir at the same time");
         this.statTrak = statTrak;
@@ -160,19 +93,6 @@ public final class Skin implements ISkin {
     @Override
     public double getWearFloat() {
         return wearFloat;
-    }
-
-    @Override
-    public ISkin populate(long id, double initPrice, String name, String image, String stashLink, double wearFloat, boolean statTrack, boolean souvenir) {
-        setId(id);
-        setInitPrice(initPrice);
-        setName(name);
-        setImage(image);
-        setStashLink(stashLink);
-        setWearFloat(wearFloat);
-        setStatTrak(statTrack);
-        setSouvenir(souvenir);
-        return this;
     }
 
 
@@ -214,6 +134,19 @@ public final class Skin implements ISkin {
             if (skin.getId() > maxValue) maxValue = skin.getId();
         }
         return maxValue;
+    }
+
+    @Override
+    public ISkin populate(long id, double initPrice, String name, String image, String stashLink, double wearFloat, boolean statTrack, boolean souvenir) {
+        setId(id);
+        setInitPrice(initPrice);
+        setName(name);
+        setImage(image);
+        setStashLink(stashLink);
+        setWearFloat(wearFloat);
+        setStatTrak(statTrack);
+        setSouvenir(souvenir);
+        return this;
     }
 
     @Override
