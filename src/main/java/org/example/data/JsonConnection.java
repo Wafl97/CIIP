@@ -217,40 +217,34 @@ final class JsonConnection implements DataConnection {
         updateObjInTable(jsonObject,CAPSULES,CAPSULE);
     }
 
-    // TODO: 05-07-2021 SIMPLIFY
     @Override
     public void deleteCapsule(long id) {
         removeObjFromTable(id, CAPSULES, CAPSULE, true);
     }
 
-    // FIXME: 05-07-2021
     @Override
     public List<JSONObject> readAllSouvenirs() {
-        throw new UnsupportedOperationException("Not yet implemented");
+        return new ArrayList<JSONObject>(loadFile(SOUVENIRS));
     }
 
-    // FIXME: 05-07-2021
     @Override
     public void createSouvenir(JSONObject jsonObject) {
-        throw new UnsupportedOperationException("Not yet implemented");
+        addObjToTable(jsonObject,SOUVENIRS);
     }
 
-    // FIXME: 05-07-2021
     @Override
     public JSONObject readSouvenir(long id) {
-        throw new UnsupportedOperationException("Not yet implemented");
+        return readOneObj(id,readAllSouvenirs(),SOUVENIR);
     }
 
-    // FIXME: 05-07-2021
     @Override
     public void updateSouvenir(JSONObject jsonObject) {
-        throw new UnsupportedOperationException("Not yet implemented");
+        updateObjInTable(jsonObject,SOUVENIRS,SOUVENIR);
     }
 
-    // FIXME: 05-07-2021
     @Override
     public void deleteSouvenir(long id) {
-        throw new UnsupportedOperationException("Not yet implemented");
+        removeObjFromTable(id,SOUVENIRS,SOUVENIR,true);
     }
 
     @Override

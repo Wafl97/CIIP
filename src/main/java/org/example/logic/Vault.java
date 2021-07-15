@@ -147,6 +147,11 @@ public final class Vault implements IVault {
             JSONObject sticker = (JSONObject) ((JSONObject) o).get(STICKER.toString());
             containers.put(Domain.getInstance().readSticker((long) sticker.get(ID.toString())), (long) sticker.get(AMOUNT.toString()));
         }
+        //Add SouvenirCases
+        for (Object o : (JSONArray) innerObj.get(SOUVENIRS.toString())){
+            JSONObject souvenir = (JSONObject) ((JSONObject) o).get(SOUVENIR.toString());
+            containers.put(Domain.getInstance().readSouvenirCase((long) souvenir.get(ID.toString())), (long) souvenir.get(AMOUNT.toString()));
+        }
         return this;
     }
 

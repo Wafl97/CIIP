@@ -77,8 +77,10 @@
       ],
       "SOUVENIRS":[
         {
-          "ID": 0,
-          "AMOUNT": 100
+          "SOUVENIR": {
+            "ID": 1,
+            "AMOUNT": 100
+          }
         }
       ],
       "STICKERS": [

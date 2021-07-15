@@ -1,79 +1,28 @@
 package org.example.logic;
 
 import org.example.logic.interfaces.ISouvenirCase;
-import org.example.logic.interfaces.comps.Displayable;
 import org.example.logic.interfaces.comps.Identifiable;
 import org.json.simple.JSONObject;
 
+import static org.example.util.Attributes.*;
 
 // FIXME: 04-07-2021 
-public final class SouvenirCase implements ISouvenirCase {
+public final class SouvenirCase extends GenericItem<ISouvenirCase> implements ISouvenirCase {
 
-    private long id;
-    private double initPrice;
-    private double currPrice;
-    private String name;
-    private String image;
-    private String link;
-
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public String getImage() {
-        return image;
-    }
-
-    @Override
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    @Override
-    public String getStashLink() {
-        return link;
-    }
-
-    @Override
-    public void setStashLink(String link) {
-        this.link = link;
-    }
-
-    @Override
-    public ISouvenirCase populate(long id, double initPrice, String name, String image, String stashLink) {
-        setId(id);
-        setInitPrice(initPrice);
-        setName(name);
-        setImage(image);
-        setStashLink(stashLink);
-        return this;
-    }
-
-    @Override
-    public JSONObject convert2JSON() {
-        return null;
+    public SouvenirCase(){
+        super(SOUVENIR);
     }
 
     @Override
     public ISouvenirCase convert2Obj(JSONObject jsonObject) {
-        return null;
-    }
-
-    @Override
-    public long getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(long id) {
-        this.id = id;
+        JSONObject innerObj = (JSONObject) jsonObject.get(SOUVENIR.toString());
+        return  populate(
+                (long)      innerObj.get(ID.toString()),
+                (double)    innerObj.get(INIT_PRICE.toString()),
+                (String)    innerObj.get(NAME.toString()),
+                (String)    innerObj.get(IMAGE.toString()),
+                (String)    innerObj.get(STASH_LINK.toString())
+        );
     }
 
     @Override
@@ -86,33 +35,13 @@ public final class SouvenirCase implements ISouvenirCase {
     }
 
     @Override
-    public double getInitPrice() {
-        return initPrice;
-    }
-
-    @Override
-    public void setInitPrice(double price) {
-        this.initPrice = price;
-    }
-
-    @Override
-    public double getCurrPrice() {
-        return currPrice;
-    }
-
-    @Override
-    public void setCurrPrice(double price) {
-        this.currPrice = price;
-    }
-
-    @Override
-    public void updateCurrPrice() {
-// FIXME: 07-07-2021
-    }
-
-    @Override
-    public double getDiffPrice() {
-        return currPrice - initPrice;
+    public ISouvenirCase populate(long id, double initPrice, String name, String image, String stashLink) {
+        setId(id);
+        setInitPrice(initPrice);
+        setName(name);
+        setImage(image);
+        setStashLink(stashLink);
+        return this;
     }
 
     @Override
