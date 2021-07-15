@@ -38,10 +38,9 @@ public class MainController extends App implements Initializable {
     @FXML
     private ImageView itemImage;
 
-    private List<IVault> allInvestments;
+    private List<IVault> allVaults;
     private int investIndex = -1;
     private int itemIndex = -1;
-
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -92,25 +91,17 @@ public class MainController extends App implements Initializable {
                 }
             }
         });
-        allInvestments = DOMAIN.readAllVaults();
-        float totalInvested = 0;
-        int totalItems = 0;
-        float totalSell = 0;
-        for (IVault investment : allInvestments) {
-            for (Object obj : investment.getAllItems().keySet()){
-                Displayable item = (Displayable) obj;
-                long l = (long) investment.getAllItems().get(item);
-                totalInvested += item.getInitPrice() * l;
-                totalSell += item.getCurrPrice() * l;
-                totalItems += l;
-            }
+        allVaults = DOMAIN.readAllVaults();
+        Info info = new Info();
+        for (IVault vault : allVaults) {
+            calcInfo(vault, info);
         }
-        investmentListView.setItems(FXCollections.observableList(allInvestments));
+        investmentListView.setItems(FXCollections.observableList(allVaults));
 
         //===Labels=====================================================================================================
-        globalTotalInvestedLabel.setText("Global Total Invested: " + totalInvested);
-        globalTotalItemsLabel.setText("Global Total Items: " + totalItems);
-        globalTotalMadeLabel.setText("Global Total Made: " + (totalSell - totalInvested));
+        globalTotalInvestedLabel.setText("Global Total Invested: " + info.getBuy());
+        globalTotalItemsLabel.setText("Global Total Items: " + info.getAmount());
+        globalTotalMadeLabel.setText("Global Total Made: " + (info.getSell() - info.getBuy()));
         totalInvestedLabel.setText("");
         totalContainersLabel.setText("");
         totalSellValueLabel.setText("");
@@ -131,30 +122,33 @@ public class MainController extends App implements Initializable {
     public void investmentHandler(MouseEvent mouseEvent) {
         investIndex = investmentListView.getSelectionModel().getSelectedIndex();
         if (investIndex != -1) {
-            IVault investment = investmentListView.getItems().get(investIndex);
-            ObservableList<Displayable> capsules = FXCollections.observableList(new ArrayList<>(investment.getItems()));
-            itemListView.setItems(capsules);
-            float totalBuy = 0;
-            float totalSell = 0;
-            int amount = 0;
-            for (Object obj : investment.getAllItems().keySet()){
-                Displayable item = (Displayable) obj;
-                long l = (long) investment.getAllItems().get(item);
-                totalBuy += item.getInitPrice() * l;
-                totalSell += item.getCurrPrice() * l;
-                amount += l;
-            }
-            totalInvestedLabel.setText("Total Invested: " + totalBuy + "€");
-            totalContainersLabel.setText("Amount of Containers: " + amount );
-            totalSellValueLabel.setText("Total By Selling: " + totalSell);
-            totalMadeLabel.setText("Total Made: " + (totalSell - totalBuy));
+            IVault vault = investmentListView.getItems().get(investIndex);
+            ObservableList<Displayable> item = FXCollections.observableList(new ArrayList<>(vault.getItems()));
+            itemListView.setItems(item);
+            Info info = new Info();
+            calcInfo(vault,info);
+            totalInvestedLabel.setText("Total Invested: " + info.getBuy() + "€");
+            totalContainersLabel.setText("Amount of Containers: " + info.getAmount() );
+            totalSellValueLabel.setText("Total By Selling: " + info.getSell());
+            totalMadeLabel.setText("Total Made: " + (info.getSell() - info.getBuy()));
         }
     }
 
     /**
-     *
-     * @param mouseEvent
+     * Calculates the different totals in a Vault.
+     * This methode updates the int and float references.
+     * @param vault the Vault being calculated on
      */
+    private void calcInfo(IVault vault, Info info){
+        for (Object obj : vault.getAllItems().keySet()){
+            Displayable item = (Displayable) obj;
+            long l = vault.getAllItems().get(item);
+            info.add2Amount(l);
+            info.add2Buy((item.getInitPrice() * l));
+            info.add2Sell((item.getCurrPrice() * l));
+        }
+    }
+
     @FXML
     public void itemHandler(MouseEvent mouseEvent) {
         itemIndex = itemListView.getSelectionModel().getSelectedIndex();
@@ -164,18 +158,45 @@ public class MainController extends App implements Initializable {
             itemImage.setImage(DOMAIN.getDataFacade().getGFX().getImageMap().get(capsule.getImage()));
             itemImage.setPreserveRatio(true);
             itemImage.setFitHeight(IMAGE_SIZE);
-            itemAmount.setText("Amount:\t" + allInvestments.get(investIndex).getAllItems().get(capsule));
+            itemAmount.setText("Amount:\t" + allVaults.get(investIndex).getAllItems().get(capsule));
             itemInitPrice.setText("Buy Price:\t" + capsule.getInitPrice() + "€");
             itemCurrPrice.setText("Sell Price:\t" + capsule.getCurrPrice() + "€");
             itemDiffPrice.setText("Diff Price:\t" + capsule.getDiffPrice() + "€");
         }
     }
 
-    /**
-     *
-     * @param event the ActionEvent triggering this methode
-     */
     public void nice(ActionEvent event) {
         openWeb("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+    }
+
+
+    //This might be a bit overkill
+    private static class Info{
+
+        private long amount;
+        private double buy;
+        private double sell;
+
+        private Info(){
+
+        }
+        private void add2Amount(long amount){
+            this.amount += amount;
+        }
+        private long getAmount(){
+            return amount;
+        }
+        private void add2Buy(double buy){
+            this.buy += buy;
+        }
+        private double getBuy(){
+            return buy;
+        }
+        private void add2Sell(double sell){
+            this.sell += sell;
+        }
+        private double getSell(){
+            return sell;
+        }
     }
 }

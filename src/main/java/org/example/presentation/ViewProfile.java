@@ -20,18 +20,18 @@ public class ViewProfile {
         toggleButtons = new HashSet<>();
     }
 
-    public void use(boolean use){
+    public void view(boolean view, boolean enable){
         buttons.forEach(b -> {
-            b.setVisible(use);
-            b.setDisable(!use);
+            b.setVisible(view);
+            b.setDisable(!enable);
         });
         textFields.forEach(t -> {
-            t.setVisible(use);
-            t.setDisable(!use);
+            t.setVisible(view);
+            t.setDisable(!enable);
         });
         toggleButtons.forEach(t -> {
-            t.setVisible(use);
-            t.setDisable(!use);
+            t.setVisible(view);
+            t.setDisable(!enable);
         });
     }
 

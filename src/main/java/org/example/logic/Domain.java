@@ -301,6 +301,7 @@ public final class Domain implements Logic {
     @Override
     public void deleteSticker(long id) {
         if (stickerCache == null) readAllStickers();
+        DATA_FACADE.getDataConnection().deleteSticker(id);
         stickerCache.removeIf(sticker -> sticker.getId() == id);
     }
 

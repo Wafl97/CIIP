@@ -9,9 +9,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 
 import org.example.logic.interfaces.ISouvenirCase;
+import org.example.logic.interfaces.ISticker;
 import org.example.logic.interfaces.comps.Displayable;
 import org.example.logic.interfaces.ICapsule;
 import org.example.logic.interfaces.ISkin;
+import org.example.logic.interfaces.comps.Identifiable;
 
 import java.io.File;
 import java.net.URL;
@@ -52,13 +54,11 @@ public class ItemController extends App implements Initializable {
         skinProfile.addToggleButton(statTrackToggleButton);
         skinProfile.addToggleButton(souvenirToggleButton);
         skinProfile.addTextField(wearFloatTextField);
-        skinProfile.use(false);
+        skinProfile.view(false,false);
 
         itemImageView.setPreserveRatio(true);
         itemImageView.setFitHeight(IMAGE_SIZE);
 
-        // FIXME: 04-07-2021
-        deleteButton.setOnAction(e -> DOMAIN.deleteCapsule(1));
         buttonConfig(getOperation());
 
         itemsListView.setCellFactory(cell -> new ListCell<>(){
@@ -90,11 +90,15 @@ public class ItemController extends App implements Initializable {
         itemIndex = itemsListView.getSelectionModel().getSelectedIndex();
         if (itemIndex != -1) {
             loadedItem = itemsListView.getSelectionModel().getSelectedItem();
+            skinRadioButton.setSelected(loadedItem instanceof ISkin);
+            capsuleRadioButton.setSelected(loadedItem instanceof ICapsule);
+            souvenirRadioButton.setSelected(loadedItem instanceof ISouvenirCase);
+            stickerRadioButton.setSelected(loadedItem instanceof ISticker);
             itemImageView.setImage(DOMAIN.getDataFacade().getGFX().getImageMap().get(loadedItem.getImage()));
             nameTextField.setText(loadedItem.getName());
             priceSpinner.getValueFactory().setValue(loadedItem.getInitPrice());
             linkTextField.setText(loadedItem.getStashLink());
-            skinProfile.use(loadedItem instanceof ISkin);
+            skinProfile.view(loadedItem instanceof ISkin, getOperation().equals(Operation.EDIT) || getOperation().equals(Operation.CREATE));
             if (loadedItem instanceof ISkin){
                 wearFloatTextField.setText(String.valueOf(((ISkin) loadedItem).getWearFloat()));
                 statTrackToggleButton.setSelected(((ISkin) loadedItem).isStatTrak());
@@ -181,11 +185,30 @@ public class ItemController extends App implements Initializable {
 
     }
 
+    private void deleteItem(){
+        Identifiable item = itemsListView.getSelectionModel().getSelectedItem();
+        if (item != null){
+            if (item instanceof ISkin){
+                DOMAIN.deleteSkin(item.getId());
+            }
+            else if (item instanceof ICapsule){
+                DOMAIN.deleteCapsule(item.getId());
+            }
+            else if (item instanceof ISouvenirCase) {
+                DOMAIN.deleteSouvenirCase(item.getId());
+            }
+            else if(item instanceof ISticker){
+                DOMAIN.deleteSticker(item.getId());
+            }
+            itemsListView.getItems().remove(item);
+        }
+    }
+
     @FXML
     private void selectionHandler(ActionEvent event){
         RadioButton target = (RadioButton) event.getTarget();
 
-        skinProfile.use(target == skinRadioButton);
+        skinProfile.view(target == skinRadioButton, getOperation().equals(Operation.EDIT) || getOperation().equals(Operation.CREATE));
     }
 
     @FXML
@@ -209,6 +232,8 @@ public class ItemController extends App implements Initializable {
     }
 
     private void buttonConfig(Operation operation){
+        // FIXME: 04-07-2021
+        deleteButton.setOnAction(e -> DOMAIN.deleteCapsule(1));
         switch (operation){
             case CREATE:
                 enableEditButton.setDisable(true);
@@ -216,6 +241,7 @@ public class ItemController extends App implements Initializable {
                 break;
             case EDIT:
                 enableEditButton.setDisable(true);
+                deleteButton.setOnAction(e -> openWarning("Delete Item","Are yout sure?","You are permenently deleting this item!",this::deleteItem,true));
                 submitButton.setOnAction(e -> openWarning("Update Item","Are you sure?","You are changing date for this item!",this::updateItem,true));
                 break;
             case PASS:
@@ -257,6 +283,7 @@ public class ItemController extends App implements Initializable {
         boolean b = !bool;
         enableEditButton.setDisable(bool);
         submitButton.setDisable(b);
+        deleteButton.setDisable(b);
         linkTextField.setDisable(b);
         nameTextField.setDisable(b);
         priceSpinner.setDisable(b);
@@ -273,6 +300,15 @@ public class ItemController extends App implements Initializable {
         lower10.setDisable(b);
         add100.setDisable(b);
         lower100.setDisable(b);
-        if (bool) buttonConfig(EDIT);
+        skinRadioButton.setDisable(b);
+        stickerRadioButton.setDisable(b);
+        capsuleRadioButton.setDisable(b);
+        souvenirRadioButton.setDisable(b);
+        statTrackToggleButton.setDisable(b);
+        souvenirToggleButton.setDisable(b);
+        if (bool){
+            setOperation(EDIT);
+            buttonConfig(EDIT);
+        }
     }
 }
