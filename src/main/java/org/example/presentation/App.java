@@ -38,6 +38,9 @@ public class App extends Application {
     static final String MAIN = "main";
     static final String ITEMFORM = "itemform";
 
+    static final int IMAGE_SIZE = 250;
+    static final int IMAGE_ICON_SIZE = 25;
+
     static final Operation PASS = Operation.PASS;
     static final Operation EDIT = Operation.EDIT;
     static final Operation CREATE = Operation.CREATE;

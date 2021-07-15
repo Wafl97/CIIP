@@ -87,7 +87,7 @@ public class MainController extends App implements Initializable {
                     setText(item.getName());
                     ImageView imageView = new ImageView(DOMAIN.getDataFacade().getGFX().getImageMap().get(item.getImage()));
                     imageView.setPreserveRatio(true);
-                    imageView.setFitHeight(25);
+                    imageView.setFitHeight(IMAGE_ICON_SIZE);
                     setGraphic(imageView);
                 }
             }
@@ -162,6 +162,8 @@ public class MainController extends App implements Initializable {
             Displayable capsule = itemListView.getItems().get(itemIndex);
             itemName.setText(capsule.getName());
             itemImage.setImage(DOMAIN.getDataFacade().getGFX().getImageMap().get(capsule.getImage()));
+            itemImage.setPreserveRatio(true);
+            itemImage.setFitHeight(IMAGE_SIZE);
             itemAmount.setText("Amount:\t" + allInvestments.get(investIndex).getAllItems().get(capsule));
             itemInitPrice.setText("Buy Price:\t" + capsule.getInitPrice() + "€");
             itemCurrPrice.setText("Sell Price:\t" + capsule.getCurrPrice() + "€");

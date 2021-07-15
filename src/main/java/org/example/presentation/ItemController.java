@@ -54,6 +54,9 @@ public class ItemController extends App implements Initializable {
         skinProfile.addTextField(wearFloatTextField);
         skinProfile.use(false);
 
+        itemImageView.setPreserveRatio(true);
+        itemImageView.setFitHeight(IMAGE_SIZE);
+
         // FIXME: 04-07-2021
         deleteButton.setOnAction(e -> DOMAIN.deleteCapsule(1));
         buttonConfig(getOperation());
@@ -70,7 +73,7 @@ public class ItemController extends App implements Initializable {
                     setText(capsule.getName());
                     ImageView imageView = new ImageView(DOMAIN.getDataFacade().getGFX().getImageMap().get(capsule.getImage()));
                     imageView.setPreserveRatio(true);
-                    imageView.setFitHeight(25);
+                    imageView.setFitHeight(IMAGE_ICON_SIZE);
                     setGraphic(imageView);
                 }
             }
