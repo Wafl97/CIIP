@@ -3,6 +3,7 @@ package org.example.presentation;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -17,6 +18,9 @@ import org.example.logic.interfaces.comps.Identifiable;
 
 import java.io.File;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class ItemController extends App implements Initializable {
@@ -43,18 +47,15 @@ public class ItemController extends App implements Initializable {
 
     private Displayable loadedItem;
 
-    private ViewProfile skinProfile;
-
     private ToggleGroup radioToggle;
+
+    private List<Node> skinProfile;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        skinProfile = new ViewProfile();
-        skinProfile.addToggleButton(statTrackToggleButton);
-        skinProfile.addToggleButton(souvenirToggleButton);
-        skinProfile.addTextField(wearFloatTextField);
-        skinProfile.view(false,false);
+        skinProfile = new ArrayList<>(Arrays.asList(statTrackToggleButton,souvenirToggleButton,wearFloatTextField));
+        skinProfileSetting(false,false);
 
         itemImageView.setPreserveRatio(true);
         itemImageView.setFitHeight(IMAGE_SIZE);
@@ -98,7 +99,7 @@ public class ItemController extends App implements Initializable {
             nameTextField.setText(loadedItem.getName());
             priceSpinner.getValueFactory().setValue(loadedItem.getInitPrice());
             linkTextField.setText(loadedItem.getStashLink());
-            skinProfile.view(loadedItem instanceof ISkin, getOperation().equals(Operation.EDIT) || getOperation().equals(Operation.CREATE));
+            skinProfileSetting(loadedItem instanceof ISkin, getOperation().equals(Operation.EDIT) || getOperation().equals(Operation.CREATE));
             if (loadedItem instanceof ISkin){
                 wearFloatTextField.setText(String.valueOf(((ISkin) loadedItem).getWearFloat()));
                 statTrackToggleButton.setSelected(((ISkin) loadedItem).isStatTrak());
@@ -208,7 +209,7 @@ public class ItemController extends App implements Initializable {
     private void selectionHandler(ActionEvent event){
         RadioButton target = (RadioButton) event.getTarget();
 
-        skinProfile.view(target == skinRadioButton, getOperation().equals(Operation.EDIT) || getOperation().equals(Operation.CREATE));
+        skinProfileSetting(target == skinRadioButton, getOperation().equals(Operation.EDIT) || getOperation().equals(Operation.CREATE));
     }
 
     @FXML
@@ -239,8 +240,12 @@ public class ItemController extends App implements Initializable {
                 break;
             case EDIT:
                 enableEditButton.setDisable(true);
-                deleteButton.setOnAction(e -> openWarning("Delete Item","Are yout sure?","You are permenently deleting this item!",this::deleteItem,true));
-                submitButton.setOnAction(e -> openWarning("Update Item","Are you sure?","You are changing date for this item!",this::updateItem,true));
+                deleteButton.setOnAction(e -> openWarning("Delete Item","Are you sure?","You are permanently deleting this item!",this::deleteItem,true));
+                submitButton.setOnAction(e -> {
+                    openWarning("Update Item","Are you sure?","You are changing date for this item!",this::updateItem,false);
+                    setOperation(PASS);
+                    buttonConfig(getOperation());
+                });
                 break;
             case PASS:
                 enableEditButton.setOnAction(e -> enableEdit(true));
@@ -277,9 +282,19 @@ public class ItemController extends App implements Initializable {
         return tmp[tmp.length-1];
     }
 
+    private void skinProfileSetting(boolean view, boolean enable){
+        for (Node node : skinProfile) {
+            node.setVisible(view);
+            node.setDisable(!enable);
+        }
+    }
+
     private void enableEdit(boolean bool){
         boolean b = !bool;
+        // FIXME: 22-07-2021 Use a Set for this
         enableEditButton.setDisable(bool);
+        itemsListView.setDisable(bool);
+
         submitButton.setDisable(b);
         deleteButton.setDisable(b);
         linkTextField.setDisable(b);

@@ -171,7 +171,7 @@ public class MainController extends App implements Initializable {
 
 
     //This might be a bit overkill
-    private static class Info{
+    private static final class Info{
 
         private long amount;
         private double buy;
