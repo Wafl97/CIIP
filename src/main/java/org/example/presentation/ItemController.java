@@ -51,8 +51,18 @@ public class ItemController extends App implements Initializable {
 
     private List<Node> skinProfile;
 
+    private List<Node> nodeList;
+
+    private boolean first = true;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        nodeList = new ArrayList<>(Arrays.asList(submitButton, browserButton, deleteButton, chooseImageButton,
+                add0_25, lower0_25, add0_5, lower0_5, add1, lower1, add10, lower10, add100, lower100,
+                skinRadioButton, capsuleRadioButton, souvenirRadioButton, stickerRadioButton,
+                statTrackToggleButton, souvenirToggleButton,
+                nameTextField, linkTextField, wearFloatTextField));
 
         skinProfile = new ArrayList<>(Arrays.asList(statTrackToggleButton,souvenirToggleButton,wearFloatTextField));
         skinProfileSetting(false,false);
@@ -111,8 +121,8 @@ public class ItemController extends App implements Initializable {
     private void updateItem(){
         long id = loadedItem.getId();
         double initPrice = (priceSpinner.getValue() == null || priceSpinner.getValue() == 0.0 ? loadedItem.getInitPrice() : priceSpinner.getValue());
-        String name = (nameTextField.getText() == null || nameTextField.getText().equals("")? loadedItem.getName() : nameTextField.getText());
-        String imageName = (imageFile == null || imageFile.getName().equals("") ? getStringFromString(itemImageView.getImage().getUrl(),"/") : imageFile.getName());
+        String name = (nameTextField.getText() == null || nameTextField.getText().equals("") ? loadedItem.getName() : nameTextField.getText());
+        String imageName = (imageFile == null || imageFile.getName().equals("") ? getStringFromString(itemImageView.getImage().getUrl(), "/") : imageFile.getName());
         String link = (linkTextField.getText() == null || linkTextField.getText().equals("") ? loadedItem.getStashLink() : linkTextField.getText());
         if (loadedItem instanceof ISkin) {
             double wearFloat = Double.parseDouble(wearFloatTextField.getText());
@@ -130,7 +140,7 @@ public class ItemController extends App implements Initializable {
             );
             DOMAIN.updateSkin((ISkin) loadedItem);
         }
-        else if (loadedItem instanceof ICapsule){
+        else if (loadedItem instanceof ICapsule) {
             ((ICapsule) loadedItem).populate(
                     id,
                     initPrice,
@@ -140,7 +150,7 @@ public class ItemController extends App implements Initializable {
             );
             DOMAIN.updateCapsule((ICapsule) loadedItem);
         }
-        else if (loadedItem instanceof ISouvenirCase){
+        else if (loadedItem instanceof ISouvenirCase) {
             ((ISouvenirCase) loadedItem).populate(
                     id,
                     initPrice,
@@ -149,6 +159,16 @@ public class ItemController extends App implements Initializable {
                     link
             );
             DOMAIN.updateSouvenirCase((ISouvenirCase) loadedItem);
+        }
+        else if (loadedItem instanceof ISticker){
+            ((ISticker) loadedItem).populate(
+                    id,
+                    initPrice,
+                    name,
+                    imageName,
+                    link
+            );
+            DOMAIN.updateSticker((ISticker) loadedItem);
         }
     }
 
@@ -176,6 +196,15 @@ public class ItemController extends App implements Initializable {
         }
         else if (radioToggle.getUserData() instanceof ISouvenirCase){
             DOMAIN.createSouvenirCase(DOMAIN.getFactory().emptySouvenirCase().populate(
+                    -1,
+                    priceSpinner.getValue(),
+                    nameTextField.getText(),
+                    imageFile.getName(),
+                    linkTextField.getText()
+            ));
+        }
+        else if (radioToggle.getUserData() instanceof ISticker){
+            DOMAIN.createSticker(DOMAIN.getFactory().emptySticker().populate(
                     -1,
                     priceSpinner.getValue(),
                     nameTextField.getText(),
@@ -255,20 +284,37 @@ public class ItemController extends App implements Initializable {
                 System.out.println("Something went wrong!!!");
                 break;
         }
-        browserButton.setOnAction(e -> openWeb("www.csgostash.com"));
-        backButton.setOnAction(e -> goBack());
-        add0_25.setUserData(0.25d);      add0_5.setUserData(0.5d);  add1.setUserData(1.0d);     add10.setUserData(10.0d);       add100.setUserData(100.0d);
-        lower0_25.setUserData(-0.25d);   lower0_5.setUserData(-0.5d); lower1.setUserData(-1.0d);  lower10.setUserData(-10.0d);    lower100.setUserData(-100.0d);
+        if (first) {
+            browserButton.setOnAction(e -> openWeb("www.csgostash.com"));
+            backButton.setOnAction(e -> goBack());
+            add0_25.setUserData(0.25d);
+            add0_5.setUserData(0.5d);
+            add1.setUserData(1.0d);
+            add10.setUserData(10.0d);
+            add100.setUserData(100.0d);
+            lower0_25.setUserData(-0.25d);
+            lower0_5.setUserData(-0.5d);
+            lower1.setUserData(-1.0d);
+            lower10.setUserData(-10.0d);
+            lower100.setUserData(-100.0d);
 
-        radioToggle = new ToggleGroup();
-        skinRadioButton.setToggleGroup(radioToggle);
-        capsuleRadioButton.setToggleGroup(radioToggle);
-        souvenirRadioButton.setToggleGroup(radioToggle);
-        stickerRadioButton.setToggleGroup(radioToggle);
+            radioToggle = new ToggleGroup();
+            skinRadioButton.setToggleGroup(radioToggle);
+            capsuleRadioButton.setToggleGroup(radioToggle);
+            souvenirRadioButton.setToggleGroup(radioToggle);
+            stickerRadioButton.setToggleGroup(radioToggle);
 
-        ToggleGroup toggle = new ToggleGroup();
-        statTrackToggleButton.setToggleGroup(toggle);
-        souvenirToggleButton.setToggleGroup(toggle);
+            skinRadioButton.setUserData(DOMAIN.getFactory().emptySkin());
+            capsuleRadioButton.setUserData(DOMAIN.getFactory().emptyCapsule());
+            souvenirRadioButton.setUserData(DOMAIN.getFactory().emptySouvenirCase());
+            stickerRadioButton.setUserData(DOMAIN.getFactory().emptySticker());
+
+            ToggleGroup toggle = new ToggleGroup();
+            statTrackToggleButton.setToggleGroup(toggle);
+            souvenirToggleButton.setToggleGroup(toggle);
+
+            first = false;
+        }
     }
 
     /**
@@ -290,35 +336,11 @@ public class ItemController extends App implements Initializable {
     }
 
     private void enableEdit(boolean bool){
-        boolean b = !bool;
-        // FIXME: 22-07-2021 Use a Set for this
         enableEditButton.setDisable(bool);
         itemsListView.setDisable(bool);
-
-        submitButton.setDisable(b);
-        deleteButton.setDisable(b);
-        linkTextField.setDisable(b);
-        nameTextField.setDisable(b);
-        priceSpinner.setDisable(b);
-        submitButton.setDisable(b);
-        browserButton.setDisable(b);
-        chooseImageButton.setDisable(b);
-        add0_25.setDisable(b);
-        lower0_25.setDisable(b);
-        add0_5.setDisable(b);
-        lower0_5.setDisable(b);
-        add1.setDisable(b);
-        lower1.setDisable(b);
-        add10.setDisable(b);
-        lower10.setDisable(b);
-        add100.setDisable(b);
-        lower100.setDisable(b);
-        skinRadioButton.setDisable(b);
-        stickerRadioButton.setDisable(b);
-        capsuleRadioButton.setDisable(b);
-        souvenirRadioButton.setDisable(b);
-        statTrackToggleButton.setDisable(b);
-        souvenirToggleButton.setDisable(b);
+        for (Node node : nodeList) {
+            node.setDisable(!bool);
+        }
         if (bool){
             setOperation(EDIT);
             buttonConfig(EDIT);
