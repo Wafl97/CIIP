@@ -170,6 +170,9 @@ public class ItemController extends App implements Initializable {
             );
             DOMAIN.updateSticker((ISticker) loadedItem);
         }
+        else {
+            throw new IllegalStateException("No Item type selected");
+        }
     }
 
     private void createItem(){
@@ -212,7 +215,9 @@ public class ItemController extends App implements Initializable {
                     linkTextField.getText()
             ));
         }
-
+        else {
+            throw new IllegalStateException("No Item type selected");
+        }
     }
 
     private void deleteItem(){
