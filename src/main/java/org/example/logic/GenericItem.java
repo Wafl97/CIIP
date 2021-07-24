@@ -37,7 +37,7 @@ public abstract class GenericItem<T> implements Item<T> {
 
     @Override
     public void setId(long id) {
-        this.id = id;
+        this.id = id == -1 ? findMaxID() + 1 : id;
     }
 
     @Override

@@ -23,15 +23,11 @@ public final class Skin extends GenericItem<ISkin> implements ISkin {
     private double wearFloat;
 
     private static final Pattern PRICE_PATTERN = Pattern.compile("<span class=\"pull-right\">([0-9,-]+)(.)</span>");
+    private Pattern wearPattern;
 
     @Override
     public void updateCurrPrice() {
-// TODO: 13-07-2021 Optimise 
-        Pattern wear = Pattern.compile( wearFloat <= 0.07 ? Wear.FACTORY_NEW.getRegex() :
-                                        wearFloat <= 0.15 ? Wear.MINIMAL_WEAR.getRegex() :
-                                        wearFloat <= 0.38 ? Wear.FIELD_TESTED.getRegex() :
-                                        wearFloat <= 0.45 ? Wear.WELL_WORN.getRegex() :
-                                                            Wear.BATTLE_SCARED.getRegex());
+// TODO: 13-07-2021 Optimise
         Double[] prices = new Double[2];
         try {
             Scanner input = new Scanner(new URL(link).openStream());
@@ -41,7 +37,7 @@ public final class Skin extends GenericItem<ISkin> implements ISkin {
             int pIndex = -2;
 
             while (input.hasNext()) {
-                wearStopper = wear.matcher(input.nextLine());
+                wearStopper = wearPattern.matcher(input.nextLine());
                 if (wearStopper.find()){
                     result = input.nextLine();
                     priceStopper = PRICE_PATTERN.matcher(result);
@@ -88,6 +84,11 @@ public final class Skin extends GenericItem<ISkin> implements ISkin {
     public void setWearFloat(double wearFloat) {
         if (wearFloat > 1 || wearFloat < 0) throw new IllegalArgumentException("Float has to be between 0 to 1");
         this.wearFloat = wearFloat;
+        this.wearPattern = Pattern.compile( wearFloat <= 0.07 ? Wear.FACTORY_NEW.getRegex() :
+                                            wearFloat <= 0.15 ? Wear.MINIMAL_WEAR.getRegex() :
+                                            wearFloat <= 0.38 ? Wear.FIELD_TESTED.getRegex() :
+                                            wearFloat <= 0.45 ? Wear.WELL_WORN.getRegex() :
+                                                                Wear.BATTLE_SCARED.getRegex());
     }
 
     @Override

@@ -23,6 +23,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import static org.example.util.Attributes.*;
+
 public class ItemController extends App implements Initializable {
 
     @FXML
@@ -176,7 +178,7 @@ public class ItemController extends App implements Initializable {
     }
 
     private void createItem(){
-        if (radioToggle.getUserData() instanceof ISkin){
+        if (radioToggle.getSelectedToggle().getUserData() == SKIN){
             DOMAIN.createSkin(DOMAIN.getFactory().emptySkin().populate(
                     -1,
                     priceSpinner.getValue(),
@@ -188,7 +190,7 @@ public class ItemController extends App implements Initializable {
                     souvenirRadioButton.isSelected()
             ));
         }
-        else if (radioToggle.getUserData() instanceof ICapsule){
+        else if (radioToggle.getSelectedToggle().getUserData() == CAPSULE){
             DOMAIN.createCapsule(DOMAIN.getFactory().emptyCapsule().populate(
                     -1,
                     priceSpinner.getValue(),
@@ -197,7 +199,7 @@ public class ItemController extends App implements Initializable {
                     linkTextField.getText()
             ));
         }
-        else if (radioToggle.getUserData() instanceof ISouvenirCase){
+        else if (radioToggle.getSelectedToggle().getUserData() == SOUVENIR){
             DOMAIN.createSouvenirCase(DOMAIN.getFactory().emptySouvenirCase().populate(
                     -1,
                     priceSpinner.getValue(),
@@ -206,7 +208,7 @@ public class ItemController extends App implements Initializable {
                     linkTextField.getText()
             ));
         }
-        else if (radioToggle.getUserData() instanceof ISticker){
+        else if (radioToggle.getSelectedToggle().getUserData() == STICKER){
             DOMAIN.createSticker(DOMAIN.getFactory().emptySticker().populate(
                     -1,
                     priceSpinner.getValue(),
@@ -215,7 +217,7 @@ public class ItemController extends App implements Initializable {
                     linkTextField.getText()
             ));
         }
-        else {
+        else if (radioToggle.getSelectedToggle().getUserData() == null){
             throw new IllegalStateException("No Item type selected");
         }
     }
@@ -303,16 +305,16 @@ public class ItemController extends App implements Initializable {
             lower10.setUserData(-10.0d);
             lower100.setUserData(-100.0d);
 
+            skinRadioButton.setUserData(SKIN);
+            capsuleRadioButton.setUserData(CAPSULE);
+            souvenirRadioButton.setUserData(SOUVENIR);
+            stickerRadioButton.setUserData(STICKER);
+
             radioToggle = new ToggleGroup();
             skinRadioButton.setToggleGroup(radioToggle);
             capsuleRadioButton.setToggleGroup(radioToggle);
             souvenirRadioButton.setToggleGroup(radioToggle);
             stickerRadioButton.setToggleGroup(radioToggle);
-
-            skinRadioButton.setUserData(DOMAIN.getFactory().emptySkin());
-            capsuleRadioButton.setUserData(DOMAIN.getFactory().emptyCapsule());
-            souvenirRadioButton.setUserData(DOMAIN.getFactory().emptySouvenirCase());
-            stickerRadioButton.setUserData(DOMAIN.getFactory().emptySticker());
 
             ToggleGroup toggle = new ToggleGroup();
             statTrackToggleButton.setToggleGroup(toggle);
