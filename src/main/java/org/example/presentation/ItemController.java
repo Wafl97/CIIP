@@ -42,6 +42,8 @@ public class ItemController extends App implements Initializable {
     private ImageView itemImageView;
     @FXML
     private ListView<Displayable> itemsListView;
+    @FXML
+    private Label floatLabel;
 
     private File imageFile;
 
@@ -64,9 +66,10 @@ public class ItemController extends App implements Initializable {
                 add0_25, lower0_25, add0_5, lower0_5, add1, lower1, add10, lower10, add100, lower100,
                 skinRadioButton, capsuleRadioButton, souvenirRadioButton, stickerRadioButton,
                 statTrackToggleButton, souvenirToggleButton,
-                nameTextField, linkTextField, wearFloatTextField));
+                nameTextField, linkTextField, wearFloatTextField,
+                floatLabel));
 
-        skinProfile = new ArrayList<>(Arrays.asList(statTrackToggleButton,souvenirToggleButton,wearFloatTextField));
+        skinProfile = new ArrayList<>(Arrays.asList(statTrackToggleButton,souvenirToggleButton,wearFloatTextField,floatLabel));
         skinProfileSetting(false,false);
 
         itemImageView.setPreserveRatio(true);
@@ -95,7 +98,7 @@ public class ItemController extends App implements Initializable {
         for (Displayable item : DOMAIN.readAllItems()){
             itemsListView.getItems().add(item);
         }
-        itemsListView.refresh();
+        itemsListView.setDisable(getOperation() == CREATE);
     }
 
     @FXML

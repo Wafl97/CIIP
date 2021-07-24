@@ -58,18 +58,20 @@
    <TextField fx:id="linkTextField" layoutX="14.0" layoutY="571.0" prefHeight="34.0" prefWidth="586.0" promptText="Enter link to CSGO Stash" />
    <Button fx:id="browserButton" layoutX="623.0" layoutY="571.0" mnemonicParsing="false" text="Browse" />
    <Button fx:id="enableEditButton" layoutX="81.0" layoutY="674.0" mnemonicParsing="false" text="Enable Edit" />
-   <Button fx:id="deleteButton" layoutX="465.0" layoutY="233.0" mnemonicParsing="false" prefHeight="244.0" prefWidth="248.0" text="NASTY BUTTON :(" />
-   <VBox layoutX="25.0" layoutY="91.0" prefHeight="200.0" prefWidth="100.0">
+   <Button fx:id="deleteButton" layoutX="571.0" layoutY="674.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="150.0" text="Delete Item" />
+   <VBox layoutX="14.0" layoutY="117.0" prefHeight="79.0" prefWidth="100.0">
       <children>
+         <Label text="Item Type" />
          <RadioButton fx:id="skinRadioButton" mnemonicParsing="false" onAction="#selectionHandler" text="Skin" />
          <RadioButton fx:id="capsuleRadioButton" mnemonicParsing="false" onAction="#selectionHandler" text="Capsule" />
          <RadioButton fx:id="souvenirRadioButton" mnemonicParsing="false" onAction="#selectionHandler" text="Souvenir" />
          <RadioButton fx:id="stickerRadioButton" mnemonicParsing="false" onAction="#selectionHandler" text="Sticker" />
       </children>
    </VBox>
-   <ToggleButton fx:id="souvenirToggleButton" layoutX="14.0" layoutY="468.0" mnemonicParsing="false" text="Souvenir" />
-   <ToggleButton fx:id="statTrackToggleButton" layoutX="112.0" layoutY="468.0" mnemonicParsing="false" text="Stat Track" />
-   <TextField fx:id="wearFloatTextField" layoutX="226.0" layoutY="468.0" promptText="float" />
+   <ToggleButton fx:id="souvenirToggleButton" layoutX="143.0" layoutY="456.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="107.0" text="Souvenir" />
+   <ToggleButton fx:id="statTrackToggleButton" layoutX="143.0" layoutY="422.0" mnemonicParsing="false" text="Stat Track" />
+   <TextField fx:id="wearFloatTextField" layoutX="473.0" layoutY="439.0" prefHeight="34.0" prefWidth="150.0" promptText="float" />
+   <Label fx:id="floatLabel" layoutX="393.0" layoutY="446.0" text="Skin float" />
     <stylesheets>
         <URL value="@../css/cip.css" />
     </stylesheets>

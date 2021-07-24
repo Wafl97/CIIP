@@ -21,7 +21,7 @@ import org.example.logic.interfaces.IVault;
 public class VaultController extends App implements Initializable {
 
     @FXML
-    private Button saveButton, backButton, addButton, removeButton;
+    private Button saveButton, backButton, deleteButton, addButton, removeButton;
     @FXML
     private TextField nameTextField;
     @FXML
@@ -52,6 +52,8 @@ public class VaultController extends App implements Initializable {
             if (operation == CREATE) createInvestment();
             else if (operation == EDIT) updateInvestment();
         });
+        if (operation == CREATE) deleteButton.setDisable(true);
+        else deleteButton.setOnAction(e -> openWarning("Delete Investment","Are you sure?","This Investment will be permanently removed!",this::deleteInvestment,true));
         addButton.setOnAction(e -> {
             if (allItemsListView.getSelectionModel().getSelectedIndex() != -1 && amountSpinner.getValue() > 0) {
                 Displayable item = allItemsListView.getItems().get(allItemsListView.getSelectionModel().getSelectedIndex());
@@ -146,6 +148,9 @@ public class VaultController extends App implements Initializable {
     }
 
     private void deleteInvestment(){
-
+        if (loadedInvestment != null){
+            long id = loadedInvestment.getId();
+            DOMAIN.deleteVault(id);
+        }
     }
 }
