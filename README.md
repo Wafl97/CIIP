@@ -1,5 +1,5 @@
-# CIP
-CSGO Investment Program by WAFL/MLWB.
+# CIIP
+CSGO Inventory Investment Program by WAFL/MLWB.
 
 This project is just for fun. 
 
