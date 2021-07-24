@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.net.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
@@ -72,7 +71,6 @@
    <ToggleButton fx:id="statTrackToggleButton" layoutX="143.0" layoutY="422.0" mnemonicParsing="false" text="Stat Track" />
    <TextField fx:id="wearFloatTextField" layoutX="473.0" layoutY="439.0" prefHeight="34.0" prefWidth="150.0" promptText="float" />
    <Label fx:id="floatLabel" layoutX="393.0" layoutY="446.0" text="Skin float" />
-    <stylesheets>
-        <URL value="@../css/cip.css" />
-    </stylesheets>
+   <Button fx:id="updateCurrPriceButton" layoutX="434.0" layoutY="348.0" mnemonicParsing="false" text="Update Current Price" />
+   <Label fx:id="currPriceLabel" layoutX="486.0" layoutY="326.0" text="0.0" />
 </AnchorPane>

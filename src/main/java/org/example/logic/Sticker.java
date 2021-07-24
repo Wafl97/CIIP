@@ -40,6 +40,7 @@ public final class Sticker extends GenericItem<ISticker> implements ISticker {
         setName(name);
         setImage(image);
         setStashLink(stashLink);
+        updateCurrPrice();
         return this;
     }
 

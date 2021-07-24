@@ -6,6 +6,9 @@ import org.example.logic.interfaces.*;
 import org.example.logic.interfaces.comps.Displayable;
 import org.json.simple.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,8 +29,24 @@ public final class Domain implements Logic {
     private IVault selectedVault;
     private ICapsule selectedCapsule;
 
-    private static final String APP_NAME = "CIP";
-    private static final String VERSION = "v0.5";
+    private static final String APP_NAME = "CIIP";
+    private static final String VERSION;
+    static {
+        String s;
+        try {
+            Process process = Runtime.getRuntime().exec("git rev-parse --abbrev-ref HEAD");
+            process.waitFor();
+
+            BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(process.getInputStream()));
+
+            s = reader.readLine();
+        } catch (InterruptedException | IOException e) {
+            e.printStackTrace();
+            s = "UNKNOWN";
+        }
+        VERSION = s;
+    }
 
     public static Domain getInstance(){
         return instance == null ? instance = new Domain() : instance;
@@ -35,7 +54,7 @@ public final class Domain implements Logic {
 
     private Domain(){
         System.out.println("||======================================||");
-        System.out.println("||\t\t\tStarting " + APP_NAME +" - "+ VERSION +"\t\t\t||");
+        System.out.println("||\t\t\tStarting " + getAppName() + " - " + getVersion() + "\t\t\t||");
         System.out.println("||======================================||");
 
         System.out.println("\t - Getting Factory");
@@ -48,7 +67,7 @@ public final class Domain implements Logic {
         System.out.println("\t - Getting DataFacade");
         DATA_FACADE = DataFacade.getInstance();
 
-        System.out.println("Start Complete");
+        System.out.println("Start Complete\nPlease Enjoy - WAFL\n");
     }
 
     @Override

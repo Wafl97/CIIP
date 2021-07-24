@@ -4,11 +4,11 @@
       "ID": 1,
       "NAME": "TEST",
       "INIT_PRICE": 100.0,
-      "IMAGE": "deag.png",
+      "IMAGE": "weapon_mp9_cu_mp9_food_chain_light_large.5895f4cc864387a61a3783470037e6ed1953f7df.png",
       "STAT_TRACK": false,
       "SOUVENIR": false,
       "WEAR_FLOAT": 1.0,
-      "STASH_LINK": "https://fake.com"
+      "STASH_LINK": "https://csgostash.com/skin/1373/MP9-Food-Chain"
     }
   },
   {
@@ -16,11 +16,11 @@
       "ID": 2,
       "NAME": "ABC",
       "INIT_PRICE": 50.0,
-      "IMAGE": "deag.png",
+      "IMAGE": "weapon_galilar_cu_galil_chroma_pink_light_large.e29cb838de1fc6318d36ed2d7263b7fcef10a4d8.png",
       "STAT_TRACK": true,
       "SOUVENIR": false,
       "WEAR_FLOAT": 0.0,
-      "STASH_LINK": "https://fake.com"
+      "STASH_LINK": "https://csgostash.com/skin/1375/Galil-AR-Chromatic-Aberration"
     }
   },
   {
@@ -28,11 +28,11 @@
       "ID": 2,
       "NAME": "ABC",
       "INIT_PRICE": 150.0,
-      "IMAGE": "deag.png",
+      "IMAGE": "weapon_xm1014_aq_xm1014_punk_light_large.8c6eb5bcf234179713a52b1a5e22c64c21c52007.png",
       "STAT_TRACK": false,
       "SOUVENIR": true,
       "WEAR_FLOAT": 0.005,
-      "STASH_LINK": "https://fake.com"
+      "STASH_LINK": "https://csgostash.com/skin/1374/XM1014-XOXO"
     }
   }
 ]

@@ -27,35 +27,39 @@ public final class Skin extends GenericItem<ISkin> implements ISkin {
 
     @Override
     public void updateCurrPrice() {
-// TODO: 13-07-2021 Optimise
-        Double[] prices = new Double[2];
-        try {
-            Scanner input = new Scanner(new URL(link).openStream());
-            String result;
-            Matcher wearStopper;
-            Matcher priceStopper;
-            int pIndex = -2;
+        if (!priceUpdated) {
+            System.out.println("Getting current price for [" + getName() + "]");
+            System.out.println("From: [" + getStashLink() + "]");
+            Double[] prices = new Double[2];
+            try {
+                Scanner input = new Scanner(new URL(getStashLink()).openStream());
+                String result;
+                Matcher wearStopper;
+                Matcher priceStopper;
+                int pIndex = -2;
 
-            while (input.hasNext()) {
-                wearStopper = wearPattern.matcher(input.nextLine());
-                if (wearStopper.find()){
-                    result = input.nextLine();
-                    priceStopper = PRICE_PATTERN.matcher(result);
-                    if (priceStopper.find() && pIndex >= 0){
-                        prices[pIndex] = Double.parseDouble(priceStopper.group(1).replace(",", ".").replace("-","0"));
+                while (input.hasNext()) {
+                    wearStopper = this.wearPattern.matcher(input.nextLine());
+                    if (wearStopper.find()) {
+                        result = input.nextLine();
+                        priceStopper = PRICE_PATTERN.matcher(result);
+                        if (priceStopper.find() && pIndex >= 0) {
+                            prices[pIndex] = Double.parseDouble(priceStopper.group(1).replace(",", ".").replace("-", "0"));
+                        } else if (pIndex >= 0) {
+                            prices[pIndex] = -1.0;
+                        }
+                        pIndex++;
                     }
-                    else if (pIndex >= 0) {
-                        prices[pIndex] = -1.0;
-                    }
-                    pIndex++;
                 }
+                input.close();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            input.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+            if (isStatTrak() || isSouvenir()) setCurrPrice(prices[0]);
+            else setCurrPrice(prices[1]);
+
+            priceUpdated = true;
         }
-        if (isStatTrak() || isSouvenir())   setCurrPrice(prices[0]);
-        else                                setCurrPrice(prices[1]);
     }
 
     @Override
@@ -82,7 +86,7 @@ public final class Skin extends GenericItem<ISkin> implements ISkin {
 
     @Override
     public void setWearFloat(double wearFloat) {
-        if (wearFloat > 1 || wearFloat < 0) throw new IllegalArgumentException("Float has to be between 0 to 1");
+        if (wearFloat > 1 || wearFloat < -0) throw new IllegalArgumentException("Float has to be between 0 to 1");
         this.wearFloat = wearFloat;
         this.wearPattern = Pattern.compile( wearFloat <= 0.07 ? Wear.FACTORY_NEW.getRegex() :
                                             wearFloat <= 0.15 ? Wear.MINIMAL_WEAR.getRegex() :
@@ -143,10 +147,11 @@ public final class Skin extends GenericItem<ISkin> implements ISkin {
         setInitPrice(initPrice);
         setName(name);
         setImage(image);
-        setStashLink(stashLink);
         setWearFloat(wearFloat);
         setStatTrak(statTrack);
         setSouvenir(souvenir);
+        setStashLink(stashLink);
+        updateCurrPrice();
         return this;
     }
 

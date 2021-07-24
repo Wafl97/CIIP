@@ -26,8 +26,15 @@ public abstract class GenericItem<T> implements Item<T> {
     protected String image;
     protected String link;
 
+    protected boolean priceUpdated = false;
+
     public GenericItem(Attributes attributes){
         jsonAttribute = attributes;
+    }
+
+    @Override
+    public void setPriceUpdated(boolean overwrite) {
+        this.priceUpdated = overwrite;
     }
 
     @Override
@@ -72,6 +79,7 @@ public abstract class GenericItem<T> implements Item<T> {
 
     @Override
     public double getCurrPrice() {
+        if (!priceUpdated) updateCurrPrice();
         return currPrice;
     }
 
@@ -82,29 +90,34 @@ public abstract class GenericItem<T> implements Item<T> {
 
     @Override
     public void updateCurrPrice() {
-        double d = 0.0d;
-        try {
-            Scanner input = new Scanner(new URL(link).openStream());
-            String result = "";
+        if (!priceUpdated) {
+            System.out.println("Getting current price for [" + getName() + "]");
+            System.out.println("From: [" + getStashLink() + "]");
+            double d = 0.0d;
+            try {
+                Scanner input = new Scanner(new URL(link).openStream());
+                String result = "";
 
-            Matcher stopMatcher;
-            //Skip to relevant
-            while (input.hasNext()) {
-                stopMatcher = STOP_PATTERN.matcher(input.nextLine());
-                if (stopMatcher.find()){
-                    result = input.nextLine();
-                    break;
+                Matcher stopMatcher;
+                //Skip to relevant
+                while (input.hasNext()) {
+                    stopMatcher = STOP_PATTERN.matcher(input.nextLine());
+                    if (stopMatcher.find()) {
+                        result = input.nextLine();
+                        break;
+                    }
                 }
+                input.close();
+                Matcher priceMatcher = PRICE_PATTERN.matcher(result);
+                if (priceMatcher.find()) {
+                    d = Double.parseDouble(priceMatcher.group(1).replace(",", "."));
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            input.close();
-            Matcher priceMatcher = PRICE_PATTERN.matcher(result);
-            if (priceMatcher.find()) {
-                d = Double.parseDouble(priceMatcher.group(1).replace(",", "."));
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+            setCurrPrice(d);
+            priceUpdated = true;
         }
-        setCurrPrice(d);
     }
 
     @Override

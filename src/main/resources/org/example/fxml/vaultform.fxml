@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.net.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
@@ -25,7 +24,4 @@
       </Spinner>
       <Label layoutX="385.0" layoutY="328.0" text="Amount" />
    </children>
-    <stylesheets>
-        <URL value="@../css/cip.css" />
-    </stylesheets>
 </AnchorPane>

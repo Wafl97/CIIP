@@ -38,6 +38,11 @@ public class App extends Application {
     static final String MAIN = "main";
     static final String ITEMFORM = "itemform";
 
+    static final String CIIP_CSS = "/org/example/css/ciip.css";
+    static final String DFLT_CSS = "/org/example/css/dflt.css";
+    static String CSS = CIIP_CSS;
+    static boolean toggleFlag = false;
+
     static final int IMAGE_SIZE = 250;
     static final int IMAGE_ICON_SIZE = 25;
 
@@ -64,6 +69,7 @@ public class App extends Application {
         stage.getIcons().add(DOMAIN.getDataFacade().getGFX().getLogo());
         stage.setTitle(TITLE);
         stage.setScene(scene);
+        updateCSS();
         stage.show();
     }
 
@@ -73,6 +79,11 @@ public class App extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    void updateCSS(){
+        scene.getStylesheets().clear();
+        scene.getStylesheets().add(getClass().getResource(CSS).toExternalForm());
     }
 
     void setOperation(Operation op){
@@ -111,7 +122,7 @@ public class App extends Application {
         AtomicBoolean answer = new AtomicBoolean(false);
         AnchorPane pane = new AnchorPane();
         pane.setId("background");
-        String css = App.class.getResource("/org/example/css/cip.css").toExternalForm();
+        String css = App.class.getResource("/org/example/css/ciip.css").toExternalForm();
         pane.getStylesheets().add(css);
         HBox hBox = new HBox();
         Label shortM = new Label(shortMes);

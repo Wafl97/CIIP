@@ -29,7 +29,7 @@ public class ItemController extends App implements Initializable {
 
     @FXML
     private Button backButton, submitButton, browserButton, enableEditButton, deleteButton, chooseImageButton,
-            add0_25, lower0_25, add0_5, lower0_5, add1, lower1, add10, lower10, add100, lower100;
+            add0_25, lower0_25, add0_5, lower0_5, add1, lower1, add10, lower10, add100, lower100, updateCurrPriceButton;
     @FXML
     private RadioButton skinRadioButton, capsuleRadioButton, souvenirRadioButton, stickerRadioButton;
     @FXML
@@ -43,7 +43,7 @@ public class ItemController extends App implements Initializable {
     @FXML
     private ListView<Displayable> itemsListView;
     @FXML
-    private Label floatLabel;
+    private Label floatLabel, currPriceLabel;
 
     private File imageFile;
 
@@ -114,6 +114,9 @@ public class ItemController extends App implements Initializable {
             nameTextField.setText(loadedItem.getName());
             priceSpinner.getValueFactory().setValue(loadedItem.getInitPrice());
             linkTextField.setText(loadedItem.getStashLink());
+            if (loadedItem.getStashLink() != null) {
+                currPriceLabel.setText(String.valueOf(loadedItem.getCurrPrice()));
+            }
             skinProfileSetting(loadedItem instanceof ISkin, getOperation().equals(Operation.EDIT) || getOperation().equals(Operation.CREATE));
             if (loadedItem instanceof ISkin){
                 wearFloatTextField.setText(String.valueOf(((ISkin) loadedItem).getWearFloat()));
@@ -278,6 +281,7 @@ public class ItemController extends App implements Initializable {
                 submitButton.setOnAction(e -> openWarning("Create Item","Are you sure?","You are creating a new item",this::createItem,true));
                 break;
             case EDIT:
+                updateCurrPriceButton.setOnAction(e -> updateCurrPrice());
                 enableEditButton.setDisable(true);
                 deleteButton.setOnAction(e -> openWarning("Delete Item","Are you sure?","You are permanently deleting this item!",this::deleteItem,true));
                 submitButton.setOnAction(e -> {
@@ -288,6 +292,7 @@ public class ItemController extends App implements Initializable {
                 break;
             case PASS:
                 enableEditButton.setOnAction(e -> enableEdit(true));
+                updateCurrPriceButton.setOnAction(e -> updateCurrPrice());
                 enableEdit(false);
                 break;
             default:
@@ -324,6 +329,13 @@ public class ItemController extends App implements Initializable {
             souvenirToggleButton.setToggleGroup(toggle);
 
             first = false;
+        }
+    }
+
+    private void updateCurrPrice() {
+        if (loadedItem != null){
+            loadedItem.setPriceUpdated(false);
+            currPriceLabel.setText(String.valueOf(loadedItem.getCurrPrice()));
         }
     }
 

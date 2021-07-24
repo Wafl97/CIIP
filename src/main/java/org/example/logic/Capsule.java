@@ -40,6 +40,7 @@ public final class Capsule extends GenericItem<ICapsule> implements ICapsule {
         setName(name);
         setImage(image);
         setStashLink(stashLink);
+        updateCurrPrice();
         return this;
     }
 
