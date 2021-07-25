@@ -1,20 +1,24 @@
-package org.example.logic;
+package org.example.logic.dto;
 
-import org.example.logic.interfaces.ICapsule;
-import org.example.logic.interfaces.comps.Identifiable;
+import org.example.logic.interfaces.dto.ISticker;
+import org.example.logic.interfaces.dto.comps.Identifiable;
+import org.example.logic.interfaces.sub.IStickerDomain;
+import org.example.logic.sub.StickerDomain;
 import org.json.simple.JSONObject;
 
 import static org.example.util.Attributes.*;
 
-public final class Capsule extends GenericItem<ICapsule> implements ICapsule {
+public final class Sticker extends GenericItem<ISticker> implements ISticker {
 
-    public Capsule() {
-        super(CAPSULE);
+    private static final IStickerDomain STICKER_DOMAIN = StickerDomain.getInstance();
+
+    public Sticker(){
+        super(STICKER);
     }
 
     @Override
-    public ICapsule convert2Obj(JSONObject jsonObject) {
-        JSONObject innerObj = (JSONObject) jsonObject.get(CAPSULE.toString());
+    public ISticker convert2Obj(JSONObject jsonObject) {
+        JSONObject innerObj = (JSONObject) jsonObject.get(STICKER.toString());
         return  populate(
                 (long)      innerObj.get(ID.toString()),
                 (double)    innerObj.get(INIT_PRICE.toString()),
@@ -27,25 +31,26 @@ public final class Capsule extends GenericItem<ICapsule> implements ICapsule {
     @Override
     public long findMaxID() {
         long maxValue = 0;
-        for (Identifiable capsule : Domain.getInstance().readAllCapsules()) {
-            if (capsule.getId() > maxValue) maxValue = capsule.getId();
+        for (Identifiable sticker : STICKER_DOMAIN.readAllStickers()){
+            if (sticker.getId() > maxValue) maxValue = sticker.getId();
         }
         return maxValue;
     }
 
     @Override
-    public ICapsule populate(long id, double initPrice, String name, String image, String stashLink) {
+    public ISticker populate(long id, double initPrice, String name, String image, String stashLink) {
         setId(id);
         setInitPrice(initPrice);
         setName(name);
         setImage(image);
         setStashLink(stashLink);
+        updateCurrPrice();
         return this;
     }
 
     @Override
     public String toString() {
-        return "Capsule{" +
+        return "Sticker{" +
                 "id=" + getId() +
                 ", initPrice=" + getInitPrice() +
                 ", currPrice=" + getCurrPrice() +

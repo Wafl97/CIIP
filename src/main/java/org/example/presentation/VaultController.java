@@ -13,15 +13,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 
-import org.example.logic.interfaces.comps.Displayable;
-import org.example.logic.interfaces.ICapsule;
-import org.example.logic.interfaces.ISkin;
-import org.example.logic.interfaces.IVault;
+import org.example.logic.interfaces.dto.comps.Displayable;
+import org.example.logic.interfaces.dto.IVault;
 
 public class VaultController extends App implements Initializable {
 
     @FXML
-    private Button saveButton, backButton, addButton, removeButton;
+    private Button saveButton, backButton, deleteButton, addButton, removeButton;
     @FXML
     private TextField nameTextField;
     @FXML
@@ -52,6 +50,8 @@ public class VaultController extends App implements Initializable {
             if (operation == CREATE) createInvestment();
             else if (operation == EDIT) updateInvestment();
         });
+        if (operation == CREATE) deleteButton.setDisable(true);
+        else deleteButton.setOnAction(e -> openWarning("Delete Investment","Are you sure?","This Investment will be permanently removed!",this::deleteInvestment,true));
         addButton.setOnAction(e -> {
             if (allItemsListView.getSelectionModel().getSelectedIndex() != -1 && amountSpinner.getValue() > 0) {
                 Displayable item = allItemsListView.getItems().get(allItemsListView.getSelectionModel().getSelectedIndex());
@@ -77,38 +77,39 @@ public class VaultController extends App implements Initializable {
         //===ListViews==================================================================================================
         allItemsListView.setCellFactory(cell -> new ListCell<>() {
             @Override
-            protected void updateItem(Displayable capsule, boolean empty) {
-                super.updateItem(capsule, empty);
+            protected void updateItem(Displayable item, boolean empty) {
+                super.updateItem(item, empty);
 
-                if (empty || capsule == null || capsule.getName() == null) {
-                    setText(null);
-                } else {
-                    setText(capsule.getName());
-                }
-            }
-        });
-        for (ICapsule capsule : DOMAIN.readAllCapsules()){
-            allItemsListView.getItems().add(capsule);
-        }
-        for (ISkin skin : DOMAIN.readAllSkins()){
-            allItemsListView.getItems().add(skin);
-        }
-        //allItemsListView.setItems(allCapsules);
-        itemsListView.setCellFactory(cell -> new ListCell<>() {
-            @Override
-            protected void updateItem(Displayable capsule, boolean empty) {
-                super.updateItem(capsule, empty);
-
-                if (    empty ||
-                        capsule == null ||
-                        capsule.getName() == null ||
-                        !tmpMap.containsKey(capsule) ||
-                        DOMAIN.getDataFacade().getGFX().getImageMap().get(capsule.getImage()) == null) {
+                if (empty || item == null || item.getName() == null || DOMAIN.getDataFacade().getGFX().getImageMap().get(item.getImage()) == null) {
                     setText(null);
                     setGraphic(null);
                 } else {
-                    setText(tmpMap.get(capsule) + "\t" + capsule.getName());
-                    ImageView imageView = new ImageView(DOMAIN.getDataFacade().getGFX().getImageMap().get(capsule.getImage()));
+                    setText(item.getName());
+                    ImageView imageView = new ImageView(DOMAIN.getDataFacade().getGFX().getImageMap().get(item.getImage()));
+                    imageView.setPreserveRatio(true);
+                    imageView.setFitHeight(25);
+                    setGraphic(imageView);
+                }
+            }
+        });
+        for (Displayable item : DOMAIN.readAllItems()){
+            allItemsListView.getItems().add(item);
+        }
+        itemsListView.setCellFactory(cell -> new ListCell<>() {
+            @Override
+            protected void updateItem(Displayable item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (    empty ||
+                        item == null ||
+                        item.getName() == null ||
+                        !tmpMap.containsKey(item) ||
+                        DOMAIN.getDataFacade().getGFX().getImageMap().get(item.getImage()) == null) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    setText(tmpMap.get(item) + "\t" + item.getName());
+                    ImageView imageView = new ImageView(DOMAIN.getDataFacade().getGFX().getImageMap().get(item.getImage()));
                     imageView.setPreserveRatio(true);
                     imageView.setFitHeight(25);
                     setGraphic(imageView);
@@ -123,7 +124,7 @@ public class VaultController extends App implements Initializable {
         //===Content===
         newInvestment.setAllItems(tmpMap);
         //===Domain===
-        DOMAIN.createVault(newInvestment);
+        DOMAIN.getVaultDomain().createVault(newInvestment);
     }
 
     private void readInvestment(){
@@ -142,10 +143,13 @@ public class VaultController extends App implements Initializable {
         //===Content===
         loadedInvestment.setAllItems(tmpMap);
         //===Domain===
-        DOMAIN.updateVault(loadedInvestment);
+        DOMAIN.getVaultDomain().updateVault(loadedInvestment);
     }
 
     private void deleteInvestment(){
-
+        if (loadedInvestment != null){
+            long id = loadedInvestment.getId();
+            DOMAIN.getVaultDomain().deleteVault(id);
+        }
     }
 }

@@ -11,6 +11,7 @@ public final class DataFacade implements IDataFacade {
     private final DataConnection CONNECTION;
 
     private DataFacade(){
+        System.out.println("\n\n===========================================");
         System.out.println("Staring Persistence");
 
         System.out.println("\t - Getting GFX");
@@ -23,7 +24,7 @@ public final class DataFacade implements IDataFacade {
         CONNECTION.connect(true);
         System.out.println("\t - Connection success: [" + CONNECTION.connect(true) + "]");
 
-        System.out.println("Persistence Done");
+        System.out.println("Persistence Done\n\n");
     }
 
     public static DataFacade getInstance(){

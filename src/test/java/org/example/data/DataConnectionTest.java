@@ -4,7 +4,7 @@ import junit.framework.TestCase;
 import org.example.data.interfaces.DataConnection;
 import org.example.logic.interfaces.Factory;
 import org.example.logic.StructureCreator;
-import org.example.logic.interfaces.ISticker;
+import org.example.logic.interfaces.dto.ISticker;
 import org.json.simple.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

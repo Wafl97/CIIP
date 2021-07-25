@@ -2,19 +2,19 @@
   {
     "STICKER": {
       "ID": 1,
-      "NAME": "name",
+      "NAME": "Sticker | Natus Vincere (Gold) | 2020 RMR",
       "INIT_PRICE": 99.99,
-      "STASH_LINK": "link",
-      "IMAGE": "260fx260f.png"
+      "STASH_LINK": "https://csgostash.com/sticker/3865/Natus-Vincere-Gold-2020-RMR",
+      "IMAGE": "NAVI GOLD.png"
     }
   },
   {
     "STICKER": {
       "ID": 2,
-      "NAME": "namesdf",
+      "NAME": "Sticker | TYLOO (Gold) | 2020 RMR",
       "INIT_PRICE": 66.66,
-      "STASH_LINK": "linksdf",
-      "IMAGE": "260fx260f.png"
+      "STASH_LINK": "https://csgostash.com/sticker/3836/TYLOO-Gold-2020-RMR",
+      "IMAGE": "TYLOO GOLD.png"
     }
   }
 ]
