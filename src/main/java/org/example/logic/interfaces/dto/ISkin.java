@@ -1,12 +1,12 @@
-package org.example.logic.interfaces;
+package org.example.logic.interfaces.dto;
 
-import org.example.logic.interfaces.comps.Displayable;
-import org.example.logic.interfaces.comps.Convertible;
+import org.example.logic.interfaces.dto.comps.Displayable;
+import org.example.logic.interfaces.dto.comps.Convertible;
 
 public interface ISkin extends Displayable, Convertible<ISkin> {
 
-    void setStatTrack(boolean statTrack);
-    boolean isStatTrack();
+    void setStatTrak(boolean statTrak);
+    boolean isStatTrak();
 
     void setSouvenir(boolean souvenir);
     boolean isSouvenir();

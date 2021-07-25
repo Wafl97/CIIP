@@ -1,13 +1,11 @@
-package org.example.logic.interfaces;
+package org.example.logic.interfaces.dto;
 
-import org.example.logic.interfaces.comps.Convertible;
-import org.example.logic.interfaces.comps.Displayable;
-import org.example.logic.interfaces.comps.Identifiable;
+import org.example.logic.interfaces.dto.comps.Convertible;
+import org.example.logic.interfaces.dto.comps.Displayable;
+import org.example.logic.interfaces.dto.comps.Identifiable;
 
 import java.util.Map;
 import java.util.Set;
-// FIXME: 05-07-2021 Add the ability to store Skin and Souvenir:
-//  05-07-2021 Skins added
 
 public interface IVault extends Convertible<IVault>, Identifiable {
 

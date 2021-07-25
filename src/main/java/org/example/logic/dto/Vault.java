@@ -1,27 +1,33 @@
-package org.example.logic;
+package org.example.logic.dto;
 
-import org.example.logic.interfaces.comps.Displayable;
-import org.example.logic.interfaces.comps.Identifiable;
-import org.example.logic.interfaces.ICapsule;
-import org.example.logic.interfaces.ISkin;
-import org.example.logic.interfaces.IVault;
+import org.example.logic.interfaces.dto.comps.Displayable;
+import org.example.logic.interfaces.dto.comps.Identifiable;
+import org.example.logic.interfaces.dto.ICapsule;
+import org.example.logic.interfaces.dto.ISkin;
+import org.example.logic.interfaces.dto.ISticker;
+import org.example.logic.interfaces.dto.IVault;
+import org.example.logic.interfaces.sub.*;
+import org.example.logic.sub.*;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import static org.example.util.Attributes.*;
-
-// FIXME: 05-07-2021 Add the ability to store Skin and Souvenir
 
 public final class Vault implements IVault {
 
     private long id;
     private Map<Displayable,Long> containers;
     private String name;
+
+    private static final IVaultDomain VAULT_DOMAIN = VaultDomain.getInstance();
+    private static final ICapsuleDomain CAPSULE_DOMAIN = CapsuleDomain.getInstance();
+    private static final IStickerDomain STICKER_DOMAIN = StickerDomain.getInstance();
+    private static final ISkinDomain SKIN_DOMAIN = SkinDomain.getInstance();
+    private static final ISouvenirCaseDomain SOUVENIR_CASE_DOMAIN = SouvenirCaseDomain.getInstance();
 
     public Vault() {
         containers = new HashMap<>();
@@ -90,11 +96,12 @@ public final class Vault implements IVault {
         //Create the inner array
         JSONArray capsules = new JSONArray();
         JSONArray skins = new JSONArray();
+        JSONArray stickers = new JSONArray();
         for (Identifiable item : containers.keySet()){
             //Inner obj
             if (item instanceof ICapsule) {
                 JSONObject capsule = new JSONObject();
-                capsule.put(CAPSULE_ID.toString(), item.getId());
+                capsule.put(ID.toString(), item.getId());
                 capsule.put(AMOUNT.toString(), containers.get(item));
                 JSONObject shell = new JSONObject();
                 shell.put(CAPSULE.toString(), capsule);
@@ -102,15 +109,24 @@ public final class Vault implements IVault {
             }
             else if (item instanceof ISkin){
                 JSONObject skin = new JSONObject();
-                skin.put(SKIN_ID.toString(), item.getId());
+                skin.put(ID.toString(), item.getId());
                 skin.put(AMOUNT.toString(), containers.get(item));
                 JSONObject shell = new JSONObject();
                 shell.put(SKIN.toString(), skin);
                 skins.add(shell);
             }
+            else if (item instanceof ISticker){
+                JSONObject sticker = new JSONObject();
+                sticker.put(ID.toString(), item.getId());
+                sticker.put(AMOUNT.toString(), containers.get(item));
+                JSONObject shell = new JSONObject();
+                shell.put(STICKER.toString(), sticker);
+                stickers.add(shell);
+            }
         }
         innerObj.put(CAPSULES.toString(),capsules);
         innerObj.put(SKINS.toString(),skins);
+        innerObj.put(STICKERS.toString(),stickers);
         returnObj.put(VAULT.toString(),innerObj);
         return returnObj;
     }
@@ -121,22 +137,33 @@ public final class Vault implements IVault {
         this.populate(
                 (long)      innerObj.get(ID.toString()),
                 (String)    innerObj.get(NAME.toString()));
+        //Add Capsules
         for (Object o : (JSONArray) innerObj.get(CAPSULES.toString())){
             JSONObject capsule = (JSONObject) ((JSONObject) o).get(CAPSULE.toString());
-            containers.put(Domain.getInstance().readCapsule((long) capsule.get(CAPSULE_ID.toString())), (long) capsule.get(AMOUNT.toString()));
+            containers.put(CAPSULE_DOMAIN.readCapsule((long) capsule.get(ID.toString())), (long) capsule.get(AMOUNT.toString()));
         }
+        //Add Skins
         for (Object o : (JSONArray) innerObj.get(SKINS.toString())){
             JSONObject skin = (JSONObject) ((JSONObject) o).get(SKIN.toString());
-            containers.put(Domain.getInstance().readSkin((long) skin.get(SKIN_ID.toString())), (long) skin.get(AMOUNT.toString()));
+            containers.put(SKIN_DOMAIN.readSkin((long) skin.get(ID.toString())), (long) skin.get(AMOUNT.toString()));
+        }
+        //Add Stickers
+        for (Object o : (JSONArray) innerObj.get(STICKERS.toString())){
+            JSONObject sticker = (JSONObject) ((JSONObject) o).get(STICKER.toString());
+            containers.put(STICKER_DOMAIN.readSticker((long) sticker.get(ID.toString())), (long) sticker.get(AMOUNT.toString()));
+        }
+        //Add SouvenirCases
+        for (Object o : (JSONArray) innerObj.get(SOUVENIRS.toString())){
+            JSONObject souvenir = (JSONObject) ((JSONObject) o).get(SOUVENIR.toString());
+            containers.put(SOUVENIR_CASE_DOMAIN.readSouvenirCase((long) souvenir.get(ID.toString())), (long) souvenir.get(AMOUNT.toString()));
         }
         return this;
     }
 
     @Override
     public long findMaxID() {
-        List<IVault> cache = Domain.getInstance().readAllVaults();
-        long maxValue = cache.get(0).getId();
-        for (IVault investment : cache) {
+        long maxValue = 0;
+        for (Identifiable investment : VAULT_DOMAIN.readAllVaults()) {
             if (investment.getId() > maxValue) maxValue = investment.getId();
         }
         return maxValue;
@@ -145,9 +172,9 @@ public final class Vault implements IVault {
     @Override
     public String toString() {
         return "Vault{" +
-                "id=" + id +
-                ", containers=" + containers +
-                ", name='" + name + '\'' +
+                "id=" + getId() +
+                ", name='" + getName() + '\'' +
+                ", containers=" + getAllItems() +
                 '}';
     }
 }

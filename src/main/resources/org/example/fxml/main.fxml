@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.net.URL?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="background" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.presentation.MainController">
+<AnchorPane fx:id="background" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.presentation.MainController">
    <children>
       <ListView fx:id="investmentListView" layoutX="15.0" layoutY="49.0" onMouseClicked="#investmentHandler" prefHeight="657.0" prefWidth="200.0" />
       <Label layoutX="14.0" layoutY="14.0" text="Investments" />
@@ -19,37 +15,62 @@
             <Button fx:id="deleteButton" mnemonicParsing="false" prefHeight="34.0" prefWidth="133.0" text="Delete" />
          </children>
       </VBox>
-      <VBox layoutX="716.0" layoutY="436.0" prefHeight="226.0" prefWidth="350.0">
-         <children>
-            <Label text="Total Stats" />
-            <Label fx:id="globalTotalInvestedLabel" />
-            <Label fx:id="globalTotalItemsLabel" />
-            <Label fx:id="globalTotalMadeLabel" />
-            <Label />
-            <Label text="Selected Investment" />
-            <Label fx:id="totalContainersLabel" text="Label" />
-            <Label fx:id="totalInvestedLabel" text="Label" />
-            <Label fx:id="totalSellValueLabel" />
-            <Label fx:id="totalMadeLabel" />
-         </children>
-      </VBox>
+      <HBox layoutX="716.0" layoutY="436.0" prefHeight="226.0" prefWidth="350.0">
+         <VBox >
+            <children>
+               <Label text="Total Stats" />
+               <Label text="Global Invested: " />
+               <Label text="Global Items: " />
+               <Label text="Global Made: " />
+               <Label />
+               <Label text="Selected Investment" />
+               <Label text="Amount of Containers: " />
+               <Label text="Total Invested: " />
+               <Label text="Total By Selling: " />
+               <Label text="Total Made: " />
+            </children>
+         </VBox>
+         <VBox>
+            <children>
+               <Label />
+               <Label fx:id="globalTotalInvestedLabelValue" text="Global Invested:" />
+               <Label fx:id="globalTotalItemsLabelValue" text="Global Items:" />
+               <Label fx:id="globalTotalMadeLabelValue" text="Global Made:" />
+               <Label />
+               <Label />
+               <Label fx:id="totalContainersLabelValue" text="Amount of Containers:" />
+               <Label fx:id="totalInvestedLabelValue" text="Total Invested:" />
+               <Label fx:id="totalSellValueLabelValue" text="Total By Selling:" />
+               <Label fx:id="totalMadeLabelValue" text="Total Made:" />
+            </children>
+         </VBox>
+      </HBox>
       <ListView fx:id="itemListView" layoutX="348.0" layoutY="49.0" onMouseClicked="#itemHandler" prefHeight="657.0" prefWidth="350.0" />
       <VBox layoutX="716.0" layoutY="24.0" prefHeight="184.0" prefWidth="200.0">
          <Label fx:id="itemName" />
-         <ImageView fx:id="itemImage" preserveRatio="true" fitHeight="256.0"/>
-         <Label fx:id="itemAmount" />
-         <Label fx:id="itemInitPrice" />
-         <Label fx:id="itemCurrPrice" />
-         <Label fx:id="itemDiffPrice" />
+         <ImageView fx:id="itemImage" fitHeight="256.0" preserveRatio="true" />
       </VBox>
+      <HBox layoutX="716.0" layoutY="295.0" prefHeight="184.0" prefWidth="200.0">
+         <VBox>
+            <Label fx:id="itemAmount" />
+            <Label fx:id="itemInitPrice" />
+            <Label fx:id="itemCurrPrice" />
+            <Label fx:id="itemDiffPrice" />
+         </VBox>
+         <VBox>
+            <Label fx:id="itemAmountValue" />
+            <Label fx:id="itemInitPriceValue" />
+            <Label fx:id="itemCurrPriceValue" />
+            <Label fx:id="itemDiffPriceValue" />
+         </VBox>
+      </HBox>
       <VBox layoutX="219.0" layoutY="606.0" prefHeight="96.0" prefWidth="126.0">
          <Button fx:id="itemCreateButton" mnemonicParsing="false" prefHeight="32.0" prefWidth="137.0" text="Create Item" />
          <Button fx:id="itemUpdateButton" mnemonicParsing="false" prefHeight="32.0" prefWidth="158.0" text="Update Item" />
          <Button fx:id="itemViewButton" mnemonicParsing="false" prefHeight="32.0" prefWidth="167.0" text="View Items" />
       </VBox>
       <Button layoutX="1041.0" layoutY="686.0" mnemonicParsing="false" onAction="#nice" text="(:" />
+      <Button layoutX="877.0" layoutY="682.0" mnemonicParsing="false" onAction="#toggleCSS" prefHeight="34.0" prefWidth="157.0" text="TOGGLE CSS" />
+      <Button layoutX="704.0" layoutY="682.0" mnemonicParsing="false" onAction="#updatePrices" prefHeight="34.0" prefWidth="157.0" text="Update Prices" />
    </children>
-   <stylesheets>
-      <URL value="@../css/cip.css" />
-   </stylesheets>
 </AnchorPane>

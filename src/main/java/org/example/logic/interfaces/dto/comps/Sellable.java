@@ -1,4 +1,4 @@
-package org.example.logic.interfaces.comps;
+package org.example.logic.interfaces.dto.comps;
 
 public interface Sellable {
 
@@ -9,6 +9,7 @@ public interface Sellable {
     void setCurrPrice(double price);
 
     void updateCurrPrice();
+    void setPriceUpdated(boolean overwrite);
     double getDiffPrice();
 
     String getStashLink();

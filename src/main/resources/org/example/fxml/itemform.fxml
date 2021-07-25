@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.net.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
@@ -58,18 +57,20 @@
    <TextField fx:id="linkTextField" layoutX="14.0" layoutY="571.0" prefHeight="34.0" prefWidth="586.0" promptText="Enter link to CSGO Stash" />
    <Button fx:id="browserButton" layoutX="623.0" layoutY="571.0" mnemonicParsing="false" text="Browse" />
    <Button fx:id="enableEditButton" layoutX="81.0" layoutY="674.0" mnemonicParsing="false" text="Enable Edit" />
-   <Button fx:id="deleteButton" layoutX="465.0" layoutY="304.0" mnemonicParsing="false" prefHeight="173.0" prefWidth="151.0" text="NASTY BUTTON" />
-   <VBox layoutX="25.0" layoutY="91.0" prefHeight="200.0" prefWidth="100.0">
+   <Button fx:id="deleteButton" layoutX="571.0" layoutY="674.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="150.0" text="Delete Item" />
+   <VBox layoutX="14.0" layoutY="117.0" prefHeight="79.0" prefWidth="100.0">
       <children>
+         <Label text="Item Type" />
          <RadioButton fx:id="skinRadioButton" mnemonicParsing="false" onAction="#selectionHandler" text="Skin" />
          <RadioButton fx:id="capsuleRadioButton" mnemonicParsing="false" onAction="#selectionHandler" text="Capsule" />
          <RadioButton fx:id="souvenirRadioButton" mnemonicParsing="false" onAction="#selectionHandler" text="Souvenir" />
+         <RadioButton fx:id="stickerRadioButton" mnemonicParsing="false" onAction="#selectionHandler" text="Sticker" />
       </children>
    </VBox>
-   <ToggleButton fx:id="souvenirToggleButton" layoutX="94.0" layoutY="191.0" mnemonicParsing="false" text="Souvenir" />
-   <ToggleButton fx:id="statTrackToggleButton" layoutX="94.0" layoutY="166.0" mnemonicParsing="false" text="Stat Track" />
-   <TextField fx:id="wearFloatTextField" layoutX="88.0" layoutY="134.0" text="float" />
-    <stylesheets>
-        <URL value="@../css/cip.css" />
-    </stylesheets>
+   <ToggleButton fx:id="souvenirToggleButton" layoutX="143.0" layoutY="456.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="107.0" text="Souvenir" />
+   <ToggleButton fx:id="statTrackToggleButton" layoutX="143.0" layoutY="422.0" mnemonicParsing="false" text="Stat Track" />
+   <TextField fx:id="wearFloatTextField" layoutX="473.0" layoutY="439.0" prefHeight="34.0" prefWidth="150.0" promptText="float" />
+   <Label fx:id="floatLabel" layoutX="393.0" layoutY="446.0" text="Skin float" />
+   <Button fx:id="updateCurrPriceButton" layoutX="434.0" layoutY="348.0" mnemonicParsing="false" text="Update Current Price" />
+   <Label fx:id="currPriceLabel" layoutX="486.0" layoutY="326.0" text="0.0" />
 </AnchorPane>

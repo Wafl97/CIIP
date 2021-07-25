@@ -7,7 +7,6 @@ import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -15,11 +14,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 
-import org.example.logic.interfaces.comps.Displayable;
-import org.example.logic.interfaces.IVault;
+import org.example.logic.interfaces.dto.comps.Displayable;
+import org.example.logic.interfaces.dto.IVault;
 
 public class MainController extends App implements Initializable {
 
@@ -28,20 +25,18 @@ public class MainController extends App implements Initializable {
     @FXML
     private ListView<IVault> investmentListView;
     @FXML
-    private Label globalTotalInvestedLabel, globalTotalMadeLabel, globalTotalItemsLabel,
-            itemName, itemAmount, itemInitPrice, itemCurrPrice, itemDiffPrice, totalContainersLabel,
-            totalInvestedLabel, totalSellValueLabel, totalMadeLabel;
-    @FXML
-    private AnchorPane background;
+    private Label itemName, itemAmount, itemInitPrice, itemCurrPrice, itemDiffPrice,
+            globalTotalInvestedLabelValue, globalTotalItemsLabelValue, globalTotalMadeLabelValue,
+            totalContainersLabelValue, totalInvestedLabelValue, totalSellValueLabelValue, totalMadeLabelValue,
+            itemAmountValue, itemInitPriceValue, itemCurrPriceValue, itemDiffPriceValue;
     @FXML
     private ListView<Displayable> itemListView;
     @FXML
     private ImageView itemImage;
 
-    private List<IVault> allInvestments;
+    private List<IVault> allVaults;
     private int investIndex = -1;
     private int itemIndex = -1;
-
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -49,7 +44,7 @@ public class MainController extends App implements Initializable {
         createButton.setOnAction(e -> goNext(MAIN_PASS, VAULT_CREATE));
         editButton.setOnAction(e -> {
             if (investIndex != -1) {
-                DOMAIN_FACADE.setSelectedInvestment(investmentListView.getItems().get(investIndex));
+                DOMAIN.setSelectedVault(investmentListView.getItems().get(investIndex));
                 goNext(MAIN_PASS, VAULT_EDIT);
             }
         });
@@ -77,103 +72,151 @@ public class MainController extends App implements Initializable {
         });
         itemListView.setCellFactory(cell -> new ListCell<>() {
             @Override
-            protected void updateItem(Displayable capsule, boolean empty) {
-                super.updateItem(capsule, empty);
+            protected void updateItem(Displayable item, boolean empty) {
+                super.updateItem(item, empty);
 
-                if (empty || capsule == null || capsule.getName() == null || DOMAIN_FACADE.getDataFacade().getGFX().getImageMap().get(capsule.getImage()) == null) {
+                if (empty || item == null || item.getName() == null || DOMAIN.getDataFacade().getGFX().getImageMap().get(item.getImage()) == null) {
                     setText(null);
                     setGraphic(null);
                 } else {
-                    setText(capsule.getName());
-                    ImageView imageView = new ImageView(DOMAIN_FACADE.getDataFacade().getGFX().getImageMap().get(capsule.getImage()));
+                    setText(item.getName());
+                    ImageView imageView = new ImageView(DOMAIN.getDataFacade().getGFX().getImageMap().get(item.getImage()));
                     imageView.setPreserveRatio(true);
-                    imageView.setFitHeight(25);
+                    imageView.setFitHeight(IMAGE_ICON_SIZE);
                     setGraphic(imageView);
                 }
             }
         });
-        allInvestments = DOMAIN_FACADE.getDomain().readAllVaults();
-        float totalInvested = 0;
-        int totalItems = 0;
-        float totalSell = 0;
-        for (IVault investment : allInvestments) {
-            for (Object obj : investment.getAllItems().keySet()){
-                Displayable item = (Displayable) obj;
-                long l = (long) investment.getAllItems().get(item);
-                totalInvested += item.getInitPrice() * l;
-                totalSell += item.getCurrPrice() * l;
-                totalItems += l;
-            }
-        }
-        investmentListView.setItems(FXCollections.observableList(allInvestments));
+        allVaults = DOMAIN.getVaultDomain().readAllVaults();
+        investmentListView.setItems(FXCollections.observableList(allVaults));
 
         //===Labels=====================================================================================================
-        globalTotalInvestedLabel.setText("Global Total Invested: " + totalInvested);
-        globalTotalItemsLabel.setText("Global Total Items: " + totalItems);
-        globalTotalMadeLabel.setText("Global Total Made: " + (totalSell - totalInvested));
-        totalInvestedLabel.setText("");
-        totalContainersLabel.setText("");
-        totalSellValueLabel.setText("");
-        totalMadeLabel.setText("");
+        updateLabels();
     }
 
     private void deleteInvestment() {
-        DOMAIN_FACADE.getDomain().deleteVault(investmentListView.getItems().get(investmentListView.getSelectionModel().getSelectedIndex()).getId());
+        DOMAIN.getVaultDomain().deleteVault(investmentListView.getItems().get(investmentListView.getSelectionModel().getSelectedIndex()).getId());
         investmentListView.getItems().remove(investmentListView.getSelectionModel().getSelectedIndex());
         itemListView.getItems().clear();
     }
 
-    /**
-     *
-     * @param mouseEvent
-     */
     @FXML
-    public void investmentHandler(MouseEvent mouseEvent) {
+    private void investmentHandler() {
         investIndex = investmentListView.getSelectionModel().getSelectedIndex();
         if (investIndex != -1) {
-            IVault investment = investmentListView.getItems().get(investIndex);
-            ObservableList<Displayable> capsules = FXCollections.observableList(new ArrayList<>(investment.getItems()));
-            itemListView.setItems(capsules);
-            float totalBuy = 0;
-            float totalSell = 0;
-            int amount = 0;
-            for (Object obj : investment.getAllItems().keySet()){
-                Displayable item = (Displayable) obj;
-                long l = (long) investment.getAllItems().get(item);
-                totalBuy += item.getInitPrice() * l;
-                totalSell += item.getCurrPrice() * l;
-                amount += l;
-            }
-            totalInvestedLabel.setText("Total Invested: " + totalBuy + "€");
-            totalContainersLabel.setText("Amount of Containers: " + amount );
-            totalSellValueLabel.setText("Total By Selling: " + totalSell);
-            totalMadeLabel.setText("Total Made: " + (totalSell - totalBuy));
+            IVault vault = investmentListView.getItems().get(investIndex);
+            ObservableList<Displayable> item = FXCollections.observableList(new ArrayList<>(vault.getItems()));
+            itemListView.setItems(item);
+            Info info = new Info();
+            calcInfo(vault,info);
+            totalContainersLabelValue.setText(String.valueOf(info.getAmount()));
+            totalInvestedLabelValue.setText(String.format("%.2f",info.getBuy()));
+            totalSellValueLabelValue.setText(String.format("%.2f",info.getSell()));
+            totalMadeLabelValue.setText(String.format("%.2f",info.getSell() - info.getBuy()));
         }
     }
 
     /**
-     *
-     * @param mouseEvent
+     * Calculates the different totals in a Vault.
+     * This methode updates the int and float references.
+     * @param vault the Vault being calculated on
      */
+    private void calcInfo(IVault vault, Info info){
+        for (Object obj : vault.getAllItems().keySet()){
+            Displayable item = (Displayable) obj;
+            long l = vault.getAllItems().get(item);
+            info.add2Amount(l);
+            info.add2Buy((item.getInitPrice() * l));
+            info.add2Sell((item.getCurrPrice() * l));
+        }
+    }
+
+    private void updateLabels(){
+        Info info = new Info();
+        for (IVault vault : allVaults) {
+            calcInfo(vault, info);
+        }
+        globalTotalInvestedLabelValue.setText(String.format("%.2f",info.getBuy()));
+        globalTotalItemsLabelValue.setText(String.valueOf(info.getAmount()));
+        globalTotalMadeLabelValue.setText(String.format("%.2f",(info.getSell() - info.getBuy())));
+        totalContainersLabelValue.setText("--");
+        totalInvestedLabelValue.setText("--.--");
+        totalSellValueLabelValue.setText("--.--");
+        totalMadeLabelValue.setText("--.--");
+    }
+
     @FXML
-    public void itemHandler(MouseEvent mouseEvent) {
+    private void itemHandler() {
         itemIndex = itemListView.getSelectionModel().getSelectedIndex();
         if (itemIndex != -1) {
             Displayable capsule = itemListView.getItems().get(itemIndex);
             itemName.setText(capsule.getName());
-            itemImage.setImage(DOMAIN_FACADE.getDataFacade().getGFX().getImageMap().get(capsule.getImage()));
-            itemAmount.setText("Amount:\t" + allInvestments.get(investIndex).getAllItems().get(capsule));
-            itemInitPrice.setText("Buy Price:\t" + capsule.getInitPrice() + "€");
-            itemCurrPrice.setText("Sell Price:\t" + capsule.getCurrPrice() + "€");
-            itemDiffPrice.setText("Diff Price:\t" + capsule.getDiffPrice() + "€");
+            itemImage.setImage(DOMAIN.getDataFacade().getGFX().getImageMap().get(capsule.getImage()));
+            itemImage.setPreserveRatio(true);
+            itemImage.setFitHeight(IMAGE_SIZE);
+            itemAmount.setText("Amount: ");
+            itemAmountValue.setText(String.valueOf(allVaults.get(investIndex).getAllItems().get(capsule)));
+            itemInitPrice.setText("Buy Price: ");
+            itemInitPriceValue.setText(String.format("%.2f",capsule.getInitPrice()) + "€");
+            itemCurrPrice.setText("Sell Price: ");
+            itemCurrPriceValue.setText(String.format("%.2f",capsule.getCurrPrice()) + "€");
+            itemDiffPrice.setText("Diff Price: ");
+            itemDiffPriceValue.setText(String.format("%.2f",capsule.getDiffPrice()) + "€");
         }
     }
 
-    /**
-     *
-     * @param event the ActionEvent triggering this methode
-     */
-    public void nice(ActionEvent event) {
+    @FXML
+    private void toggleCSS(){
+        CSS = toggleFlag ? CIIP_CSS : DFLT_CSS;
+        updateCSS();
+        toggleFlag = !toggleFlag;
+    }
+
+    @FXML
+    private void updatePrices(){
+        allVaults.forEach(vault -> vault.getAllItems().keySet().forEach(displayable -> {
+            displayable.setPriceUpdated(false);
+            displayable.updateCurrPrice();
+        }));
+        updateLabels();
+        investmentHandler();
+        itemHandler();
+        System.out.println("\nAll prices are up to date\n");
+    }
+
+    @FXML
+    private void nice() {
         openWeb("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+    }
+
+
+    //This might be a bit overkill
+    private static final class Info{
+
+        private long amount;
+        private double buy;
+        private double sell;
+
+        private Info(){
+
+        }
+        private void add2Amount(long amount){
+            this.amount += amount;
+        }
+        private long getAmount(){
+            return amount;
+        }
+        private void add2Buy(double buy){
+            this.buy += buy;
+        }
+        private double getBuy(){
+            return buy;
+        }
+        private void add2Sell(double sell){
+            this.sell += sell;
+        }
+        private double getSell(){
+            return sell;
+        }
     }
 }

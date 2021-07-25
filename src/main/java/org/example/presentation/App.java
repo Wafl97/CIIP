@@ -11,8 +11,7 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Pair;
-
-import org.example.logic.DomainFacade;
+import org.example.logic.Domain;
 
 import java.io.IOException;
 import java.util.Stack;
@@ -26,7 +25,7 @@ public class App extends Application {
     /**
      * Link to logic layer
      */
-    static final DomainFacade DOMAIN_FACADE = DomainFacade.getInstance();
+    static final Domain DOMAIN = Domain.getInstance();
 
     private static Scene scene;
 
@@ -34,34 +33,40 @@ public class App extends Application {
 
     private static final Stack<Pair<String,Operation>> fxmlStack = new Stack<>();
 
-    static final String TITLE = "CIP";
+    static final String TITLE = DOMAIN.getAppName() + " - " + DOMAIN.getVersion();
     static final String VAULTFORM = "vaultform";
     static final String MAIN = "main";
     static final String ITEMFORM = "itemform";
+
+    static final String CIIP_CSS = "/org/example/css/ciip.css";
+    static final String DFLT_CSS = "/org/example/css/dflt.css";
+    static String CSS = CIIP_CSS;
+    static boolean toggleFlag = false;
+
+    static final int IMAGE_SIZE = 250;
+    static final int IMAGE_ICON_SIZE = 25;
 
     static final Operation PASS = Operation.PASS;
     static final Operation EDIT = Operation.EDIT;
     static final Operation CREATE = Operation.CREATE;
 
-    final Pair<String,Operation> MAIN_PASS = new Pair<>(MAIN,PASS);
+    static final Pair<String,Operation> MAIN_PASS = new Pair<>(MAIN,PASS);
 
-    final Pair<String,Operation> ITEM_PASS = new Pair<>(ITEMFORM,PASS);
-    final Pair<String,Operation> ITEM_EDIT = new Pair<>(ITEMFORM,EDIT);
-    final Pair<String,Operation> ITEM_CREATE = new Pair<>(ITEMFORM,CREATE);
+    static final Pair<String,Operation> ITEM_PASS = new Pair<>(ITEMFORM,PASS);
+    static final Pair<String,Operation> ITEM_EDIT = new Pair<>(ITEMFORM,EDIT);
+    static final Pair<String,Operation> ITEM_CREATE = new Pair<>(ITEMFORM,CREATE);
 
-    final Pair<String,Operation> VAULT_PASS = new Pair<>(VAULTFORM,PASS);
-    final Pair<String,Operation> VAULT_EDIT = new Pair<>(VAULTFORM,EDIT);
-    final Pair<String,Operation> VAULT_CREATE = new Pair<>(VAULTFORM,CREATE);
+    static final Pair<String,Operation> VAULT_PASS = new Pair<>(VAULTFORM,PASS);
+    static final Pair<String,Operation> VAULT_EDIT = new Pair<>(VAULTFORM,EDIT);
+    static final Pair<String,Operation> VAULT_CREATE = new Pair<>(VAULTFORM,CREATE);
 
     @Override
     public void start(Stage stage) throws IOException {
-        //Initial set FXML and Operation
-        //fxmlStack.push(new Pair<>(MAIN,PASS));
-
         scene = new Scene(loadFXML(MAIN), 1080, 720);
-        stage.getIcons().add(DOMAIN_FACADE.getDataFacade().getGFX().getLogo());
+        stage.getIcons().add(DOMAIN.getDataFacade().getGFX().getLogo());
         stage.setTitle(TITLE);
         stage.setScene(scene);
+        updateCSS();
         stage.show();
     }
 
@@ -71,6 +76,11 @@ public class App extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    void updateCSS(){
+        scene.getStylesheets().clear();
+        scene.getStylesheets().add(getClass().getResource(CSS).toExternalForm());
     }
 
     void setOperation(Operation op){
@@ -109,7 +119,7 @@ public class App extends Application {
         AtomicBoolean answer = new AtomicBoolean(false);
         AnchorPane pane = new AnchorPane();
         pane.setId("background");
-        String css = App.class.getResource("/org/example/css/cip.css").toExternalForm();
+        String css = App.class.getResource(CSS).toExternalForm();
         pane.getStylesheets().add(css);
         HBox hBox = new HBox();
         Label shortM = new Label(shortMes);
@@ -132,7 +142,7 @@ public class App extends Application {
         stage.setTitle(title);
         stage.setResizable(false);
         stage.initModality(Modality.APPLICATION_MODAL);
-        stage.getIcons().add(DOMAIN_FACADE.getDataFacade().getGFX().getLogo());
+        stage.getIcons().add(DOMAIN.getDataFacade().getGFX().getLogo());
         stage.setScene(new Scene(pane,300,100));
         stage.showAndWait();
         return answer.get();
@@ -152,6 +162,7 @@ public class App extends Application {
     }
 
     public static void main(String[] args) {
+        DOMAIN.init();
         launch();
     }
 

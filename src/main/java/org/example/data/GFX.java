@@ -5,6 +5,7 @@ import org.example.data.interfaces.IGFX;
 
 import java.io.*;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,30 +47,37 @@ final class GFX implements IGFX {
     }
 
     private GFX() {
+        System.out.println("||===========================================");
+        System.out.println("|| Initialising GFX");
+        loadLogo();
+        loadImages(false);
+        System.out.println("|| Initialisation done");
+        System.out.println("||===========================================");
+    }
+
+    private void loadLogo(){
         try {
-            logo = new Image(GFX.class.getResource(LOGO_PATH).toURI().toString());
-            File f = new File(GFX.class.getResource(S_DIR).toURI());
-            File[] fArr = f.listFiles();
-            if (fArr != null) {
-                for (File file : fArr) {
-                    imageMap.put(file.getName(), new Image(file.toURI().toString()));
-                }
-            }
+            File file = new File(GFX.class.getResource(LOGO_PATH).toURI());
+            logo = new Image(file.toURI().toString());
+            System.out.println("|| Logo found at [" + file + "]");
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public void reloadImages(boolean clear){
+    public void loadImages(boolean clear){
         if (clear) {
             imageMap.clear();
         }
         try {
             File f = new File(GFX.class.getResource(S_DIR).toURI());
+            System.out.println("|| Loading images from [" + f + "]");
             File[] fArr = f.listFiles();
             if (fArr != null) {
+                System.out.println("|| Total images found [" + fArr.length + "]");
                 for (File file : fArr) {
+                    System.out.println("|| Found image [" + file.getName() + "]");
                     imageMap.put(file.getName(), new Image(file.toURI().toString()));
                 }
             }

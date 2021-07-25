@@ -1,6 +1,8 @@
 package org.example.logic;
 
+import org.example.logic.dto.*;
 import org.example.logic.interfaces.*;
+import org.example.logic.interfaces.dto.*;
 
 public final class StructureCreator implements Factory {
 
@@ -30,5 +32,9 @@ public final class StructureCreator implements Factory {
     @Override
     public IVault emptyVault() {
         return new Vault();
+    }
+
+    public ISticker emptySticker() {
+        return new Sticker();
     }
 }

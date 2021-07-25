@@ -1,9 +1,11 @@
+/* Label */
 .label{
     -fx-text-fill: #61AFEF;
     -fx-font-family: Verdana;
     -fx-font-size: 16;
 }
 
+/* Spinner */
 .spinner .increment-arrow-button{
     -fx-background-color: #282c34;
     -fx-border-color: #5C6370;
@@ -20,8 +22,6 @@
 .spinner .increment-arrow-button:pressed .increment-arrow{
     -fx-background-color: #5C6370;
 }
-
-
 .spinner .decrement-arrow-button{
     -fx-background-color: #282c34;
     -fx-border-color: #5C6370;
@@ -39,6 +39,7 @@
     -fx-background-color: #5C6370;
 }
 
+/* Text Field */
 .text-field{
     -fx-text-fill: #61AFEF;
     -fx-font-family: Verdana;
@@ -55,43 +56,12 @@
     -fx-text-fill: #61AFEF;
 }
 
+/* Background */
 #background{
     -fx-background-color: #282c34;
 }
 
-#closeButton{
-    -fx-font-size: 0;
-    -fx-background-image: url("../gfx/cross_alpha_blue.png");
-    -fx-background-size: 15 15;
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center;
-    -fx-background-color: #282c34;
-}
-#closeButton:hover{
-    -fx-font-size: 0;
-    -fx-background-image: url("../gfx/cross_alpha.png");
-    -fx-background-size: 15 15;
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center;
-    -fx-background-color: #EF596F;
-}
-
-#minimizeButton{
-    -fx-font-size: 0;
-
-    -fx-background-size: 15 15;
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center;
-}
-
-#maximizeButton{
-    -fx-font-size: 0;
-    -fx-background-image: url("../gfx/maximize_alpha_blue.png");
-    -fx-background-size: 15 15;
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center;
-}
-
+/* Button */
 .button{
     -fx-background-color: #282c34;
     -fx-text-fill: #61AFEF;
@@ -108,6 +78,58 @@
     -fx-text-fill: #5C6370;
 }
 
+/* Toggle Button */
+.toggle-button{
+    -fx-background-color: #282c34;
+    -fx-text-fill: #61AFEF;
+    -fx-font-family: Verdana;
+    -fx-font-size: 16;
+    -fx-border-color: #5C6370;
+}
+.toggle-button:hover{
+    -fx-background-color: #5C6370;
+    -fx-text-fill: #61AFEF;
+}
+.toggle-button:armed{
+    -fx-background-color: #61AFEF;
+    -fx-text-fill: #5C6370;
+}
+.toggle-button:selected{
+    -fx-background-color: #61AFEF;
+    -fx-text-fill: #5C6370;
+}
+
+/* Radio Button */
+.radio-button {
+    -fx-text-fill: #61AFEF;
+}
+/*
+.radio-button .radio {
+    -fx-border-width: 1px;
+    -fx-border-color: #000;
+    -fx-background-color: white;
+    -fx-border-radius: 4px;
+    -fx-padding: 4px;
+}
+.radio-button .radio:selected {
+    -fx-background-color: #61AFEF;
+}
+.radio-button -radio:armed {
+    -fx-background-color: #61AFEF;
+}
+.radio-button -radio:determinate {
+    -fx-background-color: #61AFEF;
+}
+.radio-button -radio:indeterminate {
+    -fx-background-color: #61AFEF;
+}
+.radio-button .dot {
+    -fx-background-radius: 4px;
+    -fx-padding: 4px;
+}
+*/
+
+/* List Cell */
 .list-cell{
     -fx-background-color: #282c34;
     -fx-text-fill: #61AFEF;
@@ -123,6 +145,7 @@
     -fx-text-fill: #282c34;
 }
 
+/* List View */
 .list-view{
     -fx-border-color: #5C6370;
     -fx-background-color: #282c34;
