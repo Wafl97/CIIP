@@ -50,21 +50,18 @@ public class App extends Application {
     static final Operation EDIT = Operation.EDIT;
     static final Operation CREATE = Operation.CREATE;
 
-    final Pair<String,Operation> MAIN_PASS = new Pair<>(MAIN,PASS);
+    static final Pair<String,Operation> MAIN_PASS = new Pair<>(MAIN,PASS);
 
-    final Pair<String,Operation> ITEM_PASS = new Pair<>(ITEMFORM,PASS);
-    final Pair<String,Operation> ITEM_EDIT = new Pair<>(ITEMFORM,EDIT);
-    final Pair<String,Operation> ITEM_CREATE = new Pair<>(ITEMFORM,CREATE);
+    static final Pair<String,Operation> ITEM_PASS = new Pair<>(ITEMFORM,PASS);
+    static final Pair<String,Operation> ITEM_EDIT = new Pair<>(ITEMFORM,EDIT);
+    static final Pair<String,Operation> ITEM_CREATE = new Pair<>(ITEMFORM,CREATE);
 
-    final Pair<String,Operation> VAULT_PASS = new Pair<>(VAULTFORM,PASS);
-    final Pair<String,Operation> VAULT_EDIT = new Pair<>(VAULTFORM,EDIT);
-    final Pair<String,Operation> VAULT_CREATE = new Pair<>(VAULTFORM,CREATE);
+    static final Pair<String,Operation> VAULT_PASS = new Pair<>(VAULTFORM,PASS);
+    static final Pair<String,Operation> VAULT_EDIT = new Pair<>(VAULTFORM,EDIT);
+    static final Pair<String,Operation> VAULT_CREATE = new Pair<>(VAULTFORM,CREATE);
 
     @Override
     public void start(Stage stage) throws IOException {
-        //Initial set FXML and Operation
-        //fxmlStack.push(new Pair<>(MAIN,PASS));
-
         scene = new Scene(loadFXML(MAIN), 1080, 720);
         stage.getIcons().add(DOMAIN.getDataFacade().getGFX().getLogo());
         stage.setTitle(TITLE);
@@ -122,7 +119,7 @@ public class App extends Application {
         AtomicBoolean answer = new AtomicBoolean(false);
         AnchorPane pane = new AnchorPane();
         pane.setId("background");
-        String css = App.class.getResource("/org/example/css/ciip.css").toExternalForm();
+        String css = App.class.getResource(CSS).toExternalForm();
         pane.getStylesheets().add(css);
         HBox hBox = new HBox();
         Label shortM = new Label(shortMes);

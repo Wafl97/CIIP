@@ -1,6 +1,6 @@
-package org.example.logic;
+package org.example.logic.dto;
 
-import org.example.logic.interfaces.Item;
+import org.example.logic.interfaces.dto.Item;
 import org.example.util.Attributes;
 import org.json.simple.JSONObject;
 

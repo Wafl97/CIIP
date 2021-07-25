@@ -3,8 +3,10 @@ package org.example.logic;
 import org.example.data.DataFacade;
 import org.example.data.interfaces.IDataFacade;
 import org.example.logic.interfaces.*;
-import org.example.logic.interfaces.comps.Displayable;
-import org.json.simple.JSONObject;
+import org.example.logic.interfaces.dto.comps.Displayable;
+import org.example.logic.interfaces.dto.IVault;
+import org.example.logic.interfaces.sub.*;
+import org.example.logic.sub.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -20,14 +22,13 @@ public final class Domain implements Logic {
     private final Factory CREATOR;
     private final IFileHandler FILE_HANDLER;
 
-    private List<ICapsule> capsulesCache;
-    private List<IVault> vaultCache;
-    private List<ISkin> skinCache;
-    private List<ISouvenirCase> souvenirCaseCache;
-    private List<ISticker> stickerCache;
+    private static final IVaultDomain VAULT_DOMAIN = VaultDomain.getInstance();
+    private static final ICapsuleDomain CAPSULE_DOMAIN = CapsuleDomain.getInstance();
+    private static final ISkinDomain SKIN_DOMAIN = SkinDomain.getInstance();
+    private static final ISouvenirCaseDomain SOUVENIR_CASE_DOMAIN = SouvenirCaseDomain.getInstance();
+    private static final IStickerDomain STICKER_DOMAIN = StickerDomain.getInstance();
 
     private IVault selectedVault;
-    private ICapsule selectedCapsule;
 
     private static final String APP_NAME = "CIIP";
     private static final String VERSION;
@@ -66,6 +67,9 @@ public final class Domain implements Logic {
 
         System.out.println("\t - Getting DataFacade");
         DATA_FACADE = DataFacade.getInstance();
+
+        System.out.println("\t - Starting Caches");
+        initCaches();
 
         System.out.println("Start Complete\nPlease Enjoy - WAFL\n");
     }
@@ -106,222 +110,47 @@ public final class Domain implements Logic {
     }
 
     @Override
-    public void setSelectedCapsule(ICapsule capsule) {
-        selectedCapsule = capsule;
+    public ICapsuleDomain getCapsuleDomain() {
+        return CAPSULE_DOMAIN;
     }
 
     @Override
-    public ICapsule getSelectedCapsule() {
-        return selectedCapsule;
+    public IStickerDomain getStickerDomain() {
+        return STICKER_DOMAIN;
+    }
+
+    @Override
+    public IVaultDomain getVaultDomain() {
+        return VAULT_DOMAIN;
+    }
+
+    @Override
+    public ISkinDomain getSkinDomain() {
+        return SKIN_DOMAIN;
+    }
+
+    @Override
+    public ISouvenirCaseDomain getSouvenirCaseDomain() {
+        return SOUVENIR_CASE_DOMAIN;
     }
 
     @Override
     public List<Displayable> readAllItems(){
         List<Displayable> rtn = new ArrayList<>();
-        rtn.addAll(readAllCapsules());
-        rtn.addAll(readAllSkins());
-        rtn.addAll(readAllStickers());
-        rtn.addAll(readAllSouvenirCases());
+        rtn.addAll(CAPSULE_DOMAIN.readAllCapsules());
+        rtn.addAll(SKIN_DOMAIN.readAllSkins());
+        rtn.addAll(STICKER_DOMAIN.readAllStickers());
+        rtn.addAll(SOUVENIR_CASE_DOMAIN.readAllSouvenirCases());
         return rtn;
     }
 
-    @Override
-    public List<ICapsule> readAllCapsules() {
-        if (capsulesCache == null) {
-            capsulesCache = new ArrayList<>();
-            for (Object o : DATA_FACADE.getDataConnection().readAllCapsules()) {
-                ICapsule newCapsule = CREATOR.emptyCapsule().convert2Obj((JSONObject) o);
-                capsulesCache.add(newCapsule);
-            }
-        }
-        return capsulesCache;
+    private void initCaches(){
+        System.out.println("\n\nThis might take some time...");
+        CAPSULE_DOMAIN.readAllCapsules();
+        SKIN_DOMAIN.readAllSkins();
+        STICKER_DOMAIN.readAllStickers();
+        SOUVENIR_CASE_DOMAIN.readAllSouvenirCases();
+        VAULT_DOMAIN.readAllVaults();
+        System.out.println("\t - Caching completed");
     }
-
-    @Override
-    public void createCapsule(ICapsule capsule) {
-        if (capsulesCache == null) readAllCapsules();
-        DATA_FACADE.getDataConnection().createCapsule(capsule.convert2JSON());
-        capsulesCache.add(capsule);
-    }
-
-    @Override
-    public ICapsule readCapsule(long id) {
-        if (capsulesCache == null) readAllCapsules();
-        return capsulesCache.stream().filter(capsule -> capsule.getId() == id).findFirst().get();
-    }
-
-    @Override
-    public void updateCapsule(ICapsule capsule) {
-        if (capsulesCache == null) readAllCapsules();
-        DATA_FACADE.getDataConnection().updateCapsule(capsule.convert2JSON());
-        capsulesCache.removeIf(cap -> cap.getId() == capsule.getId());
-        capsulesCache.add(capsule);
-    }
-
-    @Override
-    public void deleteCapsule(long id) {
-        if (capsulesCache == null) readAllCapsules();
-        DATA_FACADE.getDataConnection().deleteCapsule(id);
-        capsulesCache.removeIf(capsule -> capsule.getId() == id);
-    }
-
-    @Override
-    public List<ISkin> readAllSkins() {
-        if (skinCache == null){
-            skinCache = new ArrayList<>();
-            for (Object o : DATA_FACADE.getDataConnection().readAllSkins()) {
-                ISkin newSkin = CREATOR.emptySkin().convert2Obj((JSONObject) o);
-                skinCache.add(newSkin);
-            }
-        }
-        return skinCache;
-    }
-
-    @Override
-    public void createSkin(ISkin skin) {
-        if (skinCache == null) readAllCapsules();
-        DATA_FACADE.getDataConnection().createSkin(skin.convert2JSON());
-        skinCache.add(skin);
-    }
-
-    @Override
-    public ISkin readSkin(long id) {
-        if (skinCache == null) readAllSkins();
-        return skinCache.stream().filter(skin -> skin.getId() == id).findFirst().get();
-    }
-
-    @Override
-    public void updateSkin(ISkin skin) {
-        if (skinCache == null) readAllSkins();
-        DATA_FACADE.getDataConnection().updateSkin(skin.convert2JSON());
-        skinCache.removeIf(skn -> skn.getId() == skin.getId());
-        skinCache.add(skin);
-    }
-
-    @Override
-    public void deleteSkin(long id) {
-        if (skinCache == null) readAllSkins();
-        DATA_FACADE.getDataConnection().deleteSKin(id);
-        skinCache.removeIf(skin -> skin.getId() == id);
-    }
-
-    @Override
-    public List<ISouvenirCase> readAllSouvenirCases() {
-        if (souvenirCaseCache == null){
-            souvenirCaseCache = new ArrayList<>();
-            for (Object o : DATA_FACADE.getDataConnection().readAllSouvenirs()){
-                ISouvenirCase newSouvenir = CREATOR.emptySouvenirCase().convert2Obj((JSONObject) o);
-                souvenirCaseCache.add(newSouvenir);
-            }
-        }
-        return souvenirCaseCache;
-    }
-
-    @Override
-    public void createSouvenirCase(ISouvenirCase souvenirCase) {
-        if (souvenirCaseCache == null) readAllSouvenirCases();
-        DATA_FACADE.getDataConnection().createSouvenir(souvenirCase.convert2JSON());
-        souvenirCaseCache.add(souvenirCase);
-    }
-
-    @Override
-    public ISouvenirCase readSouvenirCase(long id) {
-        if (souvenirCaseCache == null) readAllSouvenirCases();
-        return souvenirCaseCache.stream().filter(souvenir -> souvenir.getId() == id).findFirst().get();
-    }
-
-    @Override
-    public void updateSouvenirCase(ISouvenirCase souvenirCase) {
-        if (souvenirCaseCache == null) readAllSouvenirCases();
-        DATA_FACADE.getDataConnection().updateSouvenir(souvenirCase.convert2JSON());
-        souvenirCaseCache.removeIf(svn -> svn.getId() == souvenirCase.getId());
-        souvenirCaseCache.add(souvenirCase);
-    }
-
-    @Override
-    public void deleteSouvenirCase(long id) {
-        if (souvenirCaseCache == null) readAllSouvenirCases();
-        DATA_FACADE.getDataConnection().deleteSouvenir(id);
-        souvenirCaseCache.removeIf(souvenirCase -> souvenirCase.getId() == id);
-    }
-
-    @Override
-    public List<IVault> readAllVaults() {
-        if (vaultCache == null) {
-            vaultCache = new ArrayList<>();
-            for (Object o : DATA_FACADE.getDataConnection().readAllVaults()) {
-                IVault newVault = CREATOR.emptyVault().convert2Obj((JSONObject) o);
-                vaultCache.add(newVault);
-            }
-        }
-        return vaultCache;
-    }
-
-    @Override
-    public void createVault(IVault vault) {
-        if (vaultCache == null) this.readAllVaults();
-        DATA_FACADE.getDataConnection().createVault(vault.convert2JSON());
-        vaultCache.add(vault);
-    }
-
-    @Override
-    public IVault readVault(long id) {
-        if (vaultCache == null) this.readAllVaults();
-        return vaultCache.stream().filter(vault -> vault.getId() == id).findFirst().get();
-    }
-
-    @Override
-    public void updateVault(IVault vault) {
-        if (vaultCache == null) this.readAllVaults();
-        DATA_FACADE.getDataConnection().updateVault(vault.convert2JSON());
-        vaultCache.removeIf(v -> v.getId() == vault.getId());
-        vaultCache.add(vault);
-    }
-
-    @Override
-    public void deleteVault(long id) {
-        if (vaultCache == null) this.readAllVaults();
-        DATA_FACADE.getDataConnection().deleteVault(id);
-        vaultCache.removeIf(vault -> vault.getId() == id);
-    }
-
-    @Override
-    public List<ISticker> readAllStickers() {
-        if (stickerCache == null){
-            stickerCache = new ArrayList<>();
-            for (Object o : DATA_FACADE.getDataConnection().readAllStickers()){
-                ISticker sticker = CREATOR.emptySticker().convert2Obj((JSONObject) o);
-                stickerCache.add(sticker);
-            }
-        }
-        return stickerCache;
-    }
-
-    @Override
-    public void createSticker(ISticker sticker) {
-        if (stickerCache == null) readAllStickers();
-        stickerCache.add(sticker);
-    }
-
-    @Override
-    public ISticker readSticker(long id) {
-        if (stickerCache == null) readAllStickers();
-        return stickerCache.stream().filter(sticker -> sticker.getId() == id).findFirst().get();
-    }
-
-    @Override
-    public void updateSticker(ISticker sticker) {
-        if (stickerCache == null) readAllStickers();
-        DATA_FACADE.getDataConnection().updateSticker(sticker.convert2JSON());
-        stickerCache.removeIf(stk -> stk.getId() == sticker.getId());
-        stickerCache.add(sticker);
-    }
-
-    @Override
-    public void deleteSticker(long id) {
-        if (stickerCache == null) readAllStickers();
-        DATA_FACADE.getDataConnection().deleteSticker(id);
-        stickerCache.removeIf(sticker -> sticker.getId() == id);
-    }
-
 }

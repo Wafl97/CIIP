@@ -1,7 +1,7 @@
-package org.example.logic.interfaces;
+package org.example.logic.interfaces.dto;
 
-import org.example.logic.interfaces.comps.Convertible;
-import org.example.logic.interfaces.comps.Displayable;
+import org.example.logic.interfaces.dto.comps.Convertible;
+import org.example.logic.interfaces.dto.comps.Displayable;
 
 public interface ISticker extends Displayable, Convertible<ISticker> {
 

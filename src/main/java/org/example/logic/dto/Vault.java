@@ -1,11 +1,13 @@
-package org.example.logic;
+package org.example.logic.dto;
 
-import org.example.logic.interfaces.ISticker;
-import org.example.logic.interfaces.comps.Displayable;
-import org.example.logic.interfaces.comps.Identifiable;
-import org.example.logic.interfaces.ICapsule;
-import org.example.logic.interfaces.ISkin;
-import org.example.logic.interfaces.IVault;
+import org.example.logic.interfaces.dto.comps.Displayable;
+import org.example.logic.interfaces.dto.comps.Identifiable;
+import org.example.logic.interfaces.dto.ICapsule;
+import org.example.logic.interfaces.dto.ISkin;
+import org.example.logic.interfaces.dto.ISticker;
+import org.example.logic.interfaces.dto.IVault;
+import org.example.logic.interfaces.sub.*;
+import org.example.logic.sub.*;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -20,6 +22,12 @@ public final class Vault implements IVault {
     private long id;
     private Map<Displayable,Long> containers;
     private String name;
+
+    private static final IVaultDomain VAULT_DOMAIN = VaultDomain.getInstance();
+    private static final ICapsuleDomain CAPSULE_DOMAIN = CapsuleDomain.getInstance();
+    private static final IStickerDomain STICKER_DOMAIN = StickerDomain.getInstance();
+    private static final ISkinDomain SKIN_DOMAIN = SkinDomain.getInstance();
+    private static final ISouvenirCaseDomain SOUVENIR_CASE_DOMAIN = SouvenirCaseDomain.getInstance();
 
     public Vault() {
         containers = new HashMap<>();
@@ -132,22 +140,22 @@ public final class Vault implements IVault {
         //Add Capsules
         for (Object o : (JSONArray) innerObj.get(CAPSULES.toString())){
             JSONObject capsule = (JSONObject) ((JSONObject) o).get(CAPSULE.toString());
-            containers.put(Domain.getInstance().readCapsule((long) capsule.get(ID.toString())), (long) capsule.get(AMOUNT.toString()));
+            containers.put(CAPSULE_DOMAIN.readCapsule((long) capsule.get(ID.toString())), (long) capsule.get(AMOUNT.toString()));
         }
         //Add Skins
         for (Object o : (JSONArray) innerObj.get(SKINS.toString())){
             JSONObject skin = (JSONObject) ((JSONObject) o).get(SKIN.toString());
-            containers.put(Domain.getInstance().readSkin((long) skin.get(ID.toString())), (long) skin.get(AMOUNT.toString()));
+            containers.put(SKIN_DOMAIN.readSkin((long) skin.get(ID.toString())), (long) skin.get(AMOUNT.toString()));
         }
         //Add Stickers
         for (Object o : (JSONArray) innerObj.get(STICKERS.toString())){
             JSONObject sticker = (JSONObject) ((JSONObject) o).get(STICKER.toString());
-            containers.put(Domain.getInstance().readSticker((long) sticker.get(ID.toString())), (long) sticker.get(AMOUNT.toString()));
+            containers.put(STICKER_DOMAIN.readSticker((long) sticker.get(ID.toString())), (long) sticker.get(AMOUNT.toString()));
         }
         //Add SouvenirCases
         for (Object o : (JSONArray) innerObj.get(SOUVENIRS.toString())){
             JSONObject souvenir = (JSONObject) ((JSONObject) o).get(SOUVENIR.toString());
-            containers.put(Domain.getInstance().readSouvenirCase((long) souvenir.get(ID.toString())), (long) souvenir.get(AMOUNT.toString()));
+            containers.put(SOUVENIR_CASE_DOMAIN.readSouvenirCase((long) souvenir.get(ID.toString())), (long) souvenir.get(AMOUNT.toString()));
         }
         return this;
     }
@@ -155,7 +163,7 @@ public final class Vault implements IVault {
     @Override
     public long findMaxID() {
         long maxValue = 0;
-        for (Identifiable investment : Domain.getInstance().readAllVaults()) {
+        for (Identifiable investment : VAULT_DOMAIN.readAllVaults()) {
             if (investment.getId() > maxValue) maxValue = investment.getId();
         }
         return maxValue;

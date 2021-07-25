@@ -1,8 +1,8 @@
-package org.example.logic.interfaces;
+package org.example.logic.interfaces.dto;
 
-import org.example.logic.interfaces.comps.Convertible;
-import org.example.logic.interfaces.comps.Displayable;
-import org.example.logic.interfaces.comps.Identifiable;
+import org.example.logic.interfaces.dto.comps.Convertible;
+import org.example.logic.interfaces.dto.comps.Displayable;
+import org.example.logic.interfaces.dto.comps.Identifiable;
 
 import java.util.Map;
 import java.util.Set;

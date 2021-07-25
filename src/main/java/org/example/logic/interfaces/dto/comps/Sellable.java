@@ -1,4 +1,4 @@
-package org.example.logic.interfaces.comps;
+package org.example.logic.interfaces.dto.comps;
 
 public interface Sellable {
 

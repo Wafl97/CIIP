@@ -7,7 +7,6 @@ import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -15,11 +14,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 
-import org.example.logic.interfaces.comps.Displayable;
-import org.example.logic.interfaces.IVault;
+import org.example.logic.interfaces.dto.comps.Displayable;
+import org.example.logic.interfaces.dto.IVault;
 
 public class MainController extends App implements Initializable {
 
@@ -28,13 +25,10 @@ public class MainController extends App implements Initializable {
     @FXML
     private ListView<IVault> investmentListView;
     @FXML
-    private Label globalTotalInvestedLabel, globalTotalMadeLabel, globalTotalItemsLabel,
-            itemName, itemAmount, itemInitPrice, itemCurrPrice, itemDiffPrice, totalContainersLabel,
-            totalInvestedLabel, totalSellValueLabel, totalMadeLabel,
+    private Label itemName, itemAmount, itemInitPrice, itemCurrPrice, itemDiffPrice,
             globalTotalInvestedLabelValue, globalTotalItemsLabelValue, globalTotalMadeLabelValue,
-            totalContainersLabelValue, totalInvestedLabelValue, totalSellValueLabelValue, totalMadeLabelValue;
-    @FXML
-    private AnchorPane background;
+            totalContainersLabelValue, totalInvestedLabelValue, totalSellValueLabelValue, totalMadeLabelValue,
+            itemAmountValue, itemInitPriceValue, itemCurrPriceValue, itemDiffPriceValue;
     @FXML
     private ListView<Displayable> itemListView;
     @FXML
@@ -93,7 +87,7 @@ public class MainController extends App implements Initializable {
                 }
             }
         });
-        allVaults = DOMAIN.readAllVaults();
+        allVaults = DOMAIN.getVaultDomain().readAllVaults();
         investmentListView.setItems(FXCollections.observableList(allVaults));
 
         //===Labels=====================================================================================================
@@ -101,7 +95,7 @@ public class MainController extends App implements Initializable {
     }
 
     private void deleteInvestment() {
-        DOMAIN.deleteVault(investmentListView.getItems().get(investmentListView.getSelectionModel().getSelectedIndex()).getId());
+        DOMAIN.getVaultDomain().deleteVault(investmentListView.getItems().get(investmentListView.getSelectionModel().getSelectedIndex()).getId());
         investmentListView.getItems().remove(investmentListView.getSelectionModel().getSelectedIndex());
         itemListView.getItems().clear();
     }
@@ -160,10 +154,14 @@ public class MainController extends App implements Initializable {
             itemImage.setImage(DOMAIN.getDataFacade().getGFX().getImageMap().get(capsule.getImage()));
             itemImage.setPreserveRatio(true);
             itemImage.setFitHeight(IMAGE_SIZE);
-            itemAmount.setText("Amount: \t" + allVaults.get(investIndex).getAllItems().get(capsule));
-            itemInitPrice.setText("Buy Price: \t" + String.format("%.2f",capsule.getInitPrice()) + "€");
-            itemCurrPrice.setText("Sell Price: \t" + String.format("%.2f",capsule.getCurrPrice()) + "€");
-            itemDiffPrice.setText("Diff Price: \t" + String.format("%.2f",capsule.getDiffPrice()) + "€");
+            itemAmount.setText("Amount: ");
+            itemAmountValue.setText(String.valueOf(allVaults.get(investIndex).getAllItems().get(capsule)));
+            itemInitPrice.setText("Buy Price: ");
+            itemInitPriceValue.setText(String.format("%.2f",capsule.getInitPrice()) + "€");
+            itemCurrPrice.setText("Sell Price: ");
+            itemCurrPriceValue.setText(String.format("%.2f",capsule.getCurrPrice()) + "€");
+            itemDiffPrice.setText("Diff Price: ");
+            itemDiffPriceValue.setText(String.format("%.2f",capsule.getDiffPrice()) + "€");
         }
     }
 

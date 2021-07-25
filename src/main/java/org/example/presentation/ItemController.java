@@ -9,12 +9,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 
-import org.example.logic.interfaces.ISouvenirCase;
-import org.example.logic.interfaces.ISticker;
-import org.example.logic.interfaces.comps.Displayable;
-import org.example.logic.interfaces.ICapsule;
-import org.example.logic.interfaces.ISkin;
-import org.example.logic.interfaces.comps.Identifiable;
+import org.example.logic.interfaces.dto.ISouvenirCase;
+import org.example.logic.interfaces.dto.ISticker;
+import org.example.logic.interfaces.dto.comps.Displayable;
+import org.example.logic.interfaces.dto.ICapsule;
+import org.example.logic.interfaces.dto.ISkin;
+import org.example.logic.interfaces.dto.comps.Identifiable;
 
 import java.io.File;
 import java.net.URL;
@@ -146,7 +146,7 @@ public class ItemController extends App implements Initializable {
                     statTrack,
                     souvenir
             );
-            DOMAIN.updateSkin((ISkin) loadedItem);
+            DOMAIN.getSkinDomain().updateSkin((ISkin) loadedItem);
         }
         else if (loadedItem instanceof ICapsule) {
             ((ICapsule) loadedItem).populate(
@@ -156,7 +156,7 @@ public class ItemController extends App implements Initializable {
                     imageName,
                     link
             );
-            DOMAIN.updateCapsule((ICapsule) loadedItem);
+            DOMAIN.getCapsuleDomain().updateCapsule((ICapsule) loadedItem);
         }
         else if (loadedItem instanceof ISouvenirCase) {
             ((ISouvenirCase) loadedItem).populate(
@@ -166,7 +166,7 @@ public class ItemController extends App implements Initializable {
                     imageName,
                     link
             );
-            DOMAIN.updateSouvenirCase((ISouvenirCase) loadedItem);
+            DOMAIN.getSouvenirCaseDomain().updateSouvenirCase((ISouvenirCase) loadedItem);
         }
         else if (loadedItem instanceof ISticker){
             ((ISticker) loadedItem).populate(
@@ -176,7 +176,7 @@ public class ItemController extends App implements Initializable {
                     imageName,
                     link
             );
-            DOMAIN.updateSticker((ISticker) loadedItem);
+            DOMAIN.getStickerDomain().updateSticker((ISticker) loadedItem);
         }
         else {
             throw new IllegalStateException("No Item type selected");
@@ -185,7 +185,7 @@ public class ItemController extends App implements Initializable {
 
     private void createItem(){
         if (radioToggle.getSelectedToggle().getUserData() == SKIN){
-            DOMAIN.createSkin(DOMAIN.getFactory().emptySkin().populate(
+            DOMAIN.getSkinDomain().createSkin(DOMAIN.getFactory().emptySkin().populate(
                     -1,
                     priceSpinner.getValue(),
                     nameTextField.getText(),
@@ -197,7 +197,7 @@ public class ItemController extends App implements Initializable {
             ));
         }
         else if (radioToggle.getSelectedToggle().getUserData() == CAPSULE){
-            DOMAIN.createCapsule(DOMAIN.getFactory().emptyCapsule().populate(
+            DOMAIN.getCapsuleDomain().createCapsule(DOMAIN.getFactory().emptyCapsule().populate(
                     -1,
                     priceSpinner.getValue(),
                     nameTextField.getText(),
@@ -206,7 +206,7 @@ public class ItemController extends App implements Initializable {
             ));
         }
         else if (radioToggle.getSelectedToggle().getUserData() == SOUVENIR){
-            DOMAIN.createSouvenirCase(DOMAIN.getFactory().emptySouvenirCase().populate(
+            DOMAIN.getSouvenirCaseDomain().createSouvenirCase(DOMAIN.getFactory().emptySouvenirCase().populate(
                     -1,
                     priceSpinner.getValue(),
                     nameTextField.getText(),
@@ -215,7 +215,7 @@ public class ItemController extends App implements Initializable {
             ));
         }
         else if (radioToggle.getSelectedToggle().getUserData() == STICKER){
-            DOMAIN.createSticker(DOMAIN.getFactory().emptySticker().populate(
+            DOMAIN.getStickerDomain().createSticker(DOMAIN.getFactory().emptySticker().populate(
                     -1,
                     priceSpinner.getValue(),
                     nameTextField.getText(),
@@ -232,16 +232,16 @@ public class ItemController extends App implements Initializable {
         Identifiable item = itemsListView.getSelectionModel().getSelectedItem();
         if (item != null){
             if (item instanceof ISkin){
-                DOMAIN.deleteSkin(item.getId());
+                DOMAIN.getSkinDomain().deleteSkin(item.getId());
             }
             else if (item instanceof ICapsule){
-                DOMAIN.deleteCapsule(item.getId());
+                DOMAIN.getCapsuleDomain().deleteCapsule(item.getId());
             }
             else if (item instanceof ISouvenirCase) {
-                DOMAIN.deleteSouvenirCase(item.getId());
+                DOMAIN.getSouvenirCaseDomain().deleteSouvenirCase(item.getId());
             }
             else if(item instanceof ISticker){
-                DOMAIN.deleteSticker(item.getId());
+                DOMAIN.getStickerDomain().deleteSticker(item.getId());
             }
             itemsListView.getItems().remove(item);
         }

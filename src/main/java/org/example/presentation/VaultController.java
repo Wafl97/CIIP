@@ -13,10 +13,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 
-import org.example.logic.interfaces.comps.Displayable;
-import org.example.logic.interfaces.ICapsule;
-import org.example.logic.interfaces.ISkin;
-import org.example.logic.interfaces.IVault;
+import org.example.logic.interfaces.dto.comps.Displayable;
+import org.example.logic.interfaces.dto.IVault;
 
 public class VaultController extends App implements Initializable {
 
@@ -126,7 +124,7 @@ public class VaultController extends App implements Initializable {
         //===Content===
         newInvestment.setAllItems(tmpMap);
         //===Domain===
-        DOMAIN.createVault(newInvestment);
+        DOMAIN.getVaultDomain().createVault(newInvestment);
     }
 
     private void readInvestment(){
@@ -145,13 +143,13 @@ public class VaultController extends App implements Initializable {
         //===Content===
         loadedInvestment.setAllItems(tmpMap);
         //===Domain===
-        DOMAIN.updateVault(loadedInvestment);
+        DOMAIN.getVaultDomain().updateVault(loadedInvestment);
     }
 
     private void deleteInvestment(){
         if (loadedInvestment != null){
             long id = loadedInvestment.getId();
-            DOMAIN.deleteVault(id);
+            DOMAIN.getVaultDomain().deleteVault(id);
         }
     }
 }
