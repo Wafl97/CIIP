@@ -32,8 +32,7 @@ public final class Skin extends GenericItem<ISkin> implements ISkin {
     @Override
     public void updateCurrPrice() {
         if (!priceUpdated) {
-            System.out.println("Getting current price for [" + getName() + "]");
-            System.out.println("From: [" + getStashLink() + "]");
+            System.out.println("Updating current price for [" + getName() + "] From: [" + getStashLink() + "]");
             Double[] prices = new Double[2];
             try {
                 Scanner input = new Scanner(new URL(getStashLink()).openStream());

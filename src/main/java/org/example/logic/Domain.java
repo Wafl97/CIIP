@@ -18,15 +18,15 @@ public final class Domain implements Logic {
 
     private static Domain instance;
 
-    private final IDataFacade DATA_FACADE;
-    private final Factory CREATOR;
-    private final IFileHandler FILE_HANDLER;
+    private static IDataFacade DATA_FACADE;
+    private static Factory CREATOR;
+    private static IFileHandler FILE_HANDLER;
 
-    private static final IVaultDomain VAULT_DOMAIN = VaultDomain.getInstance();
-    private static final ICapsuleDomain CAPSULE_DOMAIN = CapsuleDomain.getInstance();
-    private static final ISkinDomain SKIN_DOMAIN = SkinDomain.getInstance();
-    private static final ISouvenirCaseDomain SOUVENIR_CASE_DOMAIN = SouvenirCaseDomain.getInstance();
-    private static final IStickerDomain STICKER_DOMAIN = StickerDomain.getInstance();
+    private static IVaultDomain VAULT_DOMAIN;
+    private static ICapsuleDomain CAPSULE_DOMAIN;
+    private static ISkinDomain SKIN_DOMAIN;
+    private static ISouvenirCaseDomain SOUVENIR_CASE_DOMAIN;
+    private static IStickerDomain STICKER_DOMAIN;
 
     private IVault selectedVault;
 
@@ -54,13 +54,18 @@ public final class Domain implements Logic {
     }
 
     private Domain(){
+
+    }
+
+    public void init(){
         System.out.println("||======================================||");
         System.out.println("||\t\t\tStarting " + getAppName() + " - " + getVersion() + "\t\t\t||");
         System.out.println("||======================================||");
 
+        System.out.println("\nStarting Main Logic\n");
+
         System.out.println("\t - Getting Factory");
         CREATOR = StructureCreator.getInstance();
-        System.out.println("\t - Factory type: [" + CREATOR.getClass().getSimpleName() + "]");
 
         System.out.println("\t - Getting FileHandler");
         FILE_HANDLER = FileHandler.getInstance();
@@ -68,10 +73,23 @@ public final class Domain implements Logic {
         System.out.println("\t - Getting DataFacade");
         DATA_FACADE = DataFacade.getInstance();
 
+        System.out.println("\t - Getting SubDomains");
+        VAULT_DOMAIN = VaultDomain.getInstance();
+        System.out.println("\t\t - " + VAULT_DOMAIN.getClass().getSimpleName());
+        CAPSULE_DOMAIN = CapsuleDomain.getInstance();
+        System.out.println("\t\t - " + CAPSULE_DOMAIN.getClass().getSimpleName());
+        SKIN_DOMAIN = SkinDomain.getInstance();
+        System.out.println("\t\t - " + SKIN_DOMAIN.getClass().getSimpleName());
+        SOUVENIR_CASE_DOMAIN = SouvenirCaseDomain.getInstance();
+        System.out.println("\t\t - " + SOUVENIR_CASE_DOMAIN.getClass().getSimpleName());
+        STICKER_DOMAIN = StickerDomain.getInstance();
+        System.out.println("\t\t - " + STICKER_DOMAIN.getClass().getSimpleName());
+
+
         System.out.println("\t - Starting Caches");
         initCaches();
 
-        System.out.println("Start Complete\nPlease Enjoy - WAFL\n");
+        System.out.println("Start Complete\n===========================================\n\nPlease Enjoy - WAFL\n");
     }
 
     @Override

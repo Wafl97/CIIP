@@ -31,13 +31,14 @@ public class CapsuleDomain implements ICapsuleDomain {
     @Override
     public List<ICapsule> readAllCapsules() {
         if (capsulesCache == null) {
-            System.out.println("====================\nCaching Capsules");
+            System.out.println("===========================================\nCaching Capsules");
             capsulesCache = new ArrayList<>();
             for (JSONObject o : DATA_FACADE.getDataConnection().readAllCapsules()) {
                 ICapsule newCapsule = CREATOR.emptyCapsule().convert2Obj(o);
                 capsulesCache.add(newCapsule);
+                System.out.println("Capsule [" + newCapsule.getName() + "] Cached");
             }
-            System.out.println("Cache Size [" + capsulesCache.size() + "]\n====================\n");
+            System.out.println("Cache Size [" + capsulesCache.size() + "]\n===========================================\n");
         }
         return capsulesCache;
     }

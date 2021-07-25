@@ -181,6 +181,7 @@ public class MainController extends App implements Initializable {
         updateLabels();
         investmentHandler();
         itemHandler();
+        System.out.println("\nAll prices are up to date\n");
     }
 
     @FXML

@@ -31,13 +31,14 @@ public class SkinDomain implements ISkinDomain {
     @Override
     public List<ISkin> readAllSkins() {
         if (skinCache == null){
-            System.out.println("====================\nCaching Skins");
+            System.out.println("===========================================\nCaching Skins");
             skinCache = new ArrayList<>();
             for (JSONObject o : DATA_FACADE.getDataConnection().readAllSkins()) {
                 ISkin newSkin = CREATOR.emptySkin().convert2Obj(o);
                 skinCache.add(newSkin);
+                System.out.println("Skin [" + newSkin.getName() + "] Cached");
             }
-            System.out.println("Cache Size [" + skinCache.size() + "]\n====================\n");
+            System.out.println("Cache Size [" + skinCache.size() + "]\n===========================================\n");
         }
         return skinCache;
     }

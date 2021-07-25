@@ -31,13 +31,14 @@ public class SouvenirCaseDomain implements ISouvenirCaseDomain {
     @Override
     public List<ISouvenirCase> readAllSouvenirCases() {
         if (souvenirCaseCache == null){
-            System.out.println("====================\nCaching SouvenirCases");
+            System.out.println("===========================================\nCaching SouvenirCases");
             souvenirCaseCache = new ArrayList<>();
             for (JSONObject o : DATA_FACADE.getDataConnection().readAllSouvenirs()){
                 ISouvenirCase newSouvenir = CREATOR.emptySouvenirCase().convert2Obj(o);
                 souvenirCaseCache.add(newSouvenir);
+                System.out.println("SouvenirCase [" + newSouvenir.getName() + "] Cached");
             }
-            System.out.println("Cache Size [" + souvenirCaseCache.size() + "]\n====================\n");
+            System.out.println("Cache Size [" + souvenirCaseCache.size() + "]\n===========================================\n");
         }
         return souvenirCaseCache;
     }

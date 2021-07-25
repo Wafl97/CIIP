@@ -9,6 +9,8 @@ import java.util.List;
 
 public interface Logic {
 
+    void init();
+
     IDataFacade getDataFacade();
     IFileHandler getFileHandler();
     Factory getFactory();

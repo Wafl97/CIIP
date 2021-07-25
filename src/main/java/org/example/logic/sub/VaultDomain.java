@@ -31,13 +31,15 @@ public class VaultDomain implements IVaultDomain {
     @Override
     public List<IVault> readAllVaults() {
         if (vaultCache == null) {
-            System.out.println("====================\nCaching Vaults");
+            System.out.println("===========================================\nCaching Vaults");
             vaultCache = new ArrayList<>();
+            byte b = 0;
             for (JSONObject o : DATA_FACADE.getDataConnection().readAllVaults()) {
                 IVault newVault = CREATOR.emptyVault().convert2Obj(o);
                 vaultCache.add(newVault);
+                System.out.println("Vault [" + newVault.getName() + "] Cached");
             }
-            System.out.println("Cache Size [" + vaultCache.size() + "]\n====================\n");
+            System.out.println("Cache Size [" + vaultCache.size() + "]\n===========================================\n");
         }
         return vaultCache;
     }

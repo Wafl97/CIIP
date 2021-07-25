@@ -31,13 +31,14 @@ public class StickerDomain implements IStickerDomain {
     @Override
     public List<ISticker> readAllStickers() {
         if (stickerCache == null){
-            System.out.println("====================\nCaching Stickers");
+            System.out.println("===========================================\nCaching Stickers");
             stickerCache = new ArrayList<>();
             for (Object o : DATA_FACADE.getDataConnection().readAllStickers()){
-                ISticker sticker = CREATOR.emptySticker().convert2Obj((JSONObject) o);
-                stickerCache.add(sticker);
+                ISticker newSticker = CREATOR.emptySticker().convert2Obj((JSONObject) o);
+                stickerCache.add(newSticker);
+                System.out.println("Sticker [" + newSticker.getName() + "] Cached");
             }
-            System.out.println("Cache Size [" + stickerCache.size() + "]\n====================\n");
+            System.out.println("Cache Size [" + stickerCache.size() + "]\n===========================================\n");
         }
         return stickerCache;
     }

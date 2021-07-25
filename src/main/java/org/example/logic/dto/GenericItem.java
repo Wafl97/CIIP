@@ -91,8 +91,7 @@ public abstract class GenericItem<T> implements Item<T> {
     @Override
     public void updateCurrPrice() {
         if (!priceUpdated) {
-            System.out.println("Getting current price for [" + getName() + "]");
-            System.out.println("From: [" + getStashLink() + "]");
+            System.out.println("Updating current price for [" + getName() + "] From: [" + getStashLink() + "]");
             double d = 0.0d;
             try {
                 Scanner input = new Scanner(new URL(link).openStream());
