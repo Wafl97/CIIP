@@ -18,7 +18,7 @@ public final class Sticker extends GenericItem<ISticker> implements ISticker {
 
     @Override
     public ISticker convert2Obj(JSONObject jsonObject) {
-        JSONObject innerObj = (JSONObject) jsonObject.get(STICKER.toString());
+        JSONObject innerObj = (JSONObject) jsonObject.get(jsonAttribute.toString());
         return  populate(
                 (long)      innerObj.get(ID.toString()),
                 (double)    innerObj.get(INIT_PRICE.toString()),

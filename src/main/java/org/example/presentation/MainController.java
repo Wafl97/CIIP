@@ -50,7 +50,7 @@ public class MainController extends App implements Initializable {
         });
         deleteButton.setOnAction(e -> {
             if (investmentListView.getSelectionModel().getSelectedIndex() != -1) {
-                openWarning("DELETE", "Are you sure?", "Delete the selected element", this::deleteInvestment,false);
+                openWarning("DELETE", "Are you sure?", "Delete the selected element", this::deleteInvestment, false);
             }
         });
         itemViewButton.setOnAction(e -> goNext(MAIN_PASS, ITEM_PASS));

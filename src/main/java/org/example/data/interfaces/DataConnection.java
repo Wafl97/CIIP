@@ -37,4 +37,10 @@ public interface DataConnection {
     JSONObject readSticker(long id);
     void updateSticker(JSONObject jsonObject);
     void deleteSticker(long id);
+
+    List<JSONObject> readAllPatches();
+    void createPatch(JSONObject jsonObject);
+    JSONObject readPatch(long id);
+    void updatePatch(JSONObject jsonObject);
+    void deletePatch(long id);
 }

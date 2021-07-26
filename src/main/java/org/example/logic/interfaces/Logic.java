@@ -23,6 +23,7 @@ public interface Logic {
     IStickerDomain getStickerDomain();
     ISkinDomain getSkinDomain();
     ISouvenirCaseDomain getSouvenirCaseDomain();
+    IPatchDomain getPatchDomain();
 
     void setSelectedVault(IVault vault);
     IVault getSelectedVault();

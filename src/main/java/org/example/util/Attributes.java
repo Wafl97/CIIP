@@ -1,11 +1,13 @@
 package org.example.util;
 
 public enum Attributes {
+    PATCHES,
     STICKERS,
     SOUVENIRS,
     SKINS,
     CAPSULES,
     VAULTS,
+    PATCH,
     STICKER,
     VAULT,
     CAPSULE,
