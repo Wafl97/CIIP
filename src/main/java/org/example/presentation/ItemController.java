@@ -9,11 +9,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 
-import org.example.logic.interfaces.dto.ISouvenirCase;
-import org.example.logic.interfaces.dto.ISticker;
+import org.example.logic.interfaces.dto.*;
 import org.example.logic.interfaces.dto.comps.Displayable;
-import org.example.logic.interfaces.dto.ICapsule;
-import org.example.logic.interfaces.dto.ISkin;
 import org.example.logic.interfaces.dto.comps.Identifiable;
 
 import java.io.File;
@@ -31,7 +28,7 @@ public class ItemController extends App implements Initializable {
     private Button backButton, submitButton, browserButton, enableEditButton, deleteButton, chooseImageButton,
             add0_25, lower0_25, add0_5, lower0_5, add1, lower1, add10, lower10, add100, lower100, updateCurrPriceButton;
     @FXML
-    private RadioButton skinRadioButton, capsuleRadioButton, souvenirRadioButton, stickerRadioButton;
+    private RadioButton skinRadioButton, capsuleRadioButton, souvenirRadioButton, stickerRadioButton, patchRadioButton;
     @FXML
     private ToggleButton statTrackToggleButton, souvenirToggleButton;
     @FXML
@@ -64,7 +61,7 @@ public class ItemController extends App implements Initializable {
 
         nodeList = new ArrayList<>(Arrays.asList(submitButton, browserButton, deleteButton, chooseImageButton,
                 add0_25, lower0_25, add0_5, lower0_5, add1, lower1, add10, lower10, add100, lower100,
-                skinRadioButton, capsuleRadioButton, souvenirRadioButton, stickerRadioButton,
+                skinRadioButton, capsuleRadioButton, souvenirRadioButton, stickerRadioButton, patchRadioButton,
                 statTrackToggleButton, souvenirToggleButton,
                 nameTextField, linkTextField, wearFloatTextField,
                 floatLabel));
@@ -178,6 +175,16 @@ public class ItemController extends App implements Initializable {
             );
             DOMAIN.getStickerDomain().updateSticker((ISticker) loadedItem);
         }
+        else if (loadedItem instanceof IPatch){
+            ((IPatch) loadedItem).populate(
+                    id,
+                    initPrice,
+                    name,
+                    imageName,
+                    link
+            );
+            DOMAIN.getPatchDomain().updatePatch((IPatch) loadedItem);
+        }
         else {
             throw new IllegalStateException("No Item type selected");
         }
@@ -223,6 +230,15 @@ public class ItemController extends App implements Initializable {
                     linkTextField.getText()
             ));
         }
+        else if (radioToggle.getSelectedToggle().getUserData() == PATCH){
+            DOMAIN.getPatchDomain().createPatch(DOMAIN.getFactory().emptyPatch().populate(
+                    -1,
+                    priceSpinner.getValue(),
+                    nameTextField.getText(),
+                    imageFile.getName(),
+                    linkTextField.getText()
+            ));
+        }
         else if (radioToggle.getSelectedToggle().getUserData() == null){
             throw new IllegalStateException("No Item type selected");
         }
@@ -242,6 +258,9 @@ public class ItemController extends App implements Initializable {
             }
             else if(item instanceof ISticker){
                 DOMAIN.getStickerDomain().deleteSticker(item.getId());
+            }
+            else if (item instanceof IPatch){
+                DOMAIN.getPatchDomain().deletePatch(item.getId());
             }
             itemsListView.getItems().remove(item);
         }
@@ -317,12 +336,14 @@ public class ItemController extends App implements Initializable {
             capsuleRadioButton.setUserData(CAPSULE);
             souvenirRadioButton.setUserData(SOUVENIR);
             stickerRadioButton.setUserData(STICKER);
+            patchRadioButton.setUserData(PATCH);
 
             radioToggle = new ToggleGroup();
             skinRadioButton.setToggleGroup(radioToggle);
             capsuleRadioButton.setToggleGroup(radioToggle);
             souvenirRadioButton.setToggleGroup(radioToggle);
             stickerRadioButton.setToggleGroup(radioToggle);
+            patchRadioButton.setToggleGroup(radioToggle);
 
             ToggleGroup toggle = new ToggleGroup();
             statTrackToggleButton.setToggleGroup(toggle);

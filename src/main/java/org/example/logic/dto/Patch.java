@@ -1,23 +1,23 @@
 package org.example.logic.dto;
 
-import org.example.logic.interfaces.dto.ISouvenirCase;
+import org.example.logic.interfaces.dto.IPatch;
 import org.example.logic.interfaces.dto.comps.Identifiable;
-import org.example.logic.interfaces.sub.ISouvenirCaseDomain;
-import org.example.logic.sub.SouvenirCaseDomain;
+import org.example.logic.interfaces.sub.IPatchDomain;
+import org.example.logic.sub.PatchDomain;
 import org.json.simple.JSONObject;
 
 import static org.example.util.Attributes.*;
 
-public final class SouvenirCase extends GenericItem<ISouvenirCase> implements ISouvenirCase {
+public final class Patch extends GenericItem<IPatch> implements IPatch {
 
-    private static final ISouvenirCaseDomain SOUVENIR_CASE_DOMAIN = SouvenirCaseDomain.getInstance();
+    private static final IPatchDomain PATCH_DOMAIN = PatchDomain.getInstance();
 
-    public SouvenirCase(){
-        super(SOUVENIR);
+    public Patch(){
+        super(PATCH);
     }
 
     @Override
-    public ISouvenirCase convert2Obj(JSONObject jsonObject) {
+    public IPatch convert2Obj(JSONObject jsonObject) {
         JSONObject innerObj = (JSONObject) jsonObject.get(jsonAttribute.toString());
         return  populate(
                 (long)      innerObj.get(ID.toString()),
@@ -31,14 +31,14 @@ public final class SouvenirCase extends GenericItem<ISouvenirCase> implements IS
     @Override
     public long findMaxID() {
         long maxValue = 0;
-        for (Identifiable souvenirCase : SOUVENIR_CASE_DOMAIN.readAllSouvenirCases()) {
-            if (souvenirCase.getId() > maxValue) maxValue = souvenirCase.getId();
+        for (Identifiable patch : PATCH_DOMAIN.readAllPatches()){
+            if (patch.getId() > maxValue) maxValue = patch.getId();
         }
         return maxValue;
     }
 
     @Override
-    public ISouvenirCase populate(long id, double initPrice, String name, String image, String stashLink) {
+    public IPatch populate(long id, double initPrice, String name, String image, String stashLink) {
         setId(id);
         setInitPrice(initPrice);
         setName(name);
@@ -50,7 +50,7 @@ public final class SouvenirCase extends GenericItem<ISouvenirCase> implements IS
 
     @Override
     public String toString() {
-        return "SouvenirCase{" +
+        return "Patch{" +
                 "id=" + getId() +
                 ", initPrice=" + getInitPrice() +
                 ", currPrice=" + getCurrPrice() +

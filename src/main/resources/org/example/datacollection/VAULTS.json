@@ -46,6 +46,8 @@
             "AMOUNT": 1
           }
         }
+      ],
+      "PATCHES": [
       ]
     }
   },
@@ -87,6 +89,14 @@
         {
           "STICKER": {
             "ID": 2,
+            "AMOUNT": 1
+          }
+        }
+      ],
+      "PATCHES": [
+        {
+          "PATCH": {
+            "ID": 1,
             "AMOUNT": 1
           }
         }

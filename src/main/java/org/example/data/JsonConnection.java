@@ -273,7 +273,7 @@ final class JsonConnection implements DataConnection {
 
     @Override
     public List<JSONObject> readAllStickers() {
-        return new ArrayList<>(loadFile(STICKERS));
+        return new ArrayList<JSONObject>(loadFile(STICKERS));
     }
 
     @Override
@@ -294,5 +294,30 @@ final class JsonConnection implements DataConnection {
     @Override
     public void deleteSticker(long id) {
         removeObjFromTable(id,STICKERS,STICKER,true);
+    }
+
+    @Override
+    public List<JSONObject> readAllPatches() {
+        return new ArrayList<JSONObject>(loadFile(PATCHES));
+    }
+
+    @Override
+    public void createPatch(JSONObject jsonObject) {
+        addObjToTable(jsonObject,PATCHES);
+    }
+
+    @Override
+    public JSONObject readPatch(long id) {
+        return readOneObj(id,readAllPatches(),PATCH);
+    }
+
+    @Override
+    public void updatePatch(JSONObject jsonObject) {
+        updateObjInTable(jsonObject,PATCHES,PATCH);
+    }
+
+    @Override
+    public void deletePatch(long id) {
+        removeObjFromTable(id,PATCHES,PATCH,true);
     }
 }

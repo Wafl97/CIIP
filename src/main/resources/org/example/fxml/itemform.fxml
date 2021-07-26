@@ -65,6 +65,7 @@
          <RadioButton fx:id="capsuleRadioButton" mnemonicParsing="false" onAction="#selectionHandler" text="Capsule" />
          <RadioButton fx:id="souvenirRadioButton" mnemonicParsing="false" onAction="#selectionHandler" text="Souvenir" />
          <RadioButton fx:id="stickerRadioButton" mnemonicParsing="false" onAction="#selectionHandler" text="Sticker" />
+         <RadioButton fx:id="patchRadioButton" mnemonicParsing="false" onAction="#selectionHandler" text="Patch" />
       </children>
    </VBox>
    <ToggleButton fx:id="souvenirToggleButton" layoutX="143.0" layoutY="456.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="107.0" text="Souvenir" />

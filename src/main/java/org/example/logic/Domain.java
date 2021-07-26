@@ -27,6 +27,7 @@ public final class Domain implements Logic {
     private static ISkinDomain SKIN_DOMAIN;
     private static ISouvenirCaseDomain SOUVENIR_CASE_DOMAIN;
     private static IStickerDomain STICKER_DOMAIN;
+    private static IPatchDomain PATCH_DOMAIN;
 
     private IVault selectedVault;
 
@@ -59,7 +60,7 @@ public final class Domain implements Logic {
 
     public void init(){
         System.out.println("||======================================||");
-        System.out.println("||\t\t\tStarting " + getAppName() + " - " + getVersion() + "\t\t\t||");
+        System.out.println("\t--Starting " + getAppName() + " - Version: " + getVersion() + "--");
         System.out.println("||======================================||");
 
         System.out.println("\nStarting Main Logic\n");
@@ -84,6 +85,8 @@ public final class Domain implements Logic {
         System.out.println("\t\t - " + SOUVENIR_CASE_DOMAIN.getClass().getSimpleName());
         STICKER_DOMAIN = StickerDomain.getInstance();
         System.out.println("\t\t - " + STICKER_DOMAIN.getClass().getSimpleName());
+        PATCH_DOMAIN = PatchDomain.getInstance();
+        System.out.println("\t\t - " + PATCH_DOMAIN.getClass().getSimpleName());
 
 
         System.out.println("\t - Starting Caches");
@@ -153,12 +156,18 @@ public final class Domain implements Logic {
     }
 
     @Override
+    public IPatchDomain getPatchDomain() {
+        return PATCH_DOMAIN;
+    }
+
+    @Override
     public List<Displayable> readAllItems(){
         List<Displayable> rtn = new ArrayList<>();
         rtn.addAll(CAPSULE_DOMAIN.readAllCapsules());
         rtn.addAll(SKIN_DOMAIN.readAllSkins());
         rtn.addAll(STICKER_DOMAIN.readAllStickers());
         rtn.addAll(SOUVENIR_CASE_DOMAIN.readAllSouvenirCases());
+        rtn.addAll(PATCH_DOMAIN.readAllPatches());
         return rtn;
     }
 
@@ -168,6 +177,7 @@ public final class Domain implements Logic {
         SKIN_DOMAIN.readAllSkins();
         STICKER_DOMAIN.readAllStickers();
         SOUVENIR_CASE_DOMAIN.readAllSouvenirCases();
+        PATCH_DOMAIN.readAllPatches();
         VAULT_DOMAIN.readAllVaults();
         System.out.println("\t - Caching completed");
     }
