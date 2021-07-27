@@ -320,4 +320,29 @@ final class JsonConnection implements DataConnection {
     public void deletePatch(long id) {
         removeObjFromTable(id,PATCHES,PATCH,true);
     }
+
+    @Override
+    public List<JSONObject> readAllCases() {
+        return new ArrayList<JSONObject>(loadFile(CASES));
+    }
+
+    @Override
+    public void createCase(JSONObject jsonObject) {
+        addObjToTable(jsonObject,CASES);
+    }
+
+    @Override
+    public JSONObject readCase(long id) {
+        return readOneObj(id,readAllCases(),CASE);
+    }
+
+    @Override
+    public void updateCase(JSONObject jsonObject) {
+        updateObjInTable(jsonObject,CASES,CASE);
+    }
+
+    @Override
+    public void deleteCase(long id) {
+        removeObjFromTable(id,CASES,CASE,true);
+    }
 }

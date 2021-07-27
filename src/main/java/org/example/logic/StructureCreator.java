@@ -43,4 +43,9 @@ public final class StructureCreator implements Factory {
     public IPatch emptyPatch() {
         return new Patch();
     }
+
+    @Override
+    public ICase emptyCase() {
+        return new Case();
+    }
 }

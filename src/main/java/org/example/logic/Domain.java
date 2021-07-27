@@ -28,6 +28,7 @@ public final class Domain implements Logic {
     private static ISouvenirCaseDomain SOUVENIR_CASE_DOMAIN;
     private static IStickerDomain STICKER_DOMAIN;
     private static IPatchDomain PATCH_DOMAIN;
+    private static ICaseDomain CASE_DOMAIN;
 
     private IVault selectedVault;
 
@@ -87,6 +88,8 @@ public final class Domain implements Logic {
         System.out.println("\t\t - " + STICKER_DOMAIN.getClass().getSimpleName());
         PATCH_DOMAIN = PatchDomain.getInstance();
         System.out.println("\t\t - " + PATCH_DOMAIN.getClass().getSimpleName());
+        CASE_DOMAIN = CaseDomain.getInstance();
+        System.out.println("\t\t - " + CASE_DOMAIN.getClass().getSimpleName());
 
 
         System.out.println("\t - Starting Caches");
@@ -161,6 +164,11 @@ public final class Domain implements Logic {
     }
 
     @Override
+    public ICaseDomain getCaseDomain() {
+        return CASE_DOMAIN;
+    }
+
+    @Override
     public List<Displayable> readAllItems(){
         List<Displayable> rtn = new ArrayList<>();
         rtn.addAll(CAPSULE_DOMAIN.readAllCapsules());
@@ -168,16 +176,13 @@ public final class Domain implements Logic {
         rtn.addAll(STICKER_DOMAIN.readAllStickers());
         rtn.addAll(SOUVENIR_CASE_DOMAIN.readAllSouvenirCases());
         rtn.addAll(PATCH_DOMAIN.readAllPatches());
+        rtn.addAll(CASE_DOMAIN.readAllCases());
         return rtn;
     }
 
     private void initCaches(){
         System.out.println("\n\nThis might take some time...");
-        CAPSULE_DOMAIN.readAllCapsules();
-        SKIN_DOMAIN.readAllSkins();
-        STICKER_DOMAIN.readAllStickers();
-        SOUVENIR_CASE_DOMAIN.readAllSouvenirCases();
-        PATCH_DOMAIN.readAllPatches();
+        readAllItems();
         VAULT_DOMAIN.readAllVaults();
         System.out.println("\t - Caching completed");
     }

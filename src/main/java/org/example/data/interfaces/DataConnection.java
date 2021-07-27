@@ -43,4 +43,10 @@ public interface DataConnection {
     JSONObject readPatch(long id);
     void updatePatch(JSONObject jsonObject);
     void deletePatch(long id);
+
+    List<JSONObject> readAllCases();
+    void createCase(JSONObject jsonObject);
+    JSONObject readCase(long id);
+    void updateCase(JSONObject jsonObject);
+    void deleteCase(long id);
 }
