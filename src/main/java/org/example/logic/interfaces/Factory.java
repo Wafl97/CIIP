@@ -10,4 +10,5 @@ public interface Factory {
     IVault emptyVault();
     ISticker emptySticker();
     IPatch emptyPatch();
+    ICase emptyCase();
 }

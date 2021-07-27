@@ -19,8 +19,8 @@
          <VBox >
             <children>
                <Label text="Total Stats" />
-               <Label text="Global Invested: " />
                <Label text="Global Items: " />
+               <Label text="Global Invested: " />
                <Label text="Global Made: " />
                <Label />
                <Label text="Selected Investment" />
@@ -33,8 +33,8 @@
          <VBox>
             <children>
                <Label />
-               <Label fx:id="globalTotalInvestedLabelValue" text="Global Invested:" />
                <Label fx:id="globalTotalItemsLabelValue" text="Global Items:" />
+               <Label fx:id="globalTotalInvestedLabelValue" text="Global Invested:" />
                <Label fx:id="globalTotalMadeLabelValue" text="Global Made:" />
                <Label />
                <Label />

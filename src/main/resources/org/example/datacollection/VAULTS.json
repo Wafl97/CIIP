@@ -48,6 +48,14 @@
         }
       ],
       "PATCHES": [
+      ],
+      "CASES": [
+        {
+          "CASE": {
+            "ID": 1,
+            "AMOUNT": 50
+          }
+        }
       ]
     }
   },
@@ -77,7 +85,7 @@
       ],
       "SKINS": [
       ],
-      "SOUVENIRS":[
+      "SOUVENIRS": [
         {
           "SOUVENIR": {
             "ID": 1,
@@ -100,6 +108,8 @@
             "AMOUNT": 1
           }
         }
+      ],
+      "CASES": [
       ]
     }
   }

@@ -26,6 +26,7 @@ public final class Vault implements IVault {
     private static final ISkinDomain SKIN_DOMAIN = SkinDomain.getInstance();
     private static final ISouvenirCaseDomain SOUVENIR_CASE_DOMAIN = SouvenirCaseDomain.getInstance();
     private static final IPatchDomain PATCH_DOMAIN = PatchDomain.getInstance();
+    private static final ICaseDomain CASE_DOMAIN = CaseDomain.getInstance();
 
     public Vault() {
         containers = new HashMap<>();
@@ -97,6 +98,7 @@ public final class Vault implements IVault {
         JSONArray stickers = new JSONArray();
         JSONArray souvenirs = new JSONArray();
         JSONArray patches = new JSONArray();
+        JSONArray cases = new JSONArray();
         for (Identifiable item : containers.keySet()){
             //Inner obj
             if (item instanceof ICapsule) {
@@ -139,12 +141,21 @@ public final class Vault implements IVault {
                 shell.put(PATCH.toString(), patch);
                 patches.add(shell);
             }
+            else if (item instanceof ICase){
+                JSONObject Case = new JSONObject();
+                Case.put(ID.toString(), item.getId());
+                Case.put(AMOUNT.toString(), containers.get(item));
+                JSONObject shell = new JSONObject();
+                shell.put(CASE.toString(), Case);
+                cases.add(shell);
+            }
         }
         innerObj.put(CAPSULES.toString(),capsules);
         innerObj.put(SKINS.toString(),skins);
         innerObj.put(STICKERS.toString(),stickers);
         innerObj.put(SOUVENIRS.toString(),souvenirs);
         innerObj.put(PATCHES.toString(),patches);
+        innerObj.put(CASES.toString(),cases);
         returnObj.put(VAULT.toString(),innerObj);
         return returnObj;
     }
@@ -179,6 +190,11 @@ public final class Vault implements IVault {
         for (Object o : (JSONArray) innerObj.get(PATCHES.toString())){
             JSONObject patch = (JSONObject) ((JSONObject) o).get(PATCH.toString());
             containers.put(PATCH_DOMAIN.readPatch((long) patch.get(ID.toString())), (long) patch.get(AMOUNT.toString()));
+        }
+        //Add Cases
+        for (Object o : (JSONArray) innerObj.get(CASES.toString())){
+            JSONObject Case = (JSONObject) ((JSONObject) o).get(CASE.toString());
+            containers.put(CASE_DOMAIN.readCase((long) Case.get(ID.toString())), (long) Case.get(AMOUNT.toString()));
         }
         return this;
     }
