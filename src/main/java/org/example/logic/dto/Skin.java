@@ -114,7 +114,7 @@ public final class Skin extends GenericItem<ISkin> implements ISkin {
         innerObj.put(IMAGE.toString(),getImage());
         innerObj.put(STASH_LINK.toString(),getStashLink());
         innerObj.put(WEAR_FLOAT.toString(),getWearFloat());
-        innerObj.put(STAT_TRACK.toString(), isStatTrak());
+        innerObj.put(STAT_TRAK.toString(), isStatTrak());
         innerObj.put(SOUVENIR.toString(),isSouvenir());
         shellObj.put(SKIN.toString(),innerObj);
         return shellObj;
@@ -130,7 +130,7 @@ public final class Skin extends GenericItem<ISkin> implements ISkin {
                 (String)    innerObj.get(IMAGE.toString()),
                 (String)    innerObj.get(STASH_LINK.toString()),
                 (double)    innerObj.get(WEAR_FLOAT.toString()),
-                (boolean)   innerObj.get(STAT_TRACK.toString()),
+                (boolean)   innerObj.get(STAT_TRAK.toString()),
                 (boolean)   innerObj.get(SOUVENIR.toString())
         );
     }
