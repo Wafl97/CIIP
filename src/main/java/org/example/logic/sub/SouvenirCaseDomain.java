@@ -6,12 +6,13 @@ import org.example.logic.StructureCreator;
 import org.example.logic.interfaces.Factory;
 import org.example.logic.interfaces.dto.ISouvenirCase;
 import org.example.logic.interfaces.sub.ISouvenirCaseDomain;
+import org.example.util.ConsoleColors;
 import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SouvenirCaseDomain implements ISouvenirCaseDomain {
+public final class SouvenirCaseDomain implements ISouvenirCaseDomain {
 
     private static SouvenirCaseDomain instance;
 
@@ -31,14 +32,14 @@ public class SouvenirCaseDomain implements ISouvenirCaseDomain {
     @Override
     public List<ISouvenirCase> readAllSouvenirCases() {
         if (souvenirCaseCache == null){
-            System.out.println("===========================================\nCaching SouvenirCases");
+            System.out.println("===========================================\n" + ConsoleColors.PURPLE + "Caching SouvenirCases" + ConsoleColors.RESET);
             souvenirCaseCache = new ArrayList<>();
             for (JSONObject o : DATA_FACADE.getDataConnection().readAllSouvenirs()){
                 ISouvenirCase newSouvenir = CREATOR.emptySouvenirCase().convert2Obj(o);
                 souvenirCaseCache.add(newSouvenir);
-                System.out.println("SouvenirCase [" + newSouvenir.getName() + "] Cached");
+                System.out.println("SouvenirCase [" + ConsoleColors.BLUE + newSouvenir.getName() + ConsoleColors.RESET + "]" + ConsoleColors.GREEN + " Cached" + ConsoleColors.RESET);
             }
-            System.out.println("Cache Size [" + souvenirCaseCache.size() + "]\n===========================================\n");
+            System.out.println("Cache Size [" + ConsoleColors.CYAN + souvenirCaseCache.size() + ConsoleColors.RESET + "]\n===========================================\n");
         }
         return souvenirCaseCache;
     }

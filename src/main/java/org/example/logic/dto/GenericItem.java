@@ -2,6 +2,7 @@ package org.example.logic.dto;
 
 import org.example.logic.interfaces.dto.Item;
 import org.example.util.Attributes;
+import org.example.util.ConsoleColors;
 import org.json.simple.JSONObject;
 
 import java.io.IOException;
@@ -91,7 +92,7 @@ public abstract class GenericItem<T> implements Item<T> {
     @Override
     public void updateCurrPrice() {
         if (!priceUpdated) {
-            System.out.println("Updating current price for [" + getName() + "] From: [" + getStashLink() + "]");
+            System.out.println(ConsoleColors.YELLOW + "Updating current price for" + ConsoleColors.RESET + " [" + ConsoleColors.BLUE + getName() + ConsoleColors.RESET + "] From: [" + getStashLink() + "]");
             double d = 0.0d;
             try {
                 Scanner input = new Scanner(new URL(link).openStream());

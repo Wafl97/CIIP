@@ -7,6 +7,7 @@ import org.example.logic.interfaces.dto.comps.Displayable;
 import org.example.logic.interfaces.dto.IVault;
 import org.example.logic.interfaces.sub.*;
 import org.example.logic.sub.*;
+import org.example.util.ConsoleColors;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -58,38 +59,39 @@ public final class Domain implements Logic {
     }
 
     public void init(){
-        System.out.println("||======================================||");
-        System.out.println("||\t\t\tStarting " + getAppName() + " - " + getVersion() + "\t\t\t||");
-        System.out.println("||======================================||");
+        System.out.println("||==================================||");
+        System.out.println("||\t\t\t" + ConsoleColors.GREEN + "Starting " + getAppName() + ConsoleColors.RESET + "\t\t\t||");
+        System.out.println("||==================================||");
+        System.out.println("Iteration: "  + ConsoleColors.BLUE + getVersion() + ConsoleColors.RESET);
 
-        System.out.println("\nStarting Main Logic\n");
+        System.out.println(ConsoleColors.PURPLE + "\nStarting Main Logic\n" + ConsoleColors.RESET);
 
-        System.out.println("\t - Getting Factory");
+        System.out.println(ConsoleColors.YELLOW + "\t - Getting Factory" + ConsoleColors.RESET);
         CREATOR = StructureCreator.getInstance();
 
-        System.out.println("\t - Getting FileHandler");
+        System.out.println(ConsoleColors.YELLOW + "\t - Getting FileHandler" + ConsoleColors.RESET);
         FILE_HANDLER = FileHandler.getInstance();
 
-        System.out.println("\t - Getting DataFacade");
+        System.out.println(ConsoleColors.YELLOW + "\t - Getting DataFacade" + ConsoleColors.RESET);
         DATA_FACADE = DataFacade.getInstance();
 
-        System.out.println("\t - Getting SubDomains");
+        System.out.println(ConsoleColors.YELLOW + "\t - Getting SubDomains" + ConsoleColors.RESET);
         VAULT_DOMAIN = VaultDomain.getInstance();
-        System.out.println("\t\t - " + VAULT_DOMAIN.getClass().getSimpleName());
+        System.out.println(ConsoleColors.BLUE + "\t\t - " + VAULT_DOMAIN.getClass().getSimpleName() + ConsoleColors.RESET);
         CAPSULE_DOMAIN = CapsuleDomain.getInstance();
-        System.out.println("\t\t - " + CAPSULE_DOMAIN.getClass().getSimpleName());
+        System.out.println(ConsoleColors.BLUE + "\t\t - " + CAPSULE_DOMAIN.getClass().getSimpleName() + ConsoleColors.RESET);
         SKIN_DOMAIN = SkinDomain.getInstance();
-        System.out.println("\t\t - " + SKIN_DOMAIN.getClass().getSimpleName());
+        System.out.println(ConsoleColors.BLUE + "\t\t - " + SKIN_DOMAIN.getClass().getSimpleName() + ConsoleColors.RESET);
         SOUVENIR_CASE_DOMAIN = SouvenirCaseDomain.getInstance();
-        System.out.println("\t\t - " + SOUVENIR_CASE_DOMAIN.getClass().getSimpleName());
+        System.out.println(ConsoleColors.BLUE + "\t\t - " + SOUVENIR_CASE_DOMAIN.getClass().getSimpleName() + ConsoleColors.RESET);
         STICKER_DOMAIN = StickerDomain.getInstance();
-        System.out.println("\t\t - " + STICKER_DOMAIN.getClass().getSimpleName());
+        System.out.println(ConsoleColors.BLUE + "\t\t - " + STICKER_DOMAIN.getClass().getSimpleName() + ConsoleColors.RESET);
 
 
-        System.out.println("\t - Starting Caches");
+        System.out.println(ConsoleColors.YELLOW + "\t - Starting Caches" + ConsoleColors.RESET);
         initCaches();
 
-        System.out.println("Start Complete\n===========================================\n\nPlease Enjoy - WAFL\n");
+        System.out.println(ConsoleColors.GREEN + "Start Complete" + ConsoleColors.RESET + "\n===========================================\n\nPlease Enjoy - WAFL\n");
     }
 
     @Override
@@ -169,6 +171,6 @@ public final class Domain implements Logic {
         STICKER_DOMAIN.readAllStickers();
         SOUVENIR_CASE_DOMAIN.readAllSouvenirCases();
         VAULT_DOMAIN.readAllVaults();
-        System.out.println("\t - Caching completed");
+        System.out.println(ConsoleColors.GREEN + "\t - Caching completed" + ConsoleColors.RESET);
     }
 }

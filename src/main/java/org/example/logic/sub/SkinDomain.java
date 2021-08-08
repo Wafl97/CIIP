@@ -6,12 +6,13 @@ import org.example.logic.StructureCreator;
 import org.example.logic.interfaces.Factory;
 import org.example.logic.interfaces.dto.ISkin;
 import org.example.logic.interfaces.sub.ISkinDomain;
+import org.example.util.ConsoleColors;
 import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SkinDomain implements ISkinDomain {
+public final class SkinDomain implements ISkinDomain {
 
     private static SkinDomain instance;
 
@@ -31,14 +32,14 @@ public class SkinDomain implements ISkinDomain {
     @Override
     public List<ISkin> readAllSkins() {
         if (skinCache == null){
-            System.out.println("===========================================\nCaching Skins");
+            System.out.println("===========================================\n" + ConsoleColors.PURPLE + "Caching Skins" + ConsoleColors.RESET);
             skinCache = new ArrayList<>();
             for (JSONObject o : DATA_FACADE.getDataConnection().readAllSkins()) {
                 ISkin newSkin = CREATOR.emptySkin().convert2Obj(o);
                 skinCache.add(newSkin);
-                System.out.println("Skin [" + newSkin.getName() + "] Cached");
+                System.out.println("Skin [" + ConsoleColors.BLUE + newSkin.getName() + ConsoleColors.RESET + "]" + ConsoleColors.GREEN + " Cached" + ConsoleColors.RESET);
             }
-            System.out.println("Cache Size [" + skinCache.size() + "]\n===========================================\n");
+            System.out.println("Cache Size [" + ConsoleColors.CYAN + skinCache.size() + ConsoleColors.RESET + "]\n===========================================\n");
         }
         return skinCache;
     }

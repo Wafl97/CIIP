@@ -6,12 +6,13 @@ import org.example.logic.StructureCreator;
 import org.example.logic.interfaces.Factory;
 import org.example.logic.interfaces.dto.ICapsule;
 import org.example.logic.interfaces.sub.ICapsuleDomain;
+import org.example.util.ConsoleColors;
 import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CapsuleDomain implements ICapsuleDomain {
+public final class CapsuleDomain implements ICapsuleDomain {
 
     private static CapsuleDomain instance;
 
@@ -31,14 +32,14 @@ public class CapsuleDomain implements ICapsuleDomain {
     @Override
     public List<ICapsule> readAllCapsules() {
         if (capsulesCache == null) {
-            System.out.println("===========================================\nCaching Capsules");
+            System.out.println("===========================================\n" + ConsoleColors.PURPLE + "Caching Capsules" + ConsoleColors.RESET);
             capsulesCache = new ArrayList<>();
             for (JSONObject o : DATA_FACADE.getDataConnection().readAllCapsules()) {
                 ICapsule newCapsule = CREATOR.emptyCapsule().convert2Obj(o);
                 capsulesCache.add(newCapsule);
-                System.out.println("Capsule [" + newCapsule.getName() + "] Cached");
+                System.out.println("Capsule [" + ConsoleColors.BLUE + newCapsule.getName() + ConsoleColors.RESET + "]" + ConsoleColors.GREEN + " Cached" + ConsoleColors.RESET);
             }
-            System.out.println("Cache Size [" + capsulesCache.size() + "]\n===========================================\n");
+            System.out.println("Cache Size [" + ConsoleColors.CYAN + capsulesCache.size() + ConsoleColors.RESET + "]\n===========================================\n");
         }
         return capsulesCache;
     }

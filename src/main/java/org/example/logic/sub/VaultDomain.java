@@ -6,12 +6,13 @@ import org.example.logic.StructureCreator;
 import org.example.logic.interfaces.Factory;
 import org.example.logic.interfaces.dto.IVault;
 import org.example.logic.interfaces.sub.IVaultDomain;
+import org.example.util.ConsoleColors;
 import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class VaultDomain implements IVaultDomain {
+public final class VaultDomain implements IVaultDomain {
 
     private static VaultDomain instance;
 
@@ -31,15 +32,15 @@ public class VaultDomain implements IVaultDomain {
     @Override
     public List<IVault> readAllVaults() {
         if (vaultCache == null) {
-            System.out.println("===========================================\nCaching Vaults");
+            System.out.println("===========================================\n" + ConsoleColors.PURPLE + "Caching Vaults" + ConsoleColors.RESET);
             vaultCache = new ArrayList<>();
             byte b = 0;
             for (JSONObject o : DATA_FACADE.getDataConnection().readAllVaults()) {
                 IVault newVault = CREATOR.emptyVault().convert2Obj(o);
                 vaultCache.add(newVault);
-                System.out.println("Vault [" + newVault.getName() + "] Cached");
+                System.out.println("Vault [" + ConsoleColors.BLUE + newVault.getName() + ConsoleColors.RESET + "]" + ConsoleColors.GREEN + " Cached" + ConsoleColors.RESET);
             }
-            System.out.println("Cache Size [" + vaultCache.size() + "]\n===========================================\n");
+            System.out.println("Cache Size [" + ConsoleColors.CYAN + vaultCache.size() + ConsoleColors.RESET + "]\n===========================================\n");
         }
         return vaultCache;
     }

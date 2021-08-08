@@ -11,7 +11,7 @@ public enum Attributes {
     CAPSULE,
     SKIN,
     SOUVENIR,
-    STAT_TRAK,
+    STATTRAK,
     WEAR_FLOAT,
     ID,
     INIT_PRICE,
