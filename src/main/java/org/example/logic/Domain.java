@@ -59,9 +59,9 @@ public final class Domain implements Logic {
     }
 
     public void init(){
-        System.out.println("||==================================||");
-        System.out.println("||\t\t\t" + ConsoleColors.GREEN + "Starting " + getAppName() + ConsoleColors.RESET + "\t\t\t||");
-        System.out.println("||==================================||");
+        System.out.println("||==================================================||");
+        System.out.println("||\t\t\t\t\t" + ConsoleColors.GREEN + "Starting " + getAppName() + ConsoleColors.RESET + "\t\t\t\t\t||");
+        System.out.println("||==================================================||");
         System.out.println("Iteration: "  + ConsoleColors.BLUE + getVersion() + ConsoleColors.RESET);
 
         System.out.println(ConsoleColors.PURPLE + "\nStarting Main Logic\n" + ConsoleColors.RESET);
@@ -91,7 +91,7 @@ public final class Domain implements Logic {
         System.out.println(ConsoleColors.YELLOW + "\t - Starting Caches" + ConsoleColors.RESET);
         initCaches();
 
-        System.out.println(ConsoleColors.GREEN + "Start Complete" + ConsoleColors.RESET + "\n===========================================\n\nPlease Enjoy - WAFL\n");
+        System.out.println(ConsoleColors.GREEN + "Start Complete" + ConsoleColors.RESET + "\n===========================================\n\n" + ConsoleColors.GREEN_BOLD + "Please Enjoy - WAFL" + ConsoleColors.RESET + "\n");
     }
 
     @Override
