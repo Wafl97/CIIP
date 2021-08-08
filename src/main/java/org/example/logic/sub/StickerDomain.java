@@ -6,12 +6,13 @@ import org.example.logic.StructureCreator;
 import org.example.logic.interfaces.Factory;
 import org.example.logic.interfaces.dto.ISticker;
 import org.example.logic.interfaces.sub.IStickerDomain;
+import org.example.util.ConsoleColors;
 import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class StickerDomain implements IStickerDomain {
+public final class StickerDomain implements IStickerDomain {
 
     private static StickerDomain instance;
 
@@ -31,14 +32,14 @@ public class StickerDomain implements IStickerDomain {
     @Override
     public List<ISticker> readAllStickers() {
         if (stickerCache == null){
-            System.out.println("===========================================\nCaching Stickers");
+            System.out.println("===========================================\n" + ConsoleColors.PURPLE + "Caching Stickers" + ConsoleColors.RESET);
             stickerCache = new ArrayList<>();
-            for (Object o : DATA_FACADE.getDataConnection().readAllStickers()){
-                ISticker newSticker = CREATOR.emptySticker().convert2Obj((JSONObject) o);
+            for (JSONObject o : DATA_FACADE.getDataConnection().readAllStickers()){
+                ISticker newSticker = CREATOR.emptySticker().convert2Obj(o);
                 stickerCache.add(newSticker);
-                System.out.println("Sticker [" + newSticker.getName() + "] Cached");
+                System.out.println("Sticker [" + ConsoleColors.BLUE + newSticker.getName() + ConsoleColors.RESET + "]" + ConsoleColors.GREEN + " Cached" + ConsoleColors.RESET);
             }
-            System.out.println("Cache Size [" + stickerCache.size() + "]\n===========================================\n");
+            System.out.println("Cache Size [" + ConsoleColors.CYAN + stickerCache.size() + ConsoleColors.RESET + "]\n===========================================\n");
         }
         return stickerCache;
     }

@@ -3,6 +3,7 @@ package org.example.data;
 import org.example.data.interfaces.DataConnection;
 
 import org.example.util.Attributes;
+import org.example.util.ConsoleColors;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -37,7 +38,7 @@ final class JsonConnection implements DataConnection {
         if (!connected) {
             if (print) {
                 System.out.println("\n||===========================================");
-                System.out.println("|| Initiating connection");
+                System.out.println("|| " + ConsoleColors.PURPLE + "Initiating connection" + ConsoleColors.RESET);
             }
             try {
                 // Get the path for the database
@@ -48,24 +49,24 @@ final class JsonConnection implements DataConnection {
                 File directory = new File(url.toURI());
 
                 if (!directory.isDirectory()) throw new NotDirectoryException(PATH + " is not a directory.");
-                if (print) System.out.println("|| Loading files from [" + directory + "]");
+                if (print) System.out.println("|| Loading files from [" + ConsoleColors.BLUE + directory + ConsoleColors.RESET + "]");
 
                 // Get all files from directory
                 File[] files = directory.listFiles();
 
                 // Check if is directory
                 if (files == null) throw new NotDirectoryException(PATH + " is not a directory.");
-                if (print) System.out.println("|| Total files found [" + files.length + "]");
+                if (print) System.out.println("|| Total files found [" + ConsoleColors.CYAN + files.length + ConsoleColors.RESET + "]");
 
                 // Populate tables hashmap
                 for (File file : files) {
                     // Get name of file
                     String fileName = file.getName().split("\\.")[0];
-                    if (print) System.out.println("|| Found file [" + fileName + "] : Size [" + file.length() + "] b");
+                if (print) System.out.println("|| " + ConsoleColors.YELLOW + "Found file " + ConsoleColors.RESET + "[" + ConsoleColors.BLUE + fileName + ConsoleColors.RESET + "] : Size [" + ConsoleColors.CYAN + file.length() + ConsoleColors.RESET + "] b");
                     fileMap.put(fileName, file);
                 }
                 if (print) {
-                    System.out.println("|| Initialisation done");
+                    System.out.println("|| " + ConsoleColors.GREEN + "Initialisation done" + ConsoleColors.RESET);
                     System.out.println("||===========================================\n");
                 }
                 connected = true;
@@ -75,7 +76,7 @@ final class JsonConnection implements DataConnection {
                 return false;
             }
         }
-        System.out.println("Connected");
+        System.out.println(ConsoleColors.GREEN + "Connected"  + ConsoleColors.RESET);
         return true;
     }
 

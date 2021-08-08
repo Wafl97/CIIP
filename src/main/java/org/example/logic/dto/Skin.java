@@ -4,6 +4,7 @@ import org.example.logic.interfaces.dto.ISkin;
 import org.example.logic.interfaces.dto.comps.Identifiable;
 import org.example.logic.interfaces.sub.ISkinDomain;
 import org.example.logic.sub.SkinDomain;
+import org.example.util.ConsoleColors;
 import org.json.simple.JSONObject;
 
 import java.io.IOException;
@@ -32,7 +33,7 @@ public final class Skin extends GenericItem<ISkin> implements ISkin {
     @Override
     public void updateCurrPrice() {
         if (!priceUpdated) {
-            System.out.println("Updating current price for [" + getName() + "] From: [" + getStashLink() + "]");
+            System.out.println(ConsoleColors.YELLOW + "Updating current price for" + ConsoleColors.RESET + " [" + ConsoleColors.BLUE + getName() + ConsoleColors.RESET + "] From: [" + getStashLink() + "]");
             Double[] prices = new Double[2];
             try {
                 Scanner input = new Scanner(new URL(getStashLink()).openStream());
@@ -114,7 +115,7 @@ public final class Skin extends GenericItem<ISkin> implements ISkin {
         innerObj.put(IMAGE.toString(),getImage());
         innerObj.put(STASH_LINK.toString(),getStashLink());
         innerObj.put(WEAR_FLOAT.toString(),getWearFloat());
-        innerObj.put(STAT_TRACK.toString(), isStatTrak());
+        innerObj.put(STATTRAK.toString(), isStatTrak());
         innerObj.put(SOUVENIR.toString(),isSouvenir());
         shellObj.put(SKIN.toString(),innerObj);
         return shellObj;
@@ -130,7 +131,7 @@ public final class Skin extends GenericItem<ISkin> implements ISkin {
                 (String)    innerObj.get(IMAGE.toString()),
                 (String)    innerObj.get(STASH_LINK.toString()),
                 (double)    innerObj.get(WEAR_FLOAT.toString()),
-                (boolean)   innerObj.get(STAT_TRACK.toString()),
+                (boolean)   innerObj.get(STATTRAK.toString()),
                 (boolean)   innerObj.get(SOUVENIR.toString())
         );
     }
