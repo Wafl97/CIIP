@@ -90,9 +90,9 @@ public final class Domain implements Logic {
         STICKER_DOMAIN = StickerDomain.getInstance();
         System.out.println(ConsoleColors.BLUE + "\t\t - " + STICKER_DOMAIN.getClass().getSimpleName() + ConsoleColors.RESET);
         PATCH_DOMAIN = PatchDomain.getInstance();
-        System.out.println("\t\t - " + PATCH_DOMAIN.getClass().getSimpleName());
+        System.out.println(ConsoleColors.BLUE + "\t\t - " + PATCH_DOMAIN.getClass().getSimpleName() + ConsoleColors.RESET);
         CASE_DOMAIN = CaseDomain.getInstance();
-        System.out.println("\t\t - " + CASE_DOMAIN.getClass().getSimpleName());
+        System.out.println(ConsoleColors.BLUE + "\t\t - " + CASE_DOMAIN.getClass().getSimpleName() + ConsoleColors.RESET);
 
         
 
