@@ -1,11 +1,8 @@
 package org.example.logic.dto;
 
+import org.example.logic.interfaces.dto.*;
 import org.example.logic.interfaces.dto.comps.Displayable;
 import org.example.logic.interfaces.dto.comps.Identifiable;
-import org.example.logic.interfaces.dto.ICapsule;
-import org.example.logic.interfaces.dto.ISkin;
-import org.example.logic.interfaces.dto.ISticker;
-import org.example.logic.interfaces.dto.IVault;
 import org.example.logic.interfaces.sub.*;
 import org.example.logic.sub.*;
 import org.json.simple.JSONArray;
@@ -28,6 +25,8 @@ public final class Vault implements IVault {
     private static final IStickerDomain STICKER_DOMAIN = StickerDomain.getInstance();
     private static final ISkinDomain SKIN_DOMAIN = SkinDomain.getInstance();
     private static final ISouvenirCaseDomain SOUVENIR_CASE_DOMAIN = SouvenirCaseDomain.getInstance();
+    private static final IPatchDomain PATCH_DOMAIN = PatchDomain.getInstance();
+    private static final ICaseDomain CASE_DOMAIN = CaseDomain.getInstance();
 
     public Vault() {
         containers = new HashMap<>();
@@ -97,6 +96,9 @@ public final class Vault implements IVault {
         JSONArray capsules = new JSONArray();
         JSONArray skins = new JSONArray();
         JSONArray stickers = new JSONArray();
+        JSONArray souvenirs = new JSONArray();
+        JSONArray patches = new JSONArray();
+        JSONArray cases = new JSONArray();
         for (Identifiable item : containers.keySet()){
             //Inner obj
             if (item instanceof ICapsule) {
@@ -123,10 +125,37 @@ public final class Vault implements IVault {
                 shell.put(STICKER.toString(), sticker);
                 stickers.add(shell);
             }
+            else if (item instanceof ISouvenirCase){
+                JSONObject souvenir = new JSONObject();
+                souvenir.put(ID.toString(), item.getId());
+                souvenir.put(AMOUNT.toString(), containers.get(item));
+                JSONObject shell = new JSONObject();
+                shell.put(SOUVENIR.toString(), souvenir);
+                souvenirs.add(shell);
+            }
+            else if (item instanceof IPatch){
+                JSONObject patch = new JSONObject();
+                patch.put(ID.toString(), item.getId());
+                patch.put(AMOUNT.toString(), containers.get(item));
+                JSONObject shell = new JSONObject();
+                shell.put(PATCH.toString(), patch);
+                patches.add(shell);
+            }
+            else if (item instanceof ICase){
+                JSONObject Case = new JSONObject();
+                Case.put(ID.toString(), item.getId());
+                Case.put(AMOUNT.toString(), containers.get(item));
+                JSONObject shell = new JSONObject();
+                shell.put(CASE.toString(), Case);
+                cases.add(shell);
+            }
         }
         innerObj.put(CAPSULES.toString(),capsules);
         innerObj.put(SKINS.toString(),skins);
         innerObj.put(STICKERS.toString(),stickers);
+        innerObj.put(SOUVENIRS.toString(),souvenirs);
+        innerObj.put(PATCHES.toString(),patches);
+        innerObj.put(CASES.toString(),cases);
         returnObj.put(VAULT.toString(),innerObj);
         return returnObj;
     }
@@ -156,6 +185,16 @@ public final class Vault implements IVault {
         for (Object o : (JSONArray) innerObj.get(SOUVENIRS.toString())){
             JSONObject souvenir = (JSONObject) ((JSONObject) o).get(SOUVENIR.toString());
             containers.put(SOUVENIR_CASE_DOMAIN.readSouvenirCase((long) souvenir.get(ID.toString())), (long) souvenir.get(AMOUNT.toString()));
+        }
+        //Add Patches
+        for (Object o : (JSONArray) innerObj.get(PATCHES.toString())){
+            JSONObject patch = (JSONObject) ((JSONObject) o).get(PATCH.toString());
+            containers.put(PATCH_DOMAIN.readPatch((long) patch.get(ID.toString())), (long) patch.get(AMOUNT.toString()));
+        }
+        //Add Cases
+        for (Object o : (JSONArray) innerObj.get(CASES.toString())){
+            JSONObject Case = (JSONObject) ((JSONObject) o).get(CASE.toString());
+            containers.put(CASE_DOMAIN.readCase((long) Case.get(ID.toString())), (long) Case.get(AMOUNT.toString()));
         }
         return this;
     }

@@ -39,6 +39,8 @@ public class MainController extends App implements Initializable {
     private int investIndex = -1;
     private int itemIndex = -1;
 
+    private static final char CURRENCY = '€';
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //===Buttons====================================================================================================
@@ -51,7 +53,7 @@ public class MainController extends App implements Initializable {
         });
         deleteButton.setOnAction(e -> {
             if (investmentListView.getSelectionModel().getSelectedIndex() != -1) {
-                openWarning("DELETE", "Are you sure?", "Delete the selected element", this::deleteInvestment,false);
+                openWarning("DELETE", "Are you sure?", "Delete the selected element", this::deleteInvestment, false);
             }
         });
         itemViewButton.setOnAction(e -> goNext(MAIN_PASS, ITEM_PASS));
@@ -111,9 +113,9 @@ public class MainController extends App implements Initializable {
             Info info = new Info();
             calcInfo(vault,info);
             totalContainersLabelValue.setText(String.valueOf(info.getAmount()));
-            totalInvestedLabelValue.setText(String.format("%.2f",info.getBuy()));
-            totalSellValueLabelValue.setText(String.format("%.2f",info.getSell()));
-            totalMadeLabelValue.setText(String.format("%.2f",info.getSell() - info.getBuy()));
+            totalInvestedLabelValue.setText(String.format("%.2f",info.getBuy()) + CURRENCY);
+            totalSellValueLabelValue.setText(String.format("%.2f",info.getSell()) + CURRENCY);
+            totalMadeLabelValue.setText(String.format("%.2f",info.getSell() - info.getBuy()) + CURRENCY);
         }
     }
 
@@ -137,9 +139,9 @@ public class MainController extends App implements Initializable {
         for (IVault vault : allVaults) {
             calcInfo(vault, info);
         }
-        globalTotalInvestedLabelValue.setText(String.format("%.2f",info.getBuy()));
         globalTotalItemsLabelValue.setText(String.valueOf(info.getAmount()));
-        globalTotalMadeLabelValue.setText(String.format("%.2f",(info.getSell() - info.getBuy())));
+        globalTotalInvestedLabelValue.setText(String.format("%.2f",info.getBuy())  + CURRENCY);
+        globalTotalMadeLabelValue.setText(String.format("%.2f",(info.getSell() - info.getBuy())) + CURRENCY);
         totalContainersLabelValue.setText("--");
         totalInvestedLabelValue.setText("--.--");
         totalSellValueLabelValue.setText("--.--");
@@ -158,11 +160,11 @@ public class MainController extends App implements Initializable {
             itemAmount.setText("Amount: ");
             itemAmountValue.setText(String.valueOf(allVaults.get(investIndex).getAllItems().get(capsule)));
             itemInitPrice.setText("Buy Price: ");
-            itemInitPriceValue.setText(String.format("%.2f",capsule.getInitPrice()) + "€");
+            itemInitPriceValue.setText(String.format("%.2f",capsule.getInitPrice()) + CURRENCY);
             itemCurrPrice.setText("Sell Price: ");
-            itemCurrPriceValue.setText(String.format("%.2f",capsule.getCurrPrice()) + "€");
+            itemCurrPriceValue.setText(String.format("%.2f",capsule.getCurrPrice()) + CURRENCY);
             itemDiffPrice.setText("Diff Price: ");
-            itemDiffPriceValue.setText(String.format("%.2f",capsule.getDiffPrice()) + "€");
+            itemDiffPriceValue.setText(String.format("%.2f",capsule.getDiffPrice()) + CURRENCY);
         }
     }
 
@@ -175,6 +177,8 @@ public class MainController extends App implements Initializable {
 
     @FXML
     private void updatePrices(){
+        System.out.println("\nUpdating prices for all items\n");
+        System.out.println("This might take some time...\n");
         allVaults.forEach(vault -> vault.getAllItems().keySet().forEach(displayable -> {
             displayable.setPriceUpdated(false);
             displayable.updateCurrPrice();

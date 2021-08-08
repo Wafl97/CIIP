@@ -9,4 +9,6 @@ public interface Factory {
     ISkin emptySkin();
     IVault emptyVault();
     ISticker emptySticker();
+    IPatch emptyPatch();
+    ICase emptyCase();
 }

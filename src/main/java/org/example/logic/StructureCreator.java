@@ -34,7 +34,18 @@ public final class StructureCreator implements Factory {
         return new Vault();
     }
 
+    @Override
     public ISticker emptySticker() {
         return new Sticker();
+    }
+
+    @Override
+    public IPatch emptyPatch() {
+        return new Patch();
+    }
+
+    @Override
+    public ICase emptyCase() {
+        return new Case();
     }
 }

@@ -28,6 +28,8 @@ public final class Domain implements Logic {
     private static ISkinDomain SKIN_DOMAIN;
     private static ISouvenirCaseDomain SOUVENIR_CASE_DOMAIN;
     private static IStickerDomain STICKER_DOMAIN;
+    private static IPatchDomain PATCH_DOMAIN;
+    private static ICaseDomain CASE_DOMAIN;
 
     private IVault selectedVault;
 
@@ -59,6 +61,7 @@ public final class Domain implements Logic {
     }
 
     public void init(){
+
         System.out.println("||==================================================||");
         System.out.println("||\t\t\t\t\t" + ConsoleColors.GREEN + "Starting " + getAppName() + ConsoleColors.RESET + "\t\t\t\t\t||");
         System.out.println("||==================================================||");
@@ -86,6 +89,13 @@ public final class Domain implements Logic {
         System.out.println(ConsoleColors.BLUE + "\t\t - " + SOUVENIR_CASE_DOMAIN.getClass().getSimpleName() + ConsoleColors.RESET);
         STICKER_DOMAIN = StickerDomain.getInstance();
         System.out.println(ConsoleColors.BLUE + "\t\t - " + STICKER_DOMAIN.getClass().getSimpleName() + ConsoleColors.RESET);
+        PATCH_DOMAIN = PatchDomain.getInstance();
+        System.out.println("\t\t - " + PATCH_DOMAIN.getClass().getSimpleName());
+        CASE_DOMAIN = CaseDomain.getInstance();
+        System.out.println("\t\t - " + CASE_DOMAIN.getClass().getSimpleName());
+
+        
+
 
 
         System.out.println(ConsoleColors.YELLOW + "\t - Starting Caches" + ConsoleColors.RESET);
@@ -155,21 +165,30 @@ public final class Domain implements Logic {
     }
 
     @Override
+    public IPatchDomain getPatchDomain() {
+        return PATCH_DOMAIN;
+    }
+
+    @Override
+    public ICaseDomain getCaseDomain() {
+        return CASE_DOMAIN;
+    }
+
+    @Override
     public List<Displayable> readAllItems(){
         List<Displayable> rtn = new ArrayList<>();
         rtn.addAll(CAPSULE_DOMAIN.readAllCapsules());
         rtn.addAll(SKIN_DOMAIN.readAllSkins());
         rtn.addAll(STICKER_DOMAIN.readAllStickers());
         rtn.addAll(SOUVENIR_CASE_DOMAIN.readAllSouvenirCases());
+        rtn.addAll(PATCH_DOMAIN.readAllPatches());
+        rtn.addAll(CASE_DOMAIN.readAllCases());
         return rtn;
     }
 
     private void initCaches(){
         System.out.println("\n\nThis might take some time...");
-        CAPSULE_DOMAIN.readAllCapsules();
-        SKIN_DOMAIN.readAllSkins();
-        STICKER_DOMAIN.readAllStickers();
-        SOUVENIR_CASE_DOMAIN.readAllSouvenirCases();
+        readAllItems();
         VAULT_DOMAIN.readAllVaults();
         System.out.println(ConsoleColors.GREEN + "\t - Caching completed" + ConsoleColors.RESET);
     }
