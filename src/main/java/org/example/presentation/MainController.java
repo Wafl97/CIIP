@@ -17,6 +17,7 @@ import javafx.scene.image.ImageView;
 
 import org.example.logic.interfaces.dto.comps.Displayable;
 import org.example.logic.interfaces.dto.IVault;
+import org.example.util.ConsoleColors;
 
 public class MainController extends App implements Initializable {
 
@@ -185,7 +186,7 @@ public class MainController extends App implements Initializable {
         updateLabels();
         investmentHandler();
         itemHandler();
-        System.out.println("\nAll prices are up to date\n");
+        System.out.println(ConsoleColors.GREEN + "\nAll prices are up to date\n" + ConsoleColors.RESET);
     }
 
     @FXML

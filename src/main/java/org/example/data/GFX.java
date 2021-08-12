@@ -2,6 +2,7 @@ package org.example.data;
 
 import javafx.scene.image.Image;
 import org.example.data.interfaces.IGFX;
+import org.example.util.ConsoleColors;
 
 import java.io.*;
 import java.net.URISyntaxException;
@@ -48,10 +49,10 @@ final class GFX implements IGFX {
 
     private GFX() {
         System.out.println("||===========================================");
-        System.out.println("|| Initialising GFX");
+        System.out.println("|| " + ConsoleColors.PURPLE + "Initialising GFX" + ConsoleColors.RESET);
         loadLogo();
         loadImages(false);
-        System.out.println("|| Initialisation done");
+        System.out.println("|| " + ConsoleColors.GREEN + "Initialisation done" + ConsoleColors.RESET);
         System.out.println("||===========================================");
     }
 
@@ -59,7 +60,7 @@ final class GFX implements IGFX {
         try {
             File file = new File(GFX.class.getResource(LOGO_PATH).toURI());
             logo = new Image(file.toURI().toString());
-            System.out.println("|| Logo found at [" + file + "]");
+            System.out.println("|| Logo found at [" + ConsoleColors.BLUE + file + ConsoleColors.RESET + "]");
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
@@ -72,12 +73,12 @@ final class GFX implements IGFX {
         }
         try {
             File f = new File(GFX.class.getResource(S_DIR).toURI());
-            System.out.println("|| Loading images from [" + f + "]");
+            System.out.println("|| Loading images from [" + ConsoleColors.BLUE + f + ConsoleColors.RESET + "]");
             File[] fArr = f.listFiles();
             if (fArr != null) {
-                System.out.println("|| Total images found [" + fArr.length + "]");
+                System.out.println("|| Total images found [" + ConsoleColors.CYAN + fArr.length + ConsoleColors.RESET + "]");
                 for (File file : fArr) {
-                    System.out.println("|| Found image [" + file.getName() + "]");
+                    System.out.println("|| " + ConsoleColors.YELLOW + "Found image " + ConsoleColors.RESET + "[" + ConsoleColors.BLUE + file.getName() + ConsoleColors.RESET + "]");
                     imageMap.put(file.getName(), new Image(file.toURI().toString()));
                 }
             }
