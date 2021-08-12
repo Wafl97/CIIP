@@ -133,6 +133,7 @@ public abstract class GenericItem<T> implements Item<T> {
     @Override
     public void setStashLink(String link) {
         this.link = link;
+        updateCurrPrice();
     }
 
     @Override

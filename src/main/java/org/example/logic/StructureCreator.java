@@ -48,4 +48,9 @@ public final class StructureCreator implements Factory {
     public ICase emptyCase() {
         return new Case();
     }
+
+    @Override
+    public ITicket emptyTicket() {
+        return new Ticket();
+    }
 }

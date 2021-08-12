@@ -44,7 +44,6 @@ public final class SouvenirCase extends GenericItem<ISouvenirCase> implements IS
         setName(name);
         setImage(image);
         setStashLink(stashLink);
-        updateCurrPrice();
         return this;
     }
 

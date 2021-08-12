@@ -155,7 +155,6 @@ public final class Skin extends GenericItem<ISkin> implements ISkin {
         setStatTrak(statTrack);
         setSouvenir(souvenir);
         setStashLink(stashLink);
-        updateCurrPrice();
         return this;
     }
 

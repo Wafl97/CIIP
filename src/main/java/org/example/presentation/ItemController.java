@@ -185,6 +185,25 @@ public class ItemController extends App implements Initializable {
             );
             DOMAIN.getPatchDomain().updatePatch((IPatch) loadedItem);
         }
+        else if (loadedItem instanceof ICase){
+            ((ICase) loadedItem).populate(
+                    id,
+                    initPrice,
+                    name,
+                    imageName,
+                    link
+            );
+            DOMAIN.getCaseDomain().updateCase((ICase) loadedItem);
+        }
+        else if (loadedItem instanceof ITicket){
+            ((ITicket) loadedItem).populate(
+                    id,
+                    initPrice,
+                    name,
+                    imageName,
+                    link
+            );
+        }
         else {
             throw new IllegalStateException("No Item type selected");
         }
@@ -239,6 +258,7 @@ public class ItemController extends App implements Initializable {
                     linkTextField.getText()
             ));
         }
+
         else if (radioToggle.getSelectedToggle().getUserData() == null){
             throw new IllegalStateException("No Item type selected");
         }
@@ -261,6 +281,12 @@ public class ItemController extends App implements Initializable {
             }
             else if (item instanceof IPatch){
                 DOMAIN.getPatchDomain().deletePatch(item.getId());
+            }
+            else if (item instanceof ICase){
+                DOMAIN.getCaseDomain().deleteCase(item.getId());
+            }
+            else if (item instanceof ITicket){
+                DOMAIN.getTicketDomain().deleteTicket(item.getId());
             }
             itemsListView.getItems().remove(item);
         }
