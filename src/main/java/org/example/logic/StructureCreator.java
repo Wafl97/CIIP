@@ -53,4 +53,9 @@ public final class StructureCreator implements Factory {
     public ITicket emptyTicket() {
         return new Ticket();
     }
+
+    @Override
+    public IKey emptyKey() {
+        return new Key();
+    }
 }

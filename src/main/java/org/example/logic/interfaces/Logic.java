@@ -26,6 +26,7 @@ public interface Logic {
     IPatchDomain getPatchDomain();
     ICaseDomain getCaseDomain();
     ITicketDomain getTicketDomain();
+    IKeyDomain getKeyDomain();
 
     void setSelectedVault(IVault vault);
     IVault getSelectedVault();

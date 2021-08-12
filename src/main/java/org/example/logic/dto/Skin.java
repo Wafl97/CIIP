@@ -123,8 +123,8 @@ public final class Skin extends GenericItem<ISkin> implements ISkin {
 
     @Override
     public ISkin convert2Obj(JSONObject jsonObject) {
-        JSONObject innerObj = (JSONObject) jsonObject.get(jsonAttribute.toString());
-        return populate(
+        JSONObject innerObj = (JSONObject) jsonObject.get(jsonAttribute);
+        return  populate(
                 (long)      innerObj.get(ID.toString()),
                 (double)    innerObj.get(INIT_PRICE.toString()),
                 (String)    innerObj.get(NAME.toString()),

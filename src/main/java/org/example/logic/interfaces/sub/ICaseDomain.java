@@ -1,6 +1,5 @@
 package org.example.logic.interfaces.sub;
 
-import org.example.logic.interfaces.dto.ICapsule;
 import org.example.logic.interfaces.dto.ICase;
 
 import java.util.List;

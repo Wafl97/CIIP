@@ -37,7 +37,7 @@ public final class PatchDomain implements IPatchDomain {
             for (JSONObject o : DATA_FACADE.getDataConnection().readAllPatches()) {
                 IPatch newPatch = CREATOR.emptyPatch().convert2Obj(o);
                 patchCache.add(newPatch);
-                System.out.println("Patch [" + ConsoleColors.BLUE + newPatch.getName() + ConsoleColors.RESET + "] Cached");
+                System.out.println("Patch [" + ConsoleColors.BLUE + newPatch.getName() + ConsoleColors.RESET + "]" + ConsoleColors.GREEN + "Cached" + ConsoleColors.RESET);
             }
             System.out.println("Cache Size [" + ConsoleColors.CYAN + patchCache.size() + ConsoleColors.RESET + "]\n===========================================\n");
         }
