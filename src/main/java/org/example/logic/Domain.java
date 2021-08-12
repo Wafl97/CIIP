@@ -179,7 +179,7 @@ public final class Domain implements Logic {
 
     @Override
     public ITicketDomain getTicketDomain() {
-        return null;
+        return TICKET_DOMAIN;
     }
 
     @Override
