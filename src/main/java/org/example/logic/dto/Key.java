@@ -1,23 +1,23 @@
 package org.example.logic.dto;
 
-import org.example.logic.interfaces.dto.ICase;
+import org.example.logic.interfaces.dto.IKey;
 import org.example.logic.interfaces.dto.comps.Identifiable;
-import org.example.logic.interfaces.sub.ICaseDomain;
-import org.example.logic.sub.CaseDomain;
+import org.example.logic.interfaces.sub.IKeyDomain;
+import org.example.logic.sub.KeyDomain;
 import org.json.simple.JSONObject;
 
 import static org.example.util.Attributes.*;
 
-public final class Case extends GenericItem<ICase> implements ICase{
+public final class Key extends GenericItem<IKey> implements IKey {
 
-    private static final ICaseDomain CASE_DOMAIN = CaseDomain.getInstance();
+    private static final IKeyDomain KEY_DOMAIN = KeyDomain.getInstance();
 
-    public Case(){
-        super(CASE);
+    public Key() {
+        super(KEY);
     }
 
     @Override
-    public ICase convert2Obj(JSONObject jsonObject) {
+    public IKey convert2Obj(JSONObject jsonObject) {
         JSONObject innerObj = (JSONObject) jsonObject.get(jsonAttribute);
         return  populate(
                 (long)      innerObj.get(ID.toString()),
@@ -31,31 +31,19 @@ public final class Case extends GenericItem<ICase> implements ICase{
     @Override
     public long findMaxID() {
         long maxValue = 0;
-        for (Identifiable item : CASE_DOMAIN.readAllCases()){
+        for (Identifiable item : KEY_DOMAIN.readAllKeys()){
             if (item.getId() > maxValue) maxValue = item.getId();
         }
         return maxValue;
     }
 
     @Override
-    public ICase populate(long id, double initPrice, String name, String image, String stashLink) {
+    public IKey populate(long id, double initPrice, String name, String image, String stashLink) {
         setId(id);
         setInitPrice(initPrice);
         setName(name);
         setImage(image);
         setStashLink(stashLink);
         return this;
-    }
-
-    @Override
-    public String toString() {
-        return "Case{" +
-                "id=" + getId() +
-                ", initPrice=" + getInitPrice() +
-                ", currPrice=" + getCurrPrice() +
-                ", name='" + getName() + '\'' +
-                ", image='" + getImage() + '\'' +
-                ", link='" + getStashLink() + '\'' +
-                '}';
     }
 }

@@ -376,4 +376,29 @@ final class JsonConnection implements DataConnection {
     public void deleteTicket(long id) {
         removeObjFromTable(id,TICKETS,TICKET,true);
     }
+
+    @Override
+    public List<JSONObject> readAllKeys() {
+        return new ArrayList<JSONObject>(loadFile(KEYS));
+    }
+
+    @Override
+    public void createKey(JSONObject jsonObject) {
+        addObjToTable(jsonObject,KEYS);
+    }
+
+    @Override
+    public JSONObject readKey(long id) {
+        return readOneObj(id,readAllKeys(),KEY);
+    }
+
+    @Override
+    public void updateKey(JSONObject jsonObject) {
+        updateObjInTable(jsonObject,KEYS,KEY);
+    }
+
+    @Override
+    public void deleteKey(long id) {
+        removeObjFromTable(id,KEYS,KEY,true);
+    }
 }

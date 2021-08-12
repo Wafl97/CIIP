@@ -12,4 +12,5 @@ public interface Factory {
     IPatch emptyPatch();
     ICase emptyCase();
     ITicket emptyTicket();
+    IKey emptyKey();
 }

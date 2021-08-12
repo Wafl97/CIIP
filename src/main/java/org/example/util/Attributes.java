@@ -1,30 +1,33 @@
 package org.example.util;
 
 public enum Attributes {
-    TICKETS,
-    CASES,
-    PATCHES,
-    STICKERS,
-    SOUVENIRS,
-    SKINS,
-    CAPSULES,
-    VAULTS,
-    TICKET,
-    CASE,
-    PATCH,
-    STICKER,
-    VAULT,
-    CAPSULE,
-    SKIN,
-    SOUVENIR,
-    STATTRAK,
-    WEAR_FLOAT,
-    ID,
-    INIT_PRICE,
-    NAME,
     AMOUNT,
+    CAPSULE,
+    CAPSULES,
+    CASE,
+    CASES,
+    ID,
     IMAGE,
-    STASH_LINK;
+    INIT_PRICE,
+    KEY,
+    KEYS,
+    NAME,
+    PATCH,
+    PATCHES,
+    SKIN,
+    SKINS,
+    SOUVENIR,
+    SOUVENIRS,
+    STASH_LINK,
+    STATTRAK,
+    STICKER,
+    STICKERS,
+    TICKET,
+    TICKETS,
+    VAULT,
+    VAULTS,
+    WEAR_FLOAT;
 
-    Attributes(){}
+    Attributes() {
+    }
 }

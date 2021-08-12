@@ -55,4 +55,10 @@ public interface DataConnection {
     JSONObject readTicket(long id);
     void updateTicket(JSONObject jsonObject);
     void deleteTicket(long id);
+
+    List<JSONObject> readAllKeys();
+    void createKey(JSONObject jsonObject);
+    JSONObject readKey(long id);
+    void updateKey(JSONObject jsonObject);
+    void deleteKey(long id);
 }

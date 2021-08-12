@@ -107,6 +107,7 @@ public class ItemController extends App implements Initializable {
             capsuleRadioButton.setSelected(loadedItem instanceof ICapsule);
             souvenirRadioButton.setSelected(loadedItem instanceof ISouvenirCase);
             stickerRadioButton.setSelected(loadedItem instanceof ISticker);
+            // TODO: 12-08-2021 do this
             itemImageView.setImage(DOMAIN.getDataFacade().getGFX().getImageMap().get(loadedItem.getImage()));
             nameTextField.setText(loadedItem.getName());
             priceSpinner.getValueFactory().setValue(loadedItem.getInitPrice());
@@ -204,6 +205,15 @@ public class ItemController extends App implements Initializable {
                     link
             );
         }
+        else if (loadedItem instanceof IKey){
+            ((IKey) loadedItem).populate(
+                    id,
+                    initPrice,
+                    name,
+                    imageName,
+                    link
+            );
+        }
         else {
             throw new IllegalStateException("No Item type selected");
         }
@@ -258,7 +268,7 @@ public class ItemController extends App implements Initializable {
                     linkTextField.getText()
             ));
         }
-
+        // TODO: 12-08-2021 do this
         else if (radioToggle.getSelectedToggle().getUserData() == null){
             throw new IllegalStateException("No Item type selected");
         }
@@ -287,6 +297,9 @@ public class ItemController extends App implements Initializable {
             }
             else if (item instanceof ITicket){
                 DOMAIN.getTicketDomain().deleteTicket(item.getId());
+            }
+            else if (item instanceof IKey){
+                DOMAIN.getKeyDomain().deleteKey(item.getId());
             }
             itemsListView.getItems().remove(item);
         }

@@ -18,7 +18,7 @@ public final class Capsule extends GenericItem<ICapsule> implements ICapsule {
 
     @Override
     public ICapsule convert2Obj(JSONObject jsonObject) {
-        JSONObject innerObj = (JSONObject) jsonObject.get(jsonAttribute.toString());
+        JSONObject innerObj = (JSONObject) jsonObject.get(jsonAttribute);
         return  populate(
                 (long)      innerObj.get(ID.toString()),
                 (double)    innerObj.get(INIT_PRICE.toString()),

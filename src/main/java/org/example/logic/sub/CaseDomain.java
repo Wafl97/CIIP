@@ -38,7 +38,7 @@ public final class CaseDomain implements ICaseDomain {
             for (JSONObject o : DATA_FACADE.getDataConnection().readAllCases()){
                 ICase newCase = CREATOR.emptyCase().convert2Obj(o);
                 casesCache.add(newCase);
-                System.out.println("Case [" + ConsoleColors.BLUE + newCase.getName() + ConsoleColors.RESET + "] Cached");
+                System.out.println("Case [" + ConsoleColors.BLUE + newCase.getName() + ConsoleColors.RESET + "]" + ConsoleColors.GREEN +  " Cached" + ConsoleColors.RESET);
             }
             System.out.println("Cache Size [" + ConsoleColors.CYAN + casesCache.size() + ConsoleColors.RESET + "]\n===========================================\n");
         }

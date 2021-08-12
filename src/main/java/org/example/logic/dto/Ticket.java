@@ -18,7 +18,7 @@ public final class Ticket extends GenericItem<ITicket> implements ITicket {
 
     @Override
     public ITicket convert2Obj(JSONObject jsonObject) {
-        JSONObject innerObj = (JSONObject) jsonObject.get(jsonAttribute.toString());
+        JSONObject innerObj = (JSONObject) jsonObject.get(jsonAttribute);
         return  populate(
                 (long)      innerObj.get(ID.toString()),
                 (double)    innerObj.get(INIT_PRICE.toString()),
@@ -34,7 +34,7 @@ public final class Ticket extends GenericItem<ITicket> implements ITicket {
         for (Identifiable ticket : TICKET_DOMAIN.readAllTickets()){
             if (ticket.getId() > maxValue) maxValue = ticket.getId();
         }
-        return 0;
+        return maxValue;
     }
 
     @Override
