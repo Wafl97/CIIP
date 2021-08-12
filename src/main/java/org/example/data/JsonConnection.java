@@ -59,13 +59,18 @@ final class JsonConnection implements DataConnection {
                 if (print) System.out.println("|| Total files found [" + ConsoleColors.CYAN + files.length + ConsoleColors.RESET + "]");
 
                 // Populate tables hashmap
+                long totalBytes = 0;
                 for (File file : files) {
                     // Get name of file
                     String fileName = file.getName().split("\\.")[0];
-                if (print) System.out.println("|| " + ConsoleColors.YELLOW + "Found file " + ConsoleColors.RESET + "[" + ConsoleColors.BLUE + fileName + ConsoleColors.RESET + "] : Size [" + ConsoleColors.CYAN + file.length() + ConsoleColors.RESET + "] b");
+                if (print) {
+                    System.out.println("|| " + ConsoleColors.YELLOW + "Found file " + ConsoleColors.RESET + "[" + ConsoleColors.BLUE + fileName + ConsoleColors.RESET + "] : Size [" + ConsoleColors.CYAN + file.length() + ConsoleColors.RESET + "] b");
+                    totalBytes += file.length();
+                }
                     fileMap.put(fileName, file);
                 }
                 if (print) {
+                    System.out.println("|| Total Size[" + ConsoleColors.CYAN + totalBytes + ConsoleColors.RESET + "] b");
                     System.out.println("|| " + ConsoleColors.GREEN + "Initialisation done" + ConsoleColors.RESET);
                     System.out.println("||===========================================\n");
                 }
@@ -345,5 +350,30 @@ final class JsonConnection implements DataConnection {
     @Override
     public void deleteCase(long id) {
         removeObjFromTable(id,CASES,CASE,true);
+    }
+
+    @Override
+    public List<JSONObject> readAllTickets() {
+        return new ArrayList<JSONObject>(loadFile(TICKETS));
+    }
+
+    @Override
+    public void createTicket(JSONObject jsonObject) {
+        addObjToTable(jsonObject,TICKETS);
+    }
+
+    @Override
+    public JSONObject readTicket(long id) {
+        return readOneObj(id,readAllTickets(),TICKET);
+    }
+
+    @Override
+    public void updateTicket(JSONObject jsonObject) {
+        updateObjInTable(jsonObject,TICKETS,TICKET);
+    }
+
+    @Override
+    public void deleteTicket(long id) {
+        removeObjFromTable(id,TICKETS,TICKET,true);
     }
 }

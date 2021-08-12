@@ -27,6 +27,7 @@ public final class Vault implements IVault {
     private static final ISouvenirCaseDomain SOUVENIR_CASE_DOMAIN = SouvenirCaseDomain.getInstance();
     private static final IPatchDomain PATCH_DOMAIN = PatchDomain.getInstance();
     private static final ICaseDomain CASE_DOMAIN = CaseDomain.getInstance();
+    private static final ITicketDomain TICKET_DOMAIN = TicketDomain.getInstance();
 
     public Vault() {
         containers = new HashMap<>();
@@ -99,6 +100,7 @@ public final class Vault implements IVault {
         JSONArray souvenirs = new JSONArray();
         JSONArray patches = new JSONArray();
         JSONArray cases = new JSONArray();
+        JSONArray tickets = new JSONArray();
         for (Identifiable item : containers.keySet()){
             //Inner obj
             if (item instanceof ICapsule) {
@@ -142,12 +144,20 @@ public final class Vault implements IVault {
                 patches.add(shell);
             }
             else if (item instanceof ICase){
-                JSONObject Case = new JSONObject();
-                Case.put(ID.toString(), item.getId());
-                Case.put(AMOUNT.toString(), containers.get(item));
+                JSONObject _case = new JSONObject();
+                _case.put(ID.toString(), item.getId());
+                _case.put(AMOUNT.toString(), containers.get(item));
                 JSONObject shell = new JSONObject();
-                shell.put(CASE.toString(), Case);
+                shell.put(CASE.toString(), _case);
                 cases.add(shell);
+            }
+            else if (item instanceof ITicket){
+                JSONObject ticket = new JSONObject();
+                ticket.put(ID.toString(), item.getId());
+                ticket.put(AMOUNT.toString(), containers.get(item));
+                JSONObject shell = new JSONObject();
+                shell.put(TICKET.toString(), ticket);
+                tickets.add(shell);
             }
         }
         innerObj.put(CAPSULES.toString(),capsules);
@@ -156,6 +166,7 @@ public final class Vault implements IVault {
         innerObj.put(SOUVENIRS.toString(),souvenirs);
         innerObj.put(PATCHES.toString(),patches);
         innerObj.put(CASES.toString(),cases);
+        innerObj.put(TICKETS.toString(),tickets);
         returnObj.put(VAULT.toString(),innerObj);
         return returnObj;
     }
@@ -193,8 +204,13 @@ public final class Vault implements IVault {
         }
         //Add Cases
         for (Object o : (JSONArray) innerObj.get(CASES.toString())){
-            JSONObject Case = (JSONObject) ((JSONObject) o).get(CASE.toString());
-            containers.put(CASE_DOMAIN.readCase((long) Case.get(ID.toString())), (long) Case.get(AMOUNT.toString()));
+            JSONObject _case = (JSONObject) ((JSONObject) o).get(CASE.toString());
+            containers.put(CASE_DOMAIN.readCase((long) _case.get(ID.toString())), (long) _case.get(AMOUNT.toString()));
+        }
+        //Add Tickets
+        for (Object o : (JSONArray) innerObj.get(TICKETS.toString())){
+            JSONObject ticket = (JSONObject) ((JSONObject) o).get(TICKET.toString());
+            containers.put(TICKET_DOMAIN.readTicket((long) ticket.get(ID.toString())), (long) ticket.get(AMOUNT.toString()));
         }
         return this;
     }

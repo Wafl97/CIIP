@@ -30,6 +30,7 @@ public final class Domain implements Logic {
     private static IStickerDomain STICKER_DOMAIN;
     private static IPatchDomain PATCH_DOMAIN;
     private static ICaseDomain CASE_DOMAIN;
+    private static ITicketDomain TICKET_DOMAIN;
 
     private IVault selectedVault;
 
@@ -93,6 +94,8 @@ public final class Domain implements Logic {
         System.out.println(ConsoleColors.BLUE + "\t\t - " + PATCH_DOMAIN.getClass().getSimpleName() + ConsoleColors.RESET);
         CASE_DOMAIN = CaseDomain.getInstance();
         System.out.println(ConsoleColors.BLUE + "\t\t - " + CASE_DOMAIN.getClass().getSimpleName() + ConsoleColors.RESET);
+        TICKET_DOMAIN = TicketDomain.getInstance();
+        System.out.println(ConsoleColors.BLUE + "\t\t - " + TICKET_DOMAIN.getClass().getSimpleName() + ConsoleColors.RESET);
 
         
 
@@ -175,6 +178,11 @@ public final class Domain implements Logic {
     }
 
     @Override
+    public ITicketDomain getTicketDomain() {
+        return null;
+    }
+
+    @Override
     public List<Displayable> readAllItems(){
         List<Displayable> rtn = new ArrayList<>();
         rtn.addAll(CAPSULE_DOMAIN.readAllCapsules());
@@ -183,6 +191,7 @@ public final class Domain implements Logic {
         rtn.addAll(SOUVENIR_CASE_DOMAIN.readAllSouvenirCases());
         rtn.addAll(PATCH_DOMAIN.readAllPatches());
         rtn.addAll(CASE_DOMAIN.readAllCases());
+        rtn.addAll(TICKET_DOMAIN.readAllTickets());
         return rtn;
     }
 

@@ -44,7 +44,6 @@ public final class Patch extends GenericItem<IPatch> implements IPatch {
         setName(name);
         setImage(image);
         setStashLink(stashLink);
-        updateCurrPrice();
         return this;
     }
 

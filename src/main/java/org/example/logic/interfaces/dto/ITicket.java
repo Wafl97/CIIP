@@ -4,5 +4,5 @@ import org.example.logic.interfaces.dto.comps.Convertible;
 import org.example.logic.interfaces.dto.comps.Displayable;
 import org.example.logic.interfaces.dto.comps.GenericPopulate;
 
-public interface IPatch extends Displayable, Convertible<IPatch>, GenericPopulate<IPatch> {
+public interface ITicket extends Displayable, Convertible<ITicket>, GenericPopulate<ITicket> {
 }
