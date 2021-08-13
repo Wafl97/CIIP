@@ -58,14 +58,27 @@
    <Button fx:id="browserButton" layoutX="623.0" layoutY="571.0" mnemonicParsing="false" text="Browse" />
    <Button fx:id="enableEditButton" layoutX="81.0" layoutY="674.0" mnemonicParsing="false" text="Enable Edit" />
    <Button fx:id="deleteButton" layoutX="571.0" layoutY="674.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="150.0" text="Delete Item" />
-   <VBox layoutX="14.0" layoutY="117.0" prefHeight="79.0" prefWidth="100.0">
+   <VBox layoutX="14.0" layoutY="117.0" prefHeight="79.0" prefWidth="200.0">
       <children>
-         <Label text="Item Type" />
-         <RadioButton fx:id="skinRadioButton" mnemonicParsing="false" onAction="#selectionHandler" text="Skin" />
-         <RadioButton fx:id="capsuleRadioButton" mnemonicParsing="false" onAction="#selectionHandler" text="Capsule" />
-         <RadioButton fx:id="souvenirRadioButton" mnemonicParsing="false" onAction="#selectionHandler" text="Souvenir" />
-         <RadioButton fx:id="stickerRadioButton" mnemonicParsing="false" onAction="#selectionHandler" text="Sticker" />
-         <RadioButton fx:id="patchRadioButton" mnemonicParsing="false" onAction="#selectionHandler" text="Patch" />
+        <Label text="Item Type" />
+          <HBox>
+              <VBox prefWidth="100">
+                  <RadioButton fx:id="skinRadioButton" mnemonicParsing="false" onAction="#selectionHandler" text="Skin" />
+                  <RadioButton fx:id="capsuleRadioButton" mnemonicParsing="false" onAction="#selectionHandler" text="Capsule" />
+                  <RadioButton fx:id="souvenirRadioButton" mnemonicParsing="false" onAction="#selectionHandler" text="Souvenir" />
+                  <RadioButton fx:id="stickerRadioButton" mnemonicParsing="false" onAction="#selectionHandler" text="Sticker" />
+                  <RadioButton fx:id="patchRadioButton" mnemonicParsing="false" onAction="#selectionHandler" text="Patch" />
+                  <RadioButton fx:id="caseRadioButton" mnemonicParsing="false" onAction="#selectionHandler" text="Case" />
+              </VBox>
+              <VBox prefWidth="100">
+                  <RadioButton fx:id="ticketRadioButton" mnemonicParsing="false" onAction="#selectionHandler" text="Ticket" />
+                  <RadioButton fx:id="keyRadioButton" mnemonicParsing="false" onAction="#selectionHandler" text="Key" />
+                  <RadioButton fx:id="musicRadioButton" mnemonicParsing="false" onAction="#selectionHandler" text="MusicKit" />
+                  <RadioButton fx:id="pinRadioButton" mnemonicParsing="false" onAction="#selectionHandler" text="Pin" />
+                  <RadioButton fx:id="modelRadioButton" mnemonicParsing="false" onAction="#selectionHandler" text="PlayerModel" />
+                  <RadioButton fx:id="graffitiRadioButton" mnemonicParsing="false" onAction="#selectionHandler" text="Graffiti" />
+              </VBox>
+          </HBox>
       </children>
    </VBox>
    <ToggleButton fx:id="souvenirToggleButton" layoutX="143.0" layoutY="456.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="107.0" text="Souvenir" />

@@ -27,6 +27,12 @@ public final class Vault implements IVault {
     private static final ISouvenirCaseDomain SOUVENIR_CASE_DOMAIN = SouvenirCaseDomain.getInstance();
     private static final IPatchDomain PATCH_DOMAIN = PatchDomain.getInstance();
     private static final ICaseDomain CASE_DOMAIN = CaseDomain.getInstance();
+    private static final ITicketDomain TICKET_DOMAIN = TicketDomain.getInstance();
+    private static final IKeyDomain KEY_DOMAIN = KeyDomain.getInstance();
+    private static final IMusicKitDomain MUSIC_KIT_DOMAIN = MusicKitDomain.getInstance();
+    private static final IPinDomain PIN_DOMAIN = PinDomain.getInstance();
+    private static final IPlayerModelDomain PLAYER_MODEL_DOMAIN = PlayerModelDomain.getInstance();
+    private static final IGraffitiDomain GRAFFITI_DOMAIN = GraffitiDomain.getInstance();
 
     public Vault() {
         containers = new HashMap<>();
@@ -99,6 +105,12 @@ public final class Vault implements IVault {
         JSONArray souvenirs = new JSONArray();
         JSONArray patches = new JSONArray();
         JSONArray cases = new JSONArray();
+        JSONArray tickets = new JSONArray();
+        JSONArray keys = new JSONArray();
+        JSONArray musicKits = new JSONArray();
+        JSONArray pins = new JSONArray();
+        JSONArray playerModels = new JSONArray();
+        JSONArray graffities = new JSONArray();
         for (Identifiable item : containers.keySet()){
             //Inner obj
             if (item instanceof ICapsule) {
@@ -142,12 +154,60 @@ public final class Vault implements IVault {
                 patches.add(shell);
             }
             else if (item instanceof ICase){
-                JSONObject Case = new JSONObject();
-                Case.put(ID.toString(), item.getId());
-                Case.put(AMOUNT.toString(), containers.get(item));
+                JSONObject _case = new JSONObject();
+                _case.put(ID.toString(), item.getId());
+                _case.put(AMOUNT.toString(), containers.get(item));
                 JSONObject shell = new JSONObject();
-                shell.put(CASE.toString(), Case);
+                shell.put(CASE.toString(), _case);
                 cases.add(shell);
+            }
+            else if (item instanceof ITicket){
+                JSONObject ticket = new JSONObject();
+                ticket.put(ID.toString(), item.getId());
+                ticket.put(AMOUNT.toString(), containers.get(item));
+                JSONObject shell = new JSONObject();
+                shell.put(TICKET.toString(), ticket);
+                tickets.add(shell);
+            }
+            else if (item instanceof IKey){
+                JSONObject key = new JSONObject();
+                key.put(ID.toString(), item.getId());
+                key.put(AMOUNT.toString(), containers.get(item));
+                JSONObject shell = new JSONObject();
+                shell.put(KEY.toString(), key);
+                keys.add(shell);
+            }
+            else if (item instanceof IMusicKit){
+                JSONObject musicKit = new JSONObject();
+                musicKit.put(ID.toString(), item.getId());
+                musicKit.put(AMOUNT.toString(), containers.get(item));
+                JSONObject shell = new JSONObject();
+                shell.put(MUSICKIT.toString(), musicKit);
+                musicKits.add(shell);
+            }
+            else if (item instanceof IPin){
+                JSONObject pin = new JSONObject();
+                pin.put(ID.toString(), item.getId());
+                pin.put(AMOUNT.toString(), containers.get(item));
+                JSONObject shell = new JSONObject();
+                shell.put(PIN.toString(), pin);
+                pins.add(shell);
+            }
+            else if (item instanceof IPlayerModel){
+                JSONObject playerModel = new JSONObject();
+                playerModel.put(ID.toString(), item.getId());
+                playerModel.put(AMOUNT.toString(), containers.get(item));
+                JSONObject shell = new JSONObject();
+                shell.put(PLAYERMODEL.toString(), playerModel);
+                playerModels.add(shell);
+            }
+            else if (item instanceof IGraffiti){
+                JSONObject graffiti = new JSONObject();
+                graffiti.put(ID.toString(), item.getId());
+                graffiti.put(AMOUNT.toString(), containers.get(item));
+                JSONObject shell = new JSONObject();
+                shell.put(GRAFFITI.toString(), graffiti);
+                graffities.add(shell);
             }
         }
         innerObj.put(CAPSULES.toString(),capsules);
@@ -156,6 +216,12 @@ public final class Vault implements IVault {
         innerObj.put(SOUVENIRS.toString(),souvenirs);
         innerObj.put(PATCHES.toString(),patches);
         innerObj.put(CASES.toString(),cases);
+        innerObj.put(TICKETS.toString(),tickets);
+        innerObj.put(KEYS.toString(),keys);
+        innerObj.put(MUSICKITS.toString(),musicKits);
+        innerObj.put(PINS.toString(),pins);
+        innerObj.put(PLAYERMODELS.toString(),playerModels);
+        innerObj.put(GRAFFITIES.toString(),graffities);
         returnObj.put(VAULT.toString(),innerObj);
         return returnObj;
     }
@@ -193,8 +259,38 @@ public final class Vault implements IVault {
         }
         //Add Cases
         for (Object o : (JSONArray) innerObj.get(CASES.toString())){
-            JSONObject Case = (JSONObject) ((JSONObject) o).get(CASE.toString());
-            containers.put(CASE_DOMAIN.readCase((long) Case.get(ID.toString())), (long) Case.get(AMOUNT.toString()));
+            JSONObject _case = (JSONObject) ((JSONObject) o).get(CASE.toString());
+            containers.put(CASE_DOMAIN.readCase((long) _case.get(ID.toString())), (long) _case.get(AMOUNT.toString()));
+        }
+        //Add Tickets
+        for (Object o : (JSONArray) innerObj.get(TICKETS.toString())){
+            JSONObject ticket = (JSONObject) ((JSONObject) o).get(TICKET.toString());
+            containers.put(TICKET_DOMAIN.readTicket((long) ticket.get(ID.toString())), (long) ticket.get(AMOUNT.toString()));
+        }
+        //Add Keys
+        for (Object o : (JSONArray) innerObj.get(KEYS.toString())){
+            JSONObject key = (JSONObject) ((JSONObject) o).get(KEY.toString());
+            containers.put(KEY_DOMAIN.readKey((long) key.get(ID.toString())), (long) key.get(AMOUNT.toString()));
+        }
+        //Add MusicKits
+        for (Object o : (JSONArray) innerObj.get(MUSICKITS.toString())){
+            JSONObject musicKit = (JSONObject) ((JSONObject) o).get(MUSICKIT.toString());
+            containers.put(MUSIC_KIT_DOMAIN.readMusicKit((long) musicKit.get(ID.toString())), (long) musicKit.get(AMOUNT.toString()));
+        }
+        //Add Pins
+        for (Object o : (JSONArray) innerObj.get(PINS.toString())){
+            JSONObject pin = (JSONObject) ((JSONObject) o).get(PIN.toString());
+            containers.put(PIN_DOMAIN.readPin((long) pin.get(ID.toString())), (long) pin.get(AMOUNT.toString()));
+        }
+        //Add PlayerModels
+        for (Object o : (JSONArray) innerObj.get(PLAYERMODELS.toString())){
+            JSONObject playerModel = (JSONObject) ((JSONObject) o).get(PLAYERMODEL.toString());
+            containers.put(PLAYER_MODEL_DOMAIN.readPlayerModel((long) playerModel.get(ID.toString())), (long) playerModel.get(AMOUNT.toString()));
+        }
+        //Add Graffities
+        for (Object o : (JSONArray) innerObj.get(GRAFFITIES.toString())){
+            JSONObject graffiti = (JSONObject) ((JSONObject) o).get(GRAFFITI.toString());
+            containers.put(GRAFFITI_DOMAIN.readGraffiti((long) graffiti.get(ID.toString())), (long) graffiti.get(AMOUNT.toString()));
         }
         return this;
     }
@@ -206,14 +302,5 @@ public final class Vault implements IVault {
             if (investment.getId() > maxValue) maxValue = investment.getId();
         }
         return maxValue;
-    }
-
-    @Override
-    public String toString() {
-        return "Vault{" +
-                "id=" + getId() +
-                ", name='" + getName() + '\'' +
-                ", containers=" + getAllItems() +
-                '}';
     }
 }

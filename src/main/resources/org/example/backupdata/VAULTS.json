@@ -56,6 +56,54 @@
             "AMOUNT": 50
           }
         }
+      ],
+      "TICKETS": [
+        {
+          "TICKET": {
+            "ID": 1,
+            "AMOUNT": 1
+          }
+        }
+      ],
+      "KEYS": [
+        {
+          "KEY": {
+            "ID": 1,
+            "AMOUNT": 5
+          }
+        }
+      ],
+      "MUSICKITS": [
+        {
+          "MUSICKIT": {
+            "ID": 1,
+            "AMOUNT": 1
+          }
+        }
+      ],
+      "PINS": [
+        {
+          "PIN": {
+            "ID": 1,
+            "AMOUNT": 1
+          }
+        }
+      ],
+      "PLAYERMODELS": [
+        {
+          "PLAYERMODEL": {
+            "ID": 1,
+            "AMOUNT": 1
+          }
+        }
+      ],
+      "GRAFFITIES": [
+        {
+          "GRAFFITI": {
+            "ID": 1,
+            "AMOUNT": 5
+          }
+        }
       ]
     }
   },
@@ -110,6 +158,18 @@
         }
       ],
       "CASES": [
+      ],
+      "TICKETS": [
+      ],
+      "KEYS": [
+      ],
+      "MUSICKITS": [
+      ],
+      "PINS": [
+      ],
+      "PLAYERMODELS": [
+      ],
+      "GRAFFITIES": [
       ]
     }
   }

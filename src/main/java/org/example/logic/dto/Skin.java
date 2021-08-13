@@ -123,8 +123,8 @@ public final class Skin extends GenericItem<ISkin> implements ISkin {
 
     @Override
     public ISkin convert2Obj(JSONObject jsonObject) {
-        JSONObject innerObj = (JSONObject) jsonObject.get(jsonAttribute.toString());
-        return populate(
+        JSONObject innerObj = (JSONObject) jsonObject.get(jsonAttribute);
+        return  populate(
                 (long)      innerObj.get(ID.toString()),
                 (double)    innerObj.get(INIT_PRICE.toString()),
                 (String)    innerObj.get(NAME.toString()),
@@ -155,23 +155,7 @@ public final class Skin extends GenericItem<ISkin> implements ISkin {
         setStatTrak(statTrack);
         setSouvenir(souvenir);
         setStashLink(stashLink);
-        updateCurrPrice();
         return this;
-    }
-
-    @Override
-    public String toString() {
-        return "Skin{" +
-                "id=" + getStashLink() +
-                ", initPrice=" + getInitPrice() +
-                ", currPrice=" + getCurrPrice() +
-                ", name='" + getName() + '\'' +
-                ", image='" + getImage() + '\'' +
-                ", link='" + getStashLink() + '\'' +
-                ", statTrack=" + isStatTrak() +
-                ", souvenir=" + isSouvenir() +
-                ", wearFloat=" + getWearFloat() +
-                '}';
     }
 
     private enum Wear {

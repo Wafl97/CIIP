@@ -49,4 +49,40 @@ public interface DataConnection {
     JSONObject readCase(long id);
     void updateCase(JSONObject jsonObject);
     void deleteCase(long id);
+
+    List<JSONObject> readAllTickets();
+    void createTicket(JSONObject jsonObject);
+    JSONObject readTicket(long id);
+    void updateTicket(JSONObject jsonObject);
+    void deleteTicket(long id);
+
+    List<JSONObject> readAllKeys();
+    void createKey(JSONObject jsonObject);
+    JSONObject readKey(long id);
+    void updateKey(JSONObject jsonObject);
+    void deleteKey(long id);
+
+    List<JSONObject> readAllMusicKits();
+    void createMusicKit(JSONObject jsonObject);
+    JSONObject readMusicKit(long id);
+    void updateMusicKit(JSONObject jsonObject);
+    void deleteMusicKit(long id);
+
+    List<JSONObject> readAllPins();
+    void createPin(JSONObject jsonObject);
+    JSONObject readPin(long id);
+    void updatePin(JSONObject jsonObject);
+    void deletePin(long id);
+
+    List<JSONObject> readAllPlayerModels();
+    void createPlayerModel(JSONObject jsonObject);
+    JSONObject readPlayerModel(long id);
+    void updatePlayerModel(JSONObject jsonObject);
+    void deletePlayerModel(long id);
+
+    List<JSONObject> readAllGraffities();
+    void createGraffiti(JSONObject jsonObject);
+    JSONObject readGraffiti(long id);
+    void updateGraffiti(JSONObject jsonObject);
+    void deleteGraffiti(long id);
 }

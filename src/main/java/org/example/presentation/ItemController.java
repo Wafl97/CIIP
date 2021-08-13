@@ -12,6 +12,7 @@ import javafx.stage.FileChooser;
 import org.example.logic.interfaces.dto.*;
 import org.example.logic.interfaces.dto.comps.Displayable;
 import org.example.logic.interfaces.dto.comps.Identifiable;
+import org.example.util.ConsoleColors;
 
 import java.io.File;
 import java.net.URL;
@@ -25,10 +26,14 @@ import static org.example.util.Attributes.*;
 public class ItemController extends App implements Initializable {
 
     @FXML
-    private Button backButton, submitButton, browserButton, enableEditButton, deleteButton, chooseImageButton,
-            add0_25, lower0_25, add0_5, lower0_5, add1, lower1, add10, lower10, add100, lower100, updateCurrPriceButton;
+    private Button  backButton, submitButton, browserButton,
+                    enableEditButton, deleteButton, chooseImageButton, updateCurrPriceButton,
+                    add0_25, lower0_25, add0_5, lower0_5, add1, lower1, add10, lower10, add100, lower100;
     @FXML
-    private RadioButton skinRadioButton, capsuleRadioButton, souvenirRadioButton, stickerRadioButton, patchRadioButton;
+    private RadioButton skinRadioButton, capsuleRadioButton, souvenirRadioButton,
+                        stickerRadioButton, patchRadioButton, caseRadioButton,
+                        ticketRadioButton, keyRadioButton, musicRadioButton,
+                        pinRadioButton, modelRadioButton, graffitiRadioButton;
     @FXML
     private ToggleButton statTrackToggleButton, souvenirToggleButton;
     @FXML
@@ -61,7 +66,9 @@ public class ItemController extends App implements Initializable {
 
         nodeList = new ArrayList<>(Arrays.asList(submitButton, browserButton, deleteButton, chooseImageButton,
                 add0_25, lower0_25, add0_5, lower0_5, add1, lower1, add10, lower10, add100, lower100,
-                skinRadioButton, capsuleRadioButton, souvenirRadioButton, stickerRadioButton, patchRadioButton,
+                skinRadioButton, capsuleRadioButton, souvenirRadioButton, stickerRadioButton, patchRadioButton, caseRadioButton,
+                ticketRadioButton, keyRadioButton, musicRadioButton,
+                pinRadioButton, modelRadioButton, graffitiRadioButton,
                 statTrackToggleButton, souvenirToggleButton,
                 nameTextField, linkTextField, wearFloatTextField,
                 floatLabel));
@@ -107,6 +114,13 @@ public class ItemController extends App implements Initializable {
             capsuleRadioButton.setSelected(loadedItem instanceof ICapsule);
             souvenirRadioButton.setSelected(loadedItem instanceof ISouvenirCase);
             stickerRadioButton.setSelected(loadedItem instanceof ISticker);
+            caseRadioButton.setSelected(loadedItem instanceof ICase);
+            ticketRadioButton.setSelected(loadedItem instanceof ITicket);
+            keyRadioButton.setSelected(loadedItem instanceof IKey);
+            musicRadioButton.setSelected(loadedItem instanceof IMusicKit);
+            pinRadioButton.setSelected(loadedItem instanceof IPin);
+            modelRadioButton.setSelected(loadedItem instanceof IPlayerModel);
+            graffitiRadioButton.setSelected(loadedItem instanceof IGraffiti);
             itemImageView.setImage(DOMAIN.getDataFacade().getGFX().getImageMap().get(loadedItem.getImage()));
             nameTextField.setText(loadedItem.getName());
             priceSpinner.getValueFactory().setValue(loadedItem.getInitPrice());
@@ -185,6 +199,76 @@ public class ItemController extends App implements Initializable {
             );
             DOMAIN.getPatchDomain().updatePatch((IPatch) loadedItem);
         }
+        else if (loadedItem instanceof ICase){
+            ((ICase) loadedItem).populate(
+                    id,
+                    initPrice,
+                    name,
+                    imageName,
+                    link
+            );
+            DOMAIN.getCaseDomain().updateCase((ICase) loadedItem);
+        }
+        else if (loadedItem instanceof ITicket){
+            ((ITicket) loadedItem).populate(
+                    id,
+                    initPrice,
+                    name,
+                    imageName,
+                    link
+            );
+            DOMAIN.getTicketDomain().updateTicket((ITicket) loadedItem);
+        }
+        else if (loadedItem instanceof IKey){
+            ((IKey) loadedItem).populate(
+                    id,
+                    initPrice,
+                    name,
+                    imageName,
+                    link
+            );
+            DOMAIN.getKeyDomain().updateKey((IKey) loadedItem);
+        }
+        else if (loadedItem instanceof IMusicKit){
+            ((IMusicKit) loadedItem).populate(
+                    id,
+                    initPrice,
+                    name,
+                    imageName,
+                    link
+            );
+            DOMAIN.getMusicKitDomain().updateMusicKit((IMusicKit) loadedItem);
+        }
+        else if (loadedItem instanceof IPin){
+            ((IPin) loadedItem).populate(
+                    id,
+                    initPrice,
+                    name,
+                    imageName,
+                    link
+            );
+            DOMAIN.getPinDomain().updatePin((IPin) loadedItem);
+        }
+        else if (loadedItem instanceof IPlayerModel){
+            ((IPlayerModel) loadedItem).populate(
+                    id,
+                    initPrice,
+                    name,
+                    imageName,
+                    link
+            );
+            DOMAIN.getPlayerModelDomain().updatePlayerModel((IPlayerModel) loadedItem);
+        }
+        else if (loadedItem instanceof IGraffiti){
+            ((IGraffiti) loadedItem).populate(
+                    id,
+                    initPrice,
+                    name,
+                    imageName,
+                    link
+            );
+            DOMAIN.getGraffitiDomain().updateKGraffiti((IGraffiti) loadedItem);
+        }
         else {
             throw new IllegalStateException("No Item type selected");
         }
@@ -239,6 +323,70 @@ public class ItemController extends App implements Initializable {
                     linkTextField.getText()
             ));
         }
+        else if (radioToggle.getSelectedToggle().getUserData() == CASE){
+            DOMAIN.getCaseDomain().createCase(DOMAIN.getFactory().emptyCase().populate(
+                    -1,
+                    priceSpinner.getValue(),
+                    nameTextField.getText(),
+                    imageFile.getName(),
+                    linkTextField.getText()
+            ));
+        }
+        else if (radioToggle.getSelectedToggle().getUserData() == TICKET){
+            DOMAIN.getTicketDomain().createTicket(DOMAIN.getFactory().emptyTicket().populate(
+                    -1,
+                    priceSpinner.getValue(),
+                    nameTextField.getText(),
+                    imageFile.getName(),
+                    linkTextField.getText()
+            ));
+        }
+        else if (radioToggle.getSelectedToggle().getUserData() == KEY){
+            DOMAIN.getKeyDomain().createKey(DOMAIN.getFactory().emptyKey().populate(
+                    -1,
+                    priceSpinner.getValue(),
+                    nameTextField.getText(),
+                    imageFile.getName(),
+                    linkTextField.getText()
+            ));
+        }
+        else if (radioToggle.getSelectedToggle().getUserData() == MUSICKIT){
+            DOMAIN.getMusicKitDomain().createMusicKit(DOMAIN.getFactory().emptyMusicKit().populate(
+                    -1,
+                    priceSpinner.getValue(),
+                    nameTextField.getText(),
+                    imageFile.getName(),
+                    linkTextField.getText()
+            ));
+        }
+        else if (radioToggle.getSelectedToggle().getUserData() == PIN){
+            DOMAIN.getPinDomain().createPin(DOMAIN.getFactory().emptyPin().populate(
+                    -1,
+                    priceSpinner.getValue(),
+                    nameTextField.getText(),
+                    imageFile.getName(),
+                    linkTextField.getText()
+            ));
+        }
+        else if (radioToggle.getSelectedToggle().getUserData() == PLAYERMODEL){
+            DOMAIN.getPlayerModelDomain().createPlayerModel(DOMAIN.getFactory().emptyPlayerModel().populate(
+                    -1,
+                    priceSpinner.getValue(),
+                    nameTextField.getText(),
+                    imageFile.getName(),
+                    linkTextField.getText()
+            ));
+        }
+        else if (radioToggle.getSelectedToggle().getUserData() == GRAFFITI){
+            DOMAIN.getGraffitiDomain().createGraffiti(DOMAIN.getFactory().emptyGraffiti().populate(
+                    -1,
+                    priceSpinner.getValue(),
+                    nameTextField.getText(),
+                    imageFile.getName(),
+                    linkTextField.getText()
+            ));
+        }
+        // TODO: 12-08-2021 do this, make a switch case (maybe a choiceBox)
         else if (radioToggle.getSelectedToggle().getUserData() == null){
             throw new IllegalStateException("No Item type selected");
         }
@@ -261,6 +409,27 @@ public class ItemController extends App implements Initializable {
             }
             else if (item instanceof IPatch){
                 DOMAIN.getPatchDomain().deletePatch(item.getId());
+            }
+            else if (item instanceof ICase){
+                DOMAIN.getCaseDomain().deleteCase(item.getId());
+            }
+            else if (item instanceof ITicket){
+                DOMAIN.getTicketDomain().deleteTicket(item.getId());
+            }
+            else if (item instanceof IKey){
+                DOMAIN.getKeyDomain().deleteKey(item.getId());
+            }
+            else if (item instanceof IMusicKit){
+                DOMAIN.getMusicKitDomain().deleteMusicKit(item.getId());
+            }
+            else if (item instanceof IPin){
+                DOMAIN.getPinDomain().deletePin(item.getId());
+            }
+            else if (item instanceof IPlayerModel){
+                DOMAIN.getPlayerModelDomain().deletePlayerModel(item.getId());
+            }
+            else if (item instanceof IGraffiti){
+                DOMAIN.getGraffitiDomain().deleteGraffiti(item.getId());
             }
             itemsListView.getItems().remove(item);
         }
@@ -337,6 +506,13 @@ public class ItemController extends App implements Initializable {
             souvenirRadioButton.setUserData(SOUVENIR);
             stickerRadioButton.setUserData(STICKER);
             patchRadioButton.setUserData(PATCH);
+            caseRadioButton.setUserData(CASE);
+            ticketRadioButton.setUserData(TICKET);
+            keyRadioButton.setUserData(KEY);
+            musicRadioButton.setUserData(MUSICKIT);
+            pinRadioButton.setUserData(PIN);
+            modelRadioButton.setUserData(PLAYERMODEL);
+            graffitiRadioButton.setUserData(GRAFFITI);
 
             radioToggle = new ToggleGroup();
             skinRadioButton.setToggleGroup(radioToggle);
@@ -344,6 +520,13 @@ public class ItemController extends App implements Initializable {
             souvenirRadioButton.setToggleGroup(radioToggle);
             stickerRadioButton.setToggleGroup(radioToggle);
             patchRadioButton.setToggleGroup(radioToggle);
+            caseRadioButton.setToggleGroup(radioToggle);
+            ticketRadioButton.setToggleGroup(radioToggle);
+            keyRadioButton.setToggleGroup(radioToggle);
+            musicRadioButton.setToggleGroup(radioToggle);
+            pinRadioButton.setToggleGroup(radioToggle);
+            modelRadioButton.setToggleGroup(radioToggle);
+            graffitiRadioButton.setToggleGroup(radioToggle);
 
             ToggleGroup toggle = new ToggleGroup();
             statTrackToggleButton.setToggleGroup(toggle);

@@ -6,12 +6,13 @@ import org.example.logic.StructureCreator;
 import org.example.logic.interfaces.Factory;
 import org.example.logic.interfaces.dto.IPatch;
 import org.example.logic.interfaces.sub.IPatchDomain;
+import org.example.util.ConsoleColors;
 import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PatchDomain implements IPatchDomain {
+public final class PatchDomain implements IPatchDomain {
 
     private static PatchDomain instance;
 
@@ -31,14 +32,14 @@ public class PatchDomain implements IPatchDomain {
     @Override
     public List<IPatch> readAllPatches() {
         if (patchCache == null){
-            System.out.println("===========================================\nCaching Patches");
+            System.out.println("===========================================\n" + ConsoleColors.PURPLE + "Caching Patches" + ConsoleColors.RESET);
             patchCache = new ArrayList<>();
             for (JSONObject o : DATA_FACADE.getDataConnection().readAllPatches()) {
                 IPatch newPatch = CREATOR.emptyPatch().convert2Obj(o);
                 patchCache.add(newPatch);
-                System.out.println("Patch [" + newPatch.getName() + "] Cached");
+                System.out.println("Patch [" + ConsoleColors.BLUE + newPatch.getName() + ConsoleColors.RESET + "]" + ConsoleColors.GREEN + "Cached" + ConsoleColors.RESET);
             }
-            System.out.println("Cache Size [" + patchCache.size() + "]\n===========================================\n");
+            System.out.println("Cache Size [" + ConsoleColors.CYAN + patchCache.size() + ConsoleColors.RESET + "]\n===========================================\n");
         }
         return patchCache;
     }

@@ -11,4 +11,10 @@ public interface Factory {
     ISticker emptySticker();
     IPatch emptyPatch();
     ICase emptyCase();
+    ITicket emptyTicket();
+    IKey emptyKey();
+    IMusicKit emptyMusicKit();
+    IPin emptyPin();
+    IPlayerModel emptyPlayerModel();
+    IGraffiti emptyGraffiti();
 }

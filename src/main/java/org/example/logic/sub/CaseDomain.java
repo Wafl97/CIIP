@@ -7,12 +7,13 @@ import org.example.logic.interfaces.Factory;
 import org.example.logic.interfaces.dto.ICapsule;
 import org.example.logic.interfaces.dto.ICase;
 import org.example.logic.interfaces.sub.ICaseDomain;
+import org.example.util.ConsoleColors;
 import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CaseDomain implements ICaseDomain {
+public final class CaseDomain implements ICaseDomain {
 
     private static CaseDomain instance;
 
@@ -32,14 +33,14 @@ public class CaseDomain implements ICaseDomain {
     @Override
     public List<ICase> readAllCases() {
         if (casesCache == null){
-            System.out.println("===========================================\nCaching Cases");
+            System.out.println("===========================================\n" + ConsoleColors.PURPLE + "Caching Cases" + ConsoleColors.RESET);
             casesCache = new ArrayList<>();
             for (JSONObject o : DATA_FACADE.getDataConnection().readAllCases()){
                 ICase newCase = CREATOR.emptyCase().convert2Obj(o);
                 casesCache.add(newCase);
-                System.out.println("Case [" + newCase.getName() + "] Cached");
+                System.out.println("Case [" + ConsoleColors.BLUE + newCase.getName() + ConsoleColors.RESET + "]" + ConsoleColors.GREEN +  " Cached" + ConsoleColors.RESET);
             }
-            System.out.println("Cache Size [" + casesCache.size() + "]\n===========================================\n");
+            System.out.println("Cache Size [" + ConsoleColors.CYAN + casesCache.size() + ConsoleColors.RESET + "]\n===========================================\n");
         }
         return casesCache;
     }

@@ -48,4 +48,34 @@ public final class StructureCreator implements Factory {
     public ICase emptyCase() {
         return new Case();
     }
+
+    @Override
+    public ITicket emptyTicket() {
+        return new Ticket();
+    }
+
+    @Override
+    public IKey emptyKey() {
+        return new Key();
+    }
+
+    @Override
+    public IMusicKit emptyMusicKit() {
+        return new MusicKit();
+    }
+
+    @Override
+    public IPin emptyPin() {
+        return new Pin();
+    }
+
+    @Override
+    public IPlayerModel emptyPlayerModel() {
+        return new PlayerModel();
+    }
+
+    @Override
+    public IGraffiti emptyGraffiti() {
+        return new Graffiti();
+    }
 }

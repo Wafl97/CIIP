@@ -8,7 +8,7 @@ import org.json.simple.JSONObject;
 
 import static org.example.util.Attributes.*;
 
-public class Case extends GenericItem<ICase> implements ICase{
+public final class Case extends GenericItem<ICase> implements ICase{
 
     private static final ICaseDomain CASE_DOMAIN = CaseDomain.getInstance();
 
@@ -18,8 +18,8 @@ public class Case extends GenericItem<ICase> implements ICase{
 
     @Override
     public ICase convert2Obj(JSONObject jsonObject) {
-        JSONObject innerObj = (JSONObject) jsonObject.get(jsonAttribute.toString());
-        return populate(
+        JSONObject innerObj = (JSONObject) jsonObject.get(jsonAttribute);
+        return  populate(
                 (long)      innerObj.get(ID.toString()),
                 (double)    innerObj.get(INIT_PRICE.toString()),
                 (String)    innerObj.get(NAME.toString()),
@@ -44,19 +44,6 @@ public class Case extends GenericItem<ICase> implements ICase{
         setName(name);
         setImage(image);
         setStashLink(stashLink);
-        updateCurrPrice();
         return this;
-    }
-
-    @Override
-    public String toString() {
-        return "Case{" +
-                "id=" + id +
-                ", initPrice=" + initPrice +
-                ", currPrice=" + currPrice +
-                ", name='" + name + '\'' +
-                ", image='" + image + '\'' +
-                ", link='" + link + '\'' +
-                '}';
     }
 }

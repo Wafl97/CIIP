@@ -59,13 +59,18 @@ final class JsonConnection implements DataConnection {
                 if (print) System.out.println("|| Total files found [" + ConsoleColors.CYAN + files.length + ConsoleColors.RESET + "]");
 
                 // Populate tables hashmap
+                long totalBytes = 0;
                 for (File file : files) {
                     // Get name of file
                     String fileName = file.getName().split("\\.")[0];
-                if (print) System.out.println("|| " + ConsoleColors.YELLOW + "Found file " + ConsoleColors.RESET + "[" + ConsoleColors.BLUE + fileName + ConsoleColors.RESET + "] : Size [" + ConsoleColors.CYAN + file.length() + ConsoleColors.RESET + "] b");
+                if (print) {
+                    System.out.println("|| " + ConsoleColors.YELLOW + "Found file " + ConsoleColors.RESET + "[" + ConsoleColors.BLUE + fileName + ConsoleColors.RESET + "] : Size [" + ConsoleColors.CYAN + file.length() + ConsoleColors.RESET + "] b");
+                    totalBytes += file.length();
+                }
                     fileMap.put(fileName, file);
                 }
                 if (print) {
+                    System.out.println("|| Total Size[" + ConsoleColors.CYAN + totalBytes + ConsoleColors.RESET + "] b");
                     System.out.println("|| " + ConsoleColors.GREEN + "Initialisation done" + ConsoleColors.RESET);
                     System.out.println("||===========================================\n");
                 }
@@ -104,11 +109,10 @@ final class JsonConnection implements DataConnection {
     }
 
     private JSONObject readOneObj(long id, List<JSONObject> objs, Attributes objName){
-        for (Object obj : objs){
-            JSONObject shellObj = (JSONObject) obj;
-            JSONObject innerObj = (JSONObject) shellObj.get(objName.toString());
+        for (JSONObject obj : objs){
+            JSONObject innerObj = (JSONObject) obj.get(objName.toString());
             if ((long) innerObj.get(ID.toString()) == id){
-                return shellObj;
+                return obj;
             }
         }
         return null;
@@ -345,5 +349,155 @@ final class JsonConnection implements DataConnection {
     @Override
     public void deleteCase(long id) {
         removeObjFromTable(id,CASES,CASE,true);
+    }
+
+    @Override
+    public List<JSONObject> readAllTickets() {
+        return new ArrayList<JSONObject>(loadFile(TICKETS));
+    }
+
+    @Override
+    public void createTicket(JSONObject jsonObject) {
+        addObjToTable(jsonObject,TICKETS);
+    }
+
+    @Override
+    public JSONObject readTicket(long id) {
+        return readOneObj(id,readAllTickets(),TICKET);
+    }
+
+    @Override
+    public void updateTicket(JSONObject jsonObject) {
+        updateObjInTable(jsonObject,TICKETS,TICKET);
+    }
+
+    @Override
+    public void deleteTicket(long id) {
+        removeObjFromTable(id,TICKETS,TICKET,true);
+    }
+
+    @Override
+    public List<JSONObject> readAllKeys() {
+        return new ArrayList<JSONObject>(loadFile(KEYS));
+    }
+
+    @Override
+    public void createKey(JSONObject jsonObject) {
+        addObjToTable(jsonObject,KEYS);
+    }
+
+    @Override
+    public JSONObject readKey(long id) {
+        return readOneObj(id,readAllKeys(),KEY);
+    }
+
+    @Override
+    public void updateKey(JSONObject jsonObject) {
+        updateObjInTable(jsonObject,KEYS,KEY);
+    }
+
+    @Override
+    public void deleteKey(long id) {
+        removeObjFromTable(id,KEYS,KEY,true);
+    }
+
+    @Override
+    public List<JSONObject> readAllMusicKits() {
+        return new ArrayList<JSONObject>(loadFile(MUSICKITS));
+    }
+
+    @Override
+    public void createMusicKit(JSONObject jsonObject) {
+        addObjToTable(jsonObject,MUSICKITS);
+    }
+
+    @Override
+    public JSONObject readMusicKit(long id) {
+        return readOneObj(id,readAllMusicKits(),MUSICKIT);
+    }
+
+    @Override
+    public void updateMusicKit(JSONObject jsonObject) {
+        updateObjInTable(jsonObject,MUSICKITS,MUSICKIT);
+    }
+
+    @Override
+    public void deleteMusicKit(long id) {
+        removeObjFromTable(id,MUSICKITS,MUSICKIT,true);
+    }
+
+    @Override
+    public List<JSONObject> readAllPins() {
+        return new ArrayList<JSONObject>(loadFile(PINS));
+    }
+
+    @Override
+    public void createPin(JSONObject jsonObject) {
+        addObjToTable(jsonObject,PINS);
+    }
+
+    @Override
+    public JSONObject readPin(long id) {
+        return readOneObj(id,readAllPins(),PIN);
+    }
+
+    @Override
+    public void updatePin(JSONObject jsonObject) {
+        updateObjInTable(jsonObject,PINS,PIN);
+    }
+
+    @Override
+    public void deletePin(long id) {
+        removeObjFromTable(id,PINS,PIN,true);
+    }
+
+    @Override
+    public List<JSONObject> readAllPlayerModels() {
+        return new ArrayList<JSONObject>(loadFile(PLAYERMODELS));
+    }
+
+    @Override
+    public void createPlayerModel(JSONObject jsonObject) {
+        addObjToTable(jsonObject,PLAYERMODELS);
+    }
+
+    @Override
+    public JSONObject readPlayerModel(long id) {
+        return readOneObj(id,readAllPlayerModels(),PLAYERMODEL);
+    }
+
+    @Override
+    public void updatePlayerModel(JSONObject jsonObject) {
+        updateObjInTable(jsonObject,PLAYERMODELS,PLAYERMODEL);
+    }
+
+    @Override
+    public void deletePlayerModel(long id) {
+        removeObjFromTable(id,PLAYERMODELS,PLAYERMODEL,true);
+    }
+
+    @Override
+    public List<JSONObject> readAllGraffities() {
+        return new ArrayList<JSONObject>(loadFile(GRAFFITIES));
+    }
+
+    @Override
+    public void createGraffiti(JSONObject jsonObject) {
+        addObjToTable(jsonObject,GRAFFITIES);
+    }
+
+    @Override
+    public JSONObject readGraffiti(long id) {
+        return readOneObj(id,readAllPlayerModels(),GRAFFITI);
+    }
+
+    @Override
+    public void updateGraffiti(JSONObject jsonObject) {
+        updateObjInTable(jsonObject,GRAFFITIES,GRAFFITI);
+    }
+
+    @Override
+    public void deleteGraffiti(long id) {
+        removeObjFromTable(id,GRAFFITIES,GRAFFITI,true);
     }
 }

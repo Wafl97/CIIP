@@ -18,7 +18,7 @@ public abstract class GenericItem<T> implements Item<T> {
     private static final Pattern PRICE_PATTERN = Pattern.compile("<span class=\"pull-right\">([0-9,-]+)(.)</span>");
     private static final Pattern STOP_PATTERN = Pattern.compile("<span class=\"pull-left\"><img class=\"item-table-icon\" src=\"https://csgostash.com/img/core/bitskins.png\\?id=[0-9a-zA-Z]+\" alt=\"BitSkins Logo\">BitSkins</span>");
 
-    protected Attributes jsonAttribute = null;
+    protected String jsonAttribute;
 
     protected long id;
     protected double initPrice;
@@ -30,7 +30,7 @@ public abstract class GenericItem<T> implements Item<T> {
     protected boolean priceUpdated = false;
 
     public GenericItem(Attributes attributes){
-        jsonAttribute = attributes;
+        jsonAttribute = attributes.toString();
     }
 
     @Override
@@ -133,6 +133,7 @@ public abstract class GenericItem<T> implements Item<T> {
     @Override
     public void setStashLink(String link) {
         this.link = link;
+        updateCurrPrice();
     }
 
     @Override
@@ -144,7 +145,7 @@ public abstract class GenericItem<T> implements Item<T> {
         innerObj.put(NAME.toString(),getName());
         innerObj.put(IMAGE.toString(),getImage());
         innerObj.put(STASH_LINK.toString(),getStashLink());
-        shellObj.put(jsonAttribute.toString(),innerObj);
+        shellObj.put(jsonAttribute,innerObj);
         return shellObj;
     }
 }

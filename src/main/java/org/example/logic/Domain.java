@@ -30,6 +30,12 @@ public final class Domain implements Logic {
     private static IStickerDomain STICKER_DOMAIN;
     private static IPatchDomain PATCH_DOMAIN;
     private static ICaseDomain CASE_DOMAIN;
+    private static ITicketDomain TICKET_DOMAIN;
+    private static IKeyDomain KEY_DOMAIN;
+    private static IMusicKitDomain MUSIC_KIT_DOMAIN;
+    private static IPinDomain PIN_DOMAIN;
+    private static IPlayerModelDomain PLAYER_MODEL_DOMAIN;
+    private static IGraffitiDomain GRAFFITI_DOMAIN;
 
     private IVault selectedVault;
 
@@ -93,6 +99,18 @@ public final class Domain implements Logic {
         System.out.println(ConsoleColors.BLUE + "\t\t - " + PATCH_DOMAIN.getClass().getSimpleName() + ConsoleColors.RESET);
         CASE_DOMAIN = CaseDomain.getInstance();
         System.out.println(ConsoleColors.BLUE + "\t\t - " + CASE_DOMAIN.getClass().getSimpleName() + ConsoleColors.RESET);
+        TICKET_DOMAIN = TicketDomain.getInstance();
+        System.out.println(ConsoleColors.BLUE + "\t\t - " + TICKET_DOMAIN.getClass().getSimpleName() + ConsoleColors.RESET);
+        KEY_DOMAIN = KeyDomain.getInstance();
+        System.out.println(ConsoleColors.BLUE + "\t\t - " + KEY_DOMAIN.getClass().getSimpleName() + ConsoleColors.RESET);
+        MUSIC_KIT_DOMAIN = MusicKitDomain.getInstance();
+        System.out.println(ConsoleColors.BLUE + "\t\t - " + MUSIC_KIT_DOMAIN.getClass().getSimpleName() + ConsoleColors.RESET);
+        PIN_DOMAIN = PinDomain.getInstance();
+        System.out.println(ConsoleColors.BLUE + "\t\t - " + PIN_DOMAIN.getClass().getSimpleName() + ConsoleColors.RESET);
+        PLAYER_MODEL_DOMAIN = PlayerModelDomain.getInstance();
+        System.out.println(ConsoleColors.BLUE + "\t\t - " + PLAYER_MODEL_DOMAIN.getClass().getSimpleName() + ConsoleColors.RESET);
+        GRAFFITI_DOMAIN = GraffitiDomain.getInstance();
+        System.out.println(ConsoleColors.BLUE + "\t\t - " + GRAFFITI_DOMAIN.getClass().getSimpleName() + ConsoleColors.RESET);
 
         
 
@@ -175,6 +193,36 @@ public final class Domain implements Logic {
     }
 
     @Override
+    public ITicketDomain getTicketDomain() {
+        return TICKET_DOMAIN;
+    }
+
+    @Override
+    public IKeyDomain getKeyDomain(){
+        return KEY_DOMAIN;
+    }
+
+    @Override
+    public IMusicKitDomain getMusicKitDomain(){
+        return MUSIC_KIT_DOMAIN;
+    }
+
+    @Override
+    public IPinDomain getPinDomain() {
+        return PIN_DOMAIN;
+    }
+
+    @Override
+    public IPlayerModelDomain getPlayerModelDomain() {
+        return PLAYER_MODEL_DOMAIN;
+    }
+
+    @Override
+    public IGraffitiDomain getGraffitiDomain() {
+        return GRAFFITI_DOMAIN;
+    }
+
+    @Override
     public List<Displayable> readAllItems(){
         List<Displayable> rtn = new ArrayList<>();
         rtn.addAll(CAPSULE_DOMAIN.readAllCapsules());
@@ -183,6 +231,12 @@ public final class Domain implements Logic {
         rtn.addAll(SOUVENIR_CASE_DOMAIN.readAllSouvenirCases());
         rtn.addAll(PATCH_DOMAIN.readAllPatches());
         rtn.addAll(CASE_DOMAIN.readAllCases());
+        rtn.addAll(TICKET_DOMAIN.readAllTickets());
+        rtn.addAll(KEY_DOMAIN.readAllKeys());
+        rtn.addAll(MUSIC_KIT_DOMAIN.readAllMusicKits());
+        rtn.addAll(PIN_DOMAIN.readAllPins());
+        rtn.addAll(PLAYER_MODEL_DOMAIN.readAllPlayerModels());
+        rtn.addAll(GRAFFITI_DOMAIN.readAllGraffities());
         return rtn;
     }
 

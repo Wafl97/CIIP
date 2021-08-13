@@ -18,7 +18,7 @@ public final class Patch extends GenericItem<IPatch> implements IPatch {
 
     @Override
     public IPatch convert2Obj(JSONObject jsonObject) {
-        JSONObject innerObj = (JSONObject) jsonObject.get(jsonAttribute.toString());
+        JSONObject innerObj = (JSONObject) jsonObject.get(jsonAttribute);
         return  populate(
                 (long)      innerObj.get(ID.toString()),
                 (double)    innerObj.get(INIT_PRICE.toString()),
@@ -44,19 +44,6 @@ public final class Patch extends GenericItem<IPatch> implements IPatch {
         setName(name);
         setImage(image);
         setStashLink(stashLink);
-        updateCurrPrice();
         return this;
-    }
-
-    @Override
-    public String toString() {
-        return "Patch{" +
-                "id=" + getId() +
-                ", initPrice=" + getInitPrice() +
-                ", currPrice=" + getCurrPrice() +
-                ", name='" + getName() + '\'' +
-                ", image='" + getImage() + '\'' +
-                ", link='" + getStashLink() + '\'' +
-                '}';
     }
 }
