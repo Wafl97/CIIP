@@ -88,6 +88,14 @@
             "AMOUNT": 1
           }
         }
+      ],
+      "PLAYERMODELS": [
+        {
+          "PLAYERMODEL": {
+            "ID": 1,
+            "AMOUNT": 1
+          }
+        }
       ]
     }
   },
@@ -150,6 +158,8 @@
       "MUSICKITS": [
       ],
       "PINS": [
+      ],
+      "PLAYERMODELS": [
       ]
     }
   }

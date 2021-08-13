@@ -34,6 +34,7 @@ public final class Domain implements Logic {
     private static IKeyDomain KEY_DOMAIN;
     private static IMusicKitDomain MUSIC_KIT_DOMAIN;
     private static IPinDomain PIN_DOMAIN;
+    private static IPlayerModelDomain PLAYER_MODEL_DOMAIN;
 
     private IVault selectedVault;
 
@@ -105,6 +106,8 @@ public final class Domain implements Logic {
         System.out.println(ConsoleColors.BLUE + "\t\t - " + MUSIC_KIT_DOMAIN.getClass().getSimpleName() + ConsoleColors.RESET);
         PIN_DOMAIN = PinDomain.getInstance();
         System.out.println(ConsoleColors.BLUE + "\t\t - " + PIN_DOMAIN.getClass().getSimpleName() + ConsoleColors.RESET);
+        PLAYER_MODEL_DOMAIN = PlayerModelDomain.getInstance();
+        System.out.println(ConsoleColors.BLUE + "\t\t - " + PLAYER_MODEL_DOMAIN.getClass().getSimpleName() + ConsoleColors.RESET);
 
         
 
@@ -207,6 +210,11 @@ public final class Domain implements Logic {
     }
 
     @Override
+    public IPlayerModelDomain getPlayerModelDomain() {
+        return PLAYER_MODEL_DOMAIN;
+    }
+
+    @Override
     public List<Displayable> readAllItems(){
         List<Displayable> rtn = new ArrayList<>();
         rtn.addAll(CAPSULE_DOMAIN.readAllCapsules());
@@ -219,6 +227,7 @@ public final class Domain implements Logic {
         rtn.addAll(KEY_DOMAIN.readAllKeys());
         rtn.addAll(MUSIC_KIT_DOMAIN.readAllMusicKits());
         rtn.addAll(PIN_DOMAIN.readAllPins());
+        rtn.addAll(PLAYER_MODEL_DOMAIN.readAllPlayerModels());
         return rtn;
     }
 

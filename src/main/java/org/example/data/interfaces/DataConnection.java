@@ -73,4 +73,10 @@ public interface DataConnection {
     JSONObject readPin(long id);
     void updatePin(JSONObject jsonObject);
     void deletePin(long id);
+
+    List<JSONObject> readAllPlayerModels();
+    void createPlayerModel(JSONObject jsonObject);
+    JSONObject readPlayerModel(long id);
+    void updatePlayerModel(JSONObject jsonObject);
+    void deletePlayerModel(long id);
 }

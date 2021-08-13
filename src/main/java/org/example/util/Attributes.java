@@ -18,6 +18,8 @@ public enum Attributes {
     PATCHES,
     PIN,
     PINS,
+    PLAYERMODEL,
+    PLAYERMODELS,
     SKIN,
     SKINS,
     SOUVENIR,
