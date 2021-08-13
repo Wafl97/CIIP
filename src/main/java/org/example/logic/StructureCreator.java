@@ -63,4 +63,9 @@ public final class StructureCreator implements Factory {
     public IMusicKit emptyMusicKit() {
         return new MusicKit();
     }
+
+    @Override
+    public IPin emptyPin() {
+        return new Pin();
+    }
 }

@@ -214,6 +214,24 @@ public class ItemController extends App implements Initializable {
                     link
             );
         }
+        else if (loadedItem instanceof IMusicKit){
+            ((IMusicKit) loadedItem).populate(
+                    id,
+                    initPrice,
+                    name,
+                    imageName,
+                    link
+            );
+        }
+        else if (loadedItem instanceof IPin){
+            ((IPin) loadedItem).populate(
+                    id,
+                    initPrice,
+                    name,
+                    imageName,
+                    link
+            );
+        }
         else {
             throw new IllegalStateException("No Item type selected");
         }
@@ -300,6 +318,12 @@ public class ItemController extends App implements Initializable {
             }
             else if (item instanceof IKey){
                 DOMAIN.getKeyDomain().deleteKey(item.getId());
+            }
+            else if (item instanceof IMusicKit){
+                DOMAIN.getMusicKitDomain().deleteMusicKit(item.getId());
+            }
+            else if (item instanceof IPin){
+                DOMAIN.getPinDomain().deletePin(item.getId());
             }
             itemsListView.getItems().remove(item);
         }

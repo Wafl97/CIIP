@@ -33,6 +33,7 @@ public final class Domain implements Logic {
     private static ITicketDomain TICKET_DOMAIN;
     private static IKeyDomain KEY_DOMAIN;
     private static IMusicKitDomain MUSIC_KIT_DOMAIN;
+    private static IPinDomain PIN_DOMAIN;
 
     private IVault selectedVault;
 
@@ -102,6 +103,8 @@ public final class Domain implements Logic {
         System.out.println(ConsoleColors.BLUE + "\t\t - " + KEY_DOMAIN.getClass().getSimpleName() + ConsoleColors.RESET);
         MUSIC_KIT_DOMAIN = MusicKitDomain.getInstance();
         System.out.println(ConsoleColors.BLUE + "\t\t - " + MUSIC_KIT_DOMAIN.getClass().getSimpleName() + ConsoleColors.RESET);
+        PIN_DOMAIN = PinDomain.getInstance();
+        System.out.println(ConsoleColors.BLUE + "\t\t - " + PIN_DOMAIN.getClass().getSimpleName() + ConsoleColors.RESET);
 
         
 
@@ -199,6 +202,11 @@ public final class Domain implements Logic {
     }
 
     @Override
+    public IPinDomain getPinDomain() {
+        return PIN_DOMAIN;
+    }
+
+    @Override
     public List<Displayable> readAllItems(){
         List<Displayable> rtn = new ArrayList<>();
         rtn.addAll(CAPSULE_DOMAIN.readAllCapsules());
@@ -210,6 +218,7 @@ public final class Domain implements Logic {
         rtn.addAll(TICKET_DOMAIN.readAllTickets());
         rtn.addAll(KEY_DOMAIN.readAllKeys());
         rtn.addAll(MUSIC_KIT_DOMAIN.readAllMusicKits());
+        rtn.addAll(PIN_DOMAIN.readAllPins());
         return rtn;
     }
 

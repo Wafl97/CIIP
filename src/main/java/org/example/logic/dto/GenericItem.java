@@ -145,7 +145,7 @@ public abstract class GenericItem<T> implements Item<T> {
         innerObj.put(NAME.toString(),getName());
         innerObj.put(IMAGE.toString(),getImage());
         innerObj.put(STASH_LINK.toString(),getStashLink());
-        shellObj.put(jsonAttribute.toString(),innerObj);
+        shellObj.put(jsonAttribute,innerObj);
         return shellObj;
     }
 }

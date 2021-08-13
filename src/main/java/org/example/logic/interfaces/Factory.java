@@ -14,4 +14,5 @@ public interface Factory {
     ITicket emptyTicket();
     IKey emptyKey();
     IMusicKit emptyMusicKit();
+    IPin emptyPin();
 }
