@@ -16,4 +16,5 @@ public interface Factory {
     IMusicKit emptyMusicKit();
     IPin emptyPin();
     IPlayerModel emptyPlayerModel();
+    IGraffiti emptyGraffiti();
 }

@@ -73,4 +73,9 @@ public final class StructureCreator implements Factory {
     public IPlayerModel emptyPlayerModel() {
         return new PlayerModel();
     }
+
+    @Override
+    public IGraffiti emptyGraffiti() {
+        return new Graffiti();
+    }
 }

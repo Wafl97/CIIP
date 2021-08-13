@@ -6,6 +6,8 @@ public enum Attributes {
     CAPSULES,
     CASE,
     CASES,
+    GRAFFITI,
+    GRAFFITIES,
     ID,
     IMAGE,
     INIT_PRICE,
