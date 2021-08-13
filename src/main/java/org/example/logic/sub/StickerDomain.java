@@ -2,8 +2,10 @@ package org.example.logic.sub;
 
 import org.example.data.DataFacade;
 import org.example.data.interfaces.IDataFacade;
+import org.example.logic.ActionWriter;
 import org.example.logic.StructureCreator;
 import org.example.logic.interfaces.Factory;
+import org.example.logic.interfaces.IActionWriter;
 import org.example.logic.interfaces.dto.ISticker;
 import org.example.logic.interfaces.sub.IStickerDomain;
 import org.example.util.ConsoleColors;
@@ -26,6 +28,8 @@ public final class StickerDomain implements IStickerDomain {
 
     private static final IDataFacade DATA_FACADE = DataFacade.getInstance();
     private static final Factory CREATOR = StructureCreator.getInstance();
+    private static final IActionWriter WRITER = new ActionWriter();
+    private static final String TYPE = "Sticker";
 
     private List<ISticker> stickerCache;
 
@@ -47,12 +51,15 @@ public final class StickerDomain implements IStickerDomain {
     @Override
     public void createSticker(ISticker sticker) {
         if (stickerCache == null) readAllStickers();
+        DATA_FACADE.getDataConnection().createSticker(sticker.convert2JSON());
         stickerCache.add(sticker);
+        WRITER.printAction(ConsoleColors.GREEN,"Created",TYPE,sticker.getId());
     }
 
     @Override
     public ISticker readSticker(long id) {
         if (stickerCache == null) readAllStickers();
+        WRITER.printAction(ConsoleColors.YELLOW,"Read",TYPE,id);
         return stickerCache.stream().filter(sticker -> sticker.getId() == id).findFirst().get();
     }
 
@@ -62,6 +69,7 @@ public final class StickerDomain implements IStickerDomain {
         DATA_FACADE.getDataConnection().updateSticker(sticker.convert2JSON());
         stickerCache.removeIf(stk -> stk.getId() == sticker.getId());
         stickerCache.add(sticker);
+        WRITER.printAction(ConsoleColors.PURPLE,"Updated",TYPE,sticker.getId());
     }
 
     @Override
@@ -69,5 +77,6 @@ public final class StickerDomain implements IStickerDomain {
         if (stickerCache == null) readAllStickers();
         DATA_FACADE.getDataConnection().deleteSticker(id);
         stickerCache.removeIf(sticker -> sticker.getId() == id);
+        WRITER.printAction(ConsoleColors.RED,"Deleted",TYPE,id);
     }
 }

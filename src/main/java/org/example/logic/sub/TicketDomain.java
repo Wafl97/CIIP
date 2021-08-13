@@ -2,8 +2,10 @@ package org.example.logic.sub;
 
 import org.example.data.DataFacade;
 import org.example.data.interfaces.IDataFacade;
+import org.example.logic.ActionWriter;
 import org.example.logic.StructureCreator;
 import org.example.logic.interfaces.Factory;
+import org.example.logic.interfaces.IActionWriter;
 import org.example.logic.interfaces.dto.ITicket;
 import org.example.logic.interfaces.sub.ITicketDomain;
 import org.example.util.ConsoleColors;
@@ -26,6 +28,8 @@ public class TicketDomain implements ITicketDomain {
 
     private static final IDataFacade DATA_FACADE = DataFacade.getInstance();
     private static final Factory CREATOR = StructureCreator.getInstance();
+    private static final IActionWriter WRITER = new ActionWriter();
+    private static final String TYPE = "Ticket";
 
     private List<ITicket> ticketCache;
 
@@ -49,11 +53,13 @@ public class TicketDomain implements ITicketDomain {
         if (ticketCache == null) readAllTickets();
         DATA_FACADE.getDataConnection().createTicket(ticket.convert2JSON());
         ticketCache.add(ticket);
+        WRITER.printAction(ConsoleColors.GREEN,"Created",TYPE,ticket.getId());
     }
 
     @Override
     public ITicket readTicket(long id) {
         if (ticketCache == null) readAllTickets();
+        WRITER.printAction(ConsoleColors.YELLOW,"Read",TYPE,id);
         return ticketCache.stream().filter(ticket -> ticket.getId() == id).findFirst().get();
     }
 
@@ -63,6 +69,7 @@ public class TicketDomain implements ITicketDomain {
         DATA_FACADE.getDataConnection().updateTicket(ticket.convert2JSON());
         ticketCache.removeIf(tck -> tck.getId() == ticket.getId());
         ticketCache.add(ticket);
+        WRITER.printAction(ConsoleColors.PURPLE,"Updated",TYPE,ticket.getId());
     }
 
     @Override
@@ -70,5 +77,6 @@ public class TicketDomain implements ITicketDomain {
         if (ticketCache == null) readAllTickets();
         DATA_FACADE.getDataConnection().deleteTicket(id);
         ticketCache.removeIf(ticket -> ticket.getId() == id);
+        WRITER.printAction(ConsoleColors.RED,"Deleted",TYPE,id);
     }
 }

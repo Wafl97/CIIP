@@ -2,8 +2,11 @@ package org.example.logic.sub;
 
 import org.example.data.DataFacade;
 import org.example.data.interfaces.IDataFacade;
+import org.example.logic.ActionWriter;
 import org.example.logic.StructureCreator;
+import org.example.logic.dto.Capsule;
 import org.example.logic.interfaces.Factory;
+import org.example.logic.interfaces.IActionWriter;
 import org.example.logic.interfaces.dto.ICapsule;
 import org.example.logic.interfaces.sub.ICapsuleDomain;
 import org.example.util.ConsoleColors;
@@ -26,6 +29,8 @@ public final class CapsuleDomain implements ICapsuleDomain {
 
     private static final IDataFacade DATA_FACADE = DataFacade.getInstance();
     private static final Factory CREATOR = StructureCreator.getInstance();
+    private static final IActionWriter WRITER = new ActionWriter();
+    private static final String TYPE = "Capsule";
 
     private List<ICapsule> capsulesCache;
 
@@ -49,11 +54,13 @@ public final class CapsuleDomain implements ICapsuleDomain {
         if (capsulesCache == null) readAllCapsules();
         DATA_FACADE.getDataConnection().createCapsule(capsule.convert2JSON());
         capsulesCache.add(capsule);
+        WRITER.printAction(ConsoleColors.GREEN,"Created",TYPE,capsule.getId());
     }
 
     @Override
     public ICapsule readCapsule(long id) {
         if (capsulesCache == null) readAllCapsules();
+        WRITER.printAction(ConsoleColors.YELLOW,"Read",TYPE,id);
         return capsulesCache.stream().filter(capsule -> capsule.getId() == id).findFirst().get();
     }
 
@@ -63,6 +70,7 @@ public final class CapsuleDomain implements ICapsuleDomain {
         DATA_FACADE.getDataConnection().updateCapsule(capsule.convert2JSON());
         capsulesCache.removeIf(cap -> cap.getId() == capsule.getId());
         capsulesCache.add(capsule);
+        WRITER.printAction(ConsoleColors.PURPLE,"Updated",TYPE,capsule.getId());
     }
 
     @Override
@@ -70,5 +78,6 @@ public final class CapsuleDomain implements ICapsuleDomain {
         if (capsulesCache == null) readAllCapsules();
         DATA_FACADE.getDataConnection().deleteCapsule(id);
         capsulesCache.removeIf(capsule -> capsule.getId() == id);
+        WRITER.printAction(ConsoleColors.RED,"Deleted",TYPE,id);
     }
 }

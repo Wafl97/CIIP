@@ -2,10 +2,11 @@ package org.example.logic.sub;
 
 import org.example.data.DataFacade;
 import org.example.data.interfaces.IDataFacade;
+import org.example.logic.ActionWriter;
 import org.example.logic.StructureCreator;
 import org.example.logic.interfaces.Factory;
+import org.example.logic.interfaces.IActionWriter;
 import org.example.logic.interfaces.dto.IGraffiti;
-import org.example.logic.interfaces.dto.IKey;
 import org.example.logic.interfaces.sub.IGraffitiDomain;
 import org.example.util.ConsoleColors;
 import org.json.simple.JSONObject;
@@ -27,6 +28,8 @@ public final class GraffitiDomain implements IGraffitiDomain {
 
     private static final IDataFacade DATA_FACADE = DataFacade.getInstance();
     private static final Factory CREATOR = StructureCreator.getInstance();
+    private static final IActionWriter WRITER = new ActionWriter();
+    private static final String TYPE = "Graffiti";
 
     private List<IGraffiti> graffitiCache;
 
@@ -50,11 +53,13 @@ public final class GraffitiDomain implements IGraffitiDomain {
         if (graffitiCache == null) readAllGraffities();
         DATA_FACADE.getDataConnection().createGraffiti(graffiti.convert2JSON());
         graffitiCache.add(graffiti);
+        WRITER.printAction(ConsoleColors.GREEN,"Created",TYPE,graffiti.getId());
     }
 
     @Override
     public IGraffiti readGraffiti(long id) {
         if (graffitiCache == null) readAllGraffities();
+        WRITER.printAction(ConsoleColors.YELLOW,"Read",TYPE,id);
         return graffitiCache.stream().filter(graffiti -> graffiti.getId() == id).findFirst().get();
     }
 
@@ -64,6 +69,7 @@ public final class GraffitiDomain implements IGraffitiDomain {
         DATA_FACADE.getDataConnection().updateGraffiti(graffiti.convert2JSON());
         graffitiCache.removeIf(grf -> grf.getId() == graffiti.getId());
         graffitiCache.add(graffiti);
+        WRITER.printAction(ConsoleColors.PURPLE,"Updated",TYPE,graffiti.getId());
     }
 
     @Override
@@ -71,5 +77,6 @@ public final class GraffitiDomain implements IGraffitiDomain {
         if (graffitiCache == null) readAllGraffities();
         DATA_FACADE.getDataConnection().deleteGraffiti(id);
         graffitiCache.removeIf(graffiti -> graffiti.getId() == id);
+        WRITER.printAction(ConsoleColors.RED,"Deleted",TYPE,id);
     }
 }

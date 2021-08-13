@@ -2,8 +2,10 @@ package org.example.logic.sub;
 
 import org.example.data.DataFacade;
 import org.example.data.interfaces.IDataFacade;
+import org.example.logic.ActionWriter;
 import org.example.logic.StructureCreator;
 import org.example.logic.interfaces.Factory;
+import org.example.logic.interfaces.IActionWriter;
 import org.example.logic.interfaces.dto.ISkin;
 import org.example.logic.interfaces.sub.ISkinDomain;
 import org.example.util.ConsoleColors;
@@ -26,6 +28,8 @@ public final class SkinDomain implements ISkinDomain {
 
     private static final IDataFacade DATA_FACADE = DataFacade.getInstance();
     private static final Factory CREATOR = StructureCreator.getInstance();
+    private static final IActionWriter WRITER = new ActionWriter();
+    private static final String TYPE = "Skin";
 
     private List<ISkin> skinCache;
 
@@ -49,11 +53,13 @@ public final class SkinDomain implements ISkinDomain {
         if (skinCache == null) readAllSkins();
         DATA_FACADE.getDataConnection().createSkin(skin.convert2JSON());
         skinCache.add(skin);
+        WRITER.printAction(ConsoleColors.GREEN,"Created",TYPE,skin.getId());
     }
 
     @Override
     public ISkin readSkin(long id) {
         if (skinCache == null) readAllSkins();
+        WRITER.printAction(ConsoleColors.YELLOW,"Read",TYPE,id);
         return skinCache.stream().filter(skin -> skin.getId() == id).findFirst().get();
     }
 
@@ -63,6 +69,7 @@ public final class SkinDomain implements ISkinDomain {
         DATA_FACADE.getDataConnection().updateSkin(skin.convert2JSON());
         skinCache.removeIf(skn -> skn.getId() == skin.getId());
         skinCache.add(skin);
+        WRITER.printAction(ConsoleColors.PURPLE,"Updated",TYPE,skin.getId());
     }
 
     @Override
@@ -70,5 +77,6 @@ public final class SkinDomain implements ISkinDomain {
         if (skinCache == null) readAllSkins();
         DATA_FACADE.getDataConnection().deleteSKin(id);
         skinCache.removeIf(skin -> skin.getId() == id);
+        WRITER.printAction(ConsoleColors.RED,"Deleted",TYPE,id);
     }
 }

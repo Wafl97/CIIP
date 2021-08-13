@@ -2,8 +2,10 @@ package org.example.logic.sub;
 
 import org.example.data.DataFacade;
 import org.example.data.interfaces.IDataFacade;
+import org.example.logic.ActionWriter;
 import org.example.logic.StructureCreator;
 import org.example.logic.interfaces.Factory;
+import org.example.logic.interfaces.IActionWriter;
 import org.example.logic.interfaces.dto.IPin;
 import org.example.logic.interfaces.sub.IPinDomain;
 import org.example.util.ConsoleColors;
@@ -26,6 +28,8 @@ public final class PinDomain implements IPinDomain {
 
     private static final IDataFacade DATA_FACADE = DataFacade.getInstance();
     private static final Factory CREATOR = StructureCreator.getInstance();
+    private static final IActionWriter WRITER = new ActionWriter();
+    private static final String TYPE = "Pin";
 
     private List<IPin> pinCache;
 
@@ -49,11 +53,13 @@ public final class PinDomain implements IPinDomain {
         if (pinCache == null) readAllPins();
         DATA_FACADE.getDataConnection().createPin(pin.convert2JSON());
         pinCache.add(pin);
+        WRITER.printAction(ConsoleColors.GREEN,"Created",TYPE,pin.getId());
     }
 
     @Override
     public IPin readPin(long id) {
         if (pinCache == null) readAllPins();
+        WRITER.printAction(ConsoleColors.YELLOW,"Read",TYPE,id);
         return pinCache.stream().filter(pin -> pin.getId() == id).findFirst().get();
     }
 
@@ -63,6 +69,7 @@ public final class PinDomain implements IPinDomain {
         DATA_FACADE.getDataConnection().updatePin(pin.convert2JSON());
         pinCache.removeIf(p -> p.getId() == pin.getId());
         pinCache.add(pin);
+        WRITER.printAction(ConsoleColors.PURPLE,"Updated",TYPE,pin.getId());
     }
 
     @Override
@@ -70,5 +77,6 @@ public final class PinDomain implements IPinDomain {
         if (pinCache == null) readAllPins();
         DATA_FACADE.getDataConnection().deletePin(id);
         pinCache.removeIf(pin -> pin.getId() == id);
+        WRITER.printAction(ConsoleColors.RED,"Deleted",TYPE,id);
     }
 }

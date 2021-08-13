@@ -2,8 +2,10 @@ package org.example.logic.sub;
 
 import org.example.data.DataFacade;
 import org.example.data.interfaces.IDataFacade;
+import org.example.logic.ActionWriter;
 import org.example.logic.StructureCreator;
 import org.example.logic.interfaces.Factory;
+import org.example.logic.interfaces.IActionWriter;
 import org.example.logic.interfaces.dto.IMusicKit;
 import org.example.logic.interfaces.sub.IMusicKitDomain;
 import org.example.util.ConsoleColors;
@@ -26,6 +28,8 @@ public final class MusicKitDomain implements IMusicKitDomain {
 
     private static final IDataFacade DATA_FACADE = DataFacade.getInstance();
     private static final Factory CREATOR = StructureCreator.getInstance();
+    private static final IActionWriter WRITER = new ActionWriter();
+    private static final String TYPE = "MusicKit";
 
     private List<IMusicKit> musicKitCache;
 
@@ -49,11 +53,13 @@ public final class MusicKitDomain implements IMusicKitDomain {
         if (musicKitCache == null) readAllMusicKits();
         DATA_FACADE.getDataConnection().createMusicKit(musicKit.convert2JSON());
         musicKitCache.add(musicKit);
+        WRITER.printAction(ConsoleColors.GREEN,"Created",TYPE,musicKit.getId());
     }
 
     @Override
     public IMusicKit readMusicKit(long id) {
         if (musicKitCache == null) readAllMusicKits();
+        WRITER.printAction(ConsoleColors.YELLOW,"Read",TYPE,id);
         return musicKitCache.stream().filter(musicKit -> musicKit.getId() == id).findFirst().get();
     }
 
@@ -63,6 +69,7 @@ public final class MusicKitDomain implements IMusicKitDomain {
         DATA_FACADE.getDataConnection().updateMusicKit(musicKit.convert2JSON());
         musicKitCache.removeIf(muk -> muk.getId() == musicKit.getId());
         musicKitCache.add(musicKit);
+        WRITER.printAction(ConsoleColors.PURPLE,"Updated",TYPE,musicKit.getId());
     }
 
     @Override
@@ -70,5 +77,6 @@ public final class MusicKitDomain implements IMusicKitDomain {
         if (musicKitCache == null) readAllMusicKits();
         DATA_FACADE.getDataConnection().deleteMusicKit(id);
         musicKitCache.removeIf(musicKit -> musicKit.getId() == id);
+        WRITER.printAction(ConsoleColors.RED,"Deleted",TYPE,id);
     }
 }

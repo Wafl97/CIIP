@@ -2,8 +2,10 @@ package org.example.logic.sub;
 
 import org.example.data.DataFacade;
 import org.example.data.interfaces.IDataFacade;
+import org.example.logic.ActionWriter;
 import org.example.logic.StructureCreator;
 import org.example.logic.interfaces.Factory;
+import org.example.logic.interfaces.IActionWriter;
 import org.example.logic.interfaces.dto.ISouvenirCase;
 import org.example.logic.interfaces.sub.ISouvenirCaseDomain;
 import org.example.util.ConsoleColors;
@@ -26,6 +28,8 @@ public final class SouvenirCaseDomain implements ISouvenirCaseDomain {
 
     private static final IDataFacade DATA_FACADE = DataFacade.getInstance();
     private static final Factory CREATOR = StructureCreator.getInstance();
+    private static final IActionWriter WRITER = new ActionWriter();
+    private static final String TYPE = "Souvenir";
 
     private List<ISouvenirCase> souvenirCaseCache;
 
@@ -49,11 +53,13 @@ public final class SouvenirCaseDomain implements ISouvenirCaseDomain {
         if (souvenirCaseCache == null) readAllSouvenirCases();
         DATA_FACADE.getDataConnection().createSouvenir(souvenirCase.convert2JSON());
         souvenirCaseCache.add(souvenirCase);
+        WRITER.printAction(ConsoleColors.GREEN,"Created",TYPE,souvenirCase.getId());
     }
 
     @Override
     public ISouvenirCase readSouvenirCase(long id) {
         if (souvenirCaseCache == null) readAllSouvenirCases();
+        WRITER.printAction(ConsoleColors.YELLOW,"Read",TYPE,id);
         return souvenirCaseCache.stream().filter(souvenir -> souvenir.getId() == id).findFirst().get();
     }
 
@@ -63,6 +69,7 @@ public final class SouvenirCaseDomain implements ISouvenirCaseDomain {
         DATA_FACADE.getDataConnection().updateSouvenir(souvenirCase.convert2JSON());
         souvenirCaseCache.removeIf(svn -> svn.getId() == souvenirCase.getId());
         souvenirCaseCache.add(souvenirCase);
+        WRITER.printAction(ConsoleColors.PURPLE,"Updated",TYPE,souvenirCase.getId());
     }
 
     @Override
@@ -70,5 +77,6 @@ public final class SouvenirCaseDomain implements ISouvenirCaseDomain {
         if (souvenirCaseCache == null) readAllSouvenirCases();
         DATA_FACADE.getDataConnection().deleteSouvenir(id);
         souvenirCaseCache.removeIf(souvenirCase -> souvenirCase.getId() == id);
+        WRITER.printAction(ConsoleColors.RED,"Deleted",TYPE,id);
     }
 }

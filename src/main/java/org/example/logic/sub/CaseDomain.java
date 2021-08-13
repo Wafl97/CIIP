@@ -2,8 +2,10 @@ package org.example.logic.sub;
 
 import org.example.data.DataFacade;
 import org.example.data.interfaces.IDataFacade;
+import org.example.logic.ActionWriter;
 import org.example.logic.StructureCreator;
 import org.example.logic.interfaces.Factory;
+import org.example.logic.interfaces.IActionWriter;
 import org.example.logic.interfaces.dto.ICapsule;
 import org.example.logic.interfaces.dto.ICase;
 import org.example.logic.interfaces.sub.ICaseDomain;
@@ -27,6 +29,8 @@ public final class CaseDomain implements ICaseDomain {
 
     private static final IDataFacade DATA_FACADE = DataFacade.getInstance();
     private static final Factory CREATOR = StructureCreator.getInstance();
+    private static final IActionWriter WRITER = new ActionWriter();
+    private static final String TYPE = "Case";
 
     private List<ICase> casesCache;
 
@@ -50,11 +54,13 @@ public final class CaseDomain implements ICaseDomain {
         if (casesCache == null) readAllCases();
         DATA_FACADE.getDataConnection().createCase(Case.convert2JSON());
         casesCache.add(Case);
+        WRITER.printAction(ConsoleColors.GREEN,"Created",TYPE,Case.getId());
     }
 
     @Override
     public ICase readCase(long id) {
         if (casesCache == null) readAllCases();
+        WRITER.printAction(ConsoleColors.YELLOW,"Read",TYPE,id);
         return casesCache.stream().filter(Case -> Case.getId() == id).findFirst().get();
     }
 
@@ -64,6 +70,7 @@ public final class CaseDomain implements ICaseDomain {
         DATA_FACADE.getDataConnection().updateCase(Case.convert2JSON());
         casesCache.removeIf(cse -> cse.getId() == Case.getId());
         casesCache.add(Case);
+        WRITER.printAction(ConsoleColors.PURPLE,"Updated",TYPE,Case.getId());
     }
 
     @Override
@@ -71,5 +78,6 @@ public final class CaseDomain implements ICaseDomain {
         if (casesCache == null) readAllCases();
         DATA_FACADE.getDataConnection().deleteCase(id);
         casesCache.removeIf(Case -> Case.getId() == id);
+        WRITER.printAction(ConsoleColors.RED,"Deleted",TYPE,id);
     }
 }
