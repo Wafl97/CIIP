@@ -425,4 +425,29 @@ final class JsonConnection implements DataConnection {
     public void deleteMusicKit(long id) {
         removeObjFromTable(id,MUSICKITS,MUSICKIT,true);
     }
+
+    @Override
+    public List<JSONObject> readAllPins() {
+        return new ArrayList<JSONObject>(loadFile(PINS));
+    }
+
+    @Override
+    public void createPin(JSONObject jsonObject) {
+        addObjToTable(jsonObject,PINS);
+    }
+
+    @Override
+    public JSONObject readPin(long id) {
+        return readOneObj(id,readAllPins(),PIN);
+    }
+
+    @Override
+    public void updatePin(JSONObject jsonObject) {
+        updateObjInTable(jsonObject,PINS,PIN);
+    }
+
+    @Override
+    public void deletePin(long id) {
+        removeObjFromTable(id,PINS,PIN,true);
+    }
 }

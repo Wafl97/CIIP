@@ -30,6 +30,7 @@ public final class Vault implements IVault {
     private static final ITicketDomain TICKET_DOMAIN = TicketDomain.getInstance();
     private static final IKeyDomain KEY_DOMAIN = KeyDomain.getInstance();
     private static final IMusicKitDomain MUSIC_KIT_DOMAIN = MusicKitDomain.getInstance();
+    private static final IPinDomain PIN_DOMAIN = PinDomain.getInstance();
 
     public Vault() {
         containers = new HashMap<>();
@@ -105,6 +106,7 @@ public final class Vault implements IVault {
         JSONArray tickets = new JSONArray();
         JSONArray keys = new JSONArray();
         JSONArray musicKits = new JSONArray();
+        JSONArray pins = new JSONArray();
         for (Identifiable item : containers.keySet()){
             //Inner obj
             if (item instanceof ICapsule) {
@@ -171,13 +173,21 @@ public final class Vault implements IVault {
                 shell.put(KEY.toString(), key);
                 keys.add(shell);
             }
-            else if (item instanceof IMusicKitDomain){
+            else if (item instanceof IMusicKit){
                 JSONObject musicKit = new JSONObject();
                 musicKit.put(ID.toString(), item.getId());
                 musicKit.put(AMOUNT.toString(), containers.get(item));
                 JSONObject shell = new JSONObject();
                 shell.put(MUSICKIT.toString(), musicKit);
                 musicKits.add(shell);
+            }
+            else if (item instanceof IPin){
+                JSONObject pin = new JSONObject();
+                pin.put(ID.toString(), item.getId());
+                pin.put(AMOUNT.toString(), containers.get(item));
+                JSONObject shell = new JSONObject();
+                shell.put(PIN.toString(), pin);
+                pins.add(shell);
             }
         }
         innerObj.put(CAPSULES.toString(),capsules);
@@ -189,6 +199,7 @@ public final class Vault implements IVault {
         innerObj.put(TICKETS.toString(),tickets);
         innerObj.put(KEYS.toString(),keys);
         innerObj.put(MUSICKITS.toString(),musicKits);
+        innerObj.put(PINS.toString(),pins);
         returnObj.put(VAULT.toString(),innerObj);
         return returnObj;
     }
@@ -243,6 +254,11 @@ public final class Vault implements IVault {
         for (Object o : (JSONArray) innerObj.get(MUSICKITS.toString())){
             JSONObject musicKit = (JSONObject) ((JSONObject) o).get(MUSICKIT.toString());
             containers.put(MUSIC_KIT_DOMAIN.readMusicKit((long) musicKit.get(ID.toString())), (long) musicKit.get(AMOUNT.toString()));
+        }
+        //Add Pins
+        for (Object o : (JSONArray) innerObj.get(PINS.toString())){
+            JSONObject pin = (JSONObject) ((JSONObject) o).get(PIN.toString());
+            containers.put(PIN_DOMAIN.readPin((long) pin.get(ID.toString())), (long) pin.get(AMOUNT.toString()));
         }
         return this;
     }

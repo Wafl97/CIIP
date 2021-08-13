@@ -29,6 +29,7 @@ public interface Logic {
     ITicketDomain getTicketDomain();
     IKeyDomain getKeyDomain();
     IMusicKitDomain getMusicKitDomain();
+    IPinDomain getPinDomain();
 
     void setSelectedVault(IVault vault);
     IVault getSelectedVault();
