@@ -96,6 +96,14 @@
             "AMOUNT": 1
           }
         }
+      ],
+      "GRAFFITIES": [
+        {
+          "GRAFFITI": {
+            "ID": 1,
+            "AMOUNT": 5
+          }
+        }
       ]
     }
   },
@@ -160,6 +168,8 @@
       "PINS": [
       ],
       "PLAYERMODELS": [
+      ],
+      "GRAFFITIES": [
       ]
     }
   }

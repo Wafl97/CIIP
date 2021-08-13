@@ -475,4 +475,29 @@ final class JsonConnection implements DataConnection {
     public void deletePlayerModel(long id) {
         removeObjFromTable(id,PLAYERMODELS,PLAYERMODEL,true);
     }
+
+    @Override
+    public List<JSONObject> readAllGraffities() {
+        return new ArrayList<JSONObject>(loadFile(GRAFFITIES));
+    }
+
+    @Override
+    public void createGraffiti(JSONObject jsonObject) {
+        addObjToTable(jsonObject,GRAFFITIES);
+    }
+
+    @Override
+    public JSONObject readGraffiti(long id) {
+        return readOneObj(id,readAllPlayerModels(),GRAFFITI);
+    }
+
+    @Override
+    public void updateGraffiti(JSONObject jsonObject) {
+        updateObjInTable(jsonObject,GRAFFITIES,GRAFFITI);
+    }
+
+    @Override
+    public void deleteGraffiti(long id) {
+        removeObjFromTable(id,GRAFFITIES,GRAFFITI,true);
+    }
 }

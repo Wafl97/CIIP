@@ -246,6 +246,16 @@ public class ItemController extends App implements Initializable {
             );
             DOMAIN.getPlayerModelDomain().updatePlayerModel((IPlayerModel) loadedItem);
         }
+        else if (loadedItem instanceof IGraffiti){
+            ((IGraffiti) loadedItem).populate(
+                    id,
+                    initPrice,
+                    name,
+                    imageName,
+                    link
+            );
+            DOMAIN.getGraffitiDomain().updateKGraffiti((IGraffiti) loadedItem);
+        }
         else {
             throw new IllegalStateException("No Item type selected");
         }
@@ -341,6 +351,9 @@ public class ItemController extends App implements Initializable {
             }
             else if (item instanceof IPlayerModel){
                 DOMAIN.getPlayerModelDomain().deletePlayerModel(item.getId());
+            }
+            else if (item instanceof IGraffiti){
+                DOMAIN.getGraffitiDomain().deleteGraffiti(item.getId());
             }
             itemsListView.getItems().remove(item);
         }

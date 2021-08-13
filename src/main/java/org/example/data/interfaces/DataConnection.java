@@ -79,4 +79,10 @@ public interface DataConnection {
     JSONObject readPlayerModel(long id);
     void updatePlayerModel(JSONObject jsonObject);
     void deletePlayerModel(long id);
+
+    List<JSONObject> readAllGraffities();
+    void createGraffiti(JSONObject jsonObject);
+    JSONObject readGraffiti(long id);
+    void updateGraffiti(JSONObject jsonObject);
+    void deleteGraffiti(long id);
 }

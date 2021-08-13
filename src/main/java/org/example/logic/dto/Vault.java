@@ -32,6 +32,7 @@ public final class Vault implements IVault {
     private static final IMusicKitDomain MUSIC_KIT_DOMAIN = MusicKitDomain.getInstance();
     private static final IPinDomain PIN_DOMAIN = PinDomain.getInstance();
     private static final IPlayerModelDomain PLAYER_MODEL_DOMAIN = PlayerModelDomain.getInstance();
+    private static final IGraffitiDomain GRAFFITI_DOMAIN = GraffitiDomain.getInstance();
 
     public Vault() {
         containers = new HashMap<>();
@@ -109,6 +110,7 @@ public final class Vault implements IVault {
         JSONArray musicKits = new JSONArray();
         JSONArray pins = new JSONArray();
         JSONArray playerModels = new JSONArray();
+        JSONArray graffities = new JSONArray();
         for (Identifiable item : containers.keySet()){
             //Inner obj
             if (item instanceof ICapsule) {
@@ -199,6 +201,14 @@ public final class Vault implements IVault {
                 shell.put(PLAYERMODEL.toString(), playerModel);
                 playerModels.add(shell);
             }
+            else if (item instanceof IGraffiti){
+                JSONObject graffiti = new JSONObject();
+                graffiti.put(ID.toString(), item.getId());
+                graffiti.put(AMOUNT.toString(), containers.get(item));
+                JSONObject shell = new JSONObject();
+                shell.put(GRAFFITI.toString(), graffiti);
+                graffities.add(shell);
+            }
         }
         innerObj.put(CAPSULES.toString(),capsules);
         innerObj.put(SKINS.toString(),skins);
@@ -211,6 +221,7 @@ public final class Vault implements IVault {
         innerObj.put(MUSICKITS.toString(),musicKits);
         innerObj.put(PINS.toString(),pins);
         innerObj.put(PLAYERMODELS.toString(),playerModels);
+        innerObj.put(GRAFFITIES.toString(),graffities);
         returnObj.put(VAULT.toString(),innerObj);
         return returnObj;
     }
@@ -275,6 +286,11 @@ public final class Vault implements IVault {
         for (Object o : (JSONArray) innerObj.get(PLAYERMODELS.toString())){
             JSONObject playerModel = (JSONObject) ((JSONObject) o).get(PLAYERMODEL.toString());
             containers.put(PLAYER_MODEL_DOMAIN.readPlayerModel((long) playerModel.get(ID.toString())), (long) playerModel.get(AMOUNT.toString()));
+        }
+        //Add Graffities
+        for (Object o : (JSONArray) innerObj.get(GRAFFITIES.toString())){
+            JSONObject graffiti = (JSONObject) ((JSONObject) o).get(GRAFFITI.toString());
+            containers.put(GRAFFITI_DOMAIN.readGraffiti((long) graffiti.get(ID.toString())), (long) graffiti.get(AMOUNT.toString()));
         }
         return this;
     }
