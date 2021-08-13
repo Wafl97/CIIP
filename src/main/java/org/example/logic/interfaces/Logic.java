@@ -1,6 +1,7 @@
 package org.example.logic.interfaces;
 
 import org.example.data.interfaces.IDataFacade;
+import org.example.logic.interfaces.dto.IMusicKit;
 import org.example.logic.interfaces.dto.comps.Displayable;
 import org.example.logic.interfaces.dto.IVault;
 import org.example.logic.interfaces.sub.*;
@@ -27,6 +28,7 @@ public interface Logic {
     ICaseDomain getCaseDomain();
     ITicketDomain getTicketDomain();
     IKeyDomain getKeyDomain();
+    IMusicKitDomain getMusicKitDomain();
 
     void setSelectedVault(IVault vault);
     IVault getSelectedVault();

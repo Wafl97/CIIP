@@ -11,6 +11,8 @@ public enum Attributes {
     INIT_PRICE,
     KEY,
     KEYS,
+    MUSICKITS,
+    MUSICKIT,
     NAME,
     PATCH,
     PATCHES,

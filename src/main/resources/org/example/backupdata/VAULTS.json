@@ -72,6 +72,14 @@
             "AMOUNT": 5
           }
         }
+      ],
+      "MUSICKITS": [
+        {
+          "MUSICKIT": {
+            "ID": 1,
+            "AMOUNT": 1
+          }
+        }
       ]
     }
   },
@@ -130,6 +138,8 @@
       "TICKETS": [
       ],
       "KEYS": [
+      ],
+      "MUSICKITS": [
       ]
     }
   }

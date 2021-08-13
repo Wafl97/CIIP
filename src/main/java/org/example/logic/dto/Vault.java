@@ -29,6 +29,7 @@ public final class Vault implements IVault {
     private static final ICaseDomain CASE_DOMAIN = CaseDomain.getInstance();
     private static final ITicketDomain TICKET_DOMAIN = TicketDomain.getInstance();
     private static final IKeyDomain KEY_DOMAIN = KeyDomain.getInstance();
+    private static final IMusicKitDomain MUSIC_KIT_DOMAIN = MusicKitDomain.getInstance();
 
     public Vault() {
         containers = new HashMap<>();
@@ -103,6 +104,7 @@ public final class Vault implements IVault {
         JSONArray cases = new JSONArray();
         JSONArray tickets = new JSONArray();
         JSONArray keys = new JSONArray();
+        JSONArray musicKits = new JSONArray();
         for (Identifiable item : containers.keySet()){
             //Inner obj
             if (item instanceof ICapsule) {
@@ -169,6 +171,14 @@ public final class Vault implements IVault {
                 shell.put(KEY.toString(), key);
                 keys.add(shell);
             }
+            else if (item instanceof IMusicKitDomain){
+                JSONObject musicKit = new JSONObject();
+                musicKit.put(ID.toString(), item.getId());
+                musicKit.put(AMOUNT.toString(), containers.get(item));
+                JSONObject shell = new JSONObject();
+                shell.put(MUSICKIT.toString(), musicKit);
+                musicKits.add(shell);
+            }
         }
         innerObj.put(CAPSULES.toString(),capsules);
         innerObj.put(SKINS.toString(),skins);
@@ -178,6 +188,7 @@ public final class Vault implements IVault {
         innerObj.put(CASES.toString(),cases);
         innerObj.put(TICKETS.toString(),tickets);
         innerObj.put(KEYS.toString(),keys);
+        innerObj.put(MUSICKITS.toString(),musicKits);
         returnObj.put(VAULT.toString(),innerObj);
         return returnObj;
     }
@@ -228,6 +239,11 @@ public final class Vault implements IVault {
             JSONObject key = (JSONObject) ((JSONObject) o).get(KEY.toString());
             containers.put(KEY_DOMAIN.readKey((long) key.get(ID.toString())), (long) key.get(AMOUNT.toString()));
         }
+        //Add MusicKits
+        for (Object o : (JSONArray) innerObj.get(MUSICKITS.toString())){
+            JSONObject musicKit = (JSONObject) ((JSONObject) o).get(MUSICKIT.toString());
+            containers.put(MUSIC_KIT_DOMAIN.readMusicKit((long) musicKit.get(ID.toString())), (long) musicKit.get(AMOUNT.toString()));
+        }
         return this;
     }
 
@@ -238,14 +254,5 @@ public final class Vault implements IVault {
             if (investment.getId() > maxValue) maxValue = investment.getId();
         }
         return maxValue;
-    }
-
-    @Override
-    public String toString() {
-        return "Vault{" +
-                "id=" + getId() +
-                ", name='" + getName() + '\'' +
-                ", containers=" + getAllItems() +
-                '}';
     }
 }

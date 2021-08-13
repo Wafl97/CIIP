@@ -46,16 +46,4 @@ public final class Sticker extends GenericItem<ISticker> implements ISticker {
         setStashLink(stashLink);
         return this;
     }
-
-    @Override
-    public String toString() {
-        return "Sticker{" +
-                "id=" + getId() +
-                ", initPrice=" + getInitPrice() +
-                ", currPrice=" + getCurrPrice() +
-                ", name='" + getName() + '\'' +
-                ", image='" + getImage() + '\'' +
-                ", link='" + getStashLink() + '\'' +
-                '}';
-    }
 }

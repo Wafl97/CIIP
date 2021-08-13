@@ -61,4 +61,10 @@ public interface DataConnection {
     JSONObject readKey(long id);
     void updateKey(JSONObject jsonObject);
     void deleteKey(long id);
+
+    List<JSONObject> readAllMusicKits();
+    void createMusicKit(JSONObject jsonObject);
+    JSONObject readMusicKit(long id);
+    void updateMusicKit(JSONObject jsonObject);
+    void deleteMusicKit(long id);
 }

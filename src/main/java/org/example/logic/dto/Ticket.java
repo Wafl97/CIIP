@@ -46,16 +46,4 @@ public final class Ticket extends GenericItem<ITicket> implements ITicket {
         setStashLink(stashLink);
         return this;
     }
-
-    @Override
-    public String toString() {
-        return "Ticket{" +
-                "id=" + getId() +
-                ", initPrice=" + getInitPrice() +
-                ", currPrice=" + getCurrPrice() +
-                ", name='" + getName() + '\'' +
-                ", image='" + getImage() + '\'' +
-                ", link='" + getStashLink() + '\'' +
-                '}';
-    }
 }
