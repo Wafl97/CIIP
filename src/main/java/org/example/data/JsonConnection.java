@@ -109,11 +109,10 @@ final class JsonConnection implements DataConnection {
     }
 
     private JSONObject readOneObj(long id, List<JSONObject> objs, Attributes objName){
-        for (Object obj : objs){
-            JSONObject shellObj = (JSONObject) obj;
-            JSONObject innerObj = (JSONObject) shellObj.get(objName.toString());
+        for (JSONObject obj : objs){
+            JSONObject innerObj = (JSONObject) obj.get(objName.toString());
             if ((long) innerObj.get(ID.toString()) == id){
-                return shellObj;
+                return obj;
             }
         }
         return null;
@@ -400,5 +399,30 @@ final class JsonConnection implements DataConnection {
     @Override
     public void deleteKey(long id) {
         removeObjFromTable(id,KEYS,KEY,true);
+    }
+
+    @Override
+    public List<JSONObject> readAllMusicKits() {
+        return new ArrayList<JSONObject>(loadFile(MUSICKITS));
+    }
+
+    @Override
+    public void createMusicKit(JSONObject jsonObject) {
+        addObjToTable(jsonObject,MUSICKITS);
+    }
+
+    @Override
+    public JSONObject readMusicKit(long id) {
+        return readOneObj(id,readAllMusicKits(),MUSICKIT);
+    }
+
+    @Override
+    public void updateMusicKit(JSONObject jsonObject) {
+        updateObjInTable(jsonObject,MUSICKITS,MUSICKIT);
+    }
+
+    @Override
+    public void deleteMusicKit(long id) {
+        removeObjFromTable(id,MUSICKITS,MUSICKIT,true);
     }
 }

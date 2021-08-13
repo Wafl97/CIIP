@@ -46,16 +46,4 @@ public final class Patch extends GenericItem<IPatch> implements IPatch {
         setStashLink(stashLink);
         return this;
     }
-
-    @Override
-    public String toString() {
-        return "Patch{" +
-                "id=" + getId() +
-                ", initPrice=" + getInitPrice() +
-                ", currPrice=" + getCurrPrice() +
-                ", name='" + getName() + '\'' +
-                ", image='" + getImage() + '\'' +
-                ", link='" + getStashLink() + '\'' +
-                '}';
-    }
 }

@@ -46,16 +46,4 @@ public final class SouvenirCase extends GenericItem<ISouvenirCase> implements IS
         setStashLink(stashLink);
         return this;
     }
-
-    @Override
-    public String toString() {
-        return "SouvenirCase{" +
-                "id=" + getId() +
-                ", initPrice=" + getInitPrice() +
-                ", currPrice=" + getCurrPrice() +
-                ", name='" + getName() + '\'' +
-                ", image='" + getImage() + '\'' +
-                ", link='" + getStashLink() + '\'' +
-                '}';
-    }
 }

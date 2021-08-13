@@ -98,15 +98,19 @@ public class MainController extends App implements Initializable {
     }
 
     private void deleteInvestment() {
-        DOMAIN.getVaultDomain().deleteVault(investmentListView.getItems().get(investmentListView.getSelectionModel().getSelectedIndex()).getId());
-        investmentListView.getItems().remove(investmentListView.getSelectionModel().getSelectedIndex());
+        int vault_id = investmentListView.getSelectionModel().getSelectedIndex();
+        IVault vault = investmentListView.getItems().get(vault_id);
+        DOMAIN.getVaultDomain().deleteVault(vault.getId());
+        investmentListView.getItems().remove(vault);
         itemListView.getItems().clear();
+        investmentListView.refresh();
+        if (investmentListView.getItems().isEmpty()) investmentListView.getItems().clear();
     }
 
     @FXML
     private void investmentHandler() {
         investIndex = investmentListView.getSelectionModel().getSelectedIndex();
-        if (investIndex != -1) {
+        if (investIndex != -1 && investIndex < investmentListView.getItems().size()) {
             IVault vault = investmentListView.getItems().get(investIndex);
             ObservableList<Displayable> item = FXCollections.observableList(new ArrayList<>(vault.getItems()));
             itemListView.setItems(item);

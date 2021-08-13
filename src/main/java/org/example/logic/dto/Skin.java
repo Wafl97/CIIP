@@ -158,21 +158,6 @@ public final class Skin extends GenericItem<ISkin> implements ISkin {
         return this;
     }
 
-    @Override
-    public String toString() {
-        return "Skin{" +
-                "id=" + getStashLink() +
-                ", initPrice=" + getInitPrice() +
-                ", currPrice=" + getCurrPrice() +
-                ", name='" + getName() + '\'' +
-                ", image='" + getImage() + '\'' +
-                ", link='" + getStashLink() + '\'' +
-                ", statTrack=" + isStatTrak() +
-                ", souvenir=" + isSouvenir() +
-                ", wearFloat=" + getWearFloat() +
-                '}';
-    }
-
     private enum Wear {
         FACTORY_NEW("<span class=\"pull-left\">Factory New</span>"),
         MINIMAL_WEAR("<span class=\"pull-left\">Minimal Wear</span>"),

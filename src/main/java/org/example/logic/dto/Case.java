@@ -46,16 +46,4 @@ public final class Case extends GenericItem<ICase> implements ICase{
         setStashLink(stashLink);
         return this;
     }
-
-    @Override
-    public String toString() {
-        return "Case{" +
-                "id=" + getId() +
-                ", initPrice=" + getInitPrice() +
-                ", currPrice=" + getCurrPrice() +
-                ", name='" + getName() + '\'' +
-                ", image='" + getImage() + '\'' +
-                ", link='" + getStashLink() + '\'' +
-                '}';
-    }
 }

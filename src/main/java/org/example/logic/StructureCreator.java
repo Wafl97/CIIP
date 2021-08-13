@@ -58,4 +58,9 @@ public final class StructureCreator implements Factory {
     public IKey emptyKey() {
         return new Key();
     }
+
+    @Override
+    public IMusicKit emptyMusicKit() {
+        return new MusicKit();
+    }
 }
