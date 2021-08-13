@@ -18,7 +18,7 @@ public abstract class GenericItem<T> implements Item<T> {
     private static final Pattern PRICE_PATTERN = Pattern.compile("<span class=\"pull-right\">([0-9,-]+)(.)</span>");
     private static final Pattern STOP_PATTERN = Pattern.compile("<span class=\"pull-left\"><img class=\"item-table-icon\" src=\"https://csgostash.com/img/core/bitskins.png\\?id=[0-9a-zA-Z]+\" alt=\"BitSkins Logo\">BitSkins</span>");
 
-    protected String jsonAttribute = null;
+    protected String jsonAttribute;
 
     protected long id;
     protected double initPrice;
