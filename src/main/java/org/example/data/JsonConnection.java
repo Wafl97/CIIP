@@ -450,4 +450,29 @@ final class JsonConnection implements DataConnection {
     public void deletePin(long id) {
         removeObjFromTable(id,PINS,PIN,true);
     }
+
+    @Override
+    public List<JSONObject> readAllPlayerModels() {
+        return new ArrayList<JSONObject>(loadFile(PLAYERMODELS));
+    }
+
+    @Override
+    public void createPlayerModel(JSONObject jsonObject) {
+        addObjToTable(jsonObject,PLAYERMODELS);
+    }
+
+    @Override
+    public JSONObject readPlayerModel(long id) {
+        return readOneObj(id,readAllPlayerModels(),PLAYERMODEL);
+    }
+
+    @Override
+    public void updatePlayerModel(JSONObject jsonObject) {
+        updateObjInTable(jsonObject,PLAYERMODELS,PLAYERMODEL);
+    }
+
+    @Override
+    public void deletePlayerModel(long id) {
+        removeObjFromTable(id,PLAYERMODELS,PLAYERMODEL,true);
+    }
 }

@@ -30,6 +30,7 @@ public interface Logic {
     IKeyDomain getKeyDomain();
     IMusicKitDomain getMusicKitDomain();
     IPinDomain getPinDomain();
+    IPlayerModelDomain getPlayerModelDomain();
 
     void setSelectedVault(IVault vault);
     IVault getSelectedVault();

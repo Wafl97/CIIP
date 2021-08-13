@@ -60,7 +60,7 @@ public final class PinDomain implements IPinDomain {
     @Override
     public void updatePin(IPin pin) {
         if (pinCache == null) readAllPins();
-        DATA_FACADE.getDataConnection().updateKey(pin.convert2JSON());
+        DATA_FACADE.getDataConnection().updatePin(pin.convert2JSON());
         pinCache.removeIf(p -> p.getId() == pin.getId());
         pinCache.add(pin);
     }

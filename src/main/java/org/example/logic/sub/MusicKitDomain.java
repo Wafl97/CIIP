@@ -60,7 +60,7 @@ public final class MusicKitDomain implements IMusicKitDomain {
     @Override
     public void updateMusicKit(IMusicKit musicKit) {
         if (musicKitCache == null) readAllMusicKits();
-        DATA_FACADE.getDataConnection().updateKey(musicKit.convert2JSON());
+        DATA_FACADE.getDataConnection().updateMusicKit(musicKit.convert2JSON());
         musicKitCache.removeIf(muk -> muk.getId() == musicKit.getId());
         musicKitCache.add(musicKit);
     }
@@ -68,7 +68,7 @@ public final class MusicKitDomain implements IMusicKitDomain {
     @Override
     public void deleteMusicKit(long id) {
         if (musicKitCache == null) readAllMusicKits();
-        DATA_FACADE.getDataConnection().deleteKey(id);
+        DATA_FACADE.getDataConnection().deleteMusicKit(id);
         musicKitCache.removeIf(musicKit -> musicKit.getId() == id);
     }
 }

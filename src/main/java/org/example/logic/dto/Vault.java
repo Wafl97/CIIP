@@ -31,6 +31,7 @@ public final class Vault implements IVault {
     private static final IKeyDomain KEY_DOMAIN = KeyDomain.getInstance();
     private static final IMusicKitDomain MUSIC_KIT_DOMAIN = MusicKitDomain.getInstance();
     private static final IPinDomain PIN_DOMAIN = PinDomain.getInstance();
+    private static final IPlayerModelDomain PLAYER_MODEL_DOMAIN = PlayerModelDomain.getInstance();
 
     public Vault() {
         containers = new HashMap<>();
@@ -107,6 +108,7 @@ public final class Vault implements IVault {
         JSONArray keys = new JSONArray();
         JSONArray musicKits = new JSONArray();
         JSONArray pins = new JSONArray();
+        JSONArray playerModels = new JSONArray();
         for (Identifiable item : containers.keySet()){
             //Inner obj
             if (item instanceof ICapsule) {
@@ -189,6 +191,14 @@ public final class Vault implements IVault {
                 shell.put(PIN.toString(), pin);
                 pins.add(shell);
             }
+            else if (item instanceof IPlayerModel){
+                JSONObject playerModel = new JSONObject();
+                playerModel.put(ID.toString(), item.getId());
+                playerModel.put(AMOUNT.toString(), containers.get(item));
+                JSONObject shell = new JSONObject();
+                shell.put(PLAYERMODEL.toString(), playerModel);
+                playerModels.add(shell);
+            }
         }
         innerObj.put(CAPSULES.toString(),capsules);
         innerObj.put(SKINS.toString(),skins);
@@ -200,6 +210,7 @@ public final class Vault implements IVault {
         innerObj.put(KEYS.toString(),keys);
         innerObj.put(MUSICKITS.toString(),musicKits);
         innerObj.put(PINS.toString(),pins);
+        innerObj.put(PLAYERMODELS.toString(),playerModels);
         returnObj.put(VAULT.toString(),innerObj);
         return returnObj;
     }
@@ -259,6 +270,11 @@ public final class Vault implements IVault {
         for (Object o : (JSONArray) innerObj.get(PINS.toString())){
             JSONObject pin = (JSONObject) ((JSONObject) o).get(PIN.toString());
             containers.put(PIN_DOMAIN.readPin((long) pin.get(ID.toString())), (long) pin.get(AMOUNT.toString()));
+        }
+        //Add PlayerModels
+        for (Object o : (JSONArray) innerObj.get(PLAYERMODELS.toString())){
+            JSONObject playerModel = (JSONObject) ((JSONObject) o).get(PLAYERMODEL.toString());
+            containers.put(PLAYER_MODEL_DOMAIN.readPlayerModel((long) playerModel.get(ID.toString())), (long) playerModel.get(AMOUNT.toString()));
         }
         return this;
     }

@@ -204,6 +204,7 @@ public class ItemController extends App implements Initializable {
                     imageName,
                     link
             );
+            DOMAIN.getTicketDomain().updateTicket((ITicket) loadedItem);
         }
         else if (loadedItem instanceof IKey){
             ((IKey) loadedItem).populate(
@@ -213,6 +214,7 @@ public class ItemController extends App implements Initializable {
                     imageName,
                     link
             );
+            DOMAIN.getKeyDomain().updateKey((IKey) loadedItem);
         }
         else if (loadedItem instanceof IMusicKit){
             ((IMusicKit) loadedItem).populate(
@@ -222,6 +224,7 @@ public class ItemController extends App implements Initializable {
                     imageName,
                     link
             );
+            DOMAIN.getMusicKitDomain().updateMusicKit((IMusicKit) loadedItem);
         }
         else if (loadedItem instanceof IPin){
             ((IPin) loadedItem).populate(
@@ -231,6 +234,17 @@ public class ItemController extends App implements Initializable {
                     imageName,
                     link
             );
+            DOMAIN.getPinDomain().updatePin((IPin) loadedItem);
+        }
+        else if (loadedItem instanceof IPlayerModel){
+            ((IPlayerModel) loadedItem).populate(
+                    id,
+                    initPrice,
+                    name,
+                    imageName,
+                    link
+            );
+            DOMAIN.getPlayerModelDomain().updatePlayerModel((IPlayerModel) loadedItem);
         }
         else {
             throw new IllegalStateException("No Item type selected");
@@ -286,7 +300,7 @@ public class ItemController extends App implements Initializable {
                     linkTextField.getText()
             ));
         }
-        // TODO: 12-08-2021 do this
+        // TODO: 12-08-2021 do this, make a switch case
         else if (radioToggle.getSelectedToggle().getUserData() == null){
             throw new IllegalStateException("No Item type selected");
         }
@@ -324,6 +338,9 @@ public class ItemController extends App implements Initializable {
             }
             else if (item instanceof IPin){
                 DOMAIN.getPinDomain().deletePin(item.getId());
+            }
+            else if (item instanceof IPlayerModel){
+                DOMAIN.getPlayerModelDomain().deletePlayerModel(item.getId());
             }
             itemsListView.getItems().remove(item);
         }

@@ -68,4 +68,9 @@ public final class StructureCreator implements Factory {
     public IPin emptyPin() {
         return new Pin();
     }
+
+    @Override
+    public IPlayerModel emptyPlayerModel() {
+        return new PlayerModel();
+    }
 }
