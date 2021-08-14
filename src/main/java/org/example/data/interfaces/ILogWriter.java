@@ -1,8 +1,10 @@
 package org.example.data.interfaces;
 
+import java.util.List;
+
 public interface ILogWriter {
 
     void writeLog(String log);
 
-    String readLog();
+    List<String> readLog();
 }

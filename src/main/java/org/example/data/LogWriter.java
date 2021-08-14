@@ -7,6 +7,9 @@ import java.io.*;
 import java.net.URISyntaxException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 public final class LogWriter implements ILogWriter {
 
@@ -33,7 +36,6 @@ public final class LogWriter implements ILogWriter {
                     .append(log)
                     .append("\n");
             output.close();
-            System.out.println(log);
         }
         catch (IOException | URISyntaxException e){
             System.out.println(ConsoleColors.RED + "-- Err when writing file --" + ConsoleColors.RESET);
@@ -42,12 +44,29 @@ public final class LogWriter implements ILogWriter {
     }
 
     @Override
-    public String readLog() {
-        return "DOES NOT WORK YET";
+    public List<String> readLog() {
+        List<String> log = new ArrayList<>();
+        try{
+            BufferedReader input = new BufferedReader(new FileReader(new File(getClass().getClassLoader().getResource(FILE_PATH).toURI()) + "\\" + LOG));
+            String line;
+            while ((line = input.readLine()) != null){
+                log.add(line);
+            }
+            input.close();
+        }
+        catch (IOException | URISyntaxException e){
+            System.out.println(ConsoleColors.RED + "-- Err when reading file --" + ConsoleColors.RESET);
+            e.printStackTrace();
+        }
+        return log;
     }
 
     public static void main(String[] args) {
         LogWriter lw = new LogWriter();
         lw.writeLog("THIS IS A TEST");
+        List<String> sa = lw.readLog();
+        for (String s : sa){
+            System.out.println(s);
+        }
     }
 }
