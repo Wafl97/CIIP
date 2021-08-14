@@ -1,16 +1,16 @@
 package org.example.logic.dto;
 
+import org.example.logic.Domain;
 import org.example.logic.interfaces.dto.IPin;
 import org.example.logic.interfaces.dto.comps.Identifiable;
-import org.example.logic.interfaces.sub.IPinDomain;
-import org.example.logic.sub.PinDomain;
+import org.example.logic.interfaces.sub.IGenericDomain;
 import org.json.simple.JSONObject;
 
 import static org.example.util.Attributes.*;
 
 public final class Pin extends GenericItem<IPin> implements IPin{
 
-    private static final IPinDomain PIN_DOMAIN = PinDomain.getInstance();
+    private static final IGenericDomain PIN_DOMAIN = Domain.getInstance().getPinDomain();
 
     public Pin(){
         super(PIN);
@@ -31,7 +31,7 @@ public final class Pin extends GenericItem<IPin> implements IPin{
     @Override
     public long findMaxID() {
         long maxValue = 0;
-        for (Identifiable item : PIN_DOMAIN.readAllPins()){
+        for (Identifiable item : PIN_DOMAIN.readAll()){
             if (item.getId() > maxValue) maxValue = item.getId();
         }
         return maxValue;

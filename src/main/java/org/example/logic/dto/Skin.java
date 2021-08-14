@@ -1,9 +1,9 @@
 package org.example.logic.dto;
 
+import org.example.logic.Domain;
 import org.example.logic.interfaces.dto.ISkin;
 import org.example.logic.interfaces.dto.comps.Identifiable;
-import org.example.logic.interfaces.sub.ISkinDomain;
-import org.example.logic.sub.SkinDomain;
+import org.example.logic.interfaces.sub.IGenericDomain;
 import org.example.util.ConsoleColors;
 import org.json.simple.JSONObject;
 
@@ -17,7 +17,7 @@ import static org.example.util.Attributes.*;
 
 public final class Skin extends GenericItem<ISkin> implements ISkin {
 
-    private static final ISkinDomain SKIN_DOMAIN = SkinDomain.getInstance();
+    private static final IGenericDomain SKIN_DOMAIN = Domain.getInstance().getSkinDomain();
 
     public Skin(){
         super(SKIN);
@@ -139,7 +139,7 @@ public final class Skin extends GenericItem<ISkin> implements ISkin {
     @Override
     public long findMaxID() {
         long maxValue = 0;
-        for (Identifiable skin : SKIN_DOMAIN.readAllSkins()){
+        for (Identifiable skin : SKIN_DOMAIN.readAll()){
             if (skin.getId() > maxValue) maxValue = skin.getId();
         }
         return maxValue;

@@ -1,16 +1,17 @@
 package org.example.logic.dto;
 
+import org.example.logic.Domain;
+import org.example.logic.interfaces.dto.IGraffiti;
 import org.example.logic.interfaces.dto.ISouvenirCase;
 import org.example.logic.interfaces.dto.comps.Identifiable;
-import org.example.logic.interfaces.sub.ISouvenirCaseDomain;
-import org.example.logic.sub.SouvenirCaseDomain;
+import org.example.logic.interfaces.sub.IGenericDomain;
 import org.json.simple.JSONObject;
 
 import static org.example.util.Attributes.*;
 
 public final class SouvenirCase extends GenericItem<ISouvenirCase> implements ISouvenirCase {
 
-    private static final ISouvenirCaseDomain SOUVENIR_CASE_DOMAIN = SouvenirCaseDomain.getInstance();
+    private static final IGenericDomain SOUVENIR_CASE_DOMAIN = Domain.getInstance().getSouvenirCaseDomain();
 
     public SouvenirCase(){
         super(SOUVENIR);
@@ -31,7 +32,7 @@ public final class SouvenirCase extends GenericItem<ISouvenirCase> implements IS
     @Override
     public long findMaxID() {
         long maxValue = 0;
-        for (Identifiable souvenirCase : SOUVENIR_CASE_DOMAIN.readAllSouvenirCases()) {
+        for (Identifiable souvenirCase : SOUVENIR_CASE_DOMAIN.readAll()) {
             if (souvenirCase.getId() > maxValue) maxValue = souvenirCase.getId();
         }
         return maxValue;

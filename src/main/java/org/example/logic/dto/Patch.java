@@ -1,16 +1,16 @@
 package org.example.logic.dto;
 
+import org.example.logic.Domain;
 import org.example.logic.interfaces.dto.IPatch;
 import org.example.logic.interfaces.dto.comps.Identifiable;
-import org.example.logic.interfaces.sub.IPatchDomain;
-import org.example.logic.sub.PatchDomain;
+import org.example.logic.interfaces.sub.IGenericDomain;
 import org.json.simple.JSONObject;
 
 import static org.example.util.Attributes.*;
 
 public final class Patch extends GenericItem<IPatch> implements IPatch {
 
-    private static final IPatchDomain PATCH_DOMAIN = PatchDomain.getInstance();
+    private static final IGenericDomain PATCH_DOMAIN = Domain.getInstance().getPatchDomain();
 
     public Patch(){
         super(PATCH);
@@ -31,7 +31,7 @@ public final class Patch extends GenericItem<IPatch> implements IPatch {
     @Override
     public long findMaxID() {
         long maxValue = 0;
-        for (Identifiable patch : PATCH_DOMAIN.readAllPatches()){
+        for (Identifiable patch : PATCH_DOMAIN.readAll()){
             if (patch.getId() > maxValue) maxValue = patch.getId();
         }
         return maxValue;

@@ -2,6 +2,7 @@ package org.example.data;
 
 import org.example.data.interfaces.DataConnection;
 
+import org.example.data.interfaces.IGenericSubConnection;
 import org.example.util.Attributes;
 import org.example.util.ConsoleColors;
 import org.json.simple.JSONArray;
@@ -83,6 +84,11 @@ final class JsonConnection implements DataConnection {
         }
         System.out.println(ConsoleColors.GREEN + "Connected"  + ConsoleColors.RESET);
         return true;
+    }
+
+    @Override
+    public Map<String, File> getFileMap() {
+        return fileMap;
     }
 
     private void saveFile(JSONArray jsonArray, Attributes file){
@@ -177,327 +183,67 @@ final class JsonConnection implements DataConnection {
     }
 
     @Override
-    public List<JSONObject> readAllVaults() {
-        return new ArrayList<JSONObject>(loadFile(VAULTS));
+    public IGenericSubConnection getCapsuleConnection() {
+        return new GenericSubConnection(CAPSULES,CAPSULE,true);
     }
 
     @Override
-    public void createVault(JSONObject jsonObject) {
-        addObjToTable(jsonObject,VAULTS);
+    public IGenericSubConnection getCaseConnection() {
+        return new GenericSubConnection(CASES,CASE,true);
     }
 
     @Override
-    public JSONObject readVault(long id) {
-        return readOneObj(id, readAllVaults(), VAULT);
+    public IGenericSubConnection getGraffitiConnection() {
+        return new GenericSubConnection(GRAFFITIES,GRAFFITI,true);
     }
 
     @Override
-    public void updateVault(JSONObject jsonObject) {
-        updateObjInTable(jsonObject, VAULTS, VAULT);
+    public IGenericSubConnection getKeyConnection() {
+        return new GenericSubConnection(KEYS,KEY,true);
     }
 
     @Override
-    public void deleteVault(long id) {
-        removeObjFromTable(id, VAULTS, VAULT, false);
+    public IGenericSubConnection getMusicKitConnection() {
+        return new GenericSubConnection(MUSICKITS,MUSICKIT,true);
     }
 
     @Override
-    public List<JSONObject> readAllCapsules() {
-        return new ArrayList<JSONObject>(loadFile(CAPSULES));
+    public IGenericSubConnection getPatchConnection() {
+        return new GenericSubConnection(PATCHES,PATCH,true);
     }
 
     @Override
-    public void createCapsule(JSONObject jsonObject) {
-        addObjToTable(jsonObject,CAPSULES);
+    public IGenericSubConnection getPinConnection() {
+        return new GenericSubConnection(PINS,PIN,true);
     }
 
     @Override
-    public JSONObject readCapsule(long id) {
-        return readOneObj(id, readAllCapsules(), CAPSULE);
+    public IGenericSubConnection getPlayerModelConnection() {
+        return new GenericSubConnection(PLAYERMODELS,PLAYERMODEL,true);
     }
 
     @Override
-    public void updateCapsule(JSONObject jsonObject) {
-        updateObjInTable(jsonObject,CAPSULES,CAPSULE);
+    public IGenericSubConnection getSkinConnection() {
+        return new GenericSubConnection(SKINS,SKIN,true);
     }
 
     @Override
-    public void deleteCapsule(long id) {
-        removeObjFromTable(id, CAPSULES, CAPSULE, true);
+    public IGenericSubConnection getSouvenirConnection() {
+        return new GenericSubConnection(SOUVENIRS,SOUVENIR,true);
     }
 
     @Override
-    public List<JSONObject> readAllSouvenirs() {
-        return new ArrayList<JSONObject>(loadFile(SOUVENIRS));
+    public IGenericSubConnection getStickerConnection() {
+        return new GenericSubConnection(STICKERS,STICKER,true);
     }
 
     @Override
-    public void createSouvenir(JSONObject jsonObject) {
-        addObjToTable(jsonObject,SOUVENIRS);
+    public IGenericSubConnection getTicketConnection() {
+        return new GenericSubConnection(TICKETS,TICKET,true);
     }
 
     @Override
-    public JSONObject readSouvenir(long id) {
-        return readOneObj(id,readAllSouvenirs(),SOUVENIR);
-    }
-
-    @Override
-    public void updateSouvenir(JSONObject jsonObject) {
-        updateObjInTable(jsonObject,SOUVENIRS,SOUVENIR);
-    }
-
-    @Override
-    public void deleteSouvenir(long id) {
-        removeObjFromTable(id,SOUVENIRS,SOUVENIR,true);
-    }
-
-    @Override
-    public List<JSONObject> readAllSkins() {
-        return new ArrayList<JSONObject>(loadFile(SKINS));
-    }
-
-    @Override
-    public void createSkin(JSONObject jsonObject) {
-        addObjToTable(jsonObject,SKINS);
-    }
-
-    @Override
-    public JSONObject readSkin(long id) {
-        return  readOneObj(id,readAllSkins(),SKIN);
-    }
-
-    @Override
-    public void updateSkin(JSONObject jsonObject) {
-        updateObjInTable(jsonObject,SKINS,SKIN);
-    }
-
-    @Override
-    public void deleteSKin(long id) {
-        removeObjFromTable(id,SKINS,SKIN,true);
-    }
-
-    @Override
-    public List<JSONObject> readAllStickers() {
-        return new ArrayList<JSONObject>(loadFile(STICKERS));
-    }
-
-    @Override
-    public void createSticker(JSONObject jsonObject) {
-        addObjToTable(jsonObject,STICKERS);
-    }
-
-    @Override
-    public JSONObject readSticker(long id) {
-        return readOneObj(id,readAllStickers(),STICKER);
-    }
-
-    @Override
-    public void updateSticker(JSONObject jsonObject) {
-        updateObjInTable(jsonObject,STICKERS,STICKER);
-    }
-
-    @Override
-    public void deleteSticker(long id) {
-        removeObjFromTable(id,STICKERS,STICKER,true);
-    }
-
-    @Override
-    public List<JSONObject> readAllPatches() {
-        return new ArrayList<JSONObject>(loadFile(PATCHES));
-    }
-
-    @Override
-    public void createPatch(JSONObject jsonObject) {
-        addObjToTable(jsonObject,PATCHES);
-    }
-
-    @Override
-    public JSONObject readPatch(long id) {
-        return readOneObj(id,readAllPatches(),PATCH);
-    }
-
-    @Override
-    public void updatePatch(JSONObject jsonObject) {
-        updateObjInTable(jsonObject,PATCHES,PATCH);
-    }
-
-    @Override
-    public void deletePatch(long id) {
-        removeObjFromTable(id,PATCHES,PATCH,true);
-    }
-
-    @Override
-    public List<JSONObject> readAllCases() {
-        return new ArrayList<JSONObject>(loadFile(CASES));
-    }
-
-    @Override
-    public void createCase(JSONObject jsonObject) {
-        addObjToTable(jsonObject,CASES);
-    }
-
-    @Override
-    public JSONObject readCase(long id) {
-        return readOneObj(id,readAllCases(),CASE);
-    }
-
-    @Override
-    public void updateCase(JSONObject jsonObject) {
-        updateObjInTable(jsonObject,CASES,CASE);
-    }
-
-    @Override
-    public void deleteCase(long id) {
-        removeObjFromTable(id,CASES,CASE,true);
-    }
-
-    @Override
-    public List<JSONObject> readAllTickets() {
-        return new ArrayList<JSONObject>(loadFile(TICKETS));
-    }
-
-    @Override
-    public void createTicket(JSONObject jsonObject) {
-        addObjToTable(jsonObject,TICKETS);
-    }
-
-    @Override
-    public JSONObject readTicket(long id) {
-        return readOneObj(id,readAllTickets(),TICKET);
-    }
-
-    @Override
-    public void updateTicket(JSONObject jsonObject) {
-        updateObjInTable(jsonObject,TICKETS,TICKET);
-    }
-
-    @Override
-    public void deleteTicket(long id) {
-        removeObjFromTable(id,TICKETS,TICKET,true);
-    }
-
-    @Override
-    public List<JSONObject> readAllKeys() {
-        return new ArrayList<JSONObject>(loadFile(KEYS));
-    }
-
-    @Override
-    public void createKey(JSONObject jsonObject) {
-        addObjToTable(jsonObject,KEYS);
-    }
-
-    @Override
-    public JSONObject readKey(long id) {
-        return readOneObj(id,readAllKeys(),KEY);
-    }
-
-    @Override
-    public void updateKey(JSONObject jsonObject) {
-        updateObjInTable(jsonObject,KEYS,KEY);
-    }
-
-    @Override
-    public void deleteKey(long id) {
-        removeObjFromTable(id,KEYS,KEY,true);
-    }
-
-    @Override
-    public List<JSONObject> readAllMusicKits() {
-        return new ArrayList<JSONObject>(loadFile(MUSICKITS));
-    }
-
-    @Override
-    public void createMusicKit(JSONObject jsonObject) {
-        addObjToTable(jsonObject,MUSICKITS);
-    }
-
-    @Override
-    public JSONObject readMusicKit(long id) {
-        return readOneObj(id,readAllMusicKits(),MUSICKIT);
-    }
-
-    @Override
-    public void updateMusicKit(JSONObject jsonObject) {
-        updateObjInTable(jsonObject,MUSICKITS,MUSICKIT);
-    }
-
-    @Override
-    public void deleteMusicKit(long id) {
-        removeObjFromTable(id,MUSICKITS,MUSICKIT,true);
-    }
-
-    @Override
-    public List<JSONObject> readAllPins() {
-        return new ArrayList<JSONObject>(loadFile(PINS));
-    }
-
-    @Override
-    public void createPin(JSONObject jsonObject) {
-        addObjToTable(jsonObject,PINS);
-    }
-
-    @Override
-    public JSONObject readPin(long id) {
-        return readOneObj(id,readAllPins(),PIN);
-    }
-
-    @Override
-    public void updatePin(JSONObject jsonObject) {
-        updateObjInTable(jsonObject,PINS,PIN);
-    }
-
-    @Override
-    public void deletePin(long id) {
-        removeObjFromTable(id,PINS,PIN,true);
-    }
-
-    @Override
-    public List<JSONObject> readAllPlayerModels() {
-        return new ArrayList<JSONObject>(loadFile(PLAYERMODELS));
-    }
-
-    @Override
-    public void createPlayerModel(JSONObject jsonObject) {
-        addObjToTable(jsonObject,PLAYERMODELS);
-    }
-
-    @Override
-    public JSONObject readPlayerModel(long id) {
-        return readOneObj(id,readAllPlayerModels(),PLAYERMODEL);
-    }
-
-    @Override
-    public void updatePlayerModel(JSONObject jsonObject) {
-        updateObjInTable(jsonObject,PLAYERMODELS,PLAYERMODEL);
-    }
-
-    @Override
-    public void deletePlayerModel(long id) {
-        removeObjFromTable(id,PLAYERMODELS,PLAYERMODEL,true);
-    }
-
-    @Override
-    public List<JSONObject> readAllGraffities() {
-        return new ArrayList<JSONObject>(loadFile(GRAFFITIES));
-    }
-
-    @Override
-    public void createGraffiti(JSONObject jsonObject) {
-        addObjToTable(jsonObject,GRAFFITIES);
-    }
-
-    @Override
-    public JSONObject readGraffiti(long id) {
-        return readOneObj(id,readAllPlayerModels(),GRAFFITI);
-    }
-
-    @Override
-    public void updateGraffiti(JSONObject jsonObject) {
-        updateObjInTable(jsonObject,GRAFFITIES,GRAFFITI);
-    }
-
-    @Override
-    public void deleteGraffiti(long id) {
-        removeObjFromTable(id,GRAFFITIES,GRAFFITI,true);
+    public IGenericSubConnection getVaultConnection() {
+        return new GenericSubConnection(VAULTS,VAULT,false);
     }
 }

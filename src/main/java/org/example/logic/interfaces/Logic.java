@@ -1,10 +1,11 @@
 package org.example.logic.interfaces;
 
 import org.example.data.interfaces.IDataFacade;
-import org.example.logic.interfaces.dto.IMusicKit;
+import org.example.logic.interfaces.dto.*;
 import org.example.logic.interfaces.dto.comps.Displayable;
-import org.example.logic.interfaces.dto.IVault;
+import org.example.logic.interfaces.dto.comps.Identifiable;
 import org.example.logic.interfaces.sub.*;
+import org.example.logic.sub.GenericDomain;
 
 import java.util.List;
 
@@ -14,27 +15,28 @@ public interface Logic {
 
     IDataFacade getDataFacade();
     IFileHandler getFileHandler();
-    Factory getFactory();
+    IFactory getFactory();
+    IActionWriter getActionWriter();
 
     String getVersion();
     String getAppName();
 
-    IVaultDomain getVaultDomain();
-    ICapsuleDomain getCapsuleDomain();
-    IStickerDomain getStickerDomain();
-    ISkinDomain getSkinDomain();
-    ISouvenirCaseDomain getSouvenirCaseDomain();
-    IPatchDomain getPatchDomain();
-    ICaseDomain getCaseDomain();
-    ITicketDomain getTicketDomain();
-    IKeyDomain getKeyDomain();
-    IMusicKitDomain getMusicKitDomain();
-    IPinDomain getPinDomain();
-    IPlayerModelDomain getPlayerModelDomain();
-    IGraffitiDomain getGraffitiDomain();
+    IGenericDomain getVaultDomain();
+    IGenericDomain getCapsuleDomain();
+    IGenericDomain getStickerDomain();
+    IGenericDomain getSkinDomain();
+    IGenericDomain getSouvenirCaseDomain();
+    IGenericDomain getPatchDomain();
+    IGenericDomain getCaseDomain();
+    IGenericDomain getTicketDomain();
+    IGenericDomain getKeyDomain();
+    IGenericDomain getMusicKitDomain();
+    IGenericDomain getPinDomain();
+    IGenericDomain getPlayerModelDomain();
+    IGenericDomain getGraffitiDomain();
 
     void setSelectedVault(IVault vault);
     IVault getSelectedVault();
 
-    List<Displayable> readAllItems();
+    List<Identifiable> readAllItems();
 }

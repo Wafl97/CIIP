@@ -1,16 +1,16 @@
 package org.example.logic.dto;
 
+import org.example.logic.Domain;
 import org.example.logic.interfaces.dto.IKey;
 import org.example.logic.interfaces.dto.comps.Identifiable;
-import org.example.logic.interfaces.sub.IKeyDomain;
-import org.example.logic.sub.KeyDomain;
+import org.example.logic.interfaces.sub.IGenericDomain;
 import org.json.simple.JSONObject;
 
 import static org.example.util.Attributes.*;
 
 public final class Key extends GenericItem<IKey> implements IKey {
 
-    private static final IKeyDomain KEY_DOMAIN = KeyDomain.getInstance();
+    private static final IGenericDomain KEY_DOMAIN = Domain.getInstance().getKeyDomain();
 
     public Key() {
         super(KEY);
@@ -31,7 +31,7 @@ public final class Key extends GenericItem<IKey> implements IKey {
     @Override
     public long findMaxID() {
         long maxValue = 0;
-        for (Identifiable item : KEY_DOMAIN.readAllKeys()){
+        for (Identifiable item : KEY_DOMAIN.readAll()){
             if (item.getId() > maxValue) maxValue = item.getId();
         }
         return maxValue;

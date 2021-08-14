@@ -1,16 +1,16 @@
 package org.example.logic.dto;
 
+import org.example.logic.Domain;
 import org.example.logic.interfaces.dto.ICapsule;
 import org.example.logic.interfaces.dto.comps.Identifiable;
-import org.example.logic.interfaces.sub.ICapsuleDomain;
-import org.example.logic.sub.CapsuleDomain;
+import org.example.logic.interfaces.sub.IGenericDomain;
 import org.json.simple.JSONObject;
 
 import static org.example.util.Attributes.*;
 
 public final class Capsule extends GenericItem<ICapsule> implements ICapsule {
 
-    private static final ICapsuleDomain CAPSULE_DOMAIN = CapsuleDomain.getInstance();
+    private static final IGenericDomain CAPSULE_DOMAIN = Domain.getInstance().getCapsuleDomain();
 
     public Capsule() {
         super(CAPSULE);
@@ -31,7 +31,7 @@ public final class Capsule extends GenericItem<ICapsule> implements ICapsule {
     @Override
     public long findMaxID() {
         long maxValue = 0;
-        for (Identifiable capsule : CAPSULE_DOMAIN.readAllCapsules()) {
+        for (Identifiable capsule : CAPSULE_DOMAIN.readAll()) {
             if (capsule.getId() > maxValue) maxValue = capsule.getId();
         }
         return maxValue;

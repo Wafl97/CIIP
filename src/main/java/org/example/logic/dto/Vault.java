@@ -1,10 +1,10 @@
 package org.example.logic.dto;
 
+import org.example.logic.Domain;
 import org.example.logic.interfaces.dto.*;
 import org.example.logic.interfaces.dto.comps.Displayable;
 import org.example.logic.interfaces.dto.comps.Identifiable;
 import org.example.logic.interfaces.sub.*;
-import org.example.logic.sub.*;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -20,19 +20,19 @@ public final class Vault implements IVault {
     private Map<Displayable,Long> containers;
     private String name;
 
-    private static final IVaultDomain VAULT_DOMAIN = VaultDomain.getInstance();
-    private static final ICapsuleDomain CAPSULE_DOMAIN = CapsuleDomain.getInstance();
-    private static final IStickerDomain STICKER_DOMAIN = StickerDomain.getInstance();
-    private static final ISkinDomain SKIN_DOMAIN = SkinDomain.getInstance();
-    private static final ISouvenirCaseDomain SOUVENIR_CASE_DOMAIN = SouvenirCaseDomain.getInstance();
-    private static final IPatchDomain PATCH_DOMAIN = PatchDomain.getInstance();
-    private static final ICaseDomain CASE_DOMAIN = CaseDomain.getInstance();
-    private static final ITicketDomain TICKET_DOMAIN = TicketDomain.getInstance();
-    private static final IKeyDomain KEY_DOMAIN = KeyDomain.getInstance();
-    private static final IMusicKitDomain MUSIC_KIT_DOMAIN = MusicKitDomain.getInstance();
-    private static final IPinDomain PIN_DOMAIN = PinDomain.getInstance();
-    private static final IPlayerModelDomain PLAYER_MODEL_DOMAIN = PlayerModelDomain.getInstance();
-    private static final IGraffitiDomain GRAFFITI_DOMAIN = GraffitiDomain.getInstance();
+    private static final IGenericDomain VAULT_DOMAIN =          Domain.getInstance().getVaultDomain();
+    private static final IGenericDomain CAPSULE_DOMAIN =        Domain.getInstance().getCapsuleDomain();
+    private static final IGenericDomain STICKER_DOMAIN =        Domain.getInstance().getStickerDomain();
+    private static final IGenericDomain SKIN_DOMAIN =           Domain.getInstance().getSkinDomain();
+    private static final IGenericDomain SOUVENIR_CASE_DOMAIN =  Domain.getInstance().getSouvenirCaseDomain();
+    private static final IGenericDomain PATCH_DOMAIN =          Domain.getInstance().getPatchDomain();
+    private static final IGenericDomain CASE_DOMAIN =           Domain.getInstance().getCaseDomain();
+    private static final IGenericDomain TICKET_DOMAIN =         Domain.getInstance().getTicketDomain();
+    private static final IGenericDomain KEY_DOMAIN =            Domain.getInstance().getKeyDomain();
+    private static final IGenericDomain MUSIC_KIT_DOMAIN =      Domain.getInstance().getMusicKitDomain();
+    private static final IGenericDomain PIN_DOMAIN =            Domain.getInstance().getPinDomain();
+    private static final IGenericDomain PLAYER_MODEL_DOMAIN =   Domain.getInstance().getPlayerModelDomain();
+    private static final IGenericDomain GRAFFITI_DOMAIN =       Domain.getInstance().getGraffitiDomain();
 
     public Vault() {
         containers = new HashMap<>();
@@ -235,62 +235,62 @@ public final class Vault implements IVault {
         //Add Capsules
         for (Object o : (JSONArray) innerObj.get(CAPSULES.toString())){
             JSONObject capsule = (JSONObject) ((JSONObject) o).get(CAPSULE.toString());
-            containers.put(CAPSULE_DOMAIN.readCapsule((long) capsule.get(ID.toString())), (long) capsule.get(AMOUNT.toString()));
+            containers.put((Displayable) CAPSULE_DOMAIN.read((long) capsule.get(ID.toString())), (long) capsule.get(AMOUNT.toString()));
         }
         //Add Skins
         for (Object o : (JSONArray) innerObj.get(SKINS.toString())){
             JSONObject skin = (JSONObject) ((JSONObject) o).get(SKIN.toString());
-            containers.put(SKIN_DOMAIN.readSkin((long) skin.get(ID.toString())), (long) skin.get(AMOUNT.toString()));
+            containers.put((Displayable) SKIN_DOMAIN.read((long) skin.get(ID.toString())), (long) skin.get(AMOUNT.toString()));
         }
         //Add Stickers
         for (Object o : (JSONArray) innerObj.get(STICKERS.toString())){
             JSONObject sticker = (JSONObject) ((JSONObject) o).get(STICKER.toString());
-            containers.put(STICKER_DOMAIN.readSticker((long) sticker.get(ID.toString())), (long) sticker.get(AMOUNT.toString()));
+            containers.put((Displayable) STICKER_DOMAIN.read((long) sticker.get(ID.toString())), (long) sticker.get(AMOUNT.toString()));
         }
         //Add SouvenirCases
         for (Object o : (JSONArray) innerObj.get(SOUVENIRS.toString())){
             JSONObject souvenir = (JSONObject) ((JSONObject) o).get(SOUVENIR.toString());
-            containers.put(SOUVENIR_CASE_DOMAIN.readSouvenirCase((long) souvenir.get(ID.toString())), (long) souvenir.get(AMOUNT.toString()));
+            containers.put((Displayable) SOUVENIR_CASE_DOMAIN.read((long) souvenir.get(ID.toString())), (long) souvenir.get(AMOUNT.toString()));
         }
         //Add Patches
         for (Object o : (JSONArray) innerObj.get(PATCHES.toString())){
             JSONObject patch = (JSONObject) ((JSONObject) o).get(PATCH.toString());
-            containers.put(PATCH_DOMAIN.readPatch((long) patch.get(ID.toString())), (long) patch.get(AMOUNT.toString()));
+            containers.put((Displayable) PATCH_DOMAIN.read((long) patch.get(ID.toString())), (long) patch.get(AMOUNT.toString()));
         }
         //Add Cases
         for (Object o : (JSONArray) innerObj.get(CASES.toString())){
             JSONObject _case = (JSONObject) ((JSONObject) o).get(CASE.toString());
-            containers.put(CASE_DOMAIN.readCase((long) _case.get(ID.toString())), (long) _case.get(AMOUNT.toString()));
+            containers.put((Displayable) CASE_DOMAIN.read((long) _case.get(ID.toString())), (long) _case.get(AMOUNT.toString()));
         }
         //Add Tickets
         for (Object o : (JSONArray) innerObj.get(TICKETS.toString())){
             JSONObject ticket = (JSONObject) ((JSONObject) o).get(TICKET.toString());
-            containers.put(TICKET_DOMAIN.readTicket((long) ticket.get(ID.toString())), (long) ticket.get(AMOUNT.toString()));
+            containers.put((Displayable) TICKET_DOMAIN.read((long) ticket.get(ID.toString())), (long) ticket.get(AMOUNT.toString()));
         }
         //Add Keys
         for (Object o : (JSONArray) innerObj.get(KEYS.toString())){
             JSONObject key = (JSONObject) ((JSONObject) o).get(KEY.toString());
-            containers.put(KEY_DOMAIN.readKey((long) key.get(ID.toString())), (long) key.get(AMOUNT.toString()));
+            containers.put((Displayable) KEY_DOMAIN.read((long) key.get(ID.toString())), (long) key.get(AMOUNT.toString()));
         }
         //Add MusicKits
         for (Object o : (JSONArray) innerObj.get(MUSICKITS.toString())){
             JSONObject musicKit = (JSONObject) ((JSONObject) o).get(MUSICKIT.toString());
-            containers.put(MUSIC_KIT_DOMAIN.readMusicKit((long) musicKit.get(ID.toString())), (long) musicKit.get(AMOUNT.toString()));
+            containers.put((Displayable) MUSIC_KIT_DOMAIN.read((long) musicKit.get(ID.toString())), (long) musicKit.get(AMOUNT.toString()));
         }
         //Add Pins
         for (Object o : (JSONArray) innerObj.get(PINS.toString())){
             JSONObject pin = (JSONObject) ((JSONObject) o).get(PIN.toString());
-            containers.put(PIN_DOMAIN.readPin((long) pin.get(ID.toString())), (long) pin.get(AMOUNT.toString()));
+            containers.put((Displayable) PIN_DOMAIN.read((long) pin.get(ID.toString())), (long) pin.get(AMOUNT.toString()));
         }
         //Add PlayerModels
         for (Object o : (JSONArray) innerObj.get(PLAYERMODELS.toString())){
             JSONObject playerModel = (JSONObject) ((JSONObject) o).get(PLAYERMODEL.toString());
-            containers.put(PLAYER_MODEL_DOMAIN.readPlayerModel((long) playerModel.get(ID.toString())), (long) playerModel.get(AMOUNT.toString()));
+            containers.put((Displayable) PLAYER_MODEL_DOMAIN.read((long) playerModel.get(ID.toString())), (long) playerModel.get(AMOUNT.toString()));
         }
         //Add Graffities
         for (Object o : (JSONArray) innerObj.get(GRAFFITIES.toString())){
             JSONObject graffiti = (JSONObject) ((JSONObject) o).get(GRAFFITI.toString());
-            containers.put(GRAFFITI_DOMAIN.readGraffiti((long) graffiti.get(ID.toString())), (long) graffiti.get(AMOUNT.toString()));
+            containers.put((Displayable) GRAFFITI_DOMAIN.read((long) graffiti.get(ID.toString())), (long) graffiti.get(AMOUNT.toString()));
         }
         return this;
     }
@@ -298,7 +298,7 @@ public final class Vault implements IVault {
     @Override
     public long findMaxID() {
         long maxValue = 0;
-        for (Identifiable investment : VAULT_DOMAIN.readAllVaults()) {
+        for (Identifiable investment : VAULT_DOMAIN.readAll()) {
             if (investment.getId() > maxValue) maxValue = investment.getId();
         }
         return maxValue;

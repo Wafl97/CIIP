@@ -17,6 +17,7 @@ import javafx.scene.image.ImageView;
 
 import org.example.logic.interfaces.dto.comps.Displayable;
 import org.example.logic.interfaces.dto.IVault;
+import org.example.logic.interfaces.dto.comps.Identifiable;
 import org.example.util.ConsoleColors;
 
 public class MainController extends App implements Initializable {
@@ -90,7 +91,11 @@ public class MainController extends App implements Initializable {
                 }
             }
         });
-        allVaults = DOMAIN.getVaultDomain().readAllVaults();
+        allVaults = new ArrayList<>();
+        for (Identifiable item : DOMAIN.getVaultDomain().readAll()){
+            IVault displayable = (IVault) item;
+            allVaults.add(displayable);
+        }
         investmentListView.setItems(FXCollections.observableList(allVaults));
 
         //===Labels=====================================================================================================
@@ -100,7 +105,7 @@ public class MainController extends App implements Initializable {
     private void deleteInvestment() {
         int vault_id = investmentListView.getSelectionModel().getSelectedIndex();
         IVault vault = investmentListView.getItems().get(vault_id);
-        DOMAIN.getVaultDomain().deleteVault(vault.getId());
+        DOMAIN.getVaultDomain().delete(vault.getId());
         investmentListView.getItems().remove(vault);
         itemListView.getItems().clear();
         investmentListView.refresh();

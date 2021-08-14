@@ -6,4 +6,7 @@ public interface Identifiable {
     void setId(long id);
 
     long findMaxID();
+
+    String getName();
+    void setName(String name);
 }

@@ -10,8 +10,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 
 import org.example.logic.interfaces.dto.*;
+import org.example.logic.interfaces.dto.comps.Convertible;
 import org.example.logic.interfaces.dto.comps.Displayable;
 import org.example.logic.interfaces.dto.comps.Identifiable;
+import org.example.util.Attributes;
 import org.example.util.ConsoleColors;
 
 import java.io.File;
@@ -99,8 +101,9 @@ public class ItemController extends App implements Initializable {
             }
         });
 
-        for (Displayable item : DOMAIN.readAllItems()){
-            itemsListView.getItems().add(item);
+        for (Identifiable item : DOMAIN.readAllItems()){
+            Displayable displayable = (Displayable) item;
+            itemsListView.getItems().add(displayable);
         }
         itemsListView.setDisable(getOperation() == CREATE);
     }
@@ -157,7 +160,7 @@ public class ItemController extends App implements Initializable {
                     statTrack,
                     souvenir
             );
-            DOMAIN.getSkinDomain().updateSkin((ISkin) loadedItem);
+            DOMAIN.getSkinDomain().update((ISkin) loadedItem);
         }
         else if (loadedItem instanceof ICapsule) {
             ((ICapsule) loadedItem).populate(
@@ -167,7 +170,7 @@ public class ItemController extends App implements Initializable {
                     imageName,
                     link
             );
-            DOMAIN.getCapsuleDomain().updateCapsule((ICapsule) loadedItem);
+            DOMAIN.getCapsuleDomain().update((ICapsule) loadedItem);
         }
         else if (loadedItem instanceof ISouvenirCase) {
             ((ISouvenirCase) loadedItem).populate(
@@ -177,7 +180,7 @@ public class ItemController extends App implements Initializable {
                     imageName,
                     link
             );
-            DOMAIN.getSouvenirCaseDomain().updateSouvenirCase((ISouvenirCase) loadedItem);
+            DOMAIN.getSouvenirCaseDomain().update((ISouvenirCase) loadedItem);
         }
         else if (loadedItem instanceof ISticker){
             ((ISticker) loadedItem).populate(
@@ -187,7 +190,7 @@ public class ItemController extends App implements Initializable {
                     imageName,
                     link
             );
-            DOMAIN.getStickerDomain().updateSticker((ISticker) loadedItem);
+            DOMAIN.getStickerDomain().update((ISticker) loadedItem);
         }
         else if (loadedItem instanceof IPatch){
             ((IPatch) loadedItem).populate(
@@ -197,7 +200,7 @@ public class ItemController extends App implements Initializable {
                     imageName,
                     link
             );
-            DOMAIN.getPatchDomain().updatePatch((IPatch) loadedItem);
+            DOMAIN.getPatchDomain().update((IPatch) loadedItem);
         }
         else if (loadedItem instanceof ICase){
             ((ICase) loadedItem).populate(
@@ -207,7 +210,7 @@ public class ItemController extends App implements Initializable {
                     imageName,
                     link
             );
-            DOMAIN.getCaseDomain().updateCase((ICase) loadedItem);
+            DOMAIN.getCaseDomain().update((ICase) loadedItem);
         }
         else if (loadedItem instanceof ITicket){
             ((ITicket) loadedItem).populate(
@@ -217,7 +220,7 @@ public class ItemController extends App implements Initializable {
                     imageName,
                     link
             );
-            DOMAIN.getTicketDomain().updateTicket((ITicket) loadedItem);
+            DOMAIN.getTicketDomain().update((ITicket) loadedItem);
         }
         else if (loadedItem instanceof IKey){
             ((IKey) loadedItem).populate(
@@ -227,7 +230,7 @@ public class ItemController extends App implements Initializable {
                     imageName,
                     link
             );
-            DOMAIN.getKeyDomain().updateKey((IKey) loadedItem);
+            DOMAIN.getKeyDomain().update((IKey) loadedItem);
         }
         else if (loadedItem instanceof IMusicKit){
             ((IMusicKit) loadedItem).populate(
@@ -237,7 +240,7 @@ public class ItemController extends App implements Initializable {
                     imageName,
                     link
             );
-            DOMAIN.getMusicKitDomain().updateMusicKit((IMusicKit) loadedItem);
+            DOMAIN.getMusicKitDomain().update((IMusicKit) loadedItem);
         }
         else if (loadedItem instanceof IPin){
             ((IPin) loadedItem).populate(
@@ -247,7 +250,7 @@ public class ItemController extends App implements Initializable {
                     imageName,
                     link
             );
-            DOMAIN.getPinDomain().updatePin((IPin) loadedItem);
+            DOMAIN.getPinDomain().update((IPin) loadedItem);
         }
         else if (loadedItem instanceof IPlayerModel){
             ((IPlayerModel) loadedItem).populate(
@@ -257,7 +260,7 @@ public class ItemController extends App implements Initializable {
                     imageName,
                     link
             );
-            DOMAIN.getPlayerModelDomain().updatePlayerModel((IPlayerModel) loadedItem);
+            DOMAIN.getPlayerModelDomain().update((IPlayerModel) loadedItem);
         }
         else if (loadedItem instanceof IGraffiti){
             ((IGraffiti) loadedItem).populate(
@@ -267,7 +270,7 @@ public class ItemController extends App implements Initializable {
                     imageName,
                     link
             );
-            DOMAIN.getGraffitiDomain().updateKGraffiti((IGraffiti) loadedItem);
+            DOMAIN.getGraffitiDomain().update((IGraffiti) loadedItem);
         }
         else {
             throw new IllegalStateException("No Item type selected");
@@ -275,8 +278,10 @@ public class ItemController extends App implements Initializable {
     }
 
     private void createItem(){
+        Convertible item = DOMAIN.getFactory().makeNew((Attributes) radioToggle.getSelectedToggle().getUserData());
         if (radioToggle.getSelectedToggle().getUserData() == SKIN){
-            DOMAIN.getSkinDomain().createSkin(DOMAIN.getFactory().emptySkin().populate(
+            ISkin s = (ISkin) item;
+            DOMAIN.getSkinDomain().create(s.populate(
                     -1,
                     priceSpinner.getValue(),
                     nameTextField.getText(),
@@ -288,7 +293,8 @@ public class ItemController extends App implements Initializable {
             ));
         }
         else if (radioToggle.getSelectedToggle().getUserData() == CAPSULE){
-            DOMAIN.getCapsuleDomain().createCapsule(DOMAIN.getFactory().emptyCapsule().populate(
+            ICapsule c = (ICapsule) item;
+            DOMAIN.getCapsuleDomain().create(c.populate(
                     -1,
                     priceSpinner.getValue(),
                     nameTextField.getText(),
@@ -297,7 +303,8 @@ public class ItemController extends App implements Initializable {
             ));
         }
         else if (radioToggle.getSelectedToggle().getUserData() == SOUVENIR){
-            DOMAIN.getSouvenirCaseDomain().createSouvenirCase(DOMAIN.getFactory().emptySouvenirCase().populate(
+            ISouvenirCase s = (ISouvenirCase) item;
+            DOMAIN.getSouvenirCaseDomain().create(s.populate(
                     -1,
                     priceSpinner.getValue(),
                     nameTextField.getText(),
@@ -306,7 +313,8 @@ public class ItemController extends App implements Initializable {
             ));
         }
         else if (radioToggle.getSelectedToggle().getUserData() == STICKER){
-            DOMAIN.getStickerDomain().createSticker(DOMAIN.getFactory().emptySticker().populate(
+            ISticker s = (ISticker) item;
+            DOMAIN.getStickerDomain().create(s.populate(
                     -1,
                     priceSpinner.getValue(),
                     nameTextField.getText(),
@@ -315,7 +323,8 @@ public class ItemController extends App implements Initializable {
             ));
         }
         else if (radioToggle.getSelectedToggle().getUserData() == PATCH){
-            DOMAIN.getPatchDomain().createPatch(DOMAIN.getFactory().emptyPatch().populate(
+            IPatch p = (IPatch) item;
+            DOMAIN.getPatchDomain().create(p.populate(
                     -1,
                     priceSpinner.getValue(),
                     nameTextField.getText(),
@@ -324,7 +333,8 @@ public class ItemController extends App implements Initializable {
             ));
         }
         else if (radioToggle.getSelectedToggle().getUserData() == CASE){
-            DOMAIN.getCaseDomain().createCase(DOMAIN.getFactory().emptyCase().populate(
+            ICase c = (ICase) item;
+            DOMAIN.getCaseDomain().create(c.populate(
                     -1,
                     priceSpinner.getValue(),
                     nameTextField.getText(),
@@ -333,7 +343,8 @@ public class ItemController extends App implements Initializable {
             ));
         }
         else if (radioToggle.getSelectedToggle().getUserData() == TICKET){
-            DOMAIN.getTicketDomain().createTicket(DOMAIN.getFactory().emptyTicket().populate(
+            ITicket t = (ITicket) item;
+            DOMAIN.getTicketDomain().create(t.populate(
                     -1,
                     priceSpinner.getValue(),
                     nameTextField.getText(),
@@ -342,7 +353,8 @@ public class ItemController extends App implements Initializable {
             ));
         }
         else if (radioToggle.getSelectedToggle().getUserData() == KEY){
-            DOMAIN.getKeyDomain().createKey(DOMAIN.getFactory().emptyKey().populate(
+            IKey k = (IKey) item;
+            DOMAIN.getKeyDomain().create(k.populate(
                     -1,
                     priceSpinner.getValue(),
                     nameTextField.getText(),
@@ -351,7 +363,8 @@ public class ItemController extends App implements Initializable {
             ));
         }
         else if (radioToggle.getSelectedToggle().getUserData() == MUSICKIT){
-            DOMAIN.getMusicKitDomain().createMusicKit(DOMAIN.getFactory().emptyMusicKit().populate(
+            IMusicKit m = (IMusicKit) item;
+            DOMAIN.getMusicKitDomain().create(m.populate(
                     -1,
                     priceSpinner.getValue(),
                     nameTextField.getText(),
@@ -360,7 +373,8 @@ public class ItemController extends App implements Initializable {
             ));
         }
         else if (radioToggle.getSelectedToggle().getUserData() == PIN){
-            DOMAIN.getPinDomain().createPin(DOMAIN.getFactory().emptyPin().populate(
+            IPin p = (IPin) item;
+            DOMAIN.getPinDomain().create(p.populate(
                     -1,
                     priceSpinner.getValue(),
                     nameTextField.getText(),
@@ -369,7 +383,8 @@ public class ItemController extends App implements Initializable {
             ));
         }
         else if (radioToggle.getSelectedToggle().getUserData() == PLAYERMODEL){
-            DOMAIN.getPlayerModelDomain().createPlayerModel(DOMAIN.getFactory().emptyPlayerModel().populate(
+            IPlayerModel p = (IPlayerModel) item;
+            DOMAIN.getPlayerModelDomain().create(p.populate(
                     -1,
                     priceSpinner.getValue(),
                     nameTextField.getText(),
@@ -378,7 +393,8 @@ public class ItemController extends App implements Initializable {
             ));
         }
         else if (radioToggle.getSelectedToggle().getUserData() == GRAFFITI){
-            DOMAIN.getGraffitiDomain().createGraffiti(DOMAIN.getFactory().emptyGraffiti().populate(
+            IGraffiti g = (IGraffiti) item;
+            DOMAIN.getGraffitiDomain().create(g.populate(
                     -1,
                     priceSpinner.getValue(),
                     nameTextField.getText(),
@@ -396,40 +412,40 @@ public class ItemController extends App implements Initializable {
         Identifiable item = itemsListView.getSelectionModel().getSelectedItem();
         if (item != null){
             if (item instanceof ISkin){
-                DOMAIN.getSkinDomain().deleteSkin(item.getId());
+                DOMAIN.getSkinDomain().delete(item.getId());
             }
             else if (item instanceof ICapsule){
-                DOMAIN.getCapsuleDomain().deleteCapsule(item.getId());
+                DOMAIN.getCapsuleDomain().delete(item.getId());
             }
             else if (item instanceof ISouvenirCase) {
-                DOMAIN.getSouvenirCaseDomain().deleteSouvenirCase(item.getId());
+                DOMAIN.getSouvenirCaseDomain().delete(item.getId());
             }
             else if(item instanceof ISticker){
-                DOMAIN.getStickerDomain().deleteSticker(item.getId());
+                DOMAIN.getStickerDomain().delete(item.getId());
             }
             else if (item instanceof IPatch){
-                DOMAIN.getPatchDomain().deletePatch(item.getId());
+                DOMAIN.getPatchDomain().delete(item.getId());
             }
             else if (item instanceof ICase){
-                DOMAIN.getCaseDomain().deleteCase(item.getId());
+                DOMAIN.getCaseDomain().delete(item.getId());
             }
             else if (item instanceof ITicket){
-                DOMAIN.getTicketDomain().deleteTicket(item.getId());
+                DOMAIN.getTicketDomain().delete(item.getId());
             }
             else if (item instanceof IKey){
-                DOMAIN.getKeyDomain().deleteKey(item.getId());
+                DOMAIN.getKeyDomain().delete(item.getId());
             }
             else if (item instanceof IMusicKit){
-                DOMAIN.getMusicKitDomain().deleteMusicKit(item.getId());
+                DOMAIN.getMusicKitDomain().delete(item.getId());
             }
             else if (item instanceof IPin){
-                DOMAIN.getPinDomain().deletePin(item.getId());
+                DOMAIN.getPinDomain().delete(item.getId());
             }
             else if (item instanceof IPlayerModel){
-                DOMAIN.getPlayerModelDomain().deletePlayerModel(item.getId());
+                DOMAIN.getPlayerModelDomain().delete(item.getId());
             }
             else if (item instanceof IGraffiti){
-                DOMAIN.getGraffitiDomain().deleteGraffiti(item.getId());
+                DOMAIN.getGraffitiDomain().delete(item.getId());
             }
             itemsListView.getItems().remove(item);
         }

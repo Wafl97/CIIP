@@ -1,41 +1,48 @@
 package org.example.util;
 
 public enum Attributes {
-    AMOUNT,
-    CAPSULE,
-    CAPSULES,
-    CASE,
-    CASES,
-    GRAFFITI,
-    GRAFFITIES,
-    ID,
-    IMAGE,
-    INIT_PRICE,
-    KEY,
-    KEYS,
-    MUSICKIT,
-    MUSICKITS,
-    NAME,
-    PATCH,
-    PATCHES,
-    PIN,
-    PINS,
-    PLAYERMODEL,
-    PLAYERMODELS,
-    SKIN,
-    SKINS,
-    SOUVENIR,
-    SOUVENIRS,
-    STASH_LINK,
-    STATTRAK,
-    STICKER,
-    STICKERS,
-    TICKET,
-    TICKETS,
-    VAULT,
-    VAULTS,
-    WEAR_FLOAT;
+    AMOUNT("Amount"),
+    CAPSULE("Capsule"),
+    CAPSULES("Capsules"),
+    CASE("Case"),
+    CASES("Cases"),
+    GRAFFITI("Graffiti"),
+    GRAFFITIES("Graffities"),
+    ID("ID"),
+    IMAGE("Image"),
+    INIT_PRICE("InitialPrice"),
+    KEY("Key"),
+    KEYS("Keys"),
+    MUSICKIT("MusicKit"),
+    MUSICKITS("MusicKits"),
+    NAME("Name"),
+    PATCH("Patch"),
+    PATCHES("Patches"),
+    PIN("Pin"),
+    PINS("Pins"),
+    PLAYERMODEL("PlayerModel"),
+    PLAYERMODELS("PlayerModeles"),
+    SKIN("Skin"),
+    SKINS("Skins"),
+    SOUVENIR("Souvenir"),
+    SOUVENIRS("Souvenirs"),
+    STASH_LINK("StashLink"),
+    STATTRAK("StatTrak"),
+    STICKER("Stickers"),
+    STICKERS("Sticker"),
+    TICKET("Ticker"),
+    TICKETS("Tickets"),
+    VAULT("Vault"),
+    VAULTS("Vaults"),
+    WEAR_FLOAT("WearFloat");
 
-    Attributes() {
+    Attributes(String norm) {
+        this.norm = norm;
+    }
+
+    private final String norm;
+
+    public String toNorm(){
+        return norm;
     }
 }

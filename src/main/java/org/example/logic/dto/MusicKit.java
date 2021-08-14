@@ -1,16 +1,16 @@
 package org.example.logic.dto;
 
+import org.example.logic.Domain;
 import org.example.logic.interfaces.dto.IMusicKit;
 import org.example.logic.interfaces.dto.comps.Identifiable;
-import org.example.logic.interfaces.sub.IMusicKitDomain;
-import org.example.logic.sub.MusicKitDomain;
+import org.example.logic.interfaces.sub.IGenericDomain;
 import org.json.simple.JSONObject;
 
 import static org.example.util.Attributes.*;
 
 public final class MusicKit extends GenericItem<IMusicKit> implements IMusicKit{
 
-    private static final IMusicKitDomain MUSIC_KIT_DOMAIN = MusicKitDomain.getInstance();
+    private static final IGenericDomain MUSIC_KIT_DOMAIN = Domain.getInstance().getMusicKitDomain();
 
     public MusicKit() {
         super(MUSICKIT);
@@ -31,7 +31,7 @@ public final class MusicKit extends GenericItem<IMusicKit> implements IMusicKit{
     @Override
     public long findMaxID() {
         long maxValue = 0;
-        for (Identifiable item : MUSIC_KIT_DOMAIN.readAllMusicKits()){
+        for (Identifiable item : MUSIC_KIT_DOMAIN.readAll()){
             if (item.getId() > maxValue) maxValue = item.getId();
         }
         return maxValue;

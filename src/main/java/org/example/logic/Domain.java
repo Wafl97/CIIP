@@ -3,10 +3,11 @@ package org.example.logic;
 import org.example.data.DataFacade;
 import org.example.data.interfaces.IDataFacade;
 import org.example.logic.interfaces.*;
+import org.example.logic.interfaces.dto.*;
 import org.example.logic.interfaces.dto.comps.Displayable;
-import org.example.logic.interfaces.dto.IVault;
+import org.example.logic.interfaces.dto.comps.Identifiable;
 import org.example.logic.interfaces.sub.*;
-import org.example.logic.sub.*;
+import org.example.logic.sub.GenericDomain;
 import org.example.util.ConsoleColors;
 
 import java.io.BufferedReader;
@@ -15,27 +16,30 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.example.util.Attributes.*;
+
 public final class Domain implements Logic {
 
     private static Domain instance;
 
     private static IDataFacade DATA_FACADE;
-    private static Factory CREATOR;
+    private static IFactory CREATOR;
     private static IFileHandler FILE_HANDLER;
+    private static IActionWriter WRITER;
 
-    private static IVaultDomain VAULT_DOMAIN;
-    private static ICapsuleDomain CAPSULE_DOMAIN;
-    private static ISkinDomain SKIN_DOMAIN;
-    private static ISouvenirCaseDomain SOUVENIR_CASE_DOMAIN;
-    private static IStickerDomain STICKER_DOMAIN;
-    private static IPatchDomain PATCH_DOMAIN;
-    private static ICaseDomain CASE_DOMAIN;
-    private static ITicketDomain TICKET_DOMAIN;
-    private static IKeyDomain KEY_DOMAIN;
-    private static IMusicKitDomain MUSIC_KIT_DOMAIN;
-    private static IPinDomain PIN_DOMAIN;
-    private static IPlayerModelDomain PLAYER_MODEL_DOMAIN;
-    private static IGraffitiDomain GRAFFITI_DOMAIN;
+    private static IGenericDomain VAULT_DOMAIN;
+    private static IGenericDomain CAPSULE_DOMAIN;
+    private static IGenericDomain SKIN_DOMAIN;
+    private static IGenericDomain SOUVENIR_CASE_DOMAIN;
+    private static IGenericDomain STICKER_DOMAIN;
+    private static IGenericDomain PATCH_DOMAIN;
+    private static IGenericDomain CASE_DOMAIN;
+    private static IGenericDomain TICKET_DOMAIN;
+    private static IGenericDomain KEY_DOMAIN;
+    private static IGenericDomain MUSIC_KIT_DOMAIN;
+    private static IGenericDomain PIN_DOMAIN;
+    private static IGenericDomain PLAYER_MODEL_DOMAIN;
+    private static IGenericDomain GRAFFITI_DOMAIN;
 
     private IVault selectedVault;
 
@@ -76,40 +80,43 @@ public final class Domain implements Logic {
         System.out.println(ConsoleColors.PURPLE + "\nStarting Main Logic\n" + ConsoleColors.RESET);
 
         System.out.println(ConsoleColors.YELLOW + "\t - Getting Factory" + ConsoleColors.RESET);
-        CREATOR = StructureCreator.getInstance();
+        CREATOR = Factory.getInstance();
 
         System.out.println(ConsoleColors.YELLOW + "\t - Getting FileHandler" + ConsoleColors.RESET);
         FILE_HANDLER = FileHandler.getInstance();
+
+        System.out.println(ConsoleColors.YELLOW + "\t - Getting ActionWriter" + ConsoleColors.RESET);
+        WRITER = ActionWriter.getInstance();
 
         System.out.println(ConsoleColors.YELLOW + "\t - Getting DataFacade" + ConsoleColors.RESET);
         DATA_FACADE = DataFacade.getInstance();
 
         System.out.println(ConsoleColors.YELLOW + "\t - Getting SubDomains" + ConsoleColors.RESET);
-        VAULT_DOMAIN = VaultDomain.getInstance();
+        VAULT_DOMAIN = new GenericDomain(VAULT);
         System.out.println(ConsoleColors.BLUE + "\t\t - " + VAULT_DOMAIN.getClass().getSimpleName() + ConsoleColors.RESET);
-        CAPSULE_DOMAIN = CapsuleDomain.getInstance();
+        CAPSULE_DOMAIN = new GenericDomain(CAPSULE);
         System.out.println(ConsoleColors.BLUE + "\t\t - " + CAPSULE_DOMAIN.getClass().getSimpleName() + ConsoleColors.RESET);
-        SKIN_DOMAIN = SkinDomain.getInstance();
+        SKIN_DOMAIN = new GenericDomain(SKIN);
         System.out.println(ConsoleColors.BLUE + "\t\t - " + SKIN_DOMAIN.getClass().getSimpleName() + ConsoleColors.RESET);
-        SOUVENIR_CASE_DOMAIN = SouvenirCaseDomain.getInstance();
+        SOUVENIR_CASE_DOMAIN = new GenericDomain(SOUVENIR);
         System.out.println(ConsoleColors.BLUE + "\t\t - " + SOUVENIR_CASE_DOMAIN.getClass().getSimpleName() + ConsoleColors.RESET);
-        STICKER_DOMAIN = StickerDomain.getInstance();
+        STICKER_DOMAIN = new GenericDomain(STICKER);
         System.out.println(ConsoleColors.BLUE + "\t\t - " + STICKER_DOMAIN.getClass().getSimpleName() + ConsoleColors.RESET);
-        PATCH_DOMAIN = PatchDomain.getInstance();
+        PATCH_DOMAIN = new GenericDomain(PATCH);
         System.out.println(ConsoleColors.BLUE + "\t\t - " + PATCH_DOMAIN.getClass().getSimpleName() + ConsoleColors.RESET);
-        CASE_DOMAIN = CaseDomain.getInstance();
+        CASE_DOMAIN = new GenericDomain(CASE);
         System.out.println(ConsoleColors.BLUE + "\t\t - " + CASE_DOMAIN.getClass().getSimpleName() + ConsoleColors.RESET);
-        TICKET_DOMAIN = TicketDomain.getInstance();
+        TICKET_DOMAIN = new GenericDomain(TICKET);
         System.out.println(ConsoleColors.BLUE + "\t\t - " + TICKET_DOMAIN.getClass().getSimpleName() + ConsoleColors.RESET);
-        KEY_DOMAIN = KeyDomain.getInstance();
+        KEY_DOMAIN = new GenericDomain(KEY);
         System.out.println(ConsoleColors.BLUE + "\t\t - " + KEY_DOMAIN.getClass().getSimpleName() + ConsoleColors.RESET);
-        MUSIC_KIT_DOMAIN = MusicKitDomain.getInstance();
+        MUSIC_KIT_DOMAIN = new GenericDomain(MUSICKIT);
         System.out.println(ConsoleColors.BLUE + "\t\t - " + MUSIC_KIT_DOMAIN.getClass().getSimpleName() + ConsoleColors.RESET);
-        PIN_DOMAIN = PinDomain.getInstance();
+        PIN_DOMAIN = new GenericDomain(PIN);
         System.out.println(ConsoleColors.BLUE + "\t\t - " + PIN_DOMAIN.getClass().getSimpleName() + ConsoleColors.RESET);
-        PLAYER_MODEL_DOMAIN = PlayerModelDomain.getInstance();
+        PLAYER_MODEL_DOMAIN = new GenericDomain(PLAYERMODEL);
         System.out.println(ConsoleColors.BLUE + "\t\t - " + PLAYER_MODEL_DOMAIN.getClass().getSimpleName() + ConsoleColors.RESET);
-        GRAFFITI_DOMAIN = GraffitiDomain.getInstance();
+        GRAFFITI_DOMAIN = new GenericDomain(GRAFFITI);
         System.out.println(ConsoleColors.BLUE + "\t\t - " + GRAFFITI_DOMAIN.getClass().getSimpleName() + ConsoleColors.RESET);
 
         
@@ -133,8 +140,13 @@ public final class Domain implements Logic {
     }
 
     @Override
-    public Factory getFactory() {
+    public IFactory getFactory() {
         return CREATOR;
+    }
+
+    @Override
+    public IActionWriter getActionWriter() {
+        return WRITER;
     }
 
     @Override
@@ -158,92 +170,92 @@ public final class Domain implements Logic {
     }
 
     @Override
-    public ICapsuleDomain getCapsuleDomain() {
+    public IGenericDomain getCapsuleDomain() {
         return CAPSULE_DOMAIN;
     }
 
     @Override
-    public IStickerDomain getStickerDomain() {
+    public IGenericDomain getStickerDomain() {
         return STICKER_DOMAIN;
     }
 
     @Override
-    public IVaultDomain getVaultDomain() {
-        return VAULT_DOMAIN;
-    }
-
-    @Override
-    public ISkinDomain getSkinDomain() {
+    public IGenericDomain getSkinDomain() {
         return SKIN_DOMAIN;
     }
 
     @Override
-    public ISouvenirCaseDomain getSouvenirCaseDomain() {
+    public IGenericDomain getVaultDomain() {
+        return VAULT_DOMAIN;
+    }
+
+    @Override
+    public IGenericDomain getSouvenirCaseDomain() {
         return SOUVENIR_CASE_DOMAIN;
     }
 
     @Override
-    public IPatchDomain getPatchDomain() {
+    public IGenericDomain getPatchDomain() {
         return PATCH_DOMAIN;
     }
 
     @Override
-    public ICaseDomain getCaseDomain() {
+    public IGenericDomain getCaseDomain() {
         return CASE_DOMAIN;
     }
 
     @Override
-    public ITicketDomain getTicketDomain() {
+    public IGenericDomain getTicketDomain() {
         return TICKET_DOMAIN;
     }
 
     @Override
-    public IKeyDomain getKeyDomain(){
+    public IGenericDomain getKeyDomain(){
         return KEY_DOMAIN;
     }
 
     @Override
-    public IMusicKitDomain getMusicKitDomain(){
+    public IGenericDomain getMusicKitDomain(){
         return MUSIC_KIT_DOMAIN;
     }
 
     @Override
-    public IPinDomain getPinDomain() {
+    public IGenericDomain getPinDomain() {
         return PIN_DOMAIN;
     }
 
     @Override
-    public IPlayerModelDomain getPlayerModelDomain() {
+    public IGenericDomain getPlayerModelDomain() {
         return PLAYER_MODEL_DOMAIN;
     }
 
     @Override
-    public IGraffitiDomain getGraffitiDomain() {
+    public IGenericDomain getGraffitiDomain() {
         return GRAFFITI_DOMAIN;
     }
 
     @Override
-    public List<Displayable> readAllItems(){
-        List<Displayable> rtn = new ArrayList<>();
-        rtn.addAll(CAPSULE_DOMAIN.readAllCapsules());
-        rtn.addAll(SKIN_DOMAIN.readAllSkins());
-        rtn.addAll(STICKER_DOMAIN.readAllStickers());
-        rtn.addAll(SOUVENIR_CASE_DOMAIN.readAllSouvenirCases());
-        rtn.addAll(PATCH_DOMAIN.readAllPatches());
-        rtn.addAll(CASE_DOMAIN.readAllCases());
-        rtn.addAll(TICKET_DOMAIN.readAllTickets());
-        rtn.addAll(KEY_DOMAIN.readAllKeys());
-        rtn.addAll(MUSIC_KIT_DOMAIN.readAllMusicKits());
-        rtn.addAll(PIN_DOMAIN.readAllPins());
-        rtn.addAll(PLAYER_MODEL_DOMAIN.readAllPlayerModels());
-        rtn.addAll(GRAFFITI_DOMAIN.readAllGraffities());
+    public List<Identifiable> readAllItems(){
+        List<Identifiable> rtn = new ArrayList<>();
+        rtn.addAll(CAPSULE_DOMAIN.readAll());
+        rtn.addAll(SKIN_DOMAIN.readAll());
+        rtn.addAll(STICKER_DOMAIN.readAll());
+        rtn.addAll(SOUVENIR_CASE_DOMAIN.readAll());
+        rtn.addAll(PATCH_DOMAIN.readAll());
+        rtn.addAll(CASE_DOMAIN.readAll());
+        rtn.addAll(TICKET_DOMAIN.readAll());
+        rtn.addAll(KEY_DOMAIN.readAll());
+        rtn.addAll(MUSIC_KIT_DOMAIN.readAll());
+        rtn.addAll(PIN_DOMAIN.readAll());
+        rtn.addAll(PLAYER_MODEL_DOMAIN.readAll());
+        rtn.addAll(GRAFFITI_DOMAIN.readAll());
         return rtn;
     }
 
     private void initCaches(){
         System.out.println("\n\nThis might take some time...");
         readAllItems();
-        VAULT_DOMAIN.readAllVaults();
+        VAULT_DOMAIN.readAll();
         System.out.println(ConsoleColors.GREEN + "\t - Caching completed" + ConsoleColors.RESET);
     }
 }

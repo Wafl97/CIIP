@@ -9,9 +9,6 @@ import java.util.Set;
 
 public interface IVault extends Convertible<IVault>, Identifiable {
 
-    String getName();
-    void setName(String name);
-
     Map<Displayable,Long> getAllItems();
     void setAllItems(Map<Displayable,Long> map);
     Set<Displayable> getItems();

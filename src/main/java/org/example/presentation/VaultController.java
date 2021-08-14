@@ -15,6 +15,9 @@ import javafx.scene.image.ImageView;
 
 import org.example.logic.interfaces.dto.comps.Displayable;
 import org.example.logic.interfaces.dto.IVault;
+import org.example.logic.interfaces.dto.comps.Identifiable;
+
+import static org.example.util.Attributes.*;
 
 public class VaultController extends App implements Initializable {
 
@@ -41,7 +44,7 @@ public class VaultController extends App implements Initializable {
         if (operation == EDIT) readInvestment();
         else if (operation == CREATE){
             tmpMap = new HashMap<>();
-            DOMAIN.setSelectedVault(DOMAIN.getFactory().emptyVault());
+            DOMAIN.setSelectedVault((IVault) DOMAIN.getFactory().makeNew(VAULT));
         }
 
         //===Buttons====================================================================================================
@@ -92,8 +95,9 @@ public class VaultController extends App implements Initializable {
                 }
             }
         });
-        for (Displayable item : DOMAIN.readAllItems()){
-            allItemsListView.getItems().add(item);
+        for (Identifiable item : DOMAIN.readAllItems()){
+            Displayable displayable = (Displayable) item;
+            allItemsListView.getItems().add(displayable);
         }
         itemsListView.setCellFactory(cell -> new ListCell<>() {
             @Override
@@ -120,11 +124,12 @@ public class VaultController extends App implements Initializable {
 
     private void createInvestment(){
         //===Name===
-        IVault newInvestment = DOMAIN.getFactory().emptyVault().populate(-1,nameTextField.getText());
+        IVault newInvestment = (IVault) DOMAIN.getFactory().makeNew(VAULT);
+        newInvestment.populate(-1,nameTextField.getText());
         //===Content===
         newInvestment.setAllItems(tmpMap);
         //===Domain===
-        DOMAIN.getVaultDomain().createVault(newInvestment);
+        DOMAIN.getVaultDomain().create(newInvestment);
     }
 
     private void readInvestment(){
@@ -143,13 +148,13 @@ public class VaultController extends App implements Initializable {
         //===Content===
         loadedInvestment.setAllItems(tmpMap);
         //===Domain===
-        DOMAIN.getVaultDomain().updateVault(loadedInvestment);
+        DOMAIN.getVaultDomain().update(loadedInvestment);
     }
 
     private void deleteInvestment(){
         if (loadedInvestment != null){
             long id = loadedInvestment.getId();
-            DOMAIN.getVaultDomain().deleteVault(id);
+            DOMAIN.getVaultDomain().delete(id);
         }
     }
 }

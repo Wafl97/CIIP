@@ -1,12 +1,9 @@
 package org.example.data;
 
-import org.example.data.interfaces.DataConnection;
-import org.example.data.interfaces.IDataFacade;
-import org.example.data.interfaces.IGFX;
-import org.example.data.interfaces.ILogWriter;
+import org.example.data.interfaces.*;
 import org.example.util.ConsoleColors;
 
-import java.util.Collection;
+import static org.example.util.Attributes.*;
 
 public final class DataFacade implements IDataFacade {
 
