@@ -2,12 +2,9 @@ package org.example.logic;
 
 import org.example.data.DataFacade;
 import org.example.data.interfaces.IDataFacade;
+import org.example.logic.dto.interfaces.IVault;
 import org.example.logic.interfaces.*;
-import org.example.logic.interfaces.dto.*;
-import org.example.logic.interfaces.dto.comps.Displayable;
-import org.example.logic.interfaces.dto.comps.Identifiable;
-import org.example.logic.interfaces.sub.*;
-import org.example.logic.sub.GenericDomain;
+import org.example.logic.dto.interfaces.comps.Identifiable;
 import org.example.util.ConsoleColors;
 
 import java.io.BufferedReader;

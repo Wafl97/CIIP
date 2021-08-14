@@ -1,9 +1,9 @@
 package org.example.logic;
 
 import org.example.logic.dto.*;
+import org.example.logic.dto.interfaces.*;
 import org.example.logic.interfaces.*;
-import org.example.logic.interfaces.dto.*;
-import org.example.logic.interfaces.dto.comps.Convertible;
+import org.example.logic.dto.interfaces.comps.Convertible;
 import org.example.util.Attributes;
 
 public final class Factory implements IFactory {

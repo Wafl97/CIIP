@@ -1,4 +1,4 @@
-package org.example.logic.interfaces.dto.comps;
+package org.example.logic.dto.interfaces.comps;
 
 public interface GenericPopulate<T> {
 

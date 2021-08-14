@@ -1,9 +1,9 @@
 package org.example.logic.dto;
 
 import org.example.logic.Domain;
-import org.example.logic.interfaces.dto.ISkin;
-import org.example.logic.interfaces.dto.comps.Identifiable;
-import org.example.logic.interfaces.sub.IGenericDomain;
+import org.example.logic.dto.interfaces.ISkin;
+import org.example.logic.dto.interfaces.comps.Identifiable;
+import org.example.logic.interfaces.IGenericDomain;
 import org.example.util.ConsoleColors;
 import org.json.simple.JSONObject;
 

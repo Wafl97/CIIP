@@ -1,7 +1,7 @@
 package org.example.logic.interfaces;
 
-import org.example.logic.interfaces.dto.*;
-import org.example.logic.interfaces.dto.comps.Convertible;
+import org.example.logic.dto.interfaces.*;
+import org.example.logic.dto.interfaces.comps.Convertible;
 import org.example.util.Attributes;
 
 public interface IFactory {

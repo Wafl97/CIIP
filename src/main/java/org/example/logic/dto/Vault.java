@@ -1,10 +1,10 @@
 package org.example.logic.dto;
 
 import org.example.logic.Domain;
-import org.example.logic.interfaces.dto.*;
-import org.example.logic.interfaces.dto.comps.Displayable;
-import org.example.logic.interfaces.dto.comps.Identifiable;
-import org.example.logic.interfaces.sub.*;
+import org.example.logic.dto.interfaces.*;
+import org.example.logic.dto.interfaces.comps.Displayable;
+import org.example.logic.dto.interfaces.comps.Identifiable;
+import org.example.logic.interfaces.IGenericDomain;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 

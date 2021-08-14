@@ -1,9 +1,9 @@
 package org.example.logic.dto;
 
 import org.example.logic.Domain;
-import org.example.logic.interfaces.dto.ICase;
-import org.example.logic.interfaces.dto.comps.Identifiable;
-import org.example.logic.interfaces.sub.IGenericDomain;
+import org.example.logic.dto.interfaces.ICase;
+import org.example.logic.dto.interfaces.comps.Identifiable;
+import org.example.logic.interfaces.IGenericDomain;
 import org.json.simple.JSONObject;
 
 import static org.example.util.Attributes.*;

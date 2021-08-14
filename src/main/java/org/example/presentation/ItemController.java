@@ -9,12 +9,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 
-import org.example.logic.interfaces.dto.*;
-import org.example.logic.interfaces.dto.comps.Convertible;
-import org.example.logic.interfaces.dto.comps.Displayable;
-import org.example.logic.interfaces.dto.comps.Identifiable;
+import org.example.logic.dto.interfaces.*;
+import org.example.logic.dto.interfaces.comps.Convertible;
+import org.example.logic.dto.interfaces.comps.Displayable;
+import org.example.logic.dto.interfaces.comps.Identifiable;
 import org.example.util.Attributes;
-import org.example.util.ConsoleColors;
 
 import java.io.File;
 import java.net.URL;

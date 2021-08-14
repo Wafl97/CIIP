@@ -1,6 +1,6 @@
-package org.example.logic.interfaces.sub;
+package org.example.logic.interfaces;
 
-import org.example.logic.interfaces.dto.comps.Identifiable;
+import org.example.logic.dto.interfaces.comps.Identifiable;
 
 import java.util.List;
 

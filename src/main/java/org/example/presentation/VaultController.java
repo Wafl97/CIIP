@@ -13,9 +13,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 
-import org.example.logic.interfaces.dto.comps.Displayable;
-import org.example.logic.interfaces.dto.IVault;
-import org.example.logic.interfaces.dto.comps.Identifiable;
+import org.example.logic.dto.interfaces.comps.Displayable;
+import org.example.logic.dto.interfaces.IVault;
+import org.example.logic.dto.interfaces.comps.Identifiable;
 
 import static org.example.util.Attributes.*;
 

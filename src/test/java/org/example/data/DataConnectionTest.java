@@ -5,18 +5,14 @@ import org.example.data.interfaces.DataConnection;
 import org.example.logic.dto.Sticker;
 import org.example.logic.interfaces.IFactory;
 import org.example.logic.Factory;
-import org.example.logic.interfaces.dto.ISticker;
-import org.example.logic.interfaces.dto.comps.Convertible;
-import org.example.util.Attributes;
+import org.example.logic.dto.interfaces.ISticker;
 import org.json.simple.JSONObject;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.example.util.Attributes.*;
 
 public class DataConnectionTest extends TestCase {

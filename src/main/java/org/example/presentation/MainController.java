@@ -15,9 +15,9 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.image.ImageView;
 
-import org.example.logic.interfaces.dto.comps.Displayable;
-import org.example.logic.interfaces.dto.IVault;
-import org.example.logic.interfaces.dto.comps.Identifiable;
+import org.example.logic.dto.interfaces.comps.Displayable;
+import org.example.logic.dto.interfaces.IVault;
+import org.example.logic.dto.interfaces.comps.Identifiable;
 import org.example.util.ConsoleColors;
 
 public class MainController extends App implements Initializable {

@@ -1,4 +1,4 @@
-package org.example.logic.sub;
+package org.example.logic;
 
 import org.example.data.GenericSubConnection;
 import org.example.data.interfaces.IDataFacade;
@@ -6,9 +6,9 @@ import org.example.data.interfaces.IGenericSubConnection;
 import org.example.logic.Domain;
 import org.example.logic.interfaces.IFactory;
 import org.example.logic.interfaces.IActionWriter;
-import org.example.logic.interfaces.dto.comps.Convertible;
-import org.example.logic.interfaces.dto.comps.Identifiable;
-import org.example.logic.interfaces.sub.IGenericDomain;
+import org.example.logic.dto.interfaces.comps.Convertible;
+import org.example.logic.dto.interfaces.comps.Identifiable;
+import org.example.logic.interfaces.IGenericDomain;
 import org.example.util.Attributes;
 import org.example.util.ConsoleColors;
 import org.json.simple.JSONObject;
