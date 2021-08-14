@@ -54,13 +54,13 @@ public final class CapsuleDomain implements ICapsuleDomain {
         if (capsulesCache == null) readAllCapsules();
         DATA_FACADE.getDataConnection().createCapsule(capsule.convert2JSON());
         capsulesCache.add(capsule);
-        WRITER.printAction(ConsoleColors.GREEN,"Created",TYPE,capsule.getId());
+        WRITER.printAction(ConsoleColors.GREEN,"Created",TYPE,capsule.getId(),true);
     }
 
     @Override
     public ICapsule readCapsule(long id) {
         if (capsulesCache == null) readAllCapsules();
-        WRITER.printAction(ConsoleColors.YELLOW,"Read",TYPE,id);
+        WRITER.printAction(ConsoleColors.YELLOW,"Read",TYPE,id,false);
         return capsulesCache.stream().filter(capsule -> capsule.getId() == id).findFirst().get();
     }
 
@@ -70,7 +70,7 @@ public final class CapsuleDomain implements ICapsuleDomain {
         DATA_FACADE.getDataConnection().updateCapsule(capsule.convert2JSON());
         capsulesCache.removeIf(cap -> cap.getId() == capsule.getId());
         capsulesCache.add(capsule);
-        WRITER.printAction(ConsoleColors.PURPLE,"Updated",TYPE,capsule.getId());
+        WRITER.printAction(ConsoleColors.PURPLE,"Updated",TYPE,capsule.getId(),true);
     }
 
     @Override
@@ -78,6 +78,6 @@ public final class CapsuleDomain implements ICapsuleDomain {
         if (capsulesCache == null) readAllCapsules();
         DATA_FACADE.getDataConnection().deleteCapsule(id);
         capsulesCache.removeIf(capsule -> capsule.getId() == id);
-        WRITER.printAction(ConsoleColors.RED,"Deleted",TYPE,id);
+        WRITER.printAction(ConsoleColors.RED,"Deleted",TYPE,id,true);
     }
 }

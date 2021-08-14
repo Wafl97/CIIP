@@ -53,13 +53,13 @@ public final class SkinDomain implements ISkinDomain {
         if (skinCache == null) readAllSkins();
         DATA_FACADE.getDataConnection().createSkin(skin.convert2JSON());
         skinCache.add(skin);
-        WRITER.printAction(ConsoleColors.GREEN,"Created",TYPE,skin.getId());
+        WRITER.printAction(ConsoleColors.GREEN,"Created",TYPE,skin.getId(),true);
     }
 
     @Override
     public ISkin readSkin(long id) {
         if (skinCache == null) readAllSkins();
-        WRITER.printAction(ConsoleColors.YELLOW,"Read",TYPE,id);
+        WRITER.printAction(ConsoleColors.YELLOW,"Read",TYPE,id,false);
         return skinCache.stream().filter(skin -> skin.getId() == id).findFirst().get();
     }
 
@@ -69,7 +69,7 @@ public final class SkinDomain implements ISkinDomain {
         DATA_FACADE.getDataConnection().updateSkin(skin.convert2JSON());
         skinCache.removeIf(skn -> skn.getId() == skin.getId());
         skinCache.add(skin);
-        WRITER.printAction(ConsoleColors.PURPLE,"Updated",TYPE,skin.getId());
+        WRITER.printAction(ConsoleColors.PURPLE,"Updated",TYPE,skin.getId(),true);
     }
 
     @Override
@@ -77,6 +77,6 @@ public final class SkinDomain implements ISkinDomain {
         if (skinCache == null) readAllSkins();
         DATA_FACADE.getDataConnection().deleteSKin(id);
         skinCache.removeIf(skin -> skin.getId() == id);
-        WRITER.printAction(ConsoleColors.RED,"Deleted",TYPE,id);
+        WRITER.printAction(ConsoleColors.RED,"Deleted",TYPE,id,true);
     }
 }

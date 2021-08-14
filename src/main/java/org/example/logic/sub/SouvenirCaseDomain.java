@@ -53,13 +53,13 @@ public final class SouvenirCaseDomain implements ISouvenirCaseDomain {
         if (souvenirCaseCache == null) readAllSouvenirCases();
         DATA_FACADE.getDataConnection().createSouvenir(souvenirCase.convert2JSON());
         souvenirCaseCache.add(souvenirCase);
-        WRITER.printAction(ConsoleColors.GREEN,"Created",TYPE,souvenirCase.getId());
+        WRITER.printAction(ConsoleColors.GREEN,"Created",TYPE,souvenirCase.getId(),true);
     }
 
     @Override
     public ISouvenirCase readSouvenirCase(long id) {
         if (souvenirCaseCache == null) readAllSouvenirCases();
-        WRITER.printAction(ConsoleColors.YELLOW,"Read",TYPE,id);
+        WRITER.printAction(ConsoleColors.YELLOW,"Read",TYPE,id,false);
         return souvenirCaseCache.stream().filter(souvenir -> souvenir.getId() == id).findFirst().get();
     }
 
@@ -69,7 +69,7 @@ public final class SouvenirCaseDomain implements ISouvenirCaseDomain {
         DATA_FACADE.getDataConnection().updateSouvenir(souvenirCase.convert2JSON());
         souvenirCaseCache.removeIf(svn -> svn.getId() == souvenirCase.getId());
         souvenirCaseCache.add(souvenirCase);
-        WRITER.printAction(ConsoleColors.PURPLE,"Updated",TYPE,souvenirCase.getId());
+        WRITER.printAction(ConsoleColors.PURPLE,"Updated",TYPE,souvenirCase.getId(),true);
     }
 
     @Override
@@ -77,6 +77,6 @@ public final class SouvenirCaseDomain implements ISouvenirCaseDomain {
         if (souvenirCaseCache == null) readAllSouvenirCases();
         DATA_FACADE.getDataConnection().deleteSouvenir(id);
         souvenirCaseCache.removeIf(souvenirCase -> souvenirCase.getId() == id);
-        WRITER.printAction(ConsoleColors.RED,"Deleted",TYPE,id);
+        WRITER.printAction(ConsoleColors.RED,"Deleted",TYPE,id,true);
     }
 }

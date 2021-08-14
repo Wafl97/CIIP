@@ -14,7 +14,7 @@ import org.json.simple.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TicketDomain implements ITicketDomain {
+public final class TicketDomain implements ITicketDomain {
 
     private static TicketDomain instance;
 
@@ -53,13 +53,13 @@ public class TicketDomain implements ITicketDomain {
         if (ticketCache == null) readAllTickets();
         DATA_FACADE.getDataConnection().createTicket(ticket.convert2JSON());
         ticketCache.add(ticket);
-        WRITER.printAction(ConsoleColors.GREEN,"Created",TYPE,ticket.getId());
+        WRITER.printAction(ConsoleColors.GREEN,"Created",TYPE,ticket.getId(),true);
     }
 
     @Override
     public ITicket readTicket(long id) {
         if (ticketCache == null) readAllTickets();
-        WRITER.printAction(ConsoleColors.YELLOW,"Read",TYPE,id);
+        WRITER.printAction(ConsoleColors.YELLOW,"Read",TYPE,id,false);
         return ticketCache.stream().filter(ticket -> ticket.getId() == id).findFirst().get();
     }
 
@@ -69,7 +69,7 @@ public class TicketDomain implements ITicketDomain {
         DATA_FACADE.getDataConnection().updateTicket(ticket.convert2JSON());
         ticketCache.removeIf(tck -> tck.getId() == ticket.getId());
         ticketCache.add(ticket);
-        WRITER.printAction(ConsoleColors.PURPLE,"Updated",TYPE,ticket.getId());
+        WRITER.printAction(ConsoleColors.PURPLE,"Updated",TYPE,ticket.getId(),true);
     }
 
     @Override
@@ -77,6 +77,6 @@ public class TicketDomain implements ITicketDomain {
         if (ticketCache == null) readAllTickets();
         DATA_FACADE.getDataConnection().deleteTicket(id);
         ticketCache.removeIf(ticket -> ticket.getId() == id);
-        WRITER.printAction(ConsoleColors.RED,"Deleted",TYPE,id);
+        WRITER.printAction(ConsoleColors.RED,"Deleted",TYPE,id,true);
     }
 }

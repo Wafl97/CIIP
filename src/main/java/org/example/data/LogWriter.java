@@ -9,13 +9,22 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public final class LogWriter implements ILogWriter {
 
     private static final String FILE_PATH = "org/example/progfiles/";
     private static final String LOG = "actions.log";
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+    private static LogWriter instance;
+
+    private LogWriter(){
+
+    }
+
+    public static LogWriter getInstance(){
+        return instance == null ? instance = new LogWriter() : instance;
+    }
 
 
     @Override
@@ -59,14 +68,5 @@ public final class LogWriter implements ILogWriter {
             e.printStackTrace();
         }
         return log;
-    }
-
-    public static void main(String[] args) {
-        LogWriter lw = new LogWriter();
-        lw.writeLog("THIS IS A TEST");
-        List<String> sa = lw.readLog();
-        for (String s : sa){
-            System.out.println(s);
-        }
     }
 }

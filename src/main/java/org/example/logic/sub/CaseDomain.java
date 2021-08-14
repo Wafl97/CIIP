@@ -54,13 +54,13 @@ public final class CaseDomain implements ICaseDomain {
         if (casesCache == null) readAllCases();
         DATA_FACADE.getDataConnection().createCase(Case.convert2JSON());
         casesCache.add(Case);
-        WRITER.printAction(ConsoleColors.GREEN,"Created",TYPE,Case.getId());
+        WRITER.printAction(ConsoleColors.GREEN,"Created",TYPE,Case.getId(),true);
     }
 
     @Override
     public ICase readCase(long id) {
         if (casesCache == null) readAllCases();
-        WRITER.printAction(ConsoleColors.YELLOW,"Read",TYPE,id);
+        WRITER.printAction(ConsoleColors.YELLOW,"Read",TYPE,id,false);
         return casesCache.stream().filter(Case -> Case.getId() == id).findFirst().get();
     }
 
@@ -70,7 +70,7 @@ public final class CaseDomain implements ICaseDomain {
         DATA_FACADE.getDataConnection().updateCase(Case.convert2JSON());
         casesCache.removeIf(cse -> cse.getId() == Case.getId());
         casesCache.add(Case);
-        WRITER.printAction(ConsoleColors.PURPLE,"Updated",TYPE,Case.getId());
+        WRITER.printAction(ConsoleColors.PURPLE,"Updated",TYPE,Case.getId(),true);
     }
 
     @Override
@@ -78,6 +78,6 @@ public final class CaseDomain implements ICaseDomain {
         if (casesCache == null) readAllCases();
         DATA_FACADE.getDataConnection().deleteCase(id);
         casesCache.removeIf(Case -> Case.getId() == id);
-        WRITER.printAction(ConsoleColors.RED,"Deleted",TYPE,id);
+        WRITER.printAction(ConsoleColors.RED,"Deleted",TYPE,id,true);
     }
 }

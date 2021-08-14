@@ -53,13 +53,13 @@ public final class GraffitiDomain implements IGraffitiDomain {
         if (graffitiCache == null) readAllGraffities();
         DATA_FACADE.getDataConnection().createGraffiti(graffiti.convert2JSON());
         graffitiCache.add(graffiti);
-        WRITER.printAction(ConsoleColors.GREEN,"Created",TYPE,graffiti.getId());
+        WRITER.printAction(ConsoleColors.GREEN,"Created",TYPE,graffiti.getId(),true);
     }
 
     @Override
     public IGraffiti readGraffiti(long id) {
         if (graffitiCache == null) readAllGraffities();
-        WRITER.printAction(ConsoleColors.YELLOW,"Read",TYPE,id);
+        WRITER.printAction(ConsoleColors.YELLOW,"Read",TYPE,id,false);
         return graffitiCache.stream().filter(graffiti -> graffiti.getId() == id).findFirst().get();
     }
 
@@ -69,7 +69,7 @@ public final class GraffitiDomain implements IGraffitiDomain {
         DATA_FACADE.getDataConnection().updateGraffiti(graffiti.convert2JSON());
         graffitiCache.removeIf(grf -> grf.getId() == graffiti.getId());
         graffitiCache.add(graffiti);
-        WRITER.printAction(ConsoleColors.PURPLE,"Updated",TYPE,graffiti.getId());
+        WRITER.printAction(ConsoleColors.PURPLE,"Updated",TYPE,graffiti.getId(),true);
     }
 
     @Override
@@ -77,6 +77,6 @@ public final class GraffitiDomain implements IGraffitiDomain {
         if (graffitiCache == null) readAllGraffities();
         DATA_FACADE.getDataConnection().deleteGraffiti(id);
         graffitiCache.removeIf(graffiti -> graffiti.getId() == id);
-        WRITER.printAction(ConsoleColors.RED,"Deleted",TYPE,id);
+        WRITER.printAction(ConsoleColors.RED,"Deleted",TYPE,id,true);
     }
 }

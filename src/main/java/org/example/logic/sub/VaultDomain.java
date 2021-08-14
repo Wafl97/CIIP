@@ -54,13 +54,13 @@ public final class VaultDomain implements IVaultDomain {
         if (vaultCache == null) this.readAllVaults();
         DATA_FACADE.getDataConnection().createVault(vault.convert2JSON());
         vaultCache.add(vault);
-        WRITER.printAction(ConsoleColors.GREEN,"Created",TYPE,vault.getId());
+        WRITER.printAction(ConsoleColors.GREEN,"Created",TYPE,vault.getId(),true);
     }
 
     @Override
     public IVault readVault(long id) {
         if (vaultCache == null) this.readAllVaults();
-        WRITER.printAction(ConsoleColors.YELLOW,"Read",TYPE,id);
+        WRITER.printAction(ConsoleColors.YELLOW,"Read",TYPE,id,false);
         return vaultCache.stream().filter(vault -> vault.getId() == id).findFirst().get();
     }
 
@@ -70,7 +70,7 @@ public final class VaultDomain implements IVaultDomain {
         DATA_FACADE.getDataConnection().updateVault(vault.convert2JSON());
         vaultCache.removeIf(v -> v.getId() == vault.getId());
         vaultCache.add(vault);
-        WRITER.printAction(ConsoleColors.PURPLE,"Updated",TYPE,vault.getId());
+        WRITER.printAction(ConsoleColors.PURPLE,"Updated",TYPE,vault.getId(),true);
     }
 
     @Override
@@ -78,6 +78,6 @@ public final class VaultDomain implements IVaultDomain {
         if (vaultCache == null) this.readAllVaults();
         DATA_FACADE.getDataConnection().deleteVault(id);
         vaultCache.removeIf(vault -> vault.getId() == id);
-        WRITER.printAction(ConsoleColors.RED,"Deleted",TYPE,id);
+        WRITER.printAction(ConsoleColors.RED,"Deleted",TYPE,id,true);
     }
 }

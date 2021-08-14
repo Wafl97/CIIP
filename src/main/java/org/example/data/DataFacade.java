@@ -3,6 +3,7 @@ package org.example.data;
 import org.example.data.interfaces.DataConnection;
 import org.example.data.interfaces.IDataFacade;
 import org.example.data.interfaces.IGFX;
+import org.example.data.interfaces.ILogWriter;
 import org.example.util.ConsoleColors;
 
 import java.util.Collection;
@@ -10,12 +11,16 @@ import java.util.Collection;
 public final class DataFacade implements IDataFacade {
 
     private static DataFacade instance;
-    private final GFX GRAFIX;
+    private final IGFX GRAFIX;
     private final DataConnection CONNECTION;
+    private final ILogWriter LOGGER;
 
     private DataFacade(){
         System.out.println("\n\n===========================================");
         System.out.println(ConsoleColors.PURPLE + "Staring Persistence" + ConsoleColors.RESET);
+
+        System.out.println(ConsoleColors.YELLOW + "\t - Getting LogWriter" + ConsoleColors.RESET);
+        LOGGER = LogWriter.getInstance();
 
         System.out.println(ConsoleColors.YELLOW + "\t - Getting GFX" + ConsoleColors.RESET);
         GRAFIX = GFX.getInstance();
@@ -43,5 +48,10 @@ public final class DataFacade implements IDataFacade {
     @Override
     public IGFX getGFX() {
         return GRAFIX;
+    }
+
+    @Override
+    public ILogWriter getLogWriter() {
+        return LOGGER;
     }
 }

@@ -53,13 +53,13 @@ public final class MusicKitDomain implements IMusicKitDomain {
         if (musicKitCache == null) readAllMusicKits();
         DATA_FACADE.getDataConnection().createMusicKit(musicKit.convert2JSON());
         musicKitCache.add(musicKit);
-        WRITER.printAction(ConsoleColors.GREEN,"Created",TYPE,musicKit.getId());
+        WRITER.printAction(ConsoleColors.GREEN,"Created",TYPE,musicKit.getId(),true);
     }
 
     @Override
     public IMusicKit readMusicKit(long id) {
         if (musicKitCache == null) readAllMusicKits();
-        WRITER.printAction(ConsoleColors.YELLOW,"Read",TYPE,id);
+        WRITER.printAction(ConsoleColors.YELLOW,"Read",TYPE,id,false);
         return musicKitCache.stream().filter(musicKit -> musicKit.getId() == id).findFirst().get();
     }
 
@@ -69,7 +69,7 @@ public final class MusicKitDomain implements IMusicKitDomain {
         DATA_FACADE.getDataConnection().updateMusicKit(musicKit.convert2JSON());
         musicKitCache.removeIf(muk -> muk.getId() == musicKit.getId());
         musicKitCache.add(musicKit);
-        WRITER.printAction(ConsoleColors.PURPLE,"Updated",TYPE,musicKit.getId());
+        WRITER.printAction(ConsoleColors.PURPLE,"Updated",TYPE,musicKit.getId(),true);
     }
 
     @Override
@@ -77,6 +77,6 @@ public final class MusicKitDomain implements IMusicKitDomain {
         if (musicKitCache == null) readAllMusicKits();
         DATA_FACADE.getDataConnection().deleteMusicKit(id);
         musicKitCache.removeIf(musicKit -> musicKit.getId() == id);
-        WRITER.printAction(ConsoleColors.RED,"Deleted",TYPE,id);
+        WRITER.printAction(ConsoleColors.RED,"Deleted",TYPE,id,true);
     }
 }

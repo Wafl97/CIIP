@@ -5,4 +5,6 @@ public interface IDataFacade {
     DataConnection getDataConnection();
 
     IGFX getGFX();
+
+    ILogWriter getLogWriter();
 }

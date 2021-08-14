@@ -53,13 +53,13 @@ public final class KeyDomain implements IKeyDomain {
         if (keyCache == null) readAllKeys();
         DATA_FACADE.getDataConnection().createKey(key.convert2JSON());
         keyCache.add(key);
-        WRITER.printAction(ConsoleColors.GREEN,"Created",TYPE,key.getId());
+        WRITER.printAction(ConsoleColors.GREEN,"Created",TYPE,key.getId(),true);
     }
 
     @Override
     public IKey readKey(long id) {
         if (keyCache == null) readAllKeys();
-        WRITER.printAction(ConsoleColors.YELLOW,"Read",TYPE,id);
+        WRITER.printAction(ConsoleColors.YELLOW,"Read",TYPE,id,false);
         return keyCache.stream().filter(key -> key.getId() == id).findFirst().get();
     }
 
@@ -69,7 +69,7 @@ public final class KeyDomain implements IKeyDomain {
         DATA_FACADE.getDataConnection().updateKey(key.convert2JSON());
         keyCache.removeIf(k -> k.getId() == key.getId());
         keyCache.add(key);
-        WRITER.printAction(ConsoleColors.PURPLE,"Updated",TYPE,key.getId());
+        WRITER.printAction(ConsoleColors.PURPLE,"Updated",TYPE,key.getId(),true);
     }
 
     @Override
@@ -77,6 +77,6 @@ public final class KeyDomain implements IKeyDomain {
         if (keyCache == null) readAllKeys();
         DATA_FACADE.getDataConnection().deleteKey(id);
         keyCache.removeIf(key -> key.getId() == id);
-        WRITER.printAction(ConsoleColors.RED,"Deleted",TYPE,id);
+        WRITER.printAction(ConsoleColors.RED,"Deleted",TYPE,id,true);
     }
 }

@@ -53,13 +53,13 @@ public final class PinDomain implements IPinDomain {
         if (pinCache == null) readAllPins();
         DATA_FACADE.getDataConnection().createPin(pin.convert2JSON());
         pinCache.add(pin);
-        WRITER.printAction(ConsoleColors.GREEN,"Created",TYPE,pin.getId());
+        WRITER.printAction(ConsoleColors.GREEN,"Created",TYPE,pin.getId(),true);
     }
 
     @Override
     public IPin readPin(long id) {
         if (pinCache == null) readAllPins();
-        WRITER.printAction(ConsoleColors.YELLOW,"Read",TYPE,id);
+        WRITER.printAction(ConsoleColors.YELLOW,"Read",TYPE,id,false);
         return pinCache.stream().filter(pin -> pin.getId() == id).findFirst().get();
     }
 
@@ -69,7 +69,7 @@ public final class PinDomain implements IPinDomain {
         DATA_FACADE.getDataConnection().updatePin(pin.convert2JSON());
         pinCache.removeIf(p -> p.getId() == pin.getId());
         pinCache.add(pin);
-        WRITER.printAction(ConsoleColors.PURPLE,"Updated",TYPE,pin.getId());
+        WRITER.printAction(ConsoleColors.PURPLE,"Updated",TYPE,pin.getId(),true);
     }
 
     @Override
@@ -77,6 +77,6 @@ public final class PinDomain implements IPinDomain {
         if (pinCache == null) readAllPins();
         DATA_FACADE.getDataConnection().deletePin(id);
         pinCache.removeIf(pin -> pin.getId() == id);
-        WRITER.printAction(ConsoleColors.RED,"Deleted",TYPE,id);
+        WRITER.printAction(ConsoleColors.RED,"Deleted",TYPE,id,true);
     }
 }

@@ -53,13 +53,13 @@ public final class PatchDomain implements IPatchDomain {
         if (patchCache == null) readAllPatches();
         DATA_FACADE.getDataConnection().createPatch(patch.convert2JSON());
         patchCache.add(patch);
-        WRITER.printAction(ConsoleColors.GREEN,"Created",TYPE,patch.getId());
+        WRITER.printAction(ConsoleColors.GREEN,"Created",TYPE,patch.getId(),true);
     }
 
     @Override
     public IPatch readPatch(long id) {
         if (patchCache == null) readAllPatches();
-        WRITER.printAction(ConsoleColors.YELLOW,"Read",TYPE,id);
+        WRITER.printAction(ConsoleColors.YELLOW,"Read",TYPE,id,false);
         return patchCache.stream().filter(patch -> patch.getId() == id).findFirst().get();
     }
 
@@ -69,7 +69,7 @@ public final class PatchDomain implements IPatchDomain {
         DATA_FACADE.getDataConnection().updatePatch(patch.convert2JSON());
         patchCache.removeIf(ptc -> ptc.getId() == patch.getId());
         patchCache.add(patch);
-        WRITER.printAction(ConsoleColors.PURPLE,"Updated",TYPE,patch.getId());
+        WRITER.printAction(ConsoleColors.PURPLE,"Updated",TYPE,patch.getId(),true);
     }
 
     @Override
@@ -77,6 +77,6 @@ public final class PatchDomain implements IPatchDomain {
         if (patchCache == null) readAllPatches();
         DATA_FACADE.getDataConnection().deletePatch(id);
         patchCache.removeIf(patch -> patch.getId() == id);
-        WRITER.printAction(ConsoleColors.RED,"Deleted",TYPE,id);
+        WRITER.printAction(ConsoleColors.RED,"Deleted",TYPE,id,true);
     }
 }

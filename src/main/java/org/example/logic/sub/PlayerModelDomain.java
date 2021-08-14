@@ -53,13 +53,13 @@ public final class PlayerModelDomain implements IPlayerModelDomain {
         if (playerModelCache == null) readAllPlayerModels();
         DATA_FACADE.getDataConnection().createPlayerModel(playerModel.convert2JSON());
         playerModelCache.add(playerModel);
-        WRITER.printAction(ConsoleColors.GREEN,"Created",TYPE,playerModel.getId());
+        WRITER.printAction(ConsoleColors.GREEN,"Created",TYPE,playerModel.getId(),true);
     }
 
     @Override
     public IPlayerModel readPlayerModel(long id) {
         if (playerModelCache == null) readAllPlayerModels();
-        WRITER.printAction(ConsoleColors.YELLOW,"Read",TYPE,id);
+        WRITER.printAction(ConsoleColors.YELLOW,"Read",TYPE,id,false);
         return playerModelCache.stream().filter(playerModel -> playerModel.getId() == id).findFirst().get();
     }
 
@@ -69,7 +69,7 @@ public final class PlayerModelDomain implements IPlayerModelDomain {
         DATA_FACADE.getDataConnection().updatePlayerModel(playerModel.convert2JSON());
         playerModelCache.removeIf(plm -> plm.getId() == playerModel.getId());
         playerModelCache.add(playerModel);
-        WRITER.printAction(ConsoleColors.PURPLE,"Updated",TYPE,playerModel.getId());
+        WRITER.printAction(ConsoleColors.PURPLE,"Updated",TYPE,playerModel.getId(),true);
     }
 
     @Override
@@ -77,6 +77,6 @@ public final class PlayerModelDomain implements IPlayerModelDomain {
         if (playerModelCache == null) readAllPlayerModels();
         DATA_FACADE.getDataConnection().deletePlayerModel(id);
         playerModelCache.removeIf(playerModel -> playerModel.getId() == id);
-        WRITER.printAction(ConsoleColors.RED,"Deleted",TYPE,id);
+        WRITER.printAction(ConsoleColors.RED,"Deleted",TYPE,id,true);
     }
 }

@@ -53,13 +53,13 @@ public final class StickerDomain implements IStickerDomain {
         if (stickerCache == null) readAllStickers();
         DATA_FACADE.getDataConnection().createSticker(sticker.convert2JSON());
         stickerCache.add(sticker);
-        WRITER.printAction(ConsoleColors.GREEN,"Created",TYPE,sticker.getId());
+        WRITER.printAction(ConsoleColors.GREEN,"Created",TYPE,sticker.getId(),true);
     }
 
     @Override
     public ISticker readSticker(long id) {
         if (stickerCache == null) readAllStickers();
-        WRITER.printAction(ConsoleColors.YELLOW,"Read",TYPE,id);
+        WRITER.printAction(ConsoleColors.YELLOW,"Read",TYPE,id,false);
         return stickerCache.stream().filter(sticker -> sticker.getId() == id).findFirst().get();
     }
 
@@ -69,7 +69,7 @@ public final class StickerDomain implements IStickerDomain {
         DATA_FACADE.getDataConnection().updateSticker(sticker.convert2JSON());
         stickerCache.removeIf(stk -> stk.getId() == sticker.getId());
         stickerCache.add(sticker);
-        WRITER.printAction(ConsoleColors.PURPLE,"Updated",TYPE,sticker.getId());
+        WRITER.printAction(ConsoleColors.PURPLE,"Updated",TYPE,sticker.getId(),true);
     }
 
     @Override
@@ -77,6 +77,6 @@ public final class StickerDomain implements IStickerDomain {
         if (stickerCache == null) readAllStickers();
         DATA_FACADE.getDataConnection().deleteSticker(id);
         stickerCache.removeIf(sticker -> sticker.getId() == id);
-        WRITER.printAction(ConsoleColors.RED,"Deleted",TYPE,id);
+        WRITER.printAction(ConsoleColors.RED,"Deleted",TYPE,id,true);
     }
 }
