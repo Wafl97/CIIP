@@ -1,9 +1,7 @@
 package org.example.logic;
 
-import org.example.data.GenericSubConnection;
 import org.example.data.interfaces.IDataFacade;
 import org.example.data.interfaces.IGenericSubConnection;
-import org.example.logic.Domain;
 import org.example.logic.interfaces.IFactory;
 import org.example.logic.interfaces.IActionWriter;
 import org.example.logic.dto.interfaces.comps.Convertible;
@@ -16,11 +14,11 @@ import org.json.simple.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.example.util.Attributes.*;
+import static org.example.util.ConsoleColors.*;
 
 public final class GenericDomain implements IGenericDomain {
 
-    private final IDataFacade DATA_FACADE;
+    private static final IDataFacade DATA_FACADE = Domain.getInstance().getDataFacade();
     private final IFactory CREATOR;
     private final IActionWriter WRITER;
     private final Attributes TYPE;
@@ -29,49 +27,48 @@ public final class GenericDomain implements IGenericDomain {
     private List<Identifiable> cache;
 
     public GenericDomain(Attributes TYPE){
-        DATA_FACADE = Domain.getInstance().getDataFacade();
         CREATOR = Domain.getInstance().getFactory();
         WRITER = Domain.getInstance().getActionWriter();
         this.TYPE = TYPE;
         switch (TYPE){
             case CAPSULE:
-                SUB_CON = new GenericSubConnection(CAPSULES,CAPSULE,true);
+                SUB_CON = DATA_FACADE.getDataConnection().getCapsuleConnection();
                 break;
             case CASE:
-                SUB_CON = new GenericSubConnection(CASES,CASE,true);
+                SUB_CON = DATA_FACADE.getDataConnection().getCaseConnection();
                 break;
             case GRAFFITI:
-                SUB_CON = new GenericSubConnection(GRAFFITIES,GRAFFITI,true);
+                SUB_CON = DATA_FACADE.getDataConnection().getGraffitiConnection();
                 break;
             case KEY:
-                SUB_CON = new GenericSubConnection(KEYS,KEY,true);
+                SUB_CON = DATA_FACADE.getDataConnection().getKeyConnection();
                 break;
             case MUSICKIT:
-                SUB_CON = new GenericSubConnection(MUSICKITS,MUSICKIT,true);
+                SUB_CON = DATA_FACADE.getDataConnection().getMusicKitConnection();
                 break;
             case PATCH:
-                SUB_CON = new GenericSubConnection(PATCHES,PATCH,true);
+                SUB_CON = DATA_FACADE.getDataConnection().getPatchConnection();
                 break;
             case PIN:
-                SUB_CON = new GenericSubConnection(PINS,PIN,true);
+                SUB_CON = DATA_FACADE.getDataConnection().getPinConnection();
                 break;
             case PLAYERMODEL:
-                SUB_CON = new GenericSubConnection(PLAYERMODELS,PLAYERMODEL,true);
+                SUB_CON = DATA_FACADE.getDataConnection().getPlayerModelConnection();
                 break;
             case SKIN:
-                SUB_CON = new GenericSubConnection(SKINS,SKIN,true);
+                SUB_CON = DATA_FACADE.getDataConnection().getSkinConnection();
                 break;
             case SOUVENIR:
-                SUB_CON = new GenericSubConnection(SOUVENIRS,SOUVENIR,true);
+                SUB_CON = DATA_FACADE.getDataConnection().getSouvenirConnection();
                 break;
             case STICKER:
-                SUB_CON = new GenericSubConnection(STICKERS,STICKER,true);
+                SUB_CON = DATA_FACADE.getDataConnection().getStickerConnection();
                 break;
             case TICKET:
-                SUB_CON = new GenericSubConnection(TICKETS,TICKET,true);
+                SUB_CON = DATA_FACADE.getDataConnection().getTicketConnection();
                 break;
             case VAULT:
-                SUB_CON = new GenericSubConnection(VAULTS,VAULT,true);
+                SUB_CON = DATA_FACADE.getDataConnection().getVaultConnection();
                 break;
             default:
                 SUB_CON = null;
@@ -100,12 +97,14 @@ public final class GenericDomain implements IGenericDomain {
         Convertible _item = (Convertible) item;
         SUB_CON.create(_item.convert2JSON());
         cache.add(item);
+        WRITER.printAction(GREEN,"CREATED",TYPE.toNorm(),item.getId(),true);
         return true;
     }
 
     @Override
     public Identifiable read(long id) {
         if (cache == null) readAll();
+        WRITER.printAction(YELLOW,"READ",TYPE.toNorm(),id,false);
         return cache.stream().filter(item -> item.getId() == id).findFirst().get();
     }
 
@@ -116,6 +115,7 @@ public final class GenericDomain implements IGenericDomain {
         SUB_CON.update(_item.convert2JSON());
         cache.removeIf(_item_ -> _item_.getId() == item.getId());
         cache.add(item);
+        WRITER.printAction(PURPLE,"UPDATED",TYPE.toNorm(),item.getId(),true);
         return true;
     }
 
@@ -124,6 +124,7 @@ public final class GenericDomain implements IGenericDomain {
         if (cache == null) readAll();
         SUB_CON.delete(id);
         cache.removeIf(item -> item.getId() == id);
+        WRITER.printAction(RED,"DELETED",TYPE.toNorm(),id,true);
         return false;
     }
 }

@@ -6,7 +6,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 
 import org.example.logic.dto.interfaces.*;
@@ -108,7 +107,7 @@ public class ItemController extends App implements Initializable {
     }
 
     @FXML
-    private void readItem(MouseEvent event){
+    private void readItem(){
         itemIndex = itemsListView.getSelectionModel().getSelectedIndex();
         if (itemIndex != -1) {
             loadedItem = itemsListView.getSelectionModel().getSelectedItem();
@@ -159,7 +158,7 @@ public class ItemController extends App implements Initializable {
                     statTrack,
                     souvenir
             );
-            DOMAIN.getSkinDomain().update((ISkin) loadedItem);
+            DOMAIN.getSkinDomain().update(loadedItem);
         }
         else if (loadedItem instanceof ICapsule) {
             ((ICapsule) loadedItem).populate(
@@ -169,7 +168,7 @@ public class ItemController extends App implements Initializable {
                     imageName,
                     link
             );
-            DOMAIN.getCapsuleDomain().update((ICapsule) loadedItem);
+            DOMAIN.getCapsuleDomain().update(loadedItem);
         }
         else if (loadedItem instanceof ISouvenirCase) {
             ((ISouvenirCase) loadedItem).populate(
@@ -179,7 +178,7 @@ public class ItemController extends App implements Initializable {
                     imageName,
                     link
             );
-            DOMAIN.getSouvenirCaseDomain().update((ISouvenirCase) loadedItem);
+            DOMAIN.getSouvenirCaseDomain().update(loadedItem);
         }
         else if (loadedItem instanceof ISticker){
             ((ISticker) loadedItem).populate(
@@ -189,7 +188,7 @@ public class ItemController extends App implements Initializable {
                     imageName,
                     link
             );
-            DOMAIN.getStickerDomain().update((ISticker) loadedItem);
+            DOMAIN.getStickerDomain().update(loadedItem);
         }
         else if (loadedItem instanceof IPatch){
             ((IPatch) loadedItem).populate(
@@ -199,7 +198,7 @@ public class ItemController extends App implements Initializable {
                     imageName,
                     link
             );
-            DOMAIN.getPatchDomain().update((IPatch) loadedItem);
+            DOMAIN.getPatchDomain().update(loadedItem);
         }
         else if (loadedItem instanceof ICase){
             ((ICase) loadedItem).populate(
@@ -209,7 +208,7 @@ public class ItemController extends App implements Initializable {
                     imageName,
                     link
             );
-            DOMAIN.getCaseDomain().update((ICase) loadedItem);
+            DOMAIN.getCaseDomain().update(loadedItem);
         }
         else if (loadedItem instanceof ITicket){
             ((ITicket) loadedItem).populate(
@@ -219,7 +218,7 @@ public class ItemController extends App implements Initializable {
                     imageName,
                     link
             );
-            DOMAIN.getTicketDomain().update((ITicket) loadedItem);
+            DOMAIN.getTicketDomain().update(loadedItem);
         }
         else if (loadedItem instanceof IKey){
             ((IKey) loadedItem).populate(
@@ -229,7 +228,7 @@ public class ItemController extends App implements Initializable {
                     imageName,
                     link
             );
-            DOMAIN.getKeyDomain().update((IKey) loadedItem);
+            DOMAIN.getKeyDomain().update(loadedItem);
         }
         else if (loadedItem instanceof IMusicKit){
             ((IMusicKit) loadedItem).populate(
@@ -239,7 +238,7 @@ public class ItemController extends App implements Initializable {
                     imageName,
                     link
             );
-            DOMAIN.getMusicKitDomain().update((IMusicKit) loadedItem);
+            DOMAIN.getMusicKitDomain().update(loadedItem);
         }
         else if (loadedItem instanceof IPin){
             ((IPin) loadedItem).populate(
@@ -249,7 +248,7 @@ public class ItemController extends App implements Initializable {
                     imageName,
                     link
             );
-            DOMAIN.getPinDomain().update((IPin) loadedItem);
+            DOMAIN.getPinDomain().update(loadedItem);
         }
         else if (loadedItem instanceof IPlayerModel){
             ((IPlayerModel) loadedItem).populate(
@@ -259,7 +258,7 @@ public class ItemController extends App implements Initializable {
                     imageName,
                     link
             );
-            DOMAIN.getPlayerModelDomain().update((IPlayerModel) loadedItem);
+            DOMAIN.getPlayerModelDomain().update(loadedItem);
         }
         else if (loadedItem instanceof IGraffiti){
             ((IGraffiti) loadedItem).populate(
@@ -269,7 +268,7 @@ public class ItemController extends App implements Initializable {
                     imageName,
                     link
             );
-            DOMAIN.getGraffitiDomain().update((IGraffiti) loadedItem);
+            DOMAIN.getGraffitiDomain().update(loadedItem);
         }
         else {
             throw new IllegalStateException("No Item type selected");
@@ -468,7 +467,7 @@ public class ItemController extends App implements Initializable {
     }
 
     @FXML
-    public void imageHandler(ActionEvent event){
+    public void imageHandler(){
         FileChooser fileChooser = new FileChooser();
         imageFile = fileChooser.showOpenDialog(null);
         if (imageFile != null){

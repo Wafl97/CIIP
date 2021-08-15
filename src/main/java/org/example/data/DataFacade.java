@@ -3,8 +3,6 @@ package org.example.data;
 import org.example.data.interfaces.*;
 import org.example.util.ConsoleColors;
 
-import static org.example.util.Attributes.*;
-
 public final class DataFacade implements IDataFacade {
 
     private static DataFacade instance;
