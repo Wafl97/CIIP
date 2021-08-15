@@ -124,6 +124,8 @@ public final class Domain implements Logic {
         initCaches();
 
         System.out.println(ConsoleColors.GREEN + "Start Complete" + ConsoleColors.RESET + "\n===========================================\n\n" + ConsoleColors.GREEN_BOLD + "Please Enjoy - WAFL" + ConsoleColors.RESET + "\n");
+        DataFacade.getInstance().getLogWriter().writeLog("== SYS == STARTED CIIP ==");
+        DataFacade.getInstance().getLogWriter().writeLog("== SYS == TOTAL CACHE " + (readAllItems().size() + VAULT_DOMAIN.readAll().size()) + " ==");
     }
 
     @Override
