@@ -34,8 +34,8 @@ public final class GenericSubConnection implements IGenericSubConnection {
     }
 
     @Override
-    public void create(JSONObject jsonObject) {
-        addObjToTable(jsonObject,TABLE);
+    public boolean create(JSONObject jsonObject) {
+        return addObjToTable(jsonObject,TABLE);
     }
 
     @Override
@@ -44,27 +44,29 @@ public final class GenericSubConnection implements IGenericSubConnection {
     }
 
     @Override
-    public void update(JSONObject jsonObject) {
-        updateObjInTable(jsonObject,TABLE,ATTRIBUTE);
+    public boolean update(JSONObject jsonObject) {
+        return updateObjInTable(jsonObject,TABLE,ATTRIBUTE);
     }
 
     @Override
-    public void delete(long id) {
-        removeObjFromTable(id,TABLE,ATTRIBUTE,cascadeOnDelete);
+    public boolean delete(long id) {
+        return removeObjFromTable(id,TABLE,ATTRIBUTE,cascadeOnDelete);
     }
 
     //==================================================================================================================
     //Helper methods
 
-    private void saveFile(JSONArray jsonArray, Attributes file){
+    private boolean saveFile(JSONArray jsonArray, Attributes file){
         File jsonFile = JsonConnection.getInstance().getFileMap().get(file.toString());
         try {
             FileWriter fileWriter = new FileWriter(jsonFile);
             fileWriter.write(jsonArray.toJSONString());
             fileWriter.flush();
             fileWriter.close();
+            return true;
         } catch (IOException e) {
             e.printStackTrace();
+            return false;
         }
     }
 
@@ -89,13 +91,13 @@ public final class GenericSubConnection implements IGenericSubConnection {
         return null;
     }
 
-    private void addObjToTable(JSONObject obj, Attributes table){
+    private boolean addObjToTable(JSONObject obj, Attributes table){
         JSONArray array = loadFile(table);
         array.add(obj);
-        saveFile(array,table);
+        return saveFile(array,table);
     }
 
-    private void removeObjFromTable(long id, Attributes table, Attributes objName, boolean cascade) {
+    private boolean removeObjFromTable(long id, Attributes table, Attributes objName, boolean cascade) {
         JSONArray jsonArray = loadFile(table);
         if (jsonArray != null) {
             for (Object o : jsonArray) {
@@ -125,12 +127,13 @@ public final class GenericSubConnection implements IGenericSubConnection {
                         }
                     }
                 }
-                saveFile(investArray, VAULTS);
+                return saveFile(investArray, VAULTS);
             }
         }
+        return false;
     }
 
-    private void updateObjInTable(JSONObject jsonObject, Attributes table, Attributes objName) {
+    private boolean updateObjInTable(JSONObject jsonObject, Attributes table, Attributes objName) {
         long id = (long) ((JSONObject) jsonObject.get(objName.toString())).get(ID.toString());
         JSONArray jsonArray = loadFile(table);
         if (jsonArray != null) {
@@ -143,7 +146,8 @@ public final class GenericSubConnection implements IGenericSubConnection {
                     break;
                 }
             }
-            saveFile(jsonArray, table);
+            return saveFile(jsonArray, table);
         }
+        return false;
     }
 }

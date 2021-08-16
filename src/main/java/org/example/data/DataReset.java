@@ -6,11 +6,6 @@ public final class DataReset {
 
     private static DataReset instance;
 
-    public static void main(String[] args) {
-        DataReset dataReset = new DataReset();
-        dataReset.reset();
-    }
-
     public static DataReset getInstance(){
         return instance == null ? instance = new DataReset() : instance;
     }

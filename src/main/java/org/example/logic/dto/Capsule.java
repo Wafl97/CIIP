@@ -46,16 +46,4 @@ public final class Capsule extends GenericItem<ICapsule> implements ICapsule {
         setStashLink(stashLink);
         return this;
     }
-
-    @Override
-    public String toString() {
-        return "Capsule{" +
-                "id=" + id +
-                ", initPrice=" + initPrice +
-                ", currPrice=" + currPrice +
-                ", name='" + name + '\'' +
-                ", image='" + image + '\'' +
-                ", link='" + link + '\'' +
-                '}';
-    }
 }

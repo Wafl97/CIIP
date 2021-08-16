@@ -114,6 +114,7 @@ public abstract class GenericItem<T> implements Item<T> {
                 }
             } catch (IOException e) {
                 e.printStackTrace();
+                throw new IllegalStateException("Cant use the given url");
             }
             setCurrPrice(d);
             priceUpdated = true;
@@ -122,7 +123,7 @@ public abstract class GenericItem<T> implements Item<T> {
 
     @Override
     public double getDiffPrice() {
-        return initPrice - currPrice;
+        return currPrice - initPrice;
     }
 
     @Override

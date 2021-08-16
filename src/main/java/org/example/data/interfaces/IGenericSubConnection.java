@@ -7,8 +7,8 @@ import java.util.List;
 public interface IGenericSubConnection {
 
     List<JSONObject> readAll();
-    void create(JSONObject jsonObject);
+    boolean create(JSONObject jsonObject);
     JSONObject read(long id);
-    void update(JSONObject jsonObject);
-    void delete(long id);
+    boolean update(JSONObject jsonObject);
+    boolean delete(long id);
 }

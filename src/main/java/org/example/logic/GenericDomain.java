@@ -95,10 +95,9 @@ public final class GenericDomain implements IGenericDomain {
     public boolean create(Identifiable item) {
         if (cache == null) readAll();
         Convertible _item = (Convertible) item;
-        SUB_CON.create(_item.convert2JSON());
         cache.add(item);
         WRITER.printAction(GREEN,"CREATED",TYPE.toNorm(),item.getId(),true);
-        return true;
+        return SUB_CON.create(_item.convert2JSON());
     }
 
     @Override
@@ -112,19 +111,17 @@ public final class GenericDomain implements IGenericDomain {
     public boolean update(Identifiable item) {
         if (cache == null) readAll();
         Convertible _item = (Convertible) item;
-        SUB_CON.update(_item.convert2JSON());
         cache.removeIf(_item_ -> _item_.getId() == item.getId());
         cache.add(item);
         WRITER.printAction(PURPLE,"UPDATED",TYPE.toNorm(),item.getId(),true);
-        return true;
+        return SUB_CON.update(_item.convert2JSON());
     }
 
     @Override
     public boolean delete(long id) {
         if (cache == null) readAll();
-        SUB_CON.delete(id);
         cache.removeIf(item -> item.getId() == id);
         WRITER.printAction(RED,"DELETED",TYPE.toNorm(),id,true);
-        return true;
+        return SUB_CON.delete(id);
     }
 }
