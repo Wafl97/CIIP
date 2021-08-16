@@ -49,16 +49,6 @@ class GenericDomainTest {
     }
 
     @Test
-    void readAllCases() {
-        //Test Cases
-        ICase b1 = factory.buildCase().populate(1,156.22,"Operation Hydra Case","CASE_HYDRA.png","https://csgostash.com/case/208/Operation-Hydra-Case");
-        // TODO: 16-08-2021 Add more Cases to test data
-        goodList = new ArrayList<>(Arrays.asList(b1));
-        List<Identifiable> bList = domain.getCaseDomain().readAll();
-        IntStream.range(0, goodList.size()).forEach(i -> assertEquals(goodList.get(i).toString(), bList.get(i).toString()));
-    }
-
-    @Test
     void createCapsule() {
         ICapsule a7 = factory.buildCapsule().populate(99,99,"new capsule","img.png","https://csgostash.com/stickers/capsule/314/Poorly-Drawn-Capsule");
         assertTrue(domain.getCapsuleDomain().create(a7));
@@ -66,8 +56,8 @@ class GenericDomainTest {
 
     @Test
     void readCapsule() {
-        ICapsule a7 = factory.buildCapsule().populate(99,99,"new capsule","img.png","https://csgostash.com/stickers/capsule/314/Poorly-Drawn-Capsule");
-        assertEquals(a7.toString(),domain.getCapsuleDomain().read(99).toString());
+        ICapsule a1 = factory.buildCapsule().populate(1,0.22,"Berlin 2019 Legends","2019BER_LEG.png","https://csgostash.com/stickers/capsule/278/Berlin-2019-Legends-Holo-Foil");
+        assertEquals(a1.toString(),domain.getCapsuleDomain().read(1).toString());
     }
 
     @Test
@@ -79,5 +69,38 @@ class GenericDomainTest {
     @Test
     void deleteCapsule() {
         assertTrue(domain.getCapsuleDomain().delete(99));
+    }
+
+    @Test
+    void readAllCases() {
+        //Test Cases
+        ICase b1 = factory.buildCase().populate(1,156.22,"Operation Hydra Case","CASE_HYDRA.png","https://csgostash.com/case/208/Operation-Hydra-Case");
+        // TODO: 16-08-2021 Add more Cases to test data
+        goodList = new ArrayList<>(Arrays.asList(b1));
+        List<Identifiable> bList = domain.getCaseDomain().readAll();
+        IntStream.range(0, goodList.size()).forEach(i -> assertEquals(goodList.get(i).toString(), bList.get(i).toString()));
+    }
+
+    @Test
+    void createCases() {
+        ICase b2 = factory.buildCase().populate(99,99,"new case","img.png","https://csgostash.com/stickers/capsule/314/Poorly-Drawn-Capsule");
+        assertTrue(domain.getCaseDomain().create(b2));
+    }
+
+    @Test
+    void readCase() {
+        ICase b1 = factory.buildCase().populate(1,156.22,"Operation Hydra Case","CASE_HYDRA.png","https://csgostash.com/case/208/Operation-Hydra-Case");
+        assertEquals(b1.toString(),domain.getCaseDomain().read(1).toString());
+    }
+
+    @Test
+    void updateCase() {
+        ICase b3 = factory.buildCase().populate(99,99,"updated case","img.png","https://csgostash.com/stickers/capsule/314/Poorly-Drawn-Capsule");
+        assertTrue(domain.getCaseDomain().update(b3));
+    }
+
+    @Test
+    void deleteCase() {
+        assertTrue(domain.getCaseDomain().delete(99));
     }
 }
