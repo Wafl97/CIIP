@@ -15,8 +15,8 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.image.ImageView;
 
+import org.example.logic.dto.interfaces.*;
 import org.example.logic.dto.interfaces.comps.Displayable;
-import org.example.logic.dto.interfaces.IVault;
 import org.example.logic.dto.interfaces.comps.Identifiable;
 import org.example.util.ConsoleColors;
 
@@ -157,6 +157,45 @@ public class MainController extends App implements Initializable {
         totalMadeLabelValue.setText("--.--");
     }
 
+    private void updateItem(Displayable displayable){
+        if (displayable instanceof ISkin) {
+            DOMAIN.getSkinDomain().update(displayable);
+        }
+        else if (displayable instanceof ICapsule) {
+            DOMAIN.getCapsuleDomain().update(displayable);
+        }
+        else if (displayable instanceof ISouvenirCase) {
+            DOMAIN.getSouvenirCaseDomain().update(displayable);
+        }
+        else if (displayable instanceof ISticker){
+            DOMAIN.getStickerDomain().update(displayable);
+        }
+        else if (displayable instanceof IPatch){
+            DOMAIN.getPatchDomain().update(displayable);
+        }
+        else if (displayable instanceof ICase){
+            DOMAIN.getCaseDomain().update(displayable);
+        }
+        else if (displayable instanceof ITicket){
+            DOMAIN.getTicketDomain().update(displayable);
+        }
+        else if (displayable instanceof IKey){
+            DOMAIN.getKeyDomain().update(displayable);
+        }
+        else if (displayable instanceof IMusicKit){
+            DOMAIN.getMusicKitDomain().update(displayable);
+        }
+        else if (displayable instanceof IPin){
+            DOMAIN.getPinDomain().update(displayable);
+        }
+        else if (displayable instanceof IPlayerModel){
+            DOMAIN.getPlayerModelDomain().update(displayable);
+        }
+        else if (displayable instanceof IGraffiti){
+            DOMAIN.getGraffitiDomain().update(displayable);
+        }
+    }
+
     @FXML
     private void itemHandler() {
         itemIndex = itemListView.getSelectionModel().getSelectedIndex();
@@ -189,8 +228,8 @@ public class MainController extends App implements Initializable {
         System.out.println("\nUpdating prices for all items\n");
         System.out.println("This might take some time...\n");
         allVaults.forEach(vault -> vault.getAllItems().keySet().forEach(displayable -> {
-            displayable.setPriceUpdated(false);
             displayable.updateCurrPrice();
+            updateItem(displayable);
         }));
         updateLabels();
         investmentHandler();

@@ -27,15 +27,8 @@ public abstract class GenericItem<T> implements Item<T> {
     protected String image;
     protected String link;
 
-    protected boolean priceUpdated = false;
-
     public GenericItem(Attributes attributes){
         jsonAttribute = attributes.toString();
-    }
-
-    @Override
-    public void setPriceUpdated(boolean overwrite) {
-        this.priceUpdated = overwrite;
     }
 
     @Override
@@ -80,7 +73,6 @@ public abstract class GenericItem<T> implements Item<T> {
 
     @Override
     public double getCurrPrice() {
-        if (!priceUpdated) updateCurrPrice();
         return currPrice;
     }
 
@@ -91,34 +83,31 @@ public abstract class GenericItem<T> implements Item<T> {
 
     @Override
     public void updateCurrPrice() {
-        if (!priceUpdated) {
-            System.out.println(ConsoleColors.YELLOW + "Updating current price for" + ConsoleColors.RESET + " [" + ConsoleColors.BLUE + getName() + ConsoleColors.RESET + "] From: [" + getStashLink() + "]");
-            double d = 0.0d;
-            try {
-                Scanner input = new Scanner(new URL(link).openStream());
-                String result = "";
+        System.out.println(ConsoleColors.YELLOW + "Updating current price for" + ConsoleColors.RESET + " [" + ConsoleColors.BLUE + getName() + ConsoleColors.RESET + "] From: [" + getStashLink() + "]");
+        double d = 0.0d;
+        try {
+            Scanner input = new Scanner(new URL(link).openStream());
+            String result = "";
 
-                Matcher stopMatcher;
-                //Skip to relevant
-                while (input.hasNext()) {
-                    stopMatcher = STOP_PATTERN.matcher(input.nextLine());
-                    if (stopMatcher.find()) {
-                        result = input.nextLine();
-                        break;
-                    }
+            Matcher stopMatcher;
+            //Skip to relevant
+            while (input.hasNext()) {
+                stopMatcher = STOP_PATTERN.matcher(input.nextLine());
+                if (stopMatcher.find()) {
+                    result = input.nextLine();
+                    break;
                 }
-                input.close();
-                Matcher priceMatcher = PRICE_PATTERN.matcher(result);
-                if (priceMatcher.find()) {
-                    d = Double.parseDouble(priceMatcher.group(1).replace(",", "."));
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-                throw new IllegalStateException("Cant use the given url");
             }
-            setCurrPrice(d);
-            priceUpdated = true;
+            input.close();
+            Matcher priceMatcher = PRICE_PATTERN.matcher(result);
+            if (priceMatcher.find()) {
+                d = Double.parseDouble(priceMatcher.group(1).replace(",", "."));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new IllegalStateException("Cant use the given url");
         }
+        setCurrPrice(d);
     }
 
     @Override
@@ -134,7 +123,6 @@ public abstract class GenericItem<T> implements Item<T> {
     @Override
     public void setStashLink(String link) {
         this.link = link;
-        updateCurrPrice();
     }
 
     @Override
@@ -143,11 +131,34 @@ public abstract class GenericItem<T> implements Item<T> {
         JSONObject innerObj = new JSONObject();
         innerObj.put(ID.toString(),getId());
         innerObj.put(INIT_PRICE.toString(),getInitPrice());
+        innerObj.put(CURR_PRICE.toString(),getCurrPrice());
         innerObj.put(NAME.toString(),getName());
         innerObj.put(IMAGE.toString(),getImage());
         innerObj.put(STASH_LINK.toString(),getStashLink());
         shellObj.put(jsonAttribute,innerObj);
         return shellObj;
+    }
+
+    protected GenericItem popHelper(long id, double initPrice, double currPrice, String name, String image, String stashLink){
+        setId(id);
+        setInitPrice(initPrice);
+        setCurrPrice(currPrice);
+        setName(name);
+        setImage(image);
+        setStashLink(stashLink);
+        return this;
+    }
+
+    protected GenericItem convertHelper(JSONObject jsonObject){
+        JSONObject innerObj = (JSONObject) jsonObject.get(jsonAttribute);
+        return popHelper(
+                (long)      innerObj.get(ID.toString()),
+                (double)    innerObj.get(INIT_PRICE.toString()),
+                (double)    innerObj.get(CURR_PRICE.toString()),
+                (String)    innerObj.get(NAME.toString()),
+                (String)    innerObj.get(IMAGE.toString()),
+                (String)    innerObj.get(STASH_LINK.toString())
+        );
     }
 
     @Override

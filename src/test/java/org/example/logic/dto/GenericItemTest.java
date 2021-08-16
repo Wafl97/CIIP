@@ -27,8 +27,7 @@ class GenericItemTest {
 
     @Test
     void currPrice() {
-        ICapsule a1 = factory.buildCapsule().populate(1,0.22,"Berlin 2019 Legends","2019BER_LEG.png","https://csgostash.com/stickers/capsule/278/Berlin-2019-Legends-Holo-Foil");
-        a1.setPriceUpdated(true);
+        ICapsule a1 = factory.buildCapsule().populate(1,0.22,0.0,"Berlin 2019 Legends","2019BER_LEG.png","https://csgostash.com/stickers/capsule/278/Berlin-2019-Legends-Holo-Foil");
         a1.updateCurrPrice();
         a1.getCurrPrice();
         double d = a1.getCurrPrice() - a1.getInitPrice();
@@ -39,7 +38,7 @@ class GenericItemTest {
     void setStashLink() {
         //Bad link test
         ICapsule a8 = factory.buildCapsule();
-        assertThrows(IllegalStateException.class, () -> a8.populate(1001,0.22,"Berlin 2019 Legends","2019BER_LEG.png","BAD.LINK"));
+        assertThrows(IllegalStateException.class, () -> a8.populate(1001,0.22,0.0,"Berlin 2019 Legends","2019BER_LEG.png","BAD.LINK"));
     }
 
     @Test

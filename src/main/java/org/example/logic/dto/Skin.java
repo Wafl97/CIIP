@@ -32,38 +32,34 @@ public final class Skin extends GenericItem<ISkin> implements ISkin {
 
     @Override
     public void updateCurrPrice() {
-        if (!priceUpdated) {
-            System.out.println(ConsoleColors.YELLOW + "Updating current price for" + ConsoleColors.RESET + " [" + ConsoleColors.BLUE + getName() + ConsoleColors.RESET + "] From: [" + getStashLink() + "]");
-            Double[] prices = new Double[2];
-            try {
-                Scanner input = new Scanner(new URL(getStashLink()).openStream());
-                String result;
-                Matcher wearStopper;
-                Matcher priceStopper;
-                int pIndex = -2;
+        System.out.println(ConsoleColors.YELLOW + "Updating current price for" + ConsoleColors.RESET + " [" + ConsoleColors.BLUE + getName() + ConsoleColors.RESET + "] From: [" + getStashLink() + "]");
+        Double[] prices = new Double[2];
+        try {
+            Scanner input = new Scanner(new URL(getStashLink()).openStream());
+            String result;
+            Matcher wearStopper;
+            Matcher priceStopper;
+            int pIndex = -2;
 
-                while (input.hasNext()) {
-                    wearStopper = this.wearPattern.matcher(input.nextLine());
-                    if (wearStopper.find()) {
-                        result = input.nextLine();
-                        priceStopper = PRICE_PATTERN.matcher(result);
-                        if (priceStopper.find() && pIndex >= 0) {
-                            prices[pIndex] = Double.parseDouble(priceStopper.group(1).replace(",", ".").replace("-", "0"));
-                        } else if (pIndex >= 0) {
-                            prices[pIndex] = -1.0;
-                        }
-                        pIndex++;
+            while (input.hasNext()) {
+                wearStopper = this.wearPattern.matcher(input.nextLine());
+                if (wearStopper.find()) {
+                    result = input.nextLine();
+                    priceStopper = PRICE_PATTERN.matcher(result);
+                    if (priceStopper.find() && pIndex >= 0) {
+                        prices[pIndex] = Double.parseDouble(priceStopper.group(1).replace(",", ".").replace("-", "0"));
+                    } else if (pIndex >= 0) {
+                        prices[pIndex] = -1.0;
                     }
+                    pIndex++;
                 }
-                input.close();
-            } catch (IOException e) {
-                e.printStackTrace();
             }
-            if (isStatTrak() || isSouvenir()) setCurrPrice(prices[0]);
-            else setCurrPrice(prices[1]);
-
-            priceUpdated = true;
+            input.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        if (isStatTrak() || isSouvenir()) setCurrPrice(prices[0]);
+        else setCurrPrice(prices[1]);
     }
 
     @Override
@@ -111,6 +107,7 @@ public final class Skin extends GenericItem<ISkin> implements ISkin {
         JSONObject innerObj = new JSONObject();
         innerObj.put(ID.toString(),getId());
         innerObj.put(INIT_PRICE.toString(),getInitPrice());
+        innerObj.put(CURR_PRICE.toString(),getCurrPrice());
         innerObj.put(NAME.toString(),getName());
         innerObj.put(IMAGE.toString(),getImage());
         innerObj.put(STASH_LINK.toString(),getStashLink());
@@ -127,6 +124,7 @@ public final class Skin extends GenericItem<ISkin> implements ISkin {
         return  populate(
                 (long)      innerObj.get(ID.toString()),
                 (double)    innerObj.get(INIT_PRICE.toString()),
+                (double)    innerObj.get(CURR_PRICE.toString()),
                 (String)    innerObj.get(NAME.toString()),
                 (String)    innerObj.get(IMAGE.toString()),
                 (String)    innerObj.get(STASH_LINK.toString()),
@@ -146,9 +144,10 @@ public final class Skin extends GenericItem<ISkin> implements ISkin {
     }
 
     @Override
-    public ISkin populate(long id, double initPrice, String name, String image, String stashLink, double wearFloat, boolean statTrack, boolean souvenir) {
+    public ISkin populate(long id, double initPrice, double currPrice, String name, String image, String stashLink, double wearFloat, boolean statTrack, boolean souvenir) {
         setId(id);
         setInitPrice(initPrice);
+        setCurrPrice(currPrice);
         setName(name);
         setImage(image);
         setWearFloat(wearFloat);

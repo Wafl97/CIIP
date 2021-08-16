@@ -14,5 +14,5 @@ public interface ISkin extends Displayable, Convertible<ISkin> {
     void setWearFloat(double wearFloat);
     double getWearFloat();
 
-    ISkin populate(long id, double initPrice, String name, String image, String stashLink, double wearFloat, boolean statTrack, boolean souvenir);
+    ISkin populate(long id, double initPrice, double currPrice, String name, String image, String stashLink, double wearFloat, boolean statTrack, boolean souvenir);
 }

@@ -5,6 +5,9 @@ import org.example.logic.dto.interfaces.comps.Identifiable;
 import java.util.List;
 
 public interface IGenericDomain {
+
+    String getType();
+
     List<Identifiable> readAll();
     boolean create(Identifiable item);
     Identifiable read(long id);

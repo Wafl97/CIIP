@@ -2,6 +2,7 @@ package org.example.logic.dto;
 
 import org.example.logic.Domain;
 import org.example.logic.dto.interfaces.ICapsule;
+import org.example.logic.dto.interfaces.ICase;
 import org.example.logic.dto.interfaces.comps.Identifiable;
 import org.example.logic.interfaces.IGenericDomain;
 import org.json.simple.JSONObject;
@@ -18,14 +19,7 @@ public final class Capsule extends GenericItem<ICapsule> implements ICapsule {
 
     @Override
     public ICapsule convert2Obj(JSONObject jsonObject) {
-        JSONObject innerObj = (JSONObject) jsonObject.get(jsonAttribute);
-        return  populate(
-                (long)      innerObj.get(ID.toString()),
-                (double)    innerObj.get(INIT_PRICE.toString()),
-                (String)    innerObj.get(NAME.toString()),
-                (String)    innerObj.get(IMAGE.toString()),
-                (String)    innerObj.get(STASH_LINK.toString())
-        );
+        return (ICapsule) convertHelper(jsonObject);
     }
 
     @Override
@@ -38,12 +32,7 @@ public final class Capsule extends GenericItem<ICapsule> implements ICapsule {
     }
 
     @Override
-    public ICapsule populate(long id, double initPrice, String name, String image, String stashLink) {
-        setId(id);
-        setInitPrice(initPrice);
-        setName(name);
-        setImage(image);
-        setStashLink(stashLink);
-        return this;
+    public ICapsule populate(long id, double initPrice, double currPrice, String name, String image, String stashLink) {
+        return (ICapsule) popHelper(id,initPrice,currPrice,name,image,stashLink);
     }
 }

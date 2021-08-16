@@ -3,6 +3,7 @@
     "KEY": {
       "ID": 1,
       "INIT_PRICE": 2.5,
+      "CURR_PRICE": 0.0,
       "NAME": "Operation Hydra Case Key",
       "IMAGE": "KEY_HYDRA.png",
       "STASH_LINK": "https://csgostash.com/item/9791/Operation-Hydra-Case-Key"

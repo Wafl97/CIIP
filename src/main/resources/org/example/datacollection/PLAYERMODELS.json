@@ -3,6 +3,7 @@
     "PLAYERMODEL": {
       "ID": 1,
       "INIT_PRICE": 3.3,
+      "CURR_PRICE": 0.0,
       "NAME": "B Squadron Officer | SAS",
       "IMAGE": "PLAYER_SAS.png",
       "STASH_LINK": "https://csgostash.com/agent/17/B-Squadron-Officer-SAS"

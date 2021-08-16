@@ -3,6 +3,7 @@
     "PIN": {
       "ID": 1,
       "INIT_PRICE": 60.60,
+      "CURR_PRICE": 0.0,
       "NAME": "Howl Pin",
       "IMAGE": "PIN_HOWL.png",
       "STASH_LINK": "https://csgostash.com/pin/32/Howl-Pin"

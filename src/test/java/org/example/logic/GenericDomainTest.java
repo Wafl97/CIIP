@@ -35,26 +35,26 @@ class GenericDomainTest {
     List<Identifiable> goodList;
 
     //Capsules
-    ICapsule a1 = new Capsule().populate(1,0.22,"Berlin 2019 Legends","2019BER_LEG.png","https://csgostash.com/stickers/capsule/278/Berlin-2019-Legends-Holo-Foil");
-    ICapsule a2 = new Capsule().populate(2,0.22,"Berlin 2019 Minor","2019BER_MIN.png","https://csgostash.com/stickers/capsule/280/Berlin-2019-Minor-Challengers-Holo-Foil");
-    ICapsule a3 = new Capsule().populate(3,0.22,"Berlin 2019 Returning","2019BER_RET.png","https://csgostash.com/stickers/capsule/279/Berlin-2019-Returning-Challengers-Holo-Foil");
-    ICapsule a4 = new Capsule().populate(4,0.2,"RMR 2020 Challengers","2020RMR_CHA.png","https://csgostash.com/stickers/capsule/312/2020-RMR-Challengers");
-    ICapsule a5 = new Capsule().populate(5,0.2,"RMR 2020 Contenders","2020RMR_CON.png","https://csgostash.com/stickers/capsule/313/2020-RMR-Contenders");
-    ICapsule a6 = new Capsule().populate(6,0.2,"RMR 2020 Legends","2020RMR_LEG.png","https://csgostash.com/stickers/capsule/311/2020-RMR-Legends");
+    ICapsule a1 = new Capsule().populate(1,0.22,0.0,"Berlin 2019 Legends","2019BER_LEG.png","https://csgostash.com/stickers/capsule/278/Berlin-2019-Legends-Holo-Foil");
+    ICapsule a2 = new Capsule().populate(2,0.22,0.0,"Berlin 2019 Minor","2019BER_MIN.png","https://csgostash.com/stickers/capsule/280/Berlin-2019-Minor-Challengers-Holo-Foil");
+    ICapsule a3 = new Capsule().populate(3,0.22,0.0,"Berlin 2019 Returning","2019BER_RET.png","https://csgostash.com/stickers/capsule/279/Berlin-2019-Returning-Challengers-Holo-Foil");
+    ICapsule a4 = new Capsule().populate(4,0.2,0.0,"RMR 2020 Challengers","2020RMR_CHA.png","https://csgostash.com/stickers/capsule/312/2020-RMR-Challengers");
+    ICapsule a5 = new Capsule().populate(5,0.2,0.0,"RMR 2020 Contenders","2020RMR_CON.png","https://csgostash.com/stickers/capsule/313/2020-RMR-Contenders");
+    ICapsule a6 = new Capsule().populate(6,0.2,0.0,"RMR 2020 Legends","2020RMR_LEG.png","https://csgostash.com/stickers/capsule/311/2020-RMR-Legends");
     /* NOT REAL */
-    ICapsule a7 = new Capsule().populate(-1,99,"new capsule","img.png","https://csgostash.com/stickers/capsule/314/Poorly-Drawn-Capsule");
+    ICapsule a7 = new Capsule().populate(-1,99,0.0,"new capsule","img.png","https://csgostash.com/stickers/capsule/314/Poorly-Drawn-Capsule");
 
     //Cases
     // TODO: 16-08-2021 Add more Cases to test data
-    ICase b1 = new Case().populate(1,156.22,"Operation Hydra Case","CASE_HYDRA.png","https://csgostash.com/case/208/Operation-Hydra-Case");
+    ICase b1 = new Case().populate(1,156.22,0.0,"Operation Hydra Case","CASE_HYDRA.png","https://csgostash.com/case/208/Operation-Hydra-Case");
     /* NOT REAL */
-    ICase b2 = new Case().populate(-1,99,"new case","img.png","https://csgostash.com/stickers/capsule/314/Poorly-Drawn-Capsule");
+    ICase b2 = new Case().populate(-1,99,0.0,"new case","img.png","https://csgostash.com/stickers/capsule/314/Poorly-Drawn-Capsule");
 
     //Graffities
     // TODO: 16-08-2021 Add more Cases to test data
-    IGraffiti c1 = new Graffiti().populate(1,1.22,"Rising Skull","GRAFFITI_SKULL.png","https://csgostash.com/graffiti/15/Rising-Skull");
+    IGraffiti c1 = new Graffiti().populate(1,1.22,0.0,"Rising Skull","GRAFFITI_SKULL.png","https://csgostash.com/graffiti/15/Rising-Skull");
     /* NOT REAL */
-    IGraffiti c2 = new Graffiti().populate(-1,99,"new graffiti","img.png","https://csgostash.com/stickers/capsule/314/Poorly-Drawn-Capsule");
+    IGraffiti c2 = new Graffiti().populate(-1,99,0.0,"new graffiti","img.png","https://csgostash.com/stickers/capsule/314/Poorly-Drawn-Capsule");
 
 
     @BeforeEach
@@ -86,7 +86,7 @@ class GenericDomainTest {
 
     @Test
     void updateCapsule() {
-        a1.populate(2,0.22,"Berlin 2019 Minor++","2019BER_MIN.png","https://csgostash.com/stickers/capsule/280/Berlin-2019-Minor-Challengers-Holo-Foil");
+        a1.populate(2,0.22,0.0,"Berlin 2019 Minor++","2019BER_MIN.png","https://csgostash.com/stickers/capsule/280/Berlin-2019-Minor-Challengers-Holo-Foil");
         assertTrue(domain.getCapsuleDomain().update(a1));
     }
 
@@ -114,7 +114,7 @@ class GenericDomainTest {
 
     @Test
     void updateCase() {
-        b1.populate(1,156.22,"Operation Hydra Case++","CASE_HYDRA.png","https://csgostash.com/case/208/Operation-Hydra-Case");
+        b1.populate(1,156.22,0.0,"Operation Hydra Case++","CASE_HYDRA.png","https://csgostash.com/case/208/Operation-Hydra-Case");
         assertTrue(domain.getCaseDomain().update(b1));
     }
 
@@ -142,7 +142,7 @@ class GenericDomainTest {
 
     @Test
     void updateGraffiti() {
-        c1.populate(1,1.22,"Rising Skull++","GRAFFITI_SKULL.png","https://csgostash.com/graffiti/15/Rising-Skull");
+        c1.populate(1,1.22,0.0,"Rising Skull++","GRAFFITI_SKULL.png","https://csgostash.com/graffiti/15/Rising-Skull");
         assertTrue(domain.getGraffitiDomain().update(c1));
     }
 

@@ -3,6 +3,7 @@
     "CASE": {
       "ID": 1,
       "INIT_PRICE": 156.22,
+      "CURR_PRICE": 0.0,
       "NAME": "Operation Hydra Case",
       "IMAGE": "CASE_HYDRA.png",
       "STASH_LINK": "https://csgostash.com/case/208/Operation-Hydra-Case"

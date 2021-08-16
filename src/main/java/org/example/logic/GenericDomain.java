@@ -77,6 +77,11 @@ public final class GenericDomain implements IGenericDomain {
     }
 
     @Override
+    public String getType() {
+        return TYPE.toNorm();
+    }
+
+    @Override
     public List<Identifiable> readAll() {
         if (cache == null){
             System.out.println("===========================================\n" + ConsoleColors.PURPLE + "Caching type: " + TYPE.toNorm() + ConsoleColors.RESET);

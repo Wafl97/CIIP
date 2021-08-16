@@ -6,6 +6,7 @@ public enum Attributes {
     CAPSULES("Capsules"),
     CASE("Case"),
     CASES("Cases"),
+    CURR_PRICE("CurrentPrice"),
     GRAFFITI("Graffiti"),
     GRAFFITIES("Graffities"),
     ID("ID"),

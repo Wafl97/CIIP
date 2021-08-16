@@ -9,7 +9,6 @@ public interface Sellable {
     void setCurrPrice(double price);
 
     void updateCurrPrice();
-    void setPriceUpdated(boolean overwrite);
     double getDiffPrice();
 
     String getStashLink();

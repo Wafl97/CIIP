@@ -3,6 +3,7 @@
     "SOUVENIR": {
       "ID": 1,
       "INIT_PRICE": 9.22,
+      "CURR_PRICE": 0.0,
       "NAME": "S TEST",
       "IMAGE": "2019BER_NUK.png",
       "STASH_LINK": "https://csgostash.com/item/14265/Berlin-2019-Vertigo-Souvenir-Package"

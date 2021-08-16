@@ -141,6 +141,7 @@ public class ItemController extends App implements Initializable {
     private void updateItem(){
         long id = loadedItem.getId();
         double initPrice = (priceSpinner.getValue() == null || priceSpinner.getValue() == 0.0 ? loadedItem.getInitPrice() : priceSpinner.getValue());
+        double currPrice = (currPriceLabel.getText() == null || currPriceLabel.getText().equals("") ? loadedItem.getCurrPrice() : Double.parseDouble(currPriceLabel.getText()));
         String name = (nameTextField.getText() == null || nameTextField.getText().equals("") ? loadedItem.getName() : nameTextField.getText());
         String imageName = (imageFile == null || imageFile.getName().equals("") ? getStringFromString(itemImageView.getImage().getUrl(), "/") : imageFile.getName());
         String link = (linkTextField.getText() == null || linkTextField.getText().equals("") ? loadedItem.getStashLink() : linkTextField.getText());
@@ -151,6 +152,7 @@ public class ItemController extends App implements Initializable {
             ((ISkin) loadedItem).populate(
                     id,
                     initPrice,
+                    currPrice,
                     name,
                     imageName,
                     link,
@@ -164,6 +166,7 @@ public class ItemController extends App implements Initializable {
             ((ICapsule) loadedItem).populate(
                     id,
                     initPrice,
+                    currPrice,
                     name,
                     imageName,
                     link
@@ -174,6 +177,7 @@ public class ItemController extends App implements Initializable {
             ((ISouvenirCase) loadedItem).populate(
                     id,
                     initPrice,
+                    currPrice,
                     name,
                     imageName,
                     link
@@ -184,6 +188,7 @@ public class ItemController extends App implements Initializable {
             ((ISticker) loadedItem).populate(
                     id,
                     initPrice,
+                    currPrice,
                     name,
                     imageName,
                     link
@@ -194,6 +199,7 @@ public class ItemController extends App implements Initializable {
             ((IPatch) loadedItem).populate(
                     id,
                     initPrice,
+                    currPrice,
                     name,
                     imageName,
                     link
@@ -204,6 +210,7 @@ public class ItemController extends App implements Initializable {
             ((ICase) loadedItem).populate(
                     id,
                     initPrice,
+                    currPrice,
                     name,
                     imageName,
                     link
@@ -214,6 +221,7 @@ public class ItemController extends App implements Initializable {
             ((ITicket) loadedItem).populate(
                     id,
                     initPrice,
+                    currPrice,
                     name,
                     imageName,
                     link
@@ -224,6 +232,7 @@ public class ItemController extends App implements Initializable {
             ((IKey) loadedItem).populate(
                     id,
                     initPrice,
+                    currPrice,
                     name,
                     imageName,
                     link
@@ -234,6 +243,7 @@ public class ItemController extends App implements Initializable {
             ((IMusicKit) loadedItem).populate(
                     id,
                     initPrice,
+                    currPrice,
                     name,
                     imageName,
                     link
@@ -244,6 +254,7 @@ public class ItemController extends App implements Initializable {
             ((IPin) loadedItem).populate(
                     id,
                     initPrice,
+                    currPrice,
                     name,
                     imageName,
                     link
@@ -254,6 +265,7 @@ public class ItemController extends App implements Initializable {
             ((IPlayerModel) loadedItem).populate(
                     id,
                     initPrice,
+                    currPrice,
                     name,
                     imageName,
                     link
@@ -264,6 +276,7 @@ public class ItemController extends App implements Initializable {
             ((IGraffiti) loadedItem).populate(
                     id,
                     initPrice,
+                    currPrice,
                     name,
                     imageName,
                     link
@@ -282,6 +295,7 @@ public class ItemController extends App implements Initializable {
             DOMAIN.getSkinDomain().create(s.populate(
                     -1,
                     priceSpinner.getValue(),
+                    -1.0,
                     nameTextField.getText(),
                     imageFile.getName(),
                     linkTextField.getText(),
@@ -295,6 +309,7 @@ public class ItemController extends App implements Initializable {
             DOMAIN.getCapsuleDomain().create(c.populate(
                     -1,
                     priceSpinner.getValue(),
+                    -1.0,
                     nameTextField.getText(),
                     imageFile.getName(),
                     linkTextField.getText()
@@ -305,6 +320,7 @@ public class ItemController extends App implements Initializable {
             DOMAIN.getSouvenirCaseDomain().create(s.populate(
                     -1,
                     priceSpinner.getValue(),
+                    -1.0,
                     nameTextField.getText(),
                     imageFile.getName(),
                     linkTextField.getText()
@@ -315,6 +331,7 @@ public class ItemController extends App implements Initializable {
             DOMAIN.getStickerDomain().create(s.populate(
                     -1,
                     priceSpinner.getValue(),
+                    -1.0,
                     nameTextField.getText(),
                     imageFile.getName(),
                     linkTextField.getText()
@@ -325,6 +342,7 @@ public class ItemController extends App implements Initializable {
             DOMAIN.getPatchDomain().create(p.populate(
                     -1,
                     priceSpinner.getValue(),
+                    -1.0,
                     nameTextField.getText(),
                     imageFile.getName(),
                     linkTextField.getText()
@@ -335,6 +353,7 @@ public class ItemController extends App implements Initializable {
             DOMAIN.getCaseDomain().create(c.populate(
                     -1,
                     priceSpinner.getValue(),
+                    -1.0,
                     nameTextField.getText(),
                     imageFile.getName(),
                     linkTextField.getText()
@@ -345,6 +364,7 @@ public class ItemController extends App implements Initializable {
             DOMAIN.getTicketDomain().create(t.populate(
                     -1,
                     priceSpinner.getValue(),
+                    -1.0,
                     nameTextField.getText(),
                     imageFile.getName(),
                     linkTextField.getText()
@@ -355,6 +375,7 @@ public class ItemController extends App implements Initializable {
             DOMAIN.getKeyDomain().create(k.populate(
                     -1,
                     priceSpinner.getValue(),
+                    -1.0,
                     nameTextField.getText(),
                     imageFile.getName(),
                     linkTextField.getText()
@@ -365,6 +386,7 @@ public class ItemController extends App implements Initializable {
             DOMAIN.getMusicKitDomain().create(m.populate(
                     -1,
                     priceSpinner.getValue(),
+                    -1.0,
                     nameTextField.getText(),
                     imageFile.getName(),
                     linkTextField.getText()
@@ -375,6 +397,7 @@ public class ItemController extends App implements Initializable {
             DOMAIN.getPinDomain().create(p.populate(
                     -1,
                     priceSpinner.getValue(),
+                    -1.0,
                     nameTextField.getText(),
                     imageFile.getName(),
                     linkTextField.getText()
@@ -385,6 +408,7 @@ public class ItemController extends App implements Initializable {
             DOMAIN.getPlayerModelDomain().create(p.populate(
                     -1,
                     priceSpinner.getValue(),
+                    -1.0,
                     nameTextField.getText(),
                     imageFile.getName(),
                     linkTextField.getText()
@@ -395,6 +419,7 @@ public class ItemController extends App implements Initializable {
             DOMAIN.getGraffitiDomain().create(g.populate(
                     -1,
                     priceSpinner.getValue(),
+                    -1.0,
                     nameTextField.getText(),
                     imageFile.getName(),
                     linkTextField.getText()
@@ -552,7 +577,6 @@ public class ItemController extends App implements Initializable {
 
     private void updateCurrPrice() {
         if (loadedItem != null){
-            loadedItem.setPriceUpdated(false);
             currPriceLabel.setText(String.valueOf(loadedItem.getCurrPrice()));
         }
     }

@@ -3,6 +3,7 @@
     "PATCH": {
       "ID": 1,
       "INIT_PRICE": 156.22,
+      "CURR_PRICE": 0.0,
       "NAME": "Patch | Crazy Banana",
       "IMAGE": "Banana patch.png",
       "STASH_LINK": "https://csgostash.com/patch/9/Crazy-Banana"

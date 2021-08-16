@@ -18,14 +18,7 @@ public final class Case extends GenericItem<ICase> implements ICase{
 
     @Override
     public ICase convert2Obj(JSONObject jsonObject) {
-        JSONObject innerObj = (JSONObject) jsonObject.get(jsonAttribute);
-        return  populate(
-                (long)      innerObj.get(ID.toString()),
-                (double)    innerObj.get(INIT_PRICE.toString()),
-                (String)    innerObj.get(NAME.toString()),
-                (String)    innerObj.get(IMAGE.toString()),
-                (String)    innerObj.get(STASH_LINK.toString())
-        );
+        return (ICase) convertHelper(jsonObject);
     }
 
     @Override
@@ -38,12 +31,7 @@ public final class Case extends GenericItem<ICase> implements ICase{
     }
 
     @Override
-    public ICase populate(long id, double initPrice, String name, String image, String stashLink) {
-        setId(id);
-        setInitPrice(initPrice);
-        setName(name);
-        setImage(image);
-        setStashLink(stashLink);
-        return this;
+    public ICase populate(long id, double initPrice, double currPrice, String name, String image, String stashLink) {
+        return (ICase) popHelper(id,initPrice,currPrice,name,image,stashLink);
     }
 }
