@@ -125,6 +125,6 @@ public final class GenericDomain implements IGenericDomain {
         SUB_CON.delete(id);
         cache.removeIf(item -> item.getId() == id);
         WRITER.printAction(RED,"DELETED",TYPE.toNorm(),id,true);
-        return false;
+        return true;
     }
 }

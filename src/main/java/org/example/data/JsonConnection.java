@@ -35,49 +35,81 @@ final class JsonConnection implements DataConnection {
             if (print) {
                 System.out.println("\n||===========================================");
                 System.out.println("|| " + ConsoleColors.PURPLE + "Initiating connection" + ConsoleColors.RESET);
-            }
-            try {
-                // Get the path for the database
-                URL url = getClass().getClassLoader().getResource(PATH);
-                // Check if the path is valid
-                if (url == null) throw new FileNotFoundException("Directory: " + PATH + " does not exist.");
-                // Creates the a file object to the directory
-                File directory = new File(url.toURI());
+                try {
+                    // Get the path for the database
+                    URL url = getClass().getClassLoader().getResource(PATH);
+                    // Check if the path is valid
+                    if (url == null) throw new FileNotFoundException("Directory: " + PATH + " does not exist.");
+                    // Creates the a file object to the directory
+                    File directory = new File(url.toURI());
 
-                if (!directory.isDirectory()) throw new NotDirectoryException(PATH + " is not a directory.");
-                if (print) System.out.println("|| Loading files from [" + ConsoleColors.BLUE + directory + ConsoleColors.RESET + "]");
+                    if (!directory.isDirectory()) throw new NotDirectoryException(PATH + " is not a directory.");
+                    System.out.println("|| Loading files from [" + ConsoleColors.BLUE + directory + ConsoleColors.RESET + "]");
 
-                // Get all files from directory
-                File[] files = directory.listFiles();
+                    // Get all files from directory
+                    File[] files = directory.listFiles();
 
-                // Check if is directory
-                if (files == null) throw new NotDirectoryException(PATH + " is not a directory.");
-                if (print) System.out.println("|| Total files found [" + ConsoleColors.CYAN + files.length + ConsoleColors.RESET + "]");
+                    // Check if is directory
+                    if (files == null) throw new NotDirectoryException(PATH + " is not a directory.");
+                    System.out.println("|| Total files found [" + ConsoleColors.CYAN + files.length + ConsoleColors.RESET + "]");
 
-                // Populate tables hashmap
-                long totalBytes = 0;
-                for (File file : files) {
-                    // Get name of file
-                    String fileName = file.getName().split("\\.")[0];
-                if (print) {
-                    System.out.println("|| " + ConsoleColors.YELLOW + "Found file " + ConsoleColors.RESET + "[" + ConsoleColors.BLUE + fileName + ConsoleColors.RESET + "] : Size [" + ConsoleColors.CYAN + file.length() + ConsoleColors.RESET + "] b");
-                    totalBytes += file.length();
-                }
-                    fileMap.put(fileName, file);
-                }
-                if (print) {
+                    // Populate tables hashmap
+                    long totalBytes = 0;
+                    for (File file : files) {
+                        // Get name of file
+                        String fileName = file.getName().split("\\.")[0];
+                        System.out.println("|| " + ConsoleColors.YELLOW + "Found file " + ConsoleColors.RESET + "[" + ConsoleColors.BLUE + fileName + ConsoleColors.RESET + "] : Size [" + ConsoleColors.CYAN + file.length() + ConsoleColors.RESET + "] b");
+                        totalBytes += file.length();
+
+                        fileMap.put(fileName, file);
+                    }
+
                     System.out.println("|| Total Size[" + ConsoleColors.CYAN + totalBytes + ConsoleColors.RESET + "] b");
                     System.out.println("|| " + ConsoleColors.GREEN + "Initialisation done" + ConsoleColors.RESET);
                     System.out.println("||===========================================\n");
+
+                    connected = true;
+                    return true;
+                } catch (URISyntaxException | FileNotFoundException | NotDirectoryException e) {
+                    connected = false;
+                    return false;
                 }
-                connected = true;
-                return true;
-            } catch (URISyntaxException | FileNotFoundException | NotDirectoryException e) {
-                connected = false;
-                return false;
+            }
+            else {
+                try {
+                    // Get the path for the database
+                    URL url = getClass().getClassLoader().getResource(PATH);
+                    // Check if the path is valid
+                    if (url == null) throw new FileNotFoundException("Directory: " + PATH + " does not exist.");
+                    // Creates the a file object to the directory
+                    File directory = new File(url.toURI());
+
+                    if (!directory.isDirectory()) throw new NotDirectoryException(PATH + " is not a directory.");
+
+                    // Get all files from directory
+                    File[] files = directory.listFiles();
+
+                    // Check if is directory
+                    if (files == null) throw new NotDirectoryException(PATH + " is not a directory.");
+
+                    // Populate tables hashmap
+                    long totalBytes = 0;
+                    for (File file : files) {
+                        // Get name of file
+                        String fileName = file.getName().split("\\.")[0];
+                        totalBytes += file.length();
+
+                        fileMap.put(fileName, file);
+                    }
+                    connected = true;
+                    return true;
+                } catch (URISyntaxException | FileNotFoundException | NotDirectoryException e) {
+                    connected = false;
+                    return false;
+                }
             }
         }
-        System.out.println(ConsoleColors.GREEN + "Connected"  + ConsoleColors.RESET);
+        if (print) System.out.println(ConsoleColors.GREEN + "Connected"  + ConsoleColors.RESET);
         return true;
     }
 

@@ -148,4 +148,16 @@ public abstract class GenericItem<T> implements Item<T> {
         shellObj.put(jsonAttribute,innerObj);
         return shellObj;
     }
+
+    @Override
+    public String toString() {
+        return "GenericItem{" +
+                "id=" + id +
+                ", initPrice=" + initPrice +
+                ", currPrice=" + currPrice +
+                ", name='" + name + '\'' +
+                ", image='" + image + '\'' +
+                ", link='" + link + '\'' +
+                '}';
+    }
 }

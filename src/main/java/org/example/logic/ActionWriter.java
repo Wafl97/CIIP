@@ -6,7 +6,7 @@ import org.example.logic.interfaces.IActionWriter;
 
 public final class ActionWriter implements IActionWriter {
 
-    private final ILogWriter logWriter = DataFacade.getInstance().getLogWriter();
+    private final ILogWriter logWriter = Domain.getInstance().getDataFacade().getLogWriter();
 
     private static ActionWriter instance;
 

@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface Logic {
 
-    void init();
+    void init(boolean print, boolean cacheItems,boolean loadGFX);
 
     IDataFacade getDataFacade();
     IFileHandler getFileHandler();

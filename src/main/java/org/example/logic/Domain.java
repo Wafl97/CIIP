@@ -67,65 +67,78 @@ public final class Domain implements Logic {
 
     }
 
-    public void init(){
+    @Override
+    public void init(boolean print, boolean cacheItems, boolean loadGFX){
 
-        System.out.println("||==================================================||");
-        System.out.println("||\t\t\t\t\t" + ConsoleColors.GREEN + "Starting " + getAppName() + ConsoleColors.RESET + "\t\t\t\t\t||");
-        System.out.println("||==================================================||");
-        System.out.println("Iteration: "  + ConsoleColors.BLUE + getVersion() + ConsoleColors.RESET);
-
-        System.out.println(ConsoleColors.PURPLE + "\nStarting Main Logic\n" + ConsoleColors.RESET);
-
-        System.out.println(ConsoleColors.YELLOW + "\t - Getting Factory" + ConsoleColors.RESET);
-        CREATOR = Factory.getInstance();
-
-        System.out.println(ConsoleColors.YELLOW + "\t - Getting FileHandler" + ConsoleColors.RESET);
-        FILE_HANDLER = FileHandler.getInstance();
-
-        System.out.println(ConsoleColors.YELLOW + "\t - Getting ActionWriter" + ConsoleColors.RESET);
-        WRITER = ActionWriter.getInstance();
-
-        System.out.println(ConsoleColors.YELLOW + "\t - Getting DataFacade" + ConsoleColors.RESET);
-        DATA_FACADE = DataFacade.getInstance();
-
-        System.out.println(ConsoleColors.YELLOW + "\t - Getting SubDomains" + ConsoleColors.RESET);
-        VAULT_DOMAIN = new GenericDomain(VAULT);
-        System.out.println(ConsoleColors.BLUE + "\t\t - " + VAULT_DOMAIN.getClass().getSimpleName() + ConsoleColors.RESET);
-        CAPSULE_DOMAIN = new GenericDomain(CAPSULE);
-        System.out.println(ConsoleColors.BLUE + "\t\t - " + CAPSULE_DOMAIN.getClass().getSimpleName() + ConsoleColors.RESET);
-        SKIN_DOMAIN = new GenericDomain(SKIN);
-        System.out.println(ConsoleColors.BLUE + "\t\t - " + SKIN_DOMAIN.getClass().getSimpleName() + ConsoleColors.RESET);
-        SOUVENIR_CASE_DOMAIN = new GenericDomain(SOUVENIR);
-        System.out.println(ConsoleColors.BLUE + "\t\t - " + SOUVENIR_CASE_DOMAIN.getClass().getSimpleName() + ConsoleColors.RESET);
-        STICKER_DOMAIN = new GenericDomain(STICKER);
-        System.out.println(ConsoleColors.BLUE + "\t\t - " + STICKER_DOMAIN.getClass().getSimpleName() + ConsoleColors.RESET);
-        PATCH_DOMAIN = new GenericDomain(PATCH);
-        System.out.println(ConsoleColors.BLUE + "\t\t - " + PATCH_DOMAIN.getClass().getSimpleName() + ConsoleColors.RESET);
-        CASE_DOMAIN = new GenericDomain(CASE);
-        System.out.println(ConsoleColors.BLUE + "\t\t - " + CASE_DOMAIN.getClass().getSimpleName() + ConsoleColors.RESET);
-        TICKET_DOMAIN = new GenericDomain(TICKET);
-        System.out.println(ConsoleColors.BLUE + "\t\t - " + TICKET_DOMAIN.getClass().getSimpleName() + ConsoleColors.RESET);
-        KEY_DOMAIN = new GenericDomain(KEY);
-        System.out.println(ConsoleColors.BLUE + "\t\t - " + KEY_DOMAIN.getClass().getSimpleName() + ConsoleColors.RESET);
-        MUSIC_KIT_DOMAIN = new GenericDomain(MUSICKIT);
-        System.out.println(ConsoleColors.BLUE + "\t\t - " + MUSIC_KIT_DOMAIN.getClass().getSimpleName() + ConsoleColors.RESET);
-        PIN_DOMAIN = new GenericDomain(PIN);
-        System.out.println(ConsoleColors.BLUE + "\t\t - " + PIN_DOMAIN.getClass().getSimpleName() + ConsoleColors.RESET);
-        PLAYER_MODEL_DOMAIN = new GenericDomain(PLAYERMODEL);
-        System.out.println(ConsoleColors.BLUE + "\t\t - " + PLAYER_MODEL_DOMAIN.getClass().getSimpleName() + ConsoleColors.RESET);
-        GRAFFITI_DOMAIN = new GenericDomain(GRAFFITI);
-        System.out.println(ConsoleColors.BLUE + "\t\t - " + GRAFFITI_DOMAIN.getClass().getSimpleName() + ConsoleColors.RESET);
-
-        
-
-
-
-        System.out.println(ConsoleColors.YELLOW + "\t - Starting Caches" + ConsoleColors.RESET);
-        initCaches();
-
-        System.out.println(ConsoleColors.GREEN + "Start Complete" + ConsoleColors.RESET + "\n===========================================\n\n" + ConsoleColors.GREEN_BOLD + "Please Enjoy - WAFL" + ConsoleColors.RESET + "\n");
+        if (print) {
+            System.out.println("||==================================================||");
+            System.out.println("||\t\t\t\t\t" + ConsoleColors.GREEN + "Starting " + getAppName() + ConsoleColors.RESET + "\t\t\t\t\t||");
+            System.out.println("||==================================================||");
+            System.out.println("Iteration: " + ConsoleColors.BLUE + getVersion() + ConsoleColors.RESET);
+            System.out.println(ConsoleColors.PURPLE + "\nStarting Main Logic\n" + ConsoleColors.RESET);
+            System.out.println(ConsoleColors.YELLOW + "\t - Getting Factory" + ConsoleColors.RESET);
+            CREATOR = Factory.getInstance();
+            System.out.println(ConsoleColors.YELLOW + "\t - Getting FileHandler" + ConsoleColors.RESET);
+            FILE_HANDLER = FileHandler.getInstance();
+            System.out.println(ConsoleColors.YELLOW + "\t - Getting DataFacade" + ConsoleColors.RESET);
+            DATA_FACADE = DataFacade.getInstance();
+            DATA_FACADE.init(true,loadGFX);
+            System.out.println(ConsoleColors.YELLOW + "\t - Getting ActionWriter" + ConsoleColors.RESET);
+            WRITER = ActionWriter.getInstance();
+            System.out.println(ConsoleColors.YELLOW + "\t - Getting SubDomains" + ConsoleColors.RESET);
+            VAULT_DOMAIN = new GenericDomain(VAULT);
+            System.out.println(ConsoleColors.BLUE + "\t\t - " + VAULT_DOMAIN.getClass().getSimpleName() + ConsoleColors.RESET);
+            CAPSULE_DOMAIN = new GenericDomain(CAPSULE);
+            System.out.println(ConsoleColors.BLUE + "\t\t - " + CAPSULE_DOMAIN.getClass().getSimpleName() + ConsoleColors.RESET);
+            SKIN_DOMAIN = new GenericDomain(SKIN);
+            System.out.println(ConsoleColors.BLUE + "\t\t - " + SKIN_DOMAIN.getClass().getSimpleName() + ConsoleColors.RESET);
+            SOUVENIR_CASE_DOMAIN = new GenericDomain(SOUVENIR);
+            System.out.println(ConsoleColors.BLUE + "\t\t - " + SOUVENIR_CASE_DOMAIN.getClass().getSimpleName() + ConsoleColors.RESET);
+            STICKER_DOMAIN = new GenericDomain(STICKER);
+            System.out.println(ConsoleColors.BLUE + "\t\t - " + STICKER_DOMAIN.getClass().getSimpleName() + ConsoleColors.RESET);
+            PATCH_DOMAIN = new GenericDomain(PATCH);
+            System.out.println(ConsoleColors.BLUE + "\t\t - " + PATCH_DOMAIN.getClass().getSimpleName() + ConsoleColors.RESET);
+            CASE_DOMAIN = new GenericDomain(CASE);
+            System.out.println(ConsoleColors.BLUE + "\t\t - " + CASE_DOMAIN.getClass().getSimpleName() + ConsoleColors.RESET);
+            TICKET_DOMAIN = new GenericDomain(TICKET);
+            System.out.println(ConsoleColors.BLUE + "\t\t - " + TICKET_DOMAIN.getClass().getSimpleName() + ConsoleColors.RESET);
+            KEY_DOMAIN = new GenericDomain(KEY);
+            System.out.println(ConsoleColors.BLUE + "\t\t - " + KEY_DOMAIN.getClass().getSimpleName() + ConsoleColors.RESET);
+            MUSIC_KIT_DOMAIN = new GenericDomain(MUSICKIT);
+            System.out.println(ConsoleColors.BLUE + "\t\t - " + MUSIC_KIT_DOMAIN.getClass().getSimpleName() + ConsoleColors.RESET);
+            PIN_DOMAIN = new GenericDomain(PIN);
+            System.out.println(ConsoleColors.BLUE + "\t\t - " + PIN_DOMAIN.getClass().getSimpleName() + ConsoleColors.RESET);
+            PLAYER_MODEL_DOMAIN = new GenericDomain(PLAYERMODEL);
+            System.out.println(ConsoleColors.BLUE + "\t\t - " + PLAYER_MODEL_DOMAIN.getClass().getSimpleName() + ConsoleColors.RESET);
+            GRAFFITI_DOMAIN = new GenericDomain(GRAFFITI);
+            System.out.println(ConsoleColors.BLUE + "\t\t - " + GRAFFITI_DOMAIN.getClass().getSimpleName() + ConsoleColors.RESET);
+            System.out.println(ConsoleColors.YELLOW + "\t - Starting Caches" + ConsoleColors.RESET);
+            if (cacheItems) initCaches();
+            System.out.println(ConsoleColors.GREEN + "Start Complete" + ConsoleColors.RESET + "\n===========================================\n\n" + ConsoleColors.GREEN_BOLD + "Please Enjoy - WAFL" + ConsoleColors.RESET + "\n");
+        }
+        else {
+            CREATOR = Factory.getInstance();
+            FILE_HANDLER = FileHandler.getInstance();
+            DATA_FACADE = DataFacade.getInstance();
+            DATA_FACADE.init(false,loadGFX);
+            WRITER = ActionWriter.getInstance();
+            VAULT_DOMAIN = new GenericDomain(VAULT);
+            CAPSULE_DOMAIN = new GenericDomain(CAPSULE);
+            SKIN_DOMAIN = new GenericDomain(SKIN);
+            SOUVENIR_CASE_DOMAIN = new GenericDomain(SOUVENIR);
+            STICKER_DOMAIN = new GenericDomain(STICKER);
+            PATCH_DOMAIN = new GenericDomain(PATCH);
+            CASE_DOMAIN = new GenericDomain(CASE);
+            TICKET_DOMAIN = new GenericDomain(TICKET);
+            KEY_DOMAIN = new GenericDomain(KEY);
+            MUSIC_KIT_DOMAIN = new GenericDomain(MUSICKIT);
+            PIN_DOMAIN = new GenericDomain(PIN);
+            PLAYER_MODEL_DOMAIN = new GenericDomain(PLAYERMODEL);
+            GRAFFITI_DOMAIN = new GenericDomain(GRAFFITI);
+            if (cacheItems) initCaches();
+        }
         DataFacade.getInstance().getLogWriter().writeLog("== SYS == STARTED CIIP ==");
-        DataFacade.getInstance().getLogWriter().writeLog("== SYS == TOTAL CACHE " + (readAllItems().size() + VAULT_DOMAIN.readAll().size()) + " ==");
+        if (cacheItems) DataFacade.getInstance().getLogWriter().writeLog("== SYS == TOTAL CACHE " + (readAllItems().size() + VAULT_DOMAIN.readAll().size()) + " ==");
     }
 
     @Override
