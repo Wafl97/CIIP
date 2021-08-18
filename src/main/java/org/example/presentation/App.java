@@ -14,6 +14,7 @@ import javafx.util.Pair;
 import org.example.logic.Domain;
 
 import java.io.IOException;
+import java.util.Objects;
 import java.util.Stack;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -80,7 +81,7 @@ public class App extends Application {
 
     void updateCSS(){
         scene.getStylesheets().clear();
-        scene.getStylesheets().add(getClass().getResource(CSS).toExternalForm());
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource(CSS)).toExternalForm());
     }
 
     void setOperation(Operation op){
@@ -119,7 +120,7 @@ public class App extends Application {
         AtomicBoolean answer = new AtomicBoolean(false);
         AnchorPane pane = new AnchorPane();
         pane.setId("background");
-        String css = App.class.getResource(CSS).toExternalForm();
+        String css = Objects.requireNonNull(App.class.getResource(CSS)).toExternalForm();
         pane.getStylesheets().add(css);
         HBox hBox = new HBox();
         Label shortM = new Label(shortMes);
@@ -169,7 +170,7 @@ public class App extends Application {
     enum Operation{
         CREATE,
         EDIT,
-        PASS;
+        PASS
     }
 
     interface CallBack{

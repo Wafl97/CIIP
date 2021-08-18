@@ -4,6 +4,7 @@ import org.example.logic.Domain;
 import org.example.logic.dto.interfaces.*;
 import org.example.logic.dto.interfaces.comps.Displayable;
 import org.example.logic.dto.interfaces.comps.Identifiable;
+import org.example.logic.dto.interfaces.comps.Transferable;
 import org.example.logic.interfaces.IGenericDomain;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -20,19 +21,19 @@ public final class Vault implements IVault {
     private Map<Displayable,Long> containers;
     private String name;
 
-    private static final IGenericDomain VAULT_DOMAIN =          Domain.getInstance().getVaultDomain();
-    private static final IGenericDomain CAPSULE_DOMAIN =        Domain.getInstance().getCapsuleDomain();
-    private static final IGenericDomain STICKER_DOMAIN =        Domain.getInstance().getStickerDomain();
-    private static final IGenericDomain SKIN_DOMAIN =           Domain.getInstance().getSkinDomain();
-    private static final IGenericDomain SOUVENIR_CASE_DOMAIN =  Domain.getInstance().getSouvenirCaseDomain();
-    private static final IGenericDomain PATCH_DOMAIN =          Domain.getInstance().getPatchDomain();
-    private static final IGenericDomain CASE_DOMAIN =           Domain.getInstance().getCaseDomain();
-    private static final IGenericDomain TICKET_DOMAIN =         Domain.getInstance().getTicketDomain();
-    private static final IGenericDomain KEY_DOMAIN =            Domain.getInstance().getKeyDomain();
-    private static final IGenericDomain MUSIC_KIT_DOMAIN =      Domain.getInstance().getMusicKitDomain();
-    private static final IGenericDomain PIN_DOMAIN =            Domain.getInstance().getPinDomain();
-    private static final IGenericDomain PLAYER_MODEL_DOMAIN =   Domain.getInstance().getPlayerModelDomain();
-    private static final IGenericDomain GRAFFITI_DOMAIN =       Domain.getInstance().getGraffitiDomain();
+    private static final IGenericDomain<IVault>         VAULT_DOMAIN            = Domain.getInstance().getVaultDomain();
+    private static final IGenericDomain<ICapsule>       CAPSULE_DOMAIN          = Domain.getInstance().getCapsuleDomain();
+    private static final IGenericDomain<ISticker>       STICKER_DOMAIN          = Domain.getInstance().getStickerDomain();
+    private static final IGenericDomain<ISkin>          SKIN_DOMAIN             = Domain.getInstance().getSkinDomain();
+    private static final IGenericDomain<ISouvenirCase>  SOUVENIR_CASE_DOMAIN    = Domain.getInstance().getSouvenirCaseDomain();
+    private static final IGenericDomain<IPatch>         PATCH_DOMAIN            = Domain.getInstance().getPatchDomain();
+    private static final IGenericDomain<ICase>          CASE_DOMAIN             = Domain.getInstance().getCaseDomain();
+    private static final IGenericDomain<ITicket>        TICKET_DOMAIN           = Domain.getInstance().getTicketDomain();
+    private static final IGenericDomain<IKey>           KEY_DOMAIN              = Domain.getInstance().getKeyDomain();
+    private static final IGenericDomain<IMusicKit>      MUSIC_KIT_DOMAIN        = Domain.getInstance().getMusicKitDomain();
+    private static final IGenericDomain<IPin>           PIN_DOMAIN              = Domain.getInstance().getPinDomain();
+    private static final IGenericDomain<IPlayerModel>   PLAYER_MODEL_DOMAIN     = Domain.getInstance().getPlayerModelDomain();
+    private static final IGenericDomain<IGraffiti>      GRAFFITI_DOMAIN         = Domain.getInstance().getGraffitiDomain();
 
     public Vault() {
         containers = new HashMap<>();
@@ -90,6 +91,7 @@ public final class Vault implements IVault {
         return this;
     }
 
+    @SuppressWarnings({"unchecked"})
     @Override
     public JSONObject convert2JSON() {
         //Create outer JSON obj
@@ -298,7 +300,7 @@ public final class Vault implements IVault {
     @Override
     public long findMaxID() {
         long maxValue = 0;
-        for (Identifiable investment : VAULT_DOMAIN.readAll()) {
+        for (Transferable<IVault> investment : VAULT_DOMAIN.readAll()) {
             if (investment.getId() > maxValue) maxValue = investment.getId();
         }
         return maxValue;

@@ -1,8 +1,4 @@
 package org.example.logic.dto.interfaces;
 
-import org.example.logic.dto.interfaces.comps.Convertible;
-import org.example.logic.dto.interfaces.comps.Displayable;
-import org.example.logic.dto.interfaces.comps.GenericPopulate;
-
-public interface IPatch extends Displayable, Convertible<IPatch>, GenericPopulate<IPatch> {
+public interface IPatch extends Item<IPatch> {
 }

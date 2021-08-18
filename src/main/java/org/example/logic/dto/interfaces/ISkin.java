@@ -3,7 +3,7 @@ package org.example.logic.dto.interfaces;
 import org.example.logic.dto.interfaces.comps.Displayable;
 import org.example.logic.dto.interfaces.comps.Convertible;
 
-public interface ISkin extends Displayable, Convertible<ISkin> {
+public interface ISkin extends Item<ISkin> {
 
     void setStatTrak(boolean statTrak);
     boolean isStatTrak();

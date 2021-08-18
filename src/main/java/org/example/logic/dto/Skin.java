@@ -1,9 +1,6 @@
 package org.example.logic.dto;
 
-import org.example.logic.Domain;
 import org.example.logic.dto.interfaces.ISkin;
-import org.example.logic.dto.interfaces.comps.Identifiable;
-import org.example.logic.interfaces.IGenericDomain;
 import org.example.util.ConsoleColors;
 import org.json.simple.JSONObject;
 
@@ -16,8 +13,6 @@ import java.util.regex.Pattern;
 import static org.example.util.Attributes.*;
 
 public final class Skin extends GenericItem<ISkin> implements ISkin {
-
-    private static final IGenericDomain SKIN_DOMAIN = Domain.getInstance().getSkinDomain();
 
     public Skin(){
         super(SKIN);
@@ -135,26 +130,16 @@ public final class Skin extends GenericItem<ISkin> implements ISkin {
     }
 
     @Override
-    public long findMaxID() {
-        long maxValue = 0;
-        for (Identifiable skin : SKIN_DOMAIN.readAll()){
-            if (skin.getId() > maxValue) maxValue = skin.getId();
-        }
-        return maxValue;
+    public ISkin populate(long id, double initPrice, double currPrice, String name, String image, String stashLink) {
+        return (ISkin) popHelper(id,initPrice,currPrice,name,image,stashLink);
     }
 
     @Override
     public ISkin populate(long id, double initPrice, double currPrice, String name, String image, String stashLink, double wearFloat, boolean statTrack, boolean souvenir) {
-        setId(id);
-        setInitPrice(initPrice);
-        setCurrPrice(currPrice);
-        setName(name);
-        setImage(image);
         setWearFloat(wearFloat);
         setStatTrak(statTrack);
         setSouvenir(souvenir);
-        setStashLink(stashLink);
-        return this;
+        return populate(id,initPrice,currPrice,name,image,stashLink);
     }
 
     private enum Wear {

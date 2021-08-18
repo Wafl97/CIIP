@@ -8,20 +8,17 @@ import org.example.logic.dto.interfaces.ICapsule;
 import org.example.logic.dto.interfaces.ICase;
 import org.example.logic.dto.interfaces.IGraffiti;
 import org.example.logic.dto.interfaces.comps.Identifiable;
+import org.example.logic.dto.interfaces.comps.Transferable;
 import org.example.logic.interfaces.IFactory;
 import org.example.logic.interfaces.Logic;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
 
-import static org.example.util.Attributes.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class GenericDomainTest {
@@ -70,7 +67,7 @@ class GenericDomainTest {
 
     @Test
     void readAllCapsules() { goodList = new ArrayList<>(Arrays.asList(a1,a2,a3,a4,a5,a6));
-        List<Identifiable> aList = domain.getCapsuleDomain().readAll();
+        List<Transferable<ICapsule>> aList = domain.getCapsuleDomain().readAll();
         IntStream.range(0, goodList.size()).forEach(i -> assertEquals(goodList.get(i).toString(), aList.get(i).toString()));
     }
 
@@ -86,7 +83,7 @@ class GenericDomainTest {
 
     @Test
     void updateCapsule() {
-        a1.populate(2,0.22,0.0,"Berlin 2019 Minor++","2019BER_MIN.png","https://csgostash.com/stickers/capsule/280/Berlin-2019-Minor-Challengers-Holo-Foil");
+        a1.setName("Berlin 2019 Minor++");
         assertTrue(domain.getCapsuleDomain().update(a1));
     }
 
@@ -98,7 +95,7 @@ class GenericDomainTest {
     @Test
     void readAllCases() {
         goodList = new ArrayList<>(Arrays.asList(b1));
-        List<Identifiable> bList = domain.getCaseDomain().readAll();
+        List<Transferable<ICase>> bList = domain.getCaseDomain().readAll();
         IntStream.range(0, goodList.size()).forEach(i -> assertEquals(goodList.get(i).toString(), bList.get(i).toString()));
     }
 
@@ -114,7 +111,7 @@ class GenericDomainTest {
 
     @Test
     void updateCase() {
-        b1.populate(1,156.22,0.0,"Operation Hydra Case++","CASE_HYDRA.png","https://csgostash.com/case/208/Operation-Hydra-Case");
+        b1.setName("Operation Hydra Case++");
         assertTrue(domain.getCaseDomain().update(b1));
     }
 
@@ -126,7 +123,7 @@ class GenericDomainTest {
     @Test
     void readAllGraffities() {
         goodList = new ArrayList<>(Arrays.asList(c1));
-        List<Identifiable> bList = domain.getGraffitiDomain().readAll();
+        List<Transferable<IGraffiti>> bList = domain.getGraffitiDomain().readAll();
         IntStream.range(0, goodList.size()).forEach(i -> assertEquals(goodList.get(i).toString(), bList.get(i).toString()));
     }
 
@@ -142,7 +139,7 @@ class GenericDomainTest {
 
     @Test
     void updateGraffiti() {
-        c1.populate(1,1.22,0.0,"Rising Skull++","GRAFFITI_SKULL.png","https://csgostash.com/graffiti/15/Rising-Skull");
+        c1.setName("Rising Skull++");
         assertTrue(domain.getGraffitiDomain().update(c1));
     }
 

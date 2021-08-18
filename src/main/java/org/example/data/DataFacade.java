@@ -32,8 +32,8 @@ public final class DataFacade implements IDataFacade {
             CONNECTION = JsonConnection.getInstance();
             System.out.println("\t\t - Connection type: [" + ConsoleColors.BLUE + CONNECTION.getClass().getSimpleName() + ConsoleColors.RESET + "]");
             System.out.println(ConsoleColors.YELLOW + "\t - Running Connection:" + ConsoleColors.RESET);
-            String val = CONNECTION.connect(print) ? ConsoleColors.GREEN : ConsoleColors.RED;
-            System.out.println("\t - Connection success: [" + val + CONNECTION.connect(print) + ConsoleColors.RESET + "]");
+            String val = CONNECTION.connect(true) ? ConsoleColors.GREEN : ConsoleColors.RED;
+            System.out.println("\t - Connection success: [" + val + CONNECTION.connect(true) + ConsoleColors.RESET + "]");
 
             System.out.println(ConsoleColors.GREEN + "Persistence Done\n\n" + ConsoleColors.RESET);
         }
@@ -44,7 +44,6 @@ public final class DataFacade implements IDataFacade {
                 GRAFIX = GFX.getInstance();
             }
             CONNECTION = JsonConnection.getInstance();
-            String val = CONNECTION.connect(print) ? ConsoleColors.GREEN : ConsoleColors.RED;
         }
     }
 

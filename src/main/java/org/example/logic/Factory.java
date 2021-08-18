@@ -1,9 +1,8 @@
 package org.example.logic;
 
 import org.example.logic.dto.*;
-import org.example.logic.dto.interfaces.*;
+import org.example.logic.dto.interfaces.comps.Transferable;
 import org.example.logic.interfaces.*;
-import org.example.logic.dto.interfaces.comps.Convertible;
 import org.example.util.Attributes;
 
 public final class Factory implements IFactory {
@@ -18,73 +17,9 @@ public final class Factory implements IFactory {
         return instance == null ? instance = new Factory() : instance;
     }
 
-    @Override
-    public ICapsule buildCapsule() {
-        return new Capsule();
-    }
 
     @Override
-    public ICase buildCase() {
-        return new Case();
-    }
-
-    @Override
-    public IGraffiti buildGraffiti() {
-        return new Graffiti();
-    }
-
-    @Override
-    public IKey buildKey() {
-        return new Key();
-    }
-
-    @Override
-    public IMusicKit buildMusicKit() {
-        return new MusicKit();
-    }
-
-    @Override
-    public IPatch buildPatch() {
-        return new Patch();
-    }
-
-    @Override
-    public IPin buildPin() {
-        return new Pin();
-    }
-
-    @Override
-    public IPlayerModel buildPlayerModel() {
-        return new PlayerModel();
-    }
-
-    @Override
-    public ISkin buildSkin() {
-        return new Skin();
-    }
-
-    @Override
-    public ISouvenirCase buildSouvenir() {
-        return new SouvenirCase();
-    }
-
-    @Override
-    public ISticker buildSticker() {
-        return new Sticker();
-    }
-
-    @Override
-    public ITicket buildTicket() {
-        return new Ticket();
-    }
-
-    @Override
-    public IVault buildVault() {
-        return new Vault();
-    }
-
-    @Override
-    public Convertible makeNew(Attributes TYPE) {
+    public Transferable makeNew(Attributes TYPE) {
         switch (TYPE){
             case CAPSULE:
                 return new Capsule();

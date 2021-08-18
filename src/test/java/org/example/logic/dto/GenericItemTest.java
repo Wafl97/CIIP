@@ -4,13 +4,14 @@ import org.example.logic.Domain;
 import org.example.logic.dto.interfaces.ICapsule;
 import org.example.logic.interfaces.IFactory;
 import org.example.logic.interfaces.Logic;
-import org.junit.jupiter.api.AfterEach;
+import org.example.util.Attributes;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class GenericItemTest {
+
 
     Logic domain;
 
@@ -27,7 +28,8 @@ class GenericItemTest {
 
     @Test
     void currPrice() {
-        ICapsule a1 = factory.buildCapsule().populate(1,0.22,0.0,"Berlin 2019 Legends","2019BER_LEG.png","https://csgostash.com/stickers/capsule/278/Berlin-2019-Legends-Holo-Foil");
+        ICapsule a1 = ((ICapsule) factory.makeNew(Attributes.CAPSULE)).populate(1,0.22,0.0,"Berlin 2019 Legends","2019BER_LEG.png","https://csgostash.com/stickers/capsule/278/Berlin-2019-Legends-Holo-Foil");
+
         a1.updateCurrPrice();
         a1.getCurrPrice();
         double d = a1.getCurrPrice() - a1.getInitPrice();
@@ -37,7 +39,7 @@ class GenericItemTest {
     @Test
     void setStashLink() {
         //Bad link test
-        ICapsule a8 = factory.buildCapsule();
+        ICapsule a8 = (ICapsule) factory.makeNew(Attributes.CAPSULE);
         assertThrows(IllegalStateException.class, () -> a8.populate(1001,0.22,0.0,"Berlin 2019 Legends","2019BER_LEG.png","BAD.LINK"));
     }
 

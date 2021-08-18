@@ -2,7 +2,7 @@ package org.example.logic;
 
 import org.example.data.DataFacade;
 import org.example.data.interfaces.IDataFacade;
-import org.example.logic.dto.interfaces.IVault;
+import org.example.logic.dto.interfaces.*;
 import org.example.logic.interfaces.*;
 import org.example.logic.dto.interfaces.comps.Identifiable;
 import org.example.util.ConsoleColors;
@@ -24,19 +24,19 @@ public final class Domain implements Logic {
     private static IFileHandler FILE_HANDLER;
     private static IActionWriter WRITER;
 
-    private static IGenericDomain VAULT_DOMAIN;
-    private static IGenericDomain CAPSULE_DOMAIN;
-    private static IGenericDomain SKIN_DOMAIN;
-    private static IGenericDomain SOUVENIR_CASE_DOMAIN;
-    private static IGenericDomain STICKER_DOMAIN;
-    private static IGenericDomain PATCH_DOMAIN;
-    private static IGenericDomain CASE_DOMAIN;
-    private static IGenericDomain TICKET_DOMAIN;
-    private static IGenericDomain KEY_DOMAIN;
-    private static IGenericDomain MUSIC_KIT_DOMAIN;
-    private static IGenericDomain PIN_DOMAIN;
-    private static IGenericDomain PLAYER_MODEL_DOMAIN;
-    private static IGenericDomain GRAFFITI_DOMAIN;
+    private static IGenericDomain<IVault> VAULT_DOMAIN;
+    private static IGenericDomain<ICapsule>         CAPSULE_DOMAIN;
+    private static IGenericDomain<ISkin>            SKIN_DOMAIN;
+    private static IGenericDomain<ISouvenirCase>    SOUVENIR_CASE_DOMAIN;
+    private static IGenericDomain<ISticker>         STICKER_DOMAIN;
+    private static IGenericDomain<IPatch>           PATCH_DOMAIN;
+    private static IGenericDomain<ICase>            CASE_DOMAIN;
+    private static IGenericDomain<ITicket>          TICKET_DOMAIN;
+    private static IGenericDomain<IKey>             KEY_DOMAIN;
+    private static IGenericDomain<IMusicKit>        MUSIC_KIT_DOMAIN;
+    private static IGenericDomain<IPin>             PIN_DOMAIN;
+    private static IGenericDomain<IPlayerModel>     PLAYER_MODEL_DOMAIN;
+    private static IGenericDomain<IGraffiti>        GRAFFITI_DOMAIN;
 
     private IVault selectedVault;
 
@@ -86,31 +86,31 @@ public final class Domain implements Logic {
             System.out.println(ConsoleColors.YELLOW + "\t - Getting ActionWriter" + ConsoleColors.RESET);
             WRITER = ActionWriter.getInstance();
             System.out.println(ConsoleColors.YELLOW + "\t - Getting SubDomains" + ConsoleColors.RESET);
-            VAULT_DOMAIN = new GenericDomain(VAULT);
+            VAULT_DOMAIN = new VaultDomain();
             System.out.println(ConsoleColors.BLUE + "\t\t - " + VAULT_DOMAIN.getType() + ConsoleColors.RESET);
-            CAPSULE_DOMAIN = new GenericDomain(CAPSULE);
+            CAPSULE_DOMAIN = new GenericItemDomain(CAPSULE);
             System.out.println(ConsoleColors.BLUE + "\t\t - " + CAPSULE_DOMAIN.getType() + ConsoleColors.RESET);
-            SKIN_DOMAIN = new GenericDomain(SKIN);
+            SKIN_DOMAIN = new GenericItemDomain(SKIN);
             System.out.println(ConsoleColors.BLUE + "\t\t - " + SKIN_DOMAIN.getType() + ConsoleColors.RESET);
-            SOUVENIR_CASE_DOMAIN = new GenericDomain(SOUVENIR);
+            SOUVENIR_CASE_DOMAIN = new GenericItemDomain(SOUVENIR);
             System.out.println(ConsoleColors.BLUE + "\t\t - " + SOUVENIR_CASE_DOMAIN.getType() + ConsoleColors.RESET);
-            STICKER_DOMAIN = new GenericDomain(STICKER);
+            STICKER_DOMAIN = new GenericItemDomain(STICKER);
             System.out.println(ConsoleColors.BLUE + "\t\t - " + STICKER_DOMAIN.getType() + ConsoleColors.RESET);
-            PATCH_DOMAIN = new GenericDomain(PATCH);
+            PATCH_DOMAIN = new GenericItemDomain(PATCH);
             System.out.println(ConsoleColors.BLUE + "\t\t - " + PATCH_DOMAIN.getType() + ConsoleColors.RESET);
-            CASE_DOMAIN = new GenericDomain(CASE);
+            CASE_DOMAIN = new GenericItemDomain(CASE);
             System.out.println(ConsoleColors.BLUE + "\t\t - " + CASE_DOMAIN.getType() + ConsoleColors.RESET);
-            TICKET_DOMAIN = new GenericDomain(TICKET);
+            TICKET_DOMAIN = new GenericItemDomain(TICKET);
             System.out.println(ConsoleColors.BLUE + "\t\t - " + TICKET_DOMAIN.getType() + ConsoleColors.RESET);
-            KEY_DOMAIN = new GenericDomain(KEY);
+            KEY_DOMAIN = new GenericItemDomain(KEY);
             System.out.println(ConsoleColors.BLUE + "\t\t - " + KEY_DOMAIN.getType() + ConsoleColors.RESET);
-            MUSIC_KIT_DOMAIN = new GenericDomain(MUSICKIT);
+            MUSIC_KIT_DOMAIN = new GenericItemDomain(MUSICKIT);
             System.out.println(ConsoleColors.BLUE + "\t\t - " + MUSIC_KIT_DOMAIN.getType() + ConsoleColors.RESET);
-            PIN_DOMAIN = new GenericDomain(PIN);
+            PIN_DOMAIN = new GenericItemDomain(PIN);
             System.out.println(ConsoleColors.BLUE + "\t\t - " + PIN_DOMAIN.getType() + ConsoleColors.RESET);
-            PLAYER_MODEL_DOMAIN = new GenericDomain(PLAYERMODEL);
+            PLAYER_MODEL_DOMAIN = new GenericItemDomain(PLAYERMODEL);
             System.out.println(ConsoleColors.BLUE + "\t\t - " + PLAYER_MODEL_DOMAIN.getType() + ConsoleColors.RESET);
-            GRAFFITI_DOMAIN = new GenericDomain(GRAFFITI);
+            GRAFFITI_DOMAIN = new GenericItemDomain(GRAFFITI);
             System.out.println(ConsoleColors.BLUE + "\t\t - " + GRAFFITI_DOMAIN.getType() + ConsoleColors.RESET);
             System.out.println(ConsoleColors.YELLOW + "\t - Starting Caches" + ConsoleColors.RESET);
             if (cacheItems) initCaches();
@@ -122,19 +122,19 @@ public final class Domain implements Logic {
             DATA_FACADE = DataFacade.getInstance();
             DATA_FACADE.init(false,loadGFX);
             WRITER = ActionWriter.getInstance();
-            VAULT_DOMAIN = new GenericDomain(VAULT);
-            CAPSULE_DOMAIN = new GenericDomain(CAPSULE);
-            SKIN_DOMAIN = new GenericDomain(SKIN);
-            SOUVENIR_CASE_DOMAIN = new GenericDomain(SOUVENIR);
-            STICKER_DOMAIN = new GenericDomain(STICKER);
-            PATCH_DOMAIN = new GenericDomain(PATCH);
-            CASE_DOMAIN = new GenericDomain(CASE);
-            TICKET_DOMAIN = new GenericDomain(TICKET);
-            KEY_DOMAIN = new GenericDomain(KEY);
-            MUSIC_KIT_DOMAIN = new GenericDomain(MUSICKIT);
-            PIN_DOMAIN = new GenericDomain(PIN);
-            PLAYER_MODEL_DOMAIN = new GenericDomain(PLAYERMODEL);
-            GRAFFITI_DOMAIN = new GenericDomain(GRAFFITI);
+            VAULT_DOMAIN = new VaultDomain();
+            CAPSULE_DOMAIN = new GenericItemDomain(CAPSULE);
+            SKIN_DOMAIN = new GenericItemDomain(SKIN);
+            SOUVENIR_CASE_DOMAIN = new GenericItemDomain(SOUVENIR);
+            STICKER_DOMAIN = new GenericItemDomain(STICKER);
+            PATCH_DOMAIN = new GenericItemDomain(PATCH);
+            CASE_DOMAIN = new GenericItemDomain(CASE);
+            TICKET_DOMAIN = new GenericItemDomain(TICKET);
+            KEY_DOMAIN = new GenericItemDomain(KEY);
+            MUSIC_KIT_DOMAIN = new GenericItemDomain(MUSICKIT);
+            PIN_DOMAIN = new GenericItemDomain(PIN);
+            PLAYER_MODEL_DOMAIN = new GenericItemDomain(PLAYERMODEL);
+            GRAFFITI_DOMAIN = new GenericItemDomain(GRAFFITI);
             if (cacheItems) initCaches();
         }
         DataFacade.getInstance().getLogWriter().writeLog("== SYS == STARTED CIIP ==");
@@ -182,67 +182,67 @@ public final class Domain implements Logic {
     }
 
     @Override
-    public IGenericDomain getCapsuleDomain() {
+    public IGenericDomain<ICapsule> getCapsuleDomain() {
         return CAPSULE_DOMAIN;
     }
 
     @Override
-    public IGenericDomain getStickerDomain() {
+    public IGenericDomain<ISticker> getStickerDomain() {
         return STICKER_DOMAIN;
     }
 
     @Override
-    public IGenericDomain getSkinDomain() {
+    public IGenericDomain<ISkin> getSkinDomain() {
         return SKIN_DOMAIN;
     }
 
     @Override
-    public IGenericDomain getVaultDomain() {
+    public IGenericDomain<IVault> getVaultDomain() {
         return VAULT_DOMAIN;
     }
 
     @Override
-    public IGenericDomain getSouvenirCaseDomain() {
+    public IGenericDomain<ISouvenirCase> getSouvenirCaseDomain() {
         return SOUVENIR_CASE_DOMAIN;
     }
 
     @Override
-    public IGenericDomain getPatchDomain() {
+    public IGenericDomain<IPatch> getPatchDomain() {
         return PATCH_DOMAIN;
     }
 
     @Override
-    public IGenericDomain getCaseDomain() {
+    public IGenericDomain<ICase> getCaseDomain() {
         return CASE_DOMAIN;
     }
 
     @Override
-    public IGenericDomain getTicketDomain() {
+    public IGenericDomain<ITicket> getTicketDomain() {
         return TICKET_DOMAIN;
     }
 
     @Override
-    public IGenericDomain getKeyDomain(){
+    public IGenericDomain<IKey> getKeyDomain(){
         return KEY_DOMAIN;
     }
 
     @Override
-    public IGenericDomain getMusicKitDomain(){
+    public IGenericDomain<IMusicKit> getMusicKitDomain(){
         return MUSIC_KIT_DOMAIN;
     }
 
     @Override
-    public IGenericDomain getPinDomain() {
+    public IGenericDomain<IPin> getPinDomain() {
         return PIN_DOMAIN;
     }
 
     @Override
-    public IGenericDomain getPlayerModelDomain() {
+    public IGenericDomain<IPlayerModel> getPlayerModelDomain() {
         return PLAYER_MODEL_DOMAIN;
     }
 
     @Override
-    public IGenericDomain getGraffitiDomain() {
+    public IGenericDomain<IGraffiti> getGraffitiDomain() {
         return GRAFFITI_DOMAIN;
     }
 

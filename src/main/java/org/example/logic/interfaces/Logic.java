@@ -1,7 +1,7 @@
 package org.example.logic.interfaces;
 
 import org.example.data.interfaces.IDataFacade;
-import org.example.logic.dto.interfaces.IVault;
+import org.example.logic.dto.interfaces.*;
 import org.example.logic.dto.interfaces.comps.Identifiable;
 
 import java.util.List;
@@ -18,19 +18,19 @@ public interface Logic {
     String getVersion();
     String getAppName();
 
-    IGenericDomain getVaultDomain();
-    IGenericDomain getCapsuleDomain();
-    IGenericDomain getStickerDomain();
-    IGenericDomain getSkinDomain();
-    IGenericDomain getSouvenirCaseDomain();
-    IGenericDomain getPatchDomain();
-    IGenericDomain getCaseDomain();
-    IGenericDomain getTicketDomain();
-    IGenericDomain getKeyDomain();
-    IGenericDomain getMusicKitDomain();
-    IGenericDomain getPinDomain();
-    IGenericDomain getPlayerModelDomain();
-    IGenericDomain getGraffitiDomain();
+    IGenericDomain<IVault> getVaultDomain();
+    IGenericDomain<ICapsule> getCapsuleDomain();
+    IGenericDomain<ISticker> getStickerDomain();
+    IGenericDomain<ISkin> getSkinDomain();
+    IGenericDomain<ISouvenirCase> getSouvenirCaseDomain();
+    IGenericDomain<IPatch> getPatchDomain();
+    IGenericDomain<ICase> getCaseDomain();
+    IGenericDomain<ITicket> getTicketDomain();
+    IGenericDomain<IKey> getKeyDomain();
+    IGenericDomain<IMusicKit> getMusicKitDomain();
+    IGenericDomain<IPin> getPinDomain();
+    IGenericDomain<IPlayerModel> getPlayerModelDomain();
+    IGenericDomain<IGraffiti> getGraffitiDomain();
 
     void setSelectedVault(IVault vault);
     IVault getSelectedVault();

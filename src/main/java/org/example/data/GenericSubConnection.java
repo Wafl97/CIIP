@@ -13,6 +13,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static org.example.util.Attributes.*;
 
@@ -28,9 +29,10 @@ public final class GenericSubConnection implements IGenericSubConnection {
         this.cascadeOnDelete = cascadeOnDelete;
     }
 
+    @SuppressWarnings({"unchecked"})
     @Override
     public List<JSONObject> readAll() {
-        return new ArrayList<JSONObject>(loadFile(TABLE));
+        return new ArrayList<JSONObject>(Objects.requireNonNull(loadFile(TABLE)));
     }
 
     @Override
@@ -91,8 +93,10 @@ public final class GenericSubConnection implements IGenericSubConnection {
         return null;
     }
 
+    @SuppressWarnings({"unchecked"})
     private boolean addObjToTable(JSONObject obj, Attributes table){
         JSONArray array = loadFile(table);
+        assert array != null;
         array.add(obj);
         return saveFile(array,table);
     }
@@ -133,6 +137,7 @@ public final class GenericSubConnection implements IGenericSubConnection {
         return false;
     }
 
+    @SuppressWarnings({"unchecked"})
     private boolean updateObjInTable(JSONObject jsonObject, Attributes table, Attributes objName) {
         long id = (long) ((JSONObject) jsonObject.get(objName.toString())).get(ID.toString());
         JSONArray jsonArray = loadFile(table);

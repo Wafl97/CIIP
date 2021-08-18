@@ -1,16 +1,16 @@
 package org.example.logic.interfaces;
 
-import org.example.logic.dto.interfaces.comps.Identifiable;
+import org.example.logic.dto.interfaces.comps.Transferable;
 
 import java.util.List;
 
-public interface IGenericDomain {
+public interface IGenericDomain<T> {
 
     String getType();
 
-    List<Identifiable> readAll();
-    boolean create(Identifiable item);
-    Identifiable read(long id);
-    boolean update(Identifiable item);
+    List<Transferable<T>> readAll();
+    boolean create(Transferable<T> item);
+    Transferable<T> read(long id);
+    boolean update(Transferable<T> item);
     boolean delete(long id);
 }
