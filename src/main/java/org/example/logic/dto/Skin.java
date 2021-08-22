@@ -16,6 +16,7 @@ public final class Skin extends GenericItem<ISkin> implements ISkin {
 
     public Skin(){
         super(SKIN);
+        SUB_DOMAIN = DOMAIN.getSkinDomain();
     }
 
     private boolean statTrak;

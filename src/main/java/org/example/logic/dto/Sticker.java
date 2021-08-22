@@ -9,6 +9,7 @@ public final class Sticker extends GenericItem<ISticker> implements ISticker {
 
     public Sticker(){
         super(STICKER);
+        SUB_DOMAIN = DOMAIN.getStickerDomain();
     }
 
     @Override

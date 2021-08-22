@@ -39,29 +39,27 @@ class GenericDomainTest {
     ICapsule a5 = new Capsule().populate(5,0.2,0.0,"RMR 2020 Contenders","2020RMR_CON.png","https://csgostash.com/stickers/capsule/313/2020-RMR-Contenders");
     ICapsule a6 = new Capsule().populate(6,0.2,0.0,"RMR 2020 Legends","2020RMR_LEG.png","https://csgostash.com/stickers/capsule/311/2020-RMR-Legends");
     /* NOT REAL */
-    ICapsule a7 = new Capsule().populate(-1,99,0.0,"new capsule","img.png","https://csgostash.com/stickers/capsule/314/Poorly-Drawn-Capsule");
+    //ICapsule a7 = new Capsule().populate(-1,99,0.0,"new capsule","img.png","https://csgostash.com/stickers/capsule/314/Poorly-Drawn-Capsule");
 
     //Cases
     // TODO: 16-08-2021 Add more Cases to test data
     ICase b1 = new Case().populate(1,156.22,0.0,"Operation Hydra Case","CASE_HYDRA.png","https://csgostash.com/case/208/Operation-Hydra-Case");
     /* NOT REAL */
-    ICase b2 = new Case().populate(-1,99,0.0,"new case","img.png","https://csgostash.com/stickers/capsule/314/Poorly-Drawn-Capsule");
+    //ICase b2 = new Case().populate(-1,99,0.0,"new case","img.png","https://csgostash.com/stickers/capsule/314/Poorly-Drawn-Capsule");
 
     //Graffities
     // TODO: 16-08-2021 Add more Cases to test data
     IGraffiti c1 = new Graffiti().populate(1,1.22,0.0,"Rising Skull","GRAFFITI_SKULL.png","https://csgostash.com/graffiti/15/Rising-Skull");
     /* NOT REAL */
-    IGraffiti c2 = new Graffiti().populate(-1,99,0.0,"new graffiti","img.png","https://csgostash.com/stickers/capsule/314/Poorly-Drawn-Capsule");
+    //IGraffiti c2 = new Graffiti().populate(-1,99,0.0,"new graffiti","img.png","https://csgostash.com/stickers/capsule/314/Poorly-Drawn-Capsule");
 
 
     @BeforeEach
     void setUp(){
-        System.out.println("SETUP");
         domain.init(false,false,false);
         factory = domain.getFactory();
 
         //Resting data
-        System.out.println("RESET");
         reset.reset();
     }
 
@@ -73,6 +71,7 @@ class GenericDomainTest {
 
     @Test
     void createCapsule() {
+        ICapsule a7 = new Capsule().populate(-1,99,0.0,"new capsule","img.png","https://csgostash.com/stickers/capsule/314/Poorly-Drawn-Capsule");
         assertTrue(domain.getCapsuleDomain().create(a7));
     }
 
@@ -101,6 +100,7 @@ class GenericDomainTest {
 
     @Test
     void createCase() {
+        ICase b2 = new Case().populate(-1,99,0.0,"new case","img.png","https://csgostash.com/stickers/capsule/314/Poorly-Drawn-Capsule");
         assertTrue(domain.getCaseDomain().create(b2));
     }
 
@@ -129,6 +129,7 @@ class GenericDomainTest {
 
     @Test
     void createGraffiti() {
+        IGraffiti c2 = new Graffiti().populate(-1,99,0.0,"new graffiti","img.png","https://csgostash.com/stickers/capsule/314/Poorly-Drawn-Capsule");
         assertTrue(domain.getGraffitiDomain().create(c2));
     }
 

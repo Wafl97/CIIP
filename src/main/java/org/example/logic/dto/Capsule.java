@@ -1,5 +1,4 @@
 package org.example.logic.dto;
-
 import org.example.logic.dto.interfaces.ICapsule;
 import org.json.simple.JSONObject;
 
@@ -9,6 +8,7 @@ public final class Capsule extends GenericItem<ICapsule> implements ICapsule {
 
     public Capsule() {
         super(CAPSULE);
+        SUB_DOMAIN = DOMAIN.getCapsuleDomain();
     }
 
     @Override

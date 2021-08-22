@@ -9,6 +9,8 @@ public final class Case extends GenericItem<ICase> implements ICase{
 
     public Case(){
         super(CASE);
+        SUB_DOMAIN = DOMAIN.getCaseDomain();
+
     }
 
     @Override

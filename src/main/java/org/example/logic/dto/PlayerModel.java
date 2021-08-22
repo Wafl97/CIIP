@@ -9,6 +9,7 @@ public final class PlayerModel extends GenericItem<IPlayerModel> implements IPla
 
     public PlayerModel(){
         super(PLAYERMODEL);
+        SUB_DOMAIN = DOMAIN.getPlayerModelDomain();
     }
 
     @Override

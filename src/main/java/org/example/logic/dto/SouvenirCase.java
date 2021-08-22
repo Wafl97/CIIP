@@ -9,6 +9,7 @@ public final class SouvenirCase extends GenericItem<ISouvenirCase> implements IS
 
     public SouvenirCase(){
         super(SOUVENIR);
+        SUB_DOMAIN = DOMAIN.getSouvenirCaseDomain();
     }
 
     @Override

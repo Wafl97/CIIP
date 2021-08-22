@@ -39,8 +39,8 @@ class GenericItemTest {
     @Test
     void setStashLink() {
         //Bad link test
-        ICapsule a8 = (ICapsule) factory.makeNew(Attributes.CAPSULE);
-        assertThrows(IllegalStateException.class, () -> a8.populate(1001,0.22,0.0,"Berlin 2019 Legends","2019BER_LEG.png","BAD.LINK"));
+        ICapsule a8 = ((ICapsule) factory.makeNew(Attributes.CAPSULE)).populate(1001,0.22,0.0,"Berlin 2019 Legends","2019BER_LEG.png","BAD.LINK");
+        assertThrows(IllegalStateException.class, a8::updateCurrPrice);
     }
 
     @Test

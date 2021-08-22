@@ -9,6 +9,7 @@ public final class Ticket extends GenericItem<ITicket> implements ITicket {
 
     public Ticket() {
         super(TICKET);
+        SUB_DOMAIN = DOMAIN.getTicketDomain();
     }
 
     @Override

@@ -9,6 +9,7 @@ public final class Patch extends GenericItem<IPatch> implements IPatch {
 
     public Patch(){
         super(PATCH);
+        SUB_DOMAIN = DOMAIN.getPatchDomain();
     }
 
     @Override

@@ -9,6 +9,7 @@ public final class Pin extends GenericItem<IPin> implements IPin{
 
     public Pin(){
         super(PIN);
+        SUB_DOMAIN = DOMAIN.getPinDomain();
     }
 
     @Override

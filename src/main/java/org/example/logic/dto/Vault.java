@@ -6,6 +6,7 @@ import org.example.logic.dto.interfaces.comps.Displayable;
 import org.example.logic.dto.interfaces.comps.Identifiable;
 import org.example.logic.dto.interfaces.comps.Transferable;
 import org.example.logic.interfaces.IGenericDomain;
+import org.example.logic.interfaces.Logic;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -21,19 +22,21 @@ public final class Vault implements IVault {
     private Map<Displayable,Long> containers;
     private String name;
 
-    private static final IGenericDomain<IVault>         VAULT_DOMAIN            = Domain.getInstance().getVaultDomain();
-    private static final IGenericDomain<ICapsule>       CAPSULE_DOMAIN          = Domain.getInstance().getCapsuleDomain();
-    private static final IGenericDomain<ISticker>       STICKER_DOMAIN          = Domain.getInstance().getStickerDomain();
-    private static final IGenericDomain<ISkin>          SKIN_DOMAIN             = Domain.getInstance().getSkinDomain();
-    private static final IGenericDomain<ISouvenirCase>  SOUVENIR_CASE_DOMAIN    = Domain.getInstance().getSouvenirCaseDomain();
-    private static final IGenericDomain<IPatch>         PATCH_DOMAIN            = Domain.getInstance().getPatchDomain();
-    private static final IGenericDomain<ICase>          CASE_DOMAIN             = Domain.getInstance().getCaseDomain();
-    private static final IGenericDomain<ITicket>        TICKET_DOMAIN           = Domain.getInstance().getTicketDomain();
-    private static final IGenericDomain<IKey>           KEY_DOMAIN              = Domain.getInstance().getKeyDomain();
-    private static final IGenericDomain<IMusicKit>      MUSIC_KIT_DOMAIN        = Domain.getInstance().getMusicKitDomain();
-    private static final IGenericDomain<IPin>           PIN_DOMAIN              = Domain.getInstance().getPinDomain();
-    private static final IGenericDomain<IPlayerModel>   PLAYER_MODEL_DOMAIN     = Domain.getInstance().getPlayerModelDomain();
-    private static final IGenericDomain<IGraffiti>      GRAFFITI_DOMAIN         = Domain.getInstance().getGraffitiDomain();
+    private static final Logic DOMAIN = Domain.getInstance();
+
+    private static final IGenericDomain<IVault>         VAULT_DOMAIN            = DOMAIN.getVaultDomain();
+    private static final IGenericDomain<ICapsule>       CAPSULE_DOMAIN          = DOMAIN.getCapsuleDomain();
+    private static final IGenericDomain<ISticker>       STICKER_DOMAIN          = DOMAIN.getStickerDomain();
+    private static final IGenericDomain<ISkin>          SKIN_DOMAIN             = DOMAIN.getSkinDomain();
+    private static final IGenericDomain<ISouvenirCase>  SOUVENIR_CASE_DOMAIN    = DOMAIN.getSouvenirCaseDomain();
+    private static final IGenericDomain<IPatch>         PATCH_DOMAIN            = DOMAIN.getPatchDomain();
+    private static final IGenericDomain<ICase>          CASE_DOMAIN             = DOMAIN.getCaseDomain();
+    private static final IGenericDomain<ITicket>        TICKET_DOMAIN           = DOMAIN.getTicketDomain();
+    private static final IGenericDomain<IKey>           KEY_DOMAIN              = DOMAIN.getKeyDomain();
+    private static final IGenericDomain<IMusicKit>      MUSIC_KIT_DOMAIN        = DOMAIN.getMusicKitDomain();
+    private static final IGenericDomain<IPin>           PIN_DOMAIN              = DOMAIN.getPinDomain();
+    private static final IGenericDomain<IPlayerModel>   PLAYER_MODEL_DOMAIN     = DOMAIN.getPlayerModelDomain();
+    private static final IGenericDomain<IGraffiti>      GRAFFITI_DOMAIN         = DOMAIN.getGraffitiDomain();
 
     public Vault() {
         containers = new HashMap<>();

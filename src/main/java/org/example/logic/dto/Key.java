@@ -9,6 +9,7 @@ public final class Key extends GenericItem<IKey> implements IKey {
 
     public Key() {
         super(KEY);
+        SUB_DOMAIN = DOMAIN.getKeyDomain();
     }
 
     @Override

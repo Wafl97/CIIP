@@ -44,6 +44,7 @@ public final class DataFacade implements IDataFacade {
                 GRAFIX = GFX.getInstance();
             }
             CONNECTION = JsonConnection.getInstance();
+            CONNECTION.connect(false);
         }
     }
 

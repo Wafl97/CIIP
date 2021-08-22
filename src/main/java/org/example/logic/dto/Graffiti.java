@@ -9,6 +9,7 @@ public final class Graffiti extends GenericItem<IGraffiti> implements IGraffiti{
 
     public Graffiti(){
         super(GRAFFITI);
+        SUB_DOMAIN = DOMAIN.getGraffitiDomain();
     }
 
     @Override

@@ -9,6 +9,7 @@ public final class MusicKit extends GenericItem<IMusicKit> implements IMusicKit{
 
     public MusicKit() {
         super(MUSICKIT);
+        SUB_DOMAIN = DOMAIN.getMusicKitDomain();
     }
 
     @Override

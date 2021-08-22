@@ -137,8 +137,8 @@ public final class Domain implements Logic {
             GRAFFITI_DOMAIN = new GenericItemDomain(GRAFFITI);
             if (cacheItems) initCaches();
         }
-        DataFacade.getInstance().getLogWriter().writeLog("== SYS == STARTED CIIP ==");
-        if (cacheItems) DataFacade.getInstance().getLogWriter().writeLog("== SYS == TOTAL CACHE " + (readAllItems().size() + VAULT_DOMAIN.readAll().size()) + " ==");
+        DATA_FACADE.getLogWriter().writeLog("== SYS == STARTED CIIP ==");
+        if (cacheItems) DATA_FACADE.getLogWriter().writeLog("== SYS == TOTAL CACHE " + (readAllItems().size() + VAULT_DOMAIN.readAll().size()) + " ==");
     }
 
     @Override

@@ -1,8 +1,10 @@
 package org.example.logic.dto;
 
-import org.example.logic.GenericItemDomain;
+import org.example.logic.Domain;
 import org.example.logic.dto.interfaces.Item;
 import org.example.logic.dto.interfaces.comps.Transferable;
+import org.example.logic.interfaces.IGenericDomain;
+import org.example.logic.interfaces.Logic;
 import org.example.util.Attributes;
 import org.example.util.ConsoleColors;
 import org.json.simple.JSONObject;
@@ -17,11 +19,13 @@ import static org.example.util.Attributes.*;
 
 public abstract class GenericItem<T> implements Item<T> {
 
-    private static final Pattern PRICE_PATTERN = Pattern.compile("<span class=\"pull-right\">([0-9,-]+)(.)</span>");
-    private static final Pattern STOP_PATTERN = Pattern.compile("<span class=\"pull-left\"><img class=\"item-table-icon\" src=\"https://csgostash.com/img/core/bitskins.png\\?id=[0-9a-zA-Z]+\" alt=\"BitSkins Logo\">BitSkins</span>");
+    protected static final Logic DOMAIN = Domain.getInstance();
+
+    protected static final Pattern PRICE_PATTERN = Pattern.compile("<span class=\"pull-right\">([0-9,-]+)(.)</span>");
+    protected static final Pattern STOP_PATTERN = Pattern.compile("<span class=\"pull-left\"><img class=\"item-table-icon\" src=\"https://csgostash.com/img/core/bitskins.png\\?id=[0-9a-zA-Z]+\" alt=\"BitSkins Logo\">BitSkins</span>");
 
     protected String jsonAttribute;
-    protected GenericItemDomain<T> SUB_DOMAIN;
+    protected IGenericDomain<T> SUB_DOMAIN;
 
     protected long id;
     protected double initPrice;
@@ -167,7 +171,7 @@ public abstract class GenericItem<T> implements Item<T> {
     @Override
     public long findMaxID() {
         long maxValue = 0;
-        for (Transferable<Item<T>> item : SUB_DOMAIN.readAll()){
+        for (Transferable<T> item : SUB_DOMAIN.readAll()){
             if (item.getId() > maxValue) maxValue = item.getId();
         }
         return maxValue;
