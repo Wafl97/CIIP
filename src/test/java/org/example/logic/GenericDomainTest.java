@@ -4,9 +4,11 @@ import org.example.data.DataReset;
 import org.example.logic.dto.Capsule;
 import org.example.logic.dto.Case;
 import org.example.logic.dto.Graffiti;
+import org.example.logic.dto.Key;
 import org.example.logic.dto.interfaces.ICapsule;
 import org.example.logic.dto.interfaces.ICase;
 import org.example.logic.dto.interfaces.IGraffiti;
+import org.example.logic.dto.interfaces.IKey;
 import org.example.logic.dto.interfaces.comps.Identifiable;
 import org.example.logic.dto.interfaces.comps.Transferable;
 import org.example.logic.interfaces.IFactory;
@@ -20,6 +22,7 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.example.util.Attributes.*;
 
 class GenericDomainTest {
 
@@ -38,21 +41,49 @@ class GenericDomainTest {
     ICapsule a4 = new Capsule().populate(4,0.2,0.0,"RMR 2020 Challengers","2020RMR_CHA.png","https://csgostash.com/stickers/capsule/312/2020-RMR-Challengers");
     ICapsule a5 = new Capsule().populate(5,0.2,0.0,"RMR 2020 Contenders","2020RMR_CON.png","https://csgostash.com/stickers/capsule/313/2020-RMR-Contenders");
     ICapsule a6 = new Capsule().populate(6,0.2,0.0,"RMR 2020 Legends","2020RMR_LEG.png","https://csgostash.com/stickers/capsule/311/2020-RMR-Legends");
-    /* NOT REAL */
-    //ICapsule a7 = new Capsule().populate(-1,99,0.0,"new capsule","img.png","https://csgostash.com/stickers/capsule/314/Poorly-Drawn-Capsule");
 
     //Cases
     // TODO: 16-08-2021 Add more Cases to test data
     ICase b1 = new Case().populate(1,156.22,0.0,"Operation Hydra Case","CASE_HYDRA.png","https://csgostash.com/case/208/Operation-Hydra-Case");
-    /* NOT REAL */
-    //ICase b2 = new Case().populate(-1,99,0.0,"new case","img.png","https://csgostash.com/stickers/capsule/314/Poorly-Drawn-Capsule");
+    /*
+    ICase b2 = new Case().populate
+    ICase b3 = new Case().populate
+    ICase b4 = new Case().populate
+    ICase b5 = new Case().populate
+    ICase b6 = new Case().populate
+     */
 
     //Graffities
     // TODO: 16-08-2021 Add more Cases to test data
     IGraffiti c1 = new Graffiti().populate(1,1.22,0.0,"Rising Skull","GRAFFITI_SKULL.png","https://csgostash.com/graffiti/15/Rising-Skull");
-    /* NOT REAL */
-    //IGraffiti c2 = new Graffiti().populate(-1,99,0.0,"new graffiti","img.png","https://csgostash.com/stickers/capsule/314/Poorly-Drawn-Capsule");
+    /*
+    IGraffiti c2 = new Graffiti().populate
+    IGraffiti c3 = new Graffiti().populate
+    IGraffiti c4 = new Graffiti().populate
+    IGraffiti c5 = new Graffiti().populate
+    IGraffiti c6 = new Graffiti().populate
+     */
 
+    //Keys
+    IKey d1 = new Key().populate(1,2.5,0.0,"Operation Hydra Case Key","KEY_HYDRA.png","https://csgostash.com/item/9791/Operation-Hydra-Case-Key");
+
+    //MusicKits
+
+    //Patches
+
+    //Pins
+
+    //PlayerModels
+
+    //Skins
+
+    //Souvenirs
+
+    //Stickers
+
+    //Tickets
+
+    //Vaults
 
     @BeforeEach
     void setUp(){
@@ -64,14 +95,15 @@ class GenericDomainTest {
     }
 
     @Test
-    void readAllCapsules() { goodList = new ArrayList<>(Arrays.asList(a1,a2,a3,a4,a5,a6));
+    void readAllCapsules() {
+        goodList = new ArrayList<>(Arrays.asList(a1,a2,a3,a4,a5,a6));
         List<Transferable<ICapsule>> aList = domain.getCapsuleDomain().readAll();
         IntStream.range(0, goodList.size()).forEach(i -> assertEquals(goodList.get(i).toString(), aList.get(i).toString()));
     }
 
     @Test
     void createCapsule() {
-        ICapsule a7 = new Capsule().populate(-1,99,0.0,"new capsule","img.png","https://csgostash.com/stickers/capsule/314/Poorly-Drawn-Capsule");
+        ICapsule a7 = ((ICapsule) factory.makeNew(CAPSULE)).populate(-1,99.99,0.0,"new capsule","img.png","https://csgostash.com/stickers/capsule/278/Berlin-2019-Legends-Holo-Foil");
         assertTrue(domain.getCapsuleDomain().create(a7));
     }
 
@@ -93,15 +125,15 @@ class GenericDomainTest {
 
     @Test
     void readAllCases() {
-        goodList = new ArrayList<>(Arrays.asList(b1));
+        goodList = new ArrayList<>(Arrays.asList(b1/*,b2,b3,b4,b5,b6*/));
         List<Transferable<ICase>> bList = domain.getCaseDomain().readAll();
         IntStream.range(0, goodList.size()).forEach(i -> assertEquals(goodList.get(i).toString(), bList.get(i).toString()));
     }
 
     @Test
     void createCase() {
-        ICase b2 = new Case().populate(-1,99,0.0,"new case","img.png","https://csgostash.com/stickers/capsule/314/Poorly-Drawn-Capsule");
-        assertTrue(domain.getCaseDomain().create(b2));
+        ICase b7 = ((ICase) factory.makeNew(CASE)).populate(-1,99.99,0.0,"new case","img.png","https://csgostash.com/case/208/Operation-Hydra-Case");
+        assertTrue(domain.getCaseDomain().create(b7));
     }
 
     @Test
@@ -129,8 +161,8 @@ class GenericDomainTest {
 
     @Test
     void createGraffiti() {
-        IGraffiti c2 = new Graffiti().populate(-1,99,0.0,"new graffiti","img.png","https://csgostash.com/stickers/capsule/314/Poorly-Drawn-Capsule");
-        assertTrue(domain.getGraffitiDomain().create(c2));
+        IGraffiti c7 = ((IGraffiti) factory.makeNew(GRAFFITI)).populate(-1,99.99,0.0,"new graffiti","img.png","https://csgostash.com/graffiti/15/Rising-Skull");
+        assertTrue(domain.getGraffitiDomain().create(c7));
     }
 
     @Test
@@ -151,35 +183,31 @@ class GenericDomainTest {
 
     @Test
     void readAllKeys() {
-        // TODO: 16-08-2021
-        //goodList = new ArrayList<>(Arrays.asList(c1));
-        //List<Identifiable> bList = domain.getGraffitiDomain().readAll();
-        //IntStream.range(0, goodList.size()).forEach(i -> assertEquals(goodList.get(i).toString(), bList.get(i).toString()));
+        goodList = new ArrayList<>(Arrays.asList(d1/*,d2,d3,d4,d5,d6*/));
+        List<Transferable<IKey>> dList = domain.getKeyDomain().readAll();
+        IntStream.range(0, goodList.size()).forEach(i -> assertEquals(goodList.get(i).toString(), dList.get(i).toString()));
     }
 
     @Test
     void createKey() {
-        // TODO: 16-08-2021
-        //assertTrue(domain.getGraffitiDomain().create(c2));
+        IKey d7 = ((IKey) factory.makeNew(KEY)).populate(-1,99.99,0.0,"new key","img.png","https://csgostash.com/item/9791/Operation-Hydra-Case-Key");
+        assertTrue(domain.getKeyDomain().create(d7));
     }
 
     @Test
     void readKey() {
-        // TODO: 16-08-2021
-        //assertEquals(c1.toString(),domain.getGraffitiDomain().read(1).toString());
+        assertEquals(d1.toString(),domain.getKeyDomain().read(1).toString());
     }
 
     @Test
     void updateKey() {
-        // TODO: 16-08-2021
-        //c1.populate(1,1.22,"Rising Skull++","GRAFFITI_SKULL.png","https://csgostash.com/graffiti/15/Rising-Skull");
-        //assertTrue(domain.getGraffitiDomain().update(c1));
+        d1.setName("Operation Hydra Case Key++");
+        assertTrue(domain.getKeyDomain().update(d1));
     }
 
     @Test
     void deleteKey() {
-        // TODO: 16-08-2021
-        //assertTrue(domain.getGraffitiDomain().delete(c1.findMaxID()));
+        assertTrue(domain.getKeyDomain().delete(d1.findMaxID()));
     }
 
     @Test
