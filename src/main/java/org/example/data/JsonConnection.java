@@ -93,11 +93,9 @@ final class JsonConnection implements DataConnection {
                     if (files == null) throw new NotDirectoryException(PATH + " is not a directory.");
 
                     // Populate tables hashmap
-                    long totalBytes = 0;
                     for (File file : files) {
                         // Get name of file
                         String fileName = file.getName().split("\\.")[0];
-                        totalBytes += file.length();
 
                         fileMap.put(fileName, file);
                     }

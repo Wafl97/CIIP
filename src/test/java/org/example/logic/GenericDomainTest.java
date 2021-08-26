@@ -16,6 +16,7 @@ import org.example.logic.interfaces.Logic;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -92,6 +93,12 @@ class GenericDomainTest {
 
         //Resting data
         reset.reset();
+    }
+
+    @Test
+    void fileHandlerLoadTest(){
+        File file = domain.getFileHandler().load("deag.png");
+        assertEquals("deag.png",file.getName());
     }
 
     @Test

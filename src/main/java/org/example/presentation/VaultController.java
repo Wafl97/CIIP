@@ -11,6 +11,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import org.example.logic.dto.interfaces.comps.Displayable;
@@ -88,7 +89,7 @@ public class VaultController extends App implements Initializable {
                     setGraphic(null);
                 } else {
                     setText(item.getName());
-                    ImageView imageView = new ImageView(DOMAIN.getDataFacade().getGFX().getImageMap().get(item.getImage()));
+                    ImageView imageView = new ImageView(new Image(DOMAIN.getDataFacade().getGFX().getImageMap().get(item.getImage()).toURI().toString()));
                     imageView.setPreserveRatio(true);
                     imageView.setFitHeight(25);
                     setGraphic(imageView);
@@ -113,7 +114,7 @@ public class VaultController extends App implements Initializable {
                     setGraphic(null);
                 } else {
                     setText(tmpMap.get(item) + "\t" + item.getName());
-                    ImageView imageView = new ImageView(DOMAIN.getDataFacade().getGFX().getImageMap().get(item.getImage()));
+                    ImageView imageView = new ImageView(new Image(DOMAIN.getDataFacade().getGFX().getImageMap().get(item.getImage()).toURI().toString()));
                     imageView.setPreserveRatio(true);
                     imageView.setFitHeight(25);
                     setGraphic(imageView);

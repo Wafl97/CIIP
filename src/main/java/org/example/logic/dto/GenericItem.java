@@ -134,16 +134,8 @@ public abstract class GenericItem<T> implements Item<T> {
 
     @Override
     public JSONObject convert2JSON() {
-        JSONObject shellObj = new JSONObject();
-        JSONObject innerObj = new JSONObject();
-        innerObj.put(ID.toString(),getId());
-        innerObj.put(INIT_PRICE.toString(),getInitPrice());
-        innerObj.put(CURR_PRICE.toString(),getCurrPrice());
-        innerObj.put(NAME.toString(),getName());
-        innerObj.put(IMAGE.toString(),getImage());
-        innerObj.put(STASH_LINK.toString(),getStashLink());
-        shellObj.put(jsonAttribute,innerObj);
-        return shellObj;
+        JSONObject innerObj = makeGenericJSON();
+        return packageJSON(innerObj);
     }
 
     protected GenericItem<T> popHelper(long id, double initPrice, double currPrice, String name, String image, String stashLink){
@@ -166,6 +158,25 @@ public abstract class GenericItem<T> implements Item<T> {
                 (String)    innerObj.get(IMAGE.toString()),
                 (String)    innerObj.get(STASH_LINK.toString())
         );
+    }
+
+    @SuppressWarnings({"unchecked"})
+    protected JSONObject makeGenericJSON(){
+        JSONObject innerObj = new JSONObject();
+        innerObj.put(ID.toString(),getId());
+        innerObj.put(INIT_PRICE.toString(),getInitPrice());
+        innerObj.put(CURR_PRICE.toString(),getCurrPrice());
+        innerObj.put(NAME.toString(),getName());
+        innerObj.put(IMAGE.toString(),getImage());
+        innerObj.put(STASH_LINK.toString(),getStashLink());
+        return innerObj;
+    }
+
+    @SuppressWarnings({"unchecked"})
+    protected JSONObject packageJSON(JSONObject jsonObject){
+        JSONObject shell = new JSONObject();
+        shell.put(jsonAttribute,jsonObject);
+        return shell;
     }
 
     @Override

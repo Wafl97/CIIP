@@ -13,6 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import org.example.logic.dto.interfaces.*;
@@ -84,7 +85,7 @@ public class MainController extends App implements Initializable {
                     setGraphic(null);
                 } else {
                     setText(item.getName());
-                    ImageView imageView = new ImageView(DOMAIN.getDataFacade().getGFX().getImageMap().get(item.getImage()));
+                    ImageView imageView = new ImageView(new Image(DOMAIN.getDataFacade().getGFX().getImageMap().get(item.getImage()).toURI().toString()));
                     imageView.setPreserveRatio(true);
                     imageView.setFitHeight(IMAGE_ICON_SIZE);
                     setGraphic(imageView);
@@ -202,7 +203,7 @@ public class MainController extends App implements Initializable {
         if (itemIndex != -1) {
             Displayable capsule = itemListView.getItems().get(itemIndex);
             itemName.setText(capsule.getName());
-            itemImage.setImage(DOMAIN.getDataFacade().getGFX().getImageMap().get(capsule.getImage()));
+            itemImage.setImage(new Image(DOMAIN.getDataFacade().getGFX().getImageMap().get(capsule.getImage()).toURI().toString()));
             itemImage.setPreserveRatio(true);
             itemImage.setFitHeight(IMAGE_SIZE);
             itemAmount.setText("Amount: ");

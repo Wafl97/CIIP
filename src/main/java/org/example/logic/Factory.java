@@ -17,7 +17,7 @@ public final class Factory implements IFactory {
         return instance == null ? instance = new Factory() : instance;
     }
 
-
+    @SuppressWarnings({"rawtypes"})
     @Override
     public Transferable makeNew(Attributes TYPE) {
         switch (TYPE){

@@ -99,19 +99,11 @@ public final class Skin extends GenericItem<ISkin> implements ISkin {
 
     @Override
     public JSONObject convert2JSON() {
-        JSONObject shellObj = new JSONObject();
-        JSONObject innerObj = new JSONObject();
-        innerObj.put(ID.toString(),getId());
-        innerObj.put(INIT_PRICE.toString(),getInitPrice());
-        innerObj.put(CURR_PRICE.toString(),getCurrPrice());
-        innerObj.put(NAME.toString(),getName());
-        innerObj.put(IMAGE.toString(),getImage());
-        innerObj.put(STASH_LINK.toString(),getStashLink());
+        JSONObject innerObj = makeGenericJSON();
         innerObj.put(WEAR_FLOAT.toString(),getWearFloat());
         innerObj.put(STATTRAK.toString(), isStatTrak());
         innerObj.put(SOUVENIR.toString(),isSouvenir());
-        shellObj.put(SKIN.toString(),innerObj);
-        return shellObj;
+        return packageJSON(innerObj);
     }
 
     @Override

@@ -24,7 +24,7 @@ public final class Domain implements Logic {
     private static IFileHandler FILE_HANDLER;
     private static IActionWriter WRITER;
 
-    private static IGenericDomain<IVault> VAULT_DOMAIN;
+    private static IGenericDomain<IVault>           VAULT_DOMAIN;
     private static IGenericDomain<ICapsule>         CAPSULE_DOMAIN;
     private static IGenericDomain<ISkin>            SKIN_DOMAIN;
     private static IGenericDomain<ISouvenirCase>    SOUVENIR_CASE_DOMAIN;
@@ -67,6 +67,7 @@ public final class Domain implements Logic {
 
     }
 
+    @SuppressWarnings({"unchecked","rawtypes"})
     @Override
     public void init(boolean print, boolean cacheItems, boolean loadGFX){
 

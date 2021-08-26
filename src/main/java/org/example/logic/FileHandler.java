@@ -23,6 +23,6 @@ public final class FileHandler implements IFileHandler {
 
     @Override
     public File load(String fileName) {
-        return null;
+        return DataFacade.getInstance().getGFX().getImageMap().get(fileName);
     }
 }

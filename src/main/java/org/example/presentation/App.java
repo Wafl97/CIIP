@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
@@ -64,7 +65,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         scene = new Scene(loadFXML(MAIN), 1080, 720);
-        stage.getIcons().add(DOMAIN.getDataFacade().getGFX().getLogo());
+        stage.getIcons().add(new Image(DOMAIN.getDataFacade().getGFX().getLogo().toURI().toString()));
         stage.setTitle(TITLE);
         stage.setScene(scene);
         updateCSS();
@@ -143,7 +144,7 @@ public class App extends Application {
         stage.setTitle(title);
         stage.setResizable(false);
         stage.initModality(Modality.APPLICATION_MODAL);
-        stage.getIcons().add(DOMAIN.getDataFacade().getGFX().getLogo());
+        stage.getIcons().add(new Image(DOMAIN.getDataFacade().getGFX().getLogo().toURI().toString()));
         stage.setScene(new Scene(pane,300,100));
         stage.showAndWait();
         return answer.get();

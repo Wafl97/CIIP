@@ -7,9 +7,9 @@ import java.util.Map;
 
 public interface IGFX {
 
-    Image getLogo();
+    File getLogo();
 
-    Map<String, Image> getImageMap();
+    Map<String, File> getImageMap();
 
     void loadImages(boolean clear);
 

@@ -20,6 +20,7 @@ public final class DataReset {
         copyFile(sour,dest);
     }
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     private void copyFile(File src, File dest){
         try {
             for (int i = 0; i < Objects.requireNonNull(src.listFiles()).length; i++) {

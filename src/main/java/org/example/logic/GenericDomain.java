@@ -38,6 +38,7 @@ public abstract class GenericDomain<T> implements IGenericDomain<T> {
         return TYPE.toNorm();
     }
 
+    @SuppressWarnings({"unchecked"})
     @Override
     public List<Transferable<T>> readAll() {
         if (cache == null){
@@ -61,6 +62,7 @@ public abstract class GenericDomain<T> implements IGenericDomain<T> {
         return SUB_CON.create(item.convert2JSON());
     }
 
+    @SuppressWarnings("OptionalGetWithoutIsPresent")
     @Override
     public Transferable<T> read(long id) {
         if (cache == null) readAll();

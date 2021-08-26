@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 
@@ -91,7 +92,7 @@ public class ItemController extends App implements Initializable {
                 }
                 else {
                     setText(capsule.getName());
-                    ImageView imageView = new ImageView(DOMAIN.getDataFacade().getGFX().getImageMap().get(capsule.getImage()));
+                    ImageView imageView = new ImageView(new Image(DOMAIN.getDataFacade().getGFX().getImageMap().get(capsule.getImage()).toURI().toString()));
                     imageView.setPreserveRatio(true);
                     imageView.setFitHeight(IMAGE_ICON_SIZE);
                     setGraphic(imageView);
@@ -122,7 +123,7 @@ public class ItemController extends App implements Initializable {
             pinRadioButton.setSelected(loadedItem instanceof IPin);
             modelRadioButton.setSelected(loadedItem instanceof IPlayerModel);
             graffitiRadioButton.setSelected(loadedItem instanceof IGraffiti);
-            itemImageView.setImage(DOMAIN.getDataFacade().getGFX().getImageMap().get(loadedItem.getImage()));
+            itemImageView.setImage(new Image(DOMAIN.getDataFacade().getGFX().getImageMap().get(loadedItem.getImage()).toURI().toString()));
             nameTextField.setText(loadedItem.getName());
             priceSpinner.getValueFactory().setValue(loadedItem.getInitPrice());
             linkTextField.setText(loadedItem.getStashLink());
@@ -497,7 +498,7 @@ public class ItemController extends App implements Initializable {
         imageFile = fileChooser.showOpenDialog(null);
         if (imageFile != null){
             DOMAIN.getFileHandler().save(imageFile);
-            itemImageView.setImage(DOMAIN.getDataFacade().getGFX().getImageMap().get(imageFile.getName()));
+            itemImageView.setImage(new Image(DOMAIN.getDataFacade().getGFX().getImageMap().get(imageFile.getName()).toURI().toString()));
         }
     }
 
