@@ -1,14 +1,8 @@
 package org.example.logic;
 
 import org.example.data.DataReset;
-import org.example.logic.dto.Capsule;
-import org.example.logic.dto.Case;
-import org.example.logic.dto.Graffiti;
-import org.example.logic.dto.Key;
-import org.example.logic.dto.interfaces.ICapsule;
-import org.example.logic.dto.interfaces.ICase;
-import org.example.logic.dto.interfaces.IGraffiti;
-import org.example.logic.dto.interfaces.IKey;
+import org.example.logic.dto.*;
+import org.example.logic.dto.interfaces.*;
 import org.example.logic.dto.interfaces.comps.Identifiable;
 import org.example.logic.dto.interfaces.comps.Transferable;
 import org.example.logic.interfaces.IFactory;
@@ -24,6 +18,7 @@ import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.example.util.Attributes.*;
+import static org.example.logic.TestData.*;
 
 class GenericDomainTest {
 
@@ -35,65 +30,16 @@ class GenericDomainTest {
 
     List<Identifiable> goodList;
 
-    //Capsules
-    ICapsule a1 = new Capsule().populate(1,0.22,0.0,"Berlin 2019 Legends","2019BER_LEG.png","https://csgostash.com/stickers/capsule/278/Berlin-2019-Legends-Holo-Foil");
-    ICapsule a2 = new Capsule().populate(2,0.22,0.0,"Berlin 2019 Minor","2019BER_MIN.png","https://csgostash.com/stickers/capsule/280/Berlin-2019-Minor-Challengers-Holo-Foil");
-    ICapsule a3 = new Capsule().populate(3,0.22,0.0,"Berlin 2019 Returning","2019BER_RET.png","https://csgostash.com/stickers/capsule/279/Berlin-2019-Returning-Challengers-Holo-Foil");
-    ICapsule a4 = new Capsule().populate(4,0.2,0.0,"RMR 2020 Challengers","2020RMR_CHA.png","https://csgostash.com/stickers/capsule/312/2020-RMR-Challengers");
-    ICapsule a5 = new Capsule().populate(5,0.2,0.0,"RMR 2020 Contenders","2020RMR_CON.png","https://csgostash.com/stickers/capsule/313/2020-RMR-Contenders");
-    ICapsule a6 = new Capsule().populate(6,0.2,0.0,"RMR 2020 Legends","2020RMR_LEG.png","https://csgostash.com/stickers/capsule/311/2020-RMR-Legends");
-
-    //Cases
-    // TODO: 16-08-2021 Add more Cases to test data
-    ICase b1 = new Case().populate(1,156.22,0.0,"Operation Hydra Case","CASE_HYDRA.png","https://csgostash.com/case/208/Operation-Hydra-Case");
-    /*
-    ICase b2 = new Case().populate
-    ICase b3 = new Case().populate
-    ICase b4 = new Case().populate
-    ICase b5 = new Case().populate
-    ICase b6 = new Case().populate
-     */
-
-    //Graffities
-    // TODO: 16-08-2021 Add more Cases to test data
-    IGraffiti c1 = new Graffiti().populate(1,1.22,0.0,"Rising Skull","GRAFFITI_SKULL.png","https://csgostash.com/graffiti/15/Rising-Skull");
-    /*
-    IGraffiti c2 = new Graffiti().populate
-    IGraffiti c3 = new Graffiti().populate
-    IGraffiti c4 = new Graffiti().populate
-    IGraffiti c5 = new Graffiti().populate
-    IGraffiti c6 = new Graffiti().populate
-     */
-
-    //Keys
-    IKey d1 = new Key().populate(1,2.5,0.0,"Operation Hydra Case Key","KEY_HYDRA.png","https://csgostash.com/item/9791/Operation-Hydra-Case-Key");
-
-    //MusicKits
-
-    //Patches
-
-    //Pins
-
-    //PlayerModels
-
-    //Skins
-
-    //Souvenirs
-
-    //Stickers
-
-    //Tickets
-
-    //Vaults
-
     @BeforeEach
     void setUp(){
-        domain.init(false,false,false);
+        domain.init(false,false,true);
         factory = domain.getFactory();
 
         //Resting data
         reset.reset();
     }
+
+
 
     @Test
     void fileHandlerLoadTest(){
@@ -116,13 +62,16 @@ class GenericDomainTest {
 
     @Test
     void readCapsule() {
+        System.out.println(a1.toString());
+        System.out.println(domain.getCapsuleDomain().read(1).toString());
         assertEquals(a1.toString(),domain.getCapsuleDomain().read(1).toString());
     }
 
     @Test
     void updateCapsule() {
-        a1.setName("Berlin 2019 Minor++");
+        a1.setName("Berlin 2019 Legends++");
         assertTrue(domain.getCapsuleDomain().update(a1));
+        a1.setName("Berlin 2019 Legends");
     }
 
     @Test
@@ -152,6 +101,7 @@ class GenericDomainTest {
     void updateCase() {
         b1.setName("Operation Hydra Case++");
         assertTrue(domain.getCaseDomain().update(b1));
+        b1.setName("Operation Hydra Case");
     }
 
     @Test
@@ -181,6 +131,7 @@ class GenericDomainTest {
     void updateGraffiti() {
         c1.setName("Rising Skull++");
         assertTrue(domain.getGraffitiDomain().update(c1));
+        c1.setName("Rising Skull");
     }
 
     @Test
@@ -210,6 +161,7 @@ class GenericDomainTest {
     void updateKey() {
         d1.setName("Operation Hydra Case Key++");
         assertTrue(domain.getKeyDomain().update(d1));
+        d1.setName("Operation Hydra Case Key");
     }
 
     @Test
@@ -219,266 +171,242 @@ class GenericDomainTest {
 
     @Test
     void readAllMusicKits() {
-        // TODO: 16-08-2021
-        //goodList = new ArrayList<>(Arrays.asList(c1));
-        //List<Identifiable> bList = domain.getGraffitiDomain().readAll();
-        //IntStream.range(0, goodList.size()).forEach(i -> assertEquals(goodList.get(i).toString(), bList.get(i).toString()));
+        goodList = new ArrayList<>(Arrays.asList(e1));
+        List<Transferable<IMusicKit>> eList = domain.getMusicKitDomain().readAll();
+        IntStream.range(0, goodList.size()).forEach(i -> assertEquals(goodList.get(i).toString(), eList.get(i).toString()));
     }
 
     @Test
     void createMusicKit() {
-        // TODO: 16-08-2021
-        //assertTrue(domain.getGraffitiDomain().create(c2));
+        IMusicKit e7 = ((IMusicKit) factory.makeNew(MUSICKIT)).populate(-1,99.99,0.0,"new music kit","img.png","https://csgostash.com/music/2/Crimson-Assault-Daniel-Sadowski");
+        assertTrue(domain.getMusicKitDomain().create(e7));
     }
 
     @Test
     void readMusicKit() {
-        // TODO: 16-08-2021
-        //assertEquals(c1.toString(),domain.getGraffitiDomain().read(1).toString());
+        assertEquals(e1.toString(),domain.getMusicKitDomain().read(1).toString());
     }
 
     @Test
     void updateMusicKit() {
-        // TODO: 16-08-2021
-        //c1.populate(1,1.22,"Rising Skull++","GRAFFITI_SKULL.png","https://csgostash.com/graffiti/15/Rising-Skull");
-        //assertTrue(domain.getGraffitiDomain().update(c1));
+        e1.setName("Crimson Assault++");
+        assertTrue(domain.getMusicKitDomain().update(e1));
+        e1.setName("Crimson Assault");
     }
 
     @Test
     void deleteMusicKit() {
-        // TODO: 16-08-2021
-        //assertTrue(domain.getGraffitiDomain().delete(c1.findMaxID()));
+        assertTrue(domain.getMusicKitDomain().delete(e1.findMaxID()));
     }
 
     @Test
-    void readAllPatchs() {
-        // TODO: 16-08-2021
-        //goodList = new ArrayList<>(Arrays.asList(c1));
-        //List<Identifiable> bList = domain.getGraffitiDomain().readAll();
-        //IntStream.range(0, goodList.size()).forEach(i -> assertEquals(goodList.get(i).toString(), bList.get(i).toString()));
+    void readAllPatches() {
+        goodList = new ArrayList<>(Arrays.asList(f1));
+        List<Transferable<IPatch>> fList = domain.getPatchDomain().readAll();
+        IntStream.range(0, goodList.size()).forEach(i -> assertEquals(goodList.get(i).toString(), fList.get(i).toString()));
     }
 
     @Test
     void createPatch() {
-        // TODO: 16-08-2021
-        //assertTrue(domain.getGraffitiDomain().create(c2));
+        IPatch f7 = ((IPatch) factory.makeNew(PATCH)).populate(-1,99.99,0.0,"new patch","img.png","https://csgostash.com/patch/9/Crazy-Banana");
+        assertTrue(domain.getPatchDomain().create(f7));
     }
 
     @Test
     void readPatch() {
-        // TODO: 16-08-2021
-        //assertEquals(c1.toString(),domain.getGraffitiDomain().read(1).toString());
+        assertEquals(f1.toString(),domain.getPatchDomain().read(1).toString());
     }
 
     @Test
     void updatePatch() {
-        // TODO: 16-08-2021
-        //c1.populate(1,1.22,"Rising Skull++","GRAFFITI_SKULL.png","https://csgostash.com/graffiti/15/Rising-Skull");
-        //assertTrue(domain.getGraffitiDomain().update(c1));
+        f1.setName("Patch | Crazy Banana++");
+        assertTrue(domain.getPatchDomain().update(f1));
+        f1.setName("Patch | Crazy Banana");
     }
 
     @Test
     void deletePatch() {
-        // TODO: 16-08-2021
-        //assertTrue(domain.getGraffitiDomain().delete(c1.findMaxID()));
+        assertTrue(domain.getPatchDomain().delete(f1.findMaxID()));
     }
 
     @Test
     void readAllPins() {
-        // TODO: 16-08-2021
-        //goodList = new ArrayList<>(Arrays.asList(c1));
-        //List<Identifiable> bList = domain.getGraffitiDomain().readAll();
-        //IntStream.range(0, goodList.size()).forEach(i -> assertEquals(goodList.get(i).toString(), bList.get(i).toString()));
+        goodList = new ArrayList<>(Arrays.asList(g1));
+        List<Transferable<IPin>> gList = domain.getPinDomain().readAll();
+        IntStream.range(0, goodList.size()).forEach(i -> assertEquals(goodList.get(i).toString(), gList.get(i).toString()));
     }
 
     @Test
     void createPin() {
-        // TODO: 16-08-2021
-        //assertTrue(domain.getGraffitiDomain().create(c2));
+        IPin g7 = ((IPin) factory.makeNew(PIN)).populate(-1,99.99,0.0,"new pin","img.png","https://csgostash.com/pin/32/Howl-Pin");
+        assertTrue(domain.getPinDomain().create(g7));
     }
 
     @Test
     void readPin() {
-        // TODO: 16-08-2021
-        //assertEquals(c1.toString(),domain.getGraffitiDomain().read(1).toString());
+        assertEquals(g1.toString(),domain.getPinDomain().read(1).toString());
     }
 
     @Test
     void updatePin() {
-        // TODO: 16-08-2021
-        //c1.populate(1,1.22,"Rising Skull++","GRAFFITI_SKULL.png","https://csgostash.com/graffiti/15/Rising-Skull");
-        //assertTrue(domain.getGraffitiDomain().update(c1));
+        g1.setName("Howl Pin++");
+        assertTrue(domain.getPinDomain().update(g1));
+        g1.setName("Howl Pin");
     }
 
     @Test
     void deletePin() {
-        // TODO: 16-08-2021
-        //assertTrue(domain.getGraffitiDomain().delete(c1.findMaxID()));
+        assertTrue(domain.getPinDomain().delete(g1.findMaxID()));
     }
 
     @Test
     void readAllPlayerModels() {
-        // TODO: 16-08-2021
-        //goodList = new ArrayList<>(Arrays.asList(c1));
-        //List<Identifiable> bList = domain.getGraffitiDomain().readAll();
-        //IntStream.range(0, goodList.size()).forEach(i -> assertEquals(goodList.get(i).toString(), bList.get(i).toString()));
+        goodList = new ArrayList<>(Arrays.asList(h1));
+        List<Transferable<IPlayerModel>> hList = domain.getPlayerModelDomain().readAll();
+        IntStream.range(0, goodList.size()).forEach(i -> assertEquals(goodList.get(i).toString(), hList.get(i).toString()));
     }
 
     @Test
     void createPlayerModel() {
-        // TODO: 16-08-2021
-        //assertTrue(domain.getGraffitiDomain().create(c2));
+        IPlayerModel h7 = ((IPlayerModel) factory.makeNew(PLAYERMODEL)).populate(-1,99.99,0.0,"new player model","img.png","https://csgostash.com/agent/17/B-Squadron-Officer-SAS");
+        assertTrue(domain.getPlayerModelDomain().create(h7));
     }
 
     @Test
     void readPlayerModel() {
-        // TODO: 16-08-2021
-        //assertEquals(c1.toString(),domain.getGraffitiDomain().read(1).toString());
+        assertEquals(h1.toString(),domain.getPlayerModelDomain().read(1).toString());
     }
 
     @Test
     void updatePlayerModel() {
-        // TODO: 16-08-2021
-        //c1.populate(1,1.22,"Rising Skull++","GRAFFITI_SKULL.png","https://csgostash.com/graffiti/15/Rising-Skull");
-        //assertTrue(domain.getGraffitiDomain().update(c1));
+        h1.setName("B Squadron Officer | SAS++");
+        assertTrue(domain.getPlayerModelDomain().update(h1));
+        h1.setName("B Squadron Officer | SAS");
     }
 
     @Test
     void deletePlayerModel() {
-        // TODO: 16-08-2021
-        //assertTrue(domain.getGraffitiDomain().delete(c1.findMaxID()));
+        assertTrue(domain.getPlayerModelDomain().delete(h1.findMaxID()));
     }
 
     @Test
     void readAllSkins() {
-        // TODO: 16-08-2021
-        //goodList = new ArrayList<>(Arrays.asList(c1));
-        //List<Identifiable> bList = domain.getGraffitiDomain().readAll();
-        //IntStream.range(0, goodList.size()).forEach(i -> assertEquals(goodList.get(i).toString(), bList.get(i).toString()));
+        goodList = new ArrayList<>(Arrays.asList(i1,i2,i3));
+        List<Transferable<ISkin>> iList = domain.getSkinDomain().readAll();
+        IntStream.range(0, goodList.size()).forEach(i -> assertEquals(goodList.get(i).toString(), iList.get(i).toString()));
     }
 
     @Test
     void createSkin() {
-        // TODO: 16-08-2021
-        //assertTrue(domain.getGraffitiDomain().create(c2));
+        ISkin i7 = ((ISkin) factory.makeNew(SKIN)).populate(-1,99.99,0.0,"new skin","img.png","https://csgostash.com/skin/1373/MP9-Food-Chain",0.03,false,false);
+        assertTrue(domain.getSkinDomain().create(i7));
     }
 
     @Test
     void readSkin() {
-        // TODO: 16-08-2021
-        //assertEquals(c1.toString(),domain.getGraffitiDomain().read(1).toString());
+        assertEquals(i1.toString(),domain.getSkinDomain().read(1).toString());
     }
 
     @Test
     void updateSkin() {
-        // TODO: 16-08-2021
-        //c1.populate(1,1.22,"Rising Skull++","GRAFFITI_SKULL.png","https://csgostash.com/graffiti/15/Rising-Skull");
-        //assertTrue(domain.getGraffitiDomain().update(c1));
+        i1.setName("TEST++");
+        assertTrue(domain.getSkinDomain().update(i1));
+        i1.setName("TEST");
     }
 
     @Test
     void deleteSkin() {
-        // TODO: 16-08-2021
-        //assertTrue(domain.getGraffitiDomain().delete(c1.findMaxID()));
+        assertTrue(domain.getSkinDomain().delete(i1.findMaxID()));
     }
 
     @Test
     void readAllSouvenirs() {
-        // TODO: 16-08-2021
-        //goodList = new ArrayList<>(Arrays.asList(c1));
-        //List<Identifiable> bList = domain.getGraffitiDomain().readAll();
-        //IntStream.range(0, goodList.size()).forEach(i -> assertEquals(goodList.get(i).toString(), bList.get(i).toString()));
+        goodList = new ArrayList<>(Arrays.asList(j1));
+        List<Transferable<ISouvenirCase>> jList = domain.getSouvenirCaseDomain().readAll();
+        IntStream.range(0, goodList.size()).forEach(i -> assertEquals(goodList.get(i).toString(), jList.get(i).toString()));
     }
 
     @Test
     void createSouvenir() {
-        // TODO: 16-08-2021
-        //assertTrue(domain.getGraffitiDomain().create(c2));
+        ISouvenirCase j7 = ((ISouvenirCase) factory.makeNew(SOUVENIR)).populate(-1,99.99,0.0,"new souvenir case","img.png","https://csgostash.com/item/14265/Berlin-2019-Vertigo-Souvenir-Package");
+        assertTrue(domain.getSouvenirCaseDomain().create(j7));
     }
 
     @Test
     void readSouvenir() {
-        // TODO: 16-08-2021
-        //assertEquals(c1.toString(),domain.getGraffitiDomain().read(1).toString());
+        assertEquals(j1.toString(),domain.getSouvenirCaseDomain().read(1).toString());
     }
 
     @Test
     void updateSouvenir() {
-        // TODO: 16-08-2021
-        //c1.populate(1,1.22,"Rising Skull++","GRAFFITI_SKULL.png","https://csgostash.com/graffiti/15/Rising-Skull");
-        //assertTrue(domain.getGraffitiDomain().update(c1));
+        j1.setName("S TEST++");
+        assertTrue(domain.getSouvenirCaseDomain().update(j1));
+        j1.setName("S TEST");
     }
 
     @Test
     void deleteSouvenir() {
-        // TODO: 16-08-2021
-        //assertTrue(domain.getGraffitiDomain().delete(c1.findMaxID()));
+        assertTrue(domain.getSouvenirCaseDomain().delete(j1.findMaxID()));
     }
 
     @Test
     void readAllStickers() {
-        // TODO: 16-08-2021
-        //goodList = new ArrayList<>(Arrays.asList(c1));
-        //List<Identifiable> bList = domain.getGraffitiDomain().readAll();
-        //IntStream.range(0, goodList.size()).forEach(i -> assertEquals(goodList.get(i).toString(), bList.get(i).toString()));
+        goodList = new ArrayList<>(Arrays.asList(k1,k2));
+        List<Transferable<ISticker>> kList = domain.getStickerDomain().readAll();
+        IntStream.range(0, goodList.size()).forEach(i -> assertEquals(goodList.get(i).toString(), kList.get(i).toString()));
     }
 
     @Test
     void createSticker() {
-        // TODO: 16-08-2021
-        //assertTrue(domain.getGraffitiDomain().create(c2));
+        ISticker k7 = ((ISticker) factory.makeNew(STICKER)).populate(-1,99.99,0.0,"new sticker","img.png","https://csgostash.com/sticker/3836/TYLOO-Gold-2020-RMR");
+        assertTrue(domain.getStickerDomain().create(k7));
     }
 
     @Test
     void readSticker() {
-        // TODO: 16-08-2021
-        //assertEquals(c1.toString(),domain.getGraffitiDomain().read(1).toString());
+        assertEquals(k1.toString(),domain.getStickerDomain().read(1).toString());
     }
 
     @Test
     void updateSticker() {
-        // TODO: 16-08-2021
-        //c1.populate(1,1.22,"Rising Skull++","GRAFFITI_SKULL.png","https://csgostash.com/graffiti/15/Rising-Skull");
-        //assertTrue(domain.getGraffitiDomain().update(c1));
+        k1.setName("Sticker | Natus Vincere (Gold) | 2020 RMR++");
+        assertTrue(domain.getStickerDomain().update(k1));
+        k1.setName("Sticker | Natus Vincere (Gold) | 2020 RMR");
     }
 
     @Test
     void deleteSticker() {
-        // TODO: 16-08-2021
-        //assertTrue(domain.getGraffitiDomain().delete(c1.findMaxID()));
+        assertTrue(domain.getStickerDomain().delete(k1.findMaxID()));
     }
 
     @Test
     void readAllTickets() {
-        // TODO: 16-08-2021
-        //goodList = new ArrayList<>(Arrays.asList(c1));
-        //List<Identifiable> bList = domain.getGraffitiDomain().readAll();
-        //IntStream.range(0, goodList.size()).forEach(i -> assertEquals(goodList.get(i).toString(), bList.get(i).toString()));
+        goodList = new ArrayList<>(Arrays.asList(l1));
+        List<Transferable<ITicket>> lList = domain.getTicketDomain().readAll();
+        IntStream.range(0, goodList.size()).forEach(i -> assertEquals(goodList.get(i).toString(), lList.get(i).toString()));
     }
 
     @Test
     void createTicket() {
-        // TODO: 16-08-2021
-        //assertTrue(domain.getGraffitiDomain().create(c2));
+        ITicket l7 = ((ITicket) factory.makeNew(TICKET)).populate(-1,99.99,0.0,"new ticket","img.png","https://csgostash.com/item/13929/Berlin-2019-Viewer-Pass");
+        assertTrue(domain.getTicketDomain().create(l7));
     }
 
     @Test
     void readTicket() {
-        // TODO: 16-08-2021
-        //assertEquals(c1.toString(),domain.getGraffitiDomain().read(1).toString());
+        assertEquals(l1.toString(),domain.getTicketDomain().read(1).toString());
     }
 
     @Test
     void updateTicket() {
-        // TODO: 16-08-2021
-        //c1.populate(1,1.22,"Rising Skull++","GRAFFITI_SKULL.png","https://csgostash.com/graffiti/15/Rising-Skull");
-        //assertTrue(domain.getGraffitiDomain().update(c1));
+        l1.setName("Berlin 2019 Viewer Pass++");
+        assertTrue(domain.getTicketDomain().update(l1));
+        l1.setName("Berlin 2019 Viewer Pass");
     }
 
     @Test
     void deleteTicket() {
-        // TODO: 16-08-2021
-        //assertTrue(domain.getGraffitiDomain().delete(c1.findMaxID()));
+        assertTrue(domain.getTicketDomain().delete(l1.findMaxID()));
     }
 
     @Test
