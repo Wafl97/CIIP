@@ -26,6 +26,7 @@ public final class DataFacade implements IDataFacade {
             if (loadGFX) {
                 System.out.println(ConsoleColors.YELLOW + "\t - Getting GFX" + ConsoleColors.RESET);
                 GRAFIX = GFX.getInstance();
+                GRAFIX.init(true);
             }
 
             System.out.println(ConsoleColors.YELLOW + "\t - Getting DataConnection" + ConsoleColors.RESET);
@@ -42,6 +43,7 @@ public final class DataFacade implements IDataFacade {
 
             if (loadGFX) {
                 GRAFIX = GFX.getInstance();
+                GRAFIX.init(false);
             }
             CONNECTION = JsonConnection.getInstance();
             CONNECTION.connect(false);

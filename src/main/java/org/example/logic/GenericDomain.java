@@ -38,6 +38,11 @@ public abstract class GenericDomain<T> implements IGenericDomain<T> {
         return TYPE.toNorm();
     }
 
+    @Override
+    public int cacheSize() {
+        return cache.size();
+    }
+
     @SuppressWarnings({"unchecked"})
     @Override
     public List<Transferable<T>> readAll() {

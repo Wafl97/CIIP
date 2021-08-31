@@ -13,6 +13,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 
 import static org.example.util.Attributes.*;
@@ -103,16 +104,16 @@ public final class GenericSubConnection implements IGenericSubConnection {
 
     private boolean removeObjFromTable(long id, Attributes table, Attributes objName, boolean cascade) {
         JSONArray jsonArray = loadFile(table);
-        if (jsonArray != null) {
-            for (Object o : jsonArray) {
-                JSONObject outerObj = (JSONObject) o;
-                JSONObject innerObj = (JSONObject) outerObj.get(objName.toString());
-                if ((long) innerObj.get(ID.toString()) == id) {
-                    jsonArray.remove(o);
-                    break;
-                }
+        if (jsonArray == null) {
+            throw new NoSuchElementException();
+        }
+        for (Object o : jsonArray) {
+            JSONObject outerObj = (JSONObject) o;
+            JSONObject innerObj = (JSONObject) outerObj.get(objName.toString());
+            if ((long) innerObj.get(ID.toString()) == id) {
+                jsonArray.remove(o);
+                break;
             }
-            saveFile(jsonArray, table);
         }
         if (cascade){
             //Remove from investments
@@ -134,7 +135,7 @@ public final class GenericSubConnection implements IGenericSubConnection {
                 return saveFile(investArray, VAULTS);
             }
         }
-        return false;
+        return saveFile(jsonArray, table);
     }
 
     @SuppressWarnings({"unchecked"})

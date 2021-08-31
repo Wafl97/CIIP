@@ -47,36 +47,42 @@ final class GFX implements IGFX {
     }
 
     private GFX() {
-        System.out.println("||===========================================");
-        System.out.println("|| " + ConsoleColors.PURPLE + "Initialising GFX" + ConsoleColors.RESET);
-        loadLogo();
-        loadImages(false);
-        System.out.println("|| " + ConsoleColors.GREEN + "Initialisation done" + ConsoleColors.RESET);
-        System.out.println("||===========================================");
+
     }
 
-    private void loadLogo(){
+    public void init(boolean print){
+        if (print){
+            System.out.println("||===========================================");
+            System.out.println("|| " + ConsoleColors.PURPLE + "Initialising GFX" + ConsoleColors.RESET);
+            loadLogo(true);
+            loadImages(true);
+            System.out.println("|| " + ConsoleColors.GREEN + "Initialisation done" + ConsoleColors.RESET);
+            System.out.println("||===========================================");
+        }
+        else{
+            loadLogo(false);
+            loadImages(false);
+        }
+    }
+
+    private void loadLogo(boolean print){
         try {
             logo = new File(Objects.requireNonNull(GFX.class.getResource(LOGO_PATH)).toURI());
-            System.out.println("|| Logo found at [" + ConsoleColors.BLUE + logo.getPath() + ConsoleColors.RESET + "]");
+            if (print) System.out.println("|| Logo found at [" + ConsoleColors.BLUE + logo.getPath() + ConsoleColors.RESET + "]");
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
     }
 
-    @Override
-    public void loadImages(boolean clear){
-        if (clear) {
-            imageMap.clear();
-        }
+    private void loadImages(boolean print){
         try {
             File f = new File(Objects.requireNonNull(GFX.class.getResource(S_DIR)).toURI());
-            System.out.println("|| Loading images from [" + ConsoleColors.BLUE + f + ConsoleColors.RESET + "]");
+            if (print) System.out.println("|| Loading images from [" + ConsoleColors.BLUE + f + ConsoleColors.RESET + "]");
             File[] fArr = f.listFiles();
             if (fArr != null) {
-                System.out.println("|| Total images found [" + ConsoleColors.CYAN + fArr.length + ConsoleColors.RESET + "]");
+                if (print) System.out.println("|| Total images found [" + ConsoleColors.CYAN + fArr.length + ConsoleColors.RESET + "]");
                 for (File file : fArr) {
-                    System.out.println("|| " + ConsoleColors.YELLOW + "Found image " + ConsoleColors.RESET + "[" + ConsoleColors.BLUE + file.getName() + ConsoleColors.RESET + "]");
+                    if (print) System.out.println("|| " + ConsoleColors.YELLOW + "Found image " + ConsoleColors.RESET + "[" + ConsoleColors.BLUE + file.getName() + ConsoleColors.RESET + "]");
                     imageMap.put(file.getName(), file);
                 }
             }

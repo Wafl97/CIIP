@@ -138,29 +138,28 @@ public class TestData {
     // TODO: 30-08-2021 Add more Vaults to test data
     public static IVault m1 = new Vault().populate(1,"Berlin");
     static {
-        m1.addItems(a1,10);
-        m1.addItems(a2,10);
-        m1.addItems(a3,10);
-        m1.addItems(i1,1);
-        m1.addItems(i2,1);
-        m1.addItems(k1,1);
-        m1.addItems(k2,1);
-        m1.addItems(b1,50);
-        m1.addItems(l1,1);
-        m1.addItems(d1,5);
-        m1.addItems(e1,1);
-        m1.addItems(g1,1);
-        m1.addItems(h1,1);
-        m1.addItems(c1,5);
+        m1.addItems(a1,10);         //Capsule
+        m1.addItems(a2,10);         //Capsule
+        m1.addItems(a3,10);         //Capsule
+        m1.addItems(b1,50);         //Case
+        m1.addItems(c1,5);          //Graffiti
+        m1.addItems(d1,5);          //Key
+        m1.addItems(e1,1);          //MusicKit
+        m1.addItems(g1,1);          //Pin
+        m1.addItems(h1,1);          //PlayerModel
+        m1.addItems(i1,1);          //Skin
+        m1.addItems(k1,1);          //Sticker
+        m1.addItems(k2,1);          //Sticker
+        m1.addItems(l1,1);          //Ticket
     }
     public static IVault m2 = new Vault().populate(2,"RMR");
     static {
-        m2.addItems(a4,10);
-        m2.addItems(a5,10);
-        m2.addItems(a6,10);
-        m2.addItems(j1,100);
-        m2.addItems(k2,1);
-        m2.addItems(f1,1);
+        m2.addItems(a4,10);         //Capsule
+        m2.addItems(a5,10);         //Capsule
+        m2.addItems(a6,10);         //Capsule
+        m2.addItems(f1,1);          //Patch
+        m2.addItems(j1,100);        //Souvenir
+        m2.addItems(k2,1);          //Sticker
     }
     /*
     IVault m3 = new Vault().populate

@@ -8,6 +8,8 @@ public interface IGenericDomain<T> {
 
     String getType();
 
+    int cacheSize();
+
     List<Transferable<T>> readAll();
     boolean create(Transferable<T> item);
     Transferable<T> read(long id);

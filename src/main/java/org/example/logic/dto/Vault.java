@@ -10,9 +10,7 @@ import org.example.logic.interfaces.Logic;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import static org.example.util.Attributes.*;
 
@@ -242,35 +240,15 @@ public final class Vault implements IVault {
             JSONObject capsule = (JSONObject) ((JSONObject) o).get(CAPSULE.toString());
             containers.put((Displayable) CAPSULE_DOMAIN.read((long) capsule.get(ID.toString())), (long) capsule.get(AMOUNT.toString()));
         }
-        //Add Skins
-        for (Object o : (JSONArray) innerObj.get(SKINS.toString())){
-            JSONObject skin = (JSONObject) ((JSONObject) o).get(SKIN.toString());
-            containers.put((Displayable) SKIN_DOMAIN.read((long) skin.get(ID.toString())), (long) skin.get(AMOUNT.toString()));
-        }
-        //Add Stickers
-        for (Object o : (JSONArray) innerObj.get(STICKERS.toString())){
-            JSONObject sticker = (JSONObject) ((JSONObject) o).get(STICKER.toString());
-            containers.put((Displayable) STICKER_DOMAIN.read((long) sticker.get(ID.toString())), (long) sticker.get(AMOUNT.toString()));
-        }
-        //Add SouvenirCases
-        for (Object o : (JSONArray) innerObj.get(SOUVENIRS.toString())){
-            JSONObject souvenir = (JSONObject) ((JSONObject) o).get(SOUVENIR.toString());
-            containers.put((Displayable) SOUVENIR_CASE_DOMAIN.read((long) souvenir.get(ID.toString())), (long) souvenir.get(AMOUNT.toString()));
-        }
-        //Add Patches
-        for (Object o : (JSONArray) innerObj.get(PATCHES.toString())){
-            JSONObject patch = (JSONObject) ((JSONObject) o).get(PATCH.toString());
-            containers.put((Displayable) PATCH_DOMAIN.read((long) patch.get(ID.toString())), (long) patch.get(AMOUNT.toString()));
-        }
         //Add Cases
         for (Object o : (JSONArray) innerObj.get(CASES.toString())){
             JSONObject _case = (JSONObject) ((JSONObject) o).get(CASE.toString());
             containers.put((Displayable) CASE_DOMAIN.read((long) _case.get(ID.toString())), (long) _case.get(AMOUNT.toString()));
         }
-        //Add Tickets
-        for (Object o : (JSONArray) innerObj.get(TICKETS.toString())){
-            JSONObject ticket = (JSONObject) ((JSONObject) o).get(TICKET.toString());
-            containers.put((Displayable) TICKET_DOMAIN.read((long) ticket.get(ID.toString())), (long) ticket.get(AMOUNT.toString()));
+        //Add Graffities
+        for (Object o : (JSONArray) innerObj.get(GRAFFITIES.toString())){
+            JSONObject graffiti = (JSONObject) ((JSONObject) o).get(GRAFFITI.toString());
+            containers.put((Displayable) GRAFFITI_DOMAIN.read((long) graffiti.get(ID.toString())), (long) graffiti.get(AMOUNT.toString()));
         }
         //Add Keys
         for (Object o : (JSONArray) innerObj.get(KEYS.toString())){
@@ -282,6 +260,11 @@ public final class Vault implements IVault {
             JSONObject musicKit = (JSONObject) ((JSONObject) o).get(MUSICKIT.toString());
             containers.put((Displayable) MUSIC_KIT_DOMAIN.read((long) musicKit.get(ID.toString())), (long) musicKit.get(AMOUNT.toString()));
         }
+        //Add Patches
+        for (Object o : (JSONArray) innerObj.get(PATCHES.toString())){
+            JSONObject patch = (JSONObject) ((JSONObject) o).get(PATCH.toString());
+            containers.put((Displayable) PATCH_DOMAIN.read((long) patch.get(ID.toString())), (long) patch.get(AMOUNT.toString()));
+        }
         //Add Pins
         for (Object o : (JSONArray) innerObj.get(PINS.toString())){
             JSONObject pin = (JSONObject) ((JSONObject) o).get(PIN.toString());
@@ -292,10 +275,25 @@ public final class Vault implements IVault {
             JSONObject playerModel = (JSONObject) ((JSONObject) o).get(PLAYERMODEL.toString());
             containers.put((Displayable) PLAYER_MODEL_DOMAIN.read((long) playerModel.get(ID.toString())), (long) playerModel.get(AMOUNT.toString()));
         }
-        //Add Graffities
-        for (Object o : (JSONArray) innerObj.get(GRAFFITIES.toString())){
-            JSONObject graffiti = (JSONObject) ((JSONObject) o).get(GRAFFITI.toString());
-            containers.put((Displayable) GRAFFITI_DOMAIN.read((long) graffiti.get(ID.toString())), (long) graffiti.get(AMOUNT.toString()));
+        //Add Skins
+        for (Object o : (JSONArray) innerObj.get(SKINS.toString())){
+            JSONObject skin = (JSONObject) ((JSONObject) o).get(SKIN.toString());
+            containers.put((Displayable) SKIN_DOMAIN.read((long) skin.get(ID.toString())), (long) skin.get(AMOUNT.toString()));
+        }
+        //Add SouvenirCases
+        for (Object o : (JSONArray) innerObj.get(SOUVENIRS.toString())){
+            JSONObject souvenir = (JSONObject) ((JSONObject) o).get(SOUVENIR.toString());
+            containers.put((Displayable) SOUVENIR_CASE_DOMAIN.read((long) souvenir.get(ID.toString())), (long) souvenir.get(AMOUNT.toString()));
+        }
+        //Add Stickers
+        for (Object o : (JSONArray) innerObj.get(STICKERS.toString())){
+            JSONObject sticker = (JSONObject) ((JSONObject) o).get(STICKER.toString());
+            containers.put((Displayable) STICKER_DOMAIN.read((long) sticker.get(ID.toString())), (long) sticker.get(AMOUNT.toString()));
+        }
+        //Add Tickets
+        for (Object o : (JSONArray) innerObj.get(TICKETS.toString())){
+            JSONObject ticket = (JSONObject) ((JSONObject) o).get(TICKET.toString());
+            containers.put((Displayable) TICKET_DOMAIN.read((long) ticket.get(ID.toString())), (long) ticket.get(AMOUNT.toString()));
         }
         return this;
     }
@@ -307,5 +305,20 @@ public final class Vault implements IVault {
             if (investment.getId() > maxValue) maxValue = investment.getId();
         }
         return maxValue;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder rtn = new StringBuilder();
+        //Header
+        rtn.append("Vault{id=").append(id).append(", name=").append(name).append(", contents=[").append(containers.keySet().size()).append(",").append(containers.values().stream().mapToLong(e -> e).sum()).append("] }");
+        //Content
+
+        /*
+        for (Displayable item : containers.keySet()){
+            rtn.append(item.getClass().getSimpleName()).append("{id=").append(item.getId()).append(", name=").append(item.getName()).append("}");
+        }
+        */
+        return rtn.toString();
     }
 }

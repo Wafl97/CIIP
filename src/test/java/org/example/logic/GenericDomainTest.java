@@ -1,7 +1,6 @@
 package org.example.logic;
 
 import org.example.data.DataReset;
-import org.example.logic.dto.*;
 import org.example.logic.dto.interfaces.*;
 import org.example.logic.dto.interfaces.comps.Identifiable;
 import org.example.logic.dto.interfaces.comps.Transferable;
@@ -62,8 +61,6 @@ class GenericDomainTest {
 
     @Test
     void readCapsule() {
-        System.out.println(a1.toString());
-        System.out.println(domain.getCapsuleDomain().read(1).toString());
         assertEquals(a1.toString(),domain.getCapsuleDomain().read(1).toString());
     }
 
@@ -411,34 +408,36 @@ class GenericDomainTest {
 
     @Test
     void readAllVaults() {
-        // TODO: 16-08-2021
-        //goodList = new ArrayList<>(Arrays.asList(c1));
-        //List<Identifiable> bList = domain.getGraffitiDomain().readAll();
-        //IntStream.range(0, goodList.size()).forEach(i -> assertEquals(goodList.get(i).toString(), bList.get(i).toString()));
+        // TODO: 31-08-2021  
+        goodList = new ArrayList<>(Arrays.asList(m1,m2));
+        List<Transferable<IVault>> mList = domain.getVaultDomain().readAll();
+        IntStream.range(0, goodList.size()).forEach(i -> assertEquals(goodList.get(i).toString(), mList.get(i).toString()));
     }
 
     @Test
     void createVault() {
-        // TODO: 16-08-2021
-        //assertTrue(domain.getGraffitiDomain().create(c2));
+        // TODO: 31-08-2021  
+        IVault m7 = ((IVault) factory.makeNew(VAULT)).populate(-1,"new vault");
+        assertTrue(domain.getVaultDomain().create(m7));
     }
 
     @Test
     void readVault() {
-        // TODO: 16-08-2021
-        //assertEquals(c1.toString(),domain.getGraffitiDomain().read(1).toString());
+        // TODO: 31-08-2021  
+        assertEquals(m1.toString(),domain.getVaultDomain().read(1).toString());
     }
 
     @Test
     void updateVault() {
-        // TODO: 16-08-2021
-        //c1.populate(1,1.22,"Rising Skull++","GRAFFITI_SKULL.png","https://csgostash.com/graffiti/15/Rising-Skull");
-        //assertTrue(domain.getGraffitiDomain().update(c1));
+        // TODO: 31-08-2021  
+        m1.setName("Berlin++");
+        assertTrue(domain.getVaultDomain().update(m1));
+        m1.setName("Berlin");
     }
 
     @Test
     void deleteVault() {
-        // TODO: 16-08-2021
-        //assertTrue(domain.getGraffitiDomain().delete(c1.findMaxID()));
+        // TODO: 31-08-2021  
+        assertTrue(domain.getVaultDomain().delete(m1.findMaxID()));
     }
 }
