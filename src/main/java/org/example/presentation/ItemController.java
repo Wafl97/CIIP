@@ -139,6 +139,7 @@ public class ItemController extends App implements Initializable {
         }
     }
 
+    @SuppressWarnings({"unchecked"})
     private void updateItem(){
         long id = loadedItem.getId();
         double initPrice = (priceSpinner.getValue() == null || priceSpinner.getValue() == 0.0 ? loadedItem.getInitPrice() : priceSpinner.getValue());
@@ -161,7 +162,7 @@ public class ItemController extends App implements Initializable {
                     statTrack,
                     souvenir
             );
-            DOMAIN.getSkinDomain().update((Transferable) loadedItem);
+            DOMAIN.getSkinDomain().update((Transferable<ISkin>) loadedItem);
         }
         else if (loadedItem instanceof ICapsule) {
             ((ICapsule) loadedItem).populate(
@@ -172,7 +173,7 @@ public class ItemController extends App implements Initializable {
                     imageName,
                     link
             );
-            DOMAIN.getCapsuleDomain().update((Transferable) loadedItem);
+            DOMAIN.getCapsuleDomain().update((Transferable<ICapsule>) loadedItem);
         }
         else if (loadedItem instanceof ISouvenirCase) {
             ((ISouvenirCase) loadedItem).populate(
@@ -183,7 +184,7 @@ public class ItemController extends App implements Initializable {
                     imageName,
                     link
             );
-            DOMAIN.getSouvenirCaseDomain().update((Transferable) loadedItem);
+            DOMAIN.getSouvenirCaseDomain().update((Transferable<ISouvenirCase>) loadedItem);
         }
         else if (loadedItem instanceof ISticker){
             ((ISticker) loadedItem).populate(
@@ -194,7 +195,7 @@ public class ItemController extends App implements Initializable {
                     imageName,
                     link
             );
-            DOMAIN.getStickerDomain().update((Transferable) loadedItem);
+            DOMAIN.getStickerDomain().update((Transferable<ISticker>) loadedItem);
         }
         else if (loadedItem instanceof IPatch){
             ((IPatch) loadedItem).populate(
@@ -205,7 +206,7 @@ public class ItemController extends App implements Initializable {
                     imageName,
                     link
             );
-            DOMAIN.getPatchDomain().update((Transferable) loadedItem);
+            DOMAIN.getPatchDomain().update((Transferable<IPatch>) loadedItem);
         }
         else if (loadedItem instanceof ICase){
             ((ICase) loadedItem).populate(
@@ -216,7 +217,7 @@ public class ItemController extends App implements Initializable {
                     imageName,
                     link
             );
-            DOMAIN.getCaseDomain().update((Transferable) loadedItem);
+            DOMAIN.getCaseDomain().update((Transferable<ICase>) loadedItem);
         }
         else if (loadedItem instanceof ITicket){
             ((ITicket) loadedItem).populate(
@@ -227,7 +228,7 @@ public class ItemController extends App implements Initializable {
                     imageName,
                     link
             );
-            DOMAIN.getTicketDomain().update((Transferable) loadedItem);
+            DOMAIN.getTicketDomain().update((Transferable<ITicket>) loadedItem);
         }
         else if (loadedItem instanceof IKey){
             ((IKey) loadedItem).populate(
@@ -238,7 +239,7 @@ public class ItemController extends App implements Initializable {
                     imageName,
                     link
             );
-            DOMAIN.getKeyDomain().update((Transferable) loadedItem);
+            DOMAIN.getKeyDomain().update((Transferable<IKey>) loadedItem);
         }
         else if (loadedItem instanceof IMusicKit){
             ((IMusicKit) loadedItem).populate(
@@ -249,7 +250,7 @@ public class ItemController extends App implements Initializable {
                     imageName,
                     link
             );
-            DOMAIN.getMusicKitDomain().update((Transferable) loadedItem);
+            DOMAIN.getMusicKitDomain().update((Transferable<IMusicKit>) loadedItem);
         }
         else if (loadedItem instanceof IPin){
             ((IPin) loadedItem).populate(
@@ -260,7 +261,7 @@ public class ItemController extends App implements Initializable {
                     imageName,
                     link
             );
-            DOMAIN.getPinDomain().update((Transferable) loadedItem);
+            DOMAIN.getPinDomain().update((Transferable<IPin>) loadedItem);
         }
         else if (loadedItem instanceof IPlayerModel){
             ((IPlayerModel) loadedItem).populate(
@@ -271,7 +272,7 @@ public class ItemController extends App implements Initializable {
                     imageName,
                     link
             );
-            DOMAIN.getPlayerModelDomain().update((Transferable) loadedItem);
+            DOMAIN.getPlayerModelDomain().update((Transferable<IPlayerModel>) loadedItem);
         }
         else if (loadedItem instanceof IGraffiti){
             ((IGraffiti) loadedItem).populate(
@@ -282,13 +283,14 @@ public class ItemController extends App implements Initializable {
                     imageName,
                     link
             );
-            DOMAIN.getGraffitiDomain().update((Transferable) loadedItem);
+            DOMAIN.getGraffitiDomain().update((Transferable<IGraffiti>) loadedItem);
         }
         else {
             throw new IllegalStateException("No Item type selected");
         }
     }
 
+    @SuppressWarnings({"rawtypes"})
     private void createItem(){
         Transferable item = DOMAIN.getFactory().makeNew((Attributes) radioToggle.getSelectedToggle().getUserData());
         if (radioToggle.getSelectedToggle().getUserData() == SKIN){
@@ -583,7 +585,7 @@ public class ItemController extends App implements Initializable {
     }
 
     /**
-     * Helper methode for getting a String from the end of an other String
+     * Helper methode for getting a String from the end of another String
      * @param string the input being split
      * @param regex the string used for splitting
      * @return the end of the string

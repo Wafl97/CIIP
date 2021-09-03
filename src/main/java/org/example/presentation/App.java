@@ -13,6 +13,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 import org.example.logic.Domain;
+import org.example.logic.interfaces.Logic;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -27,7 +28,7 @@ public class App extends Application {
     /**
      * Link to logic layer
      */
-    static final Domain DOMAIN = Domain.getInstance();
+    static final Logic DOMAIN = Domain.getInstance();
 
     private static Scene scene;
 

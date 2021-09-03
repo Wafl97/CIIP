@@ -18,6 +18,20 @@ final class JsonConnection implements DataConnection {
     //Data path
     private static final String PATH = "org/example/datacollection/";
 
+    private final IGenericSubConnection CAPSULE_CON         = new GenericSubConnection(CAPSULES,CAPSULE,true);
+    private final IGenericSubConnection CASE_CON            = new GenericSubConnection(CASES,CASE,true);
+    private final IGenericSubConnection GRAFFITI_CON        = new GenericSubConnection(GRAFFITIES,GRAFFITI,true);
+    private final IGenericSubConnection KEY_CON             = new GenericSubConnection(KEYS,KEY,true);
+    private final IGenericSubConnection MUSIC_KIT_CON       = new GenericSubConnection(MUSICKITS,MUSICKIT,true);
+    private final IGenericSubConnection PATCH_CON           = new GenericSubConnection(PATCHES,PATCH,true);
+    private final IGenericSubConnection PIN_CON             = new GenericSubConnection(PINS,PIN,true);
+    private final IGenericSubConnection PLAYER_MODEL_CON    = new GenericSubConnection(PLAYERMODELS,PLAYERMODEL,true);
+    private final IGenericSubConnection SKIN_CON            = new GenericSubConnection(SKINS,SKIN,true);
+    private final IGenericSubConnection SOUVENIR_CON        = new GenericSubConnection(SOUVENIRS,SOUVENIR,true);
+    private final IGenericSubConnection STICKER_CON         = new GenericSubConnection(STICKERS,STICKER,true);
+    private final IGenericSubConnection TICKET_CON          = new GenericSubConnection(TICKETS,TICKET,true);
+    private final IGenericSubConnection VAULT_CON           = new GenericSubConnection(VAULTS,VAULT,false);
+
     private static JsonConnection instance;
     private final Map<String,File> fileMap = new HashMap<>();
     private boolean connected = false;
@@ -40,7 +54,7 @@ final class JsonConnection implements DataConnection {
                     URL url = getClass().getClassLoader().getResource(PATH);
                     // Check if the path is valid
                     if (url == null) throw new FileNotFoundException("Directory: " + PATH + " does not exist.");
-                    // Creates the a file object to the directory
+                    // Creates the file object to the directory
                     File directory = new File(url.toURI());
 
                     if (!directory.isDirectory()) throw new NotDirectoryException(PATH + " is not a directory.");
@@ -81,7 +95,7 @@ final class JsonConnection implements DataConnection {
                     URL url = getClass().getClassLoader().getResource(PATH);
                     // Check if the path is valid
                     if (url == null) throw new FileNotFoundException("Directory: " + PATH + " does not exist.");
-                    // Creates the a file object to the directory
+                    // Creates the file object to the directory
                     File directory = new File(url.toURI());
 
                     if (!directory.isDirectory()) throw new NotDirectoryException(PATH + " is not a directory.");
@@ -118,66 +132,66 @@ final class JsonConnection implements DataConnection {
 
     @Override
     public IGenericSubConnection getCapsuleConnection() {
-        return new GenericSubConnection(CAPSULES,CAPSULE,true);
+        return CAPSULE_CON;
     }
 
     @Override
     public IGenericSubConnection getCaseConnection() {
-        return new GenericSubConnection(CASES,CASE,true);
+        return CASE_CON;
     }
 
     @Override
     public IGenericSubConnection getGraffitiConnection() {
-        return new GenericSubConnection(GRAFFITIES,GRAFFITI,true);
+        return GRAFFITI_CON;
     }
 
     @Override
     public IGenericSubConnection getKeyConnection() {
-        return new GenericSubConnection(KEYS,KEY,true);
+        return KEY_CON;
     }
 
     @Override
     public IGenericSubConnection getMusicKitConnection() {
-        return new GenericSubConnection(MUSICKITS,MUSICKIT,true);
+        return MUSIC_KIT_CON;
     }
 
     @Override
     public IGenericSubConnection getPatchConnection() {
-        return new GenericSubConnection(PATCHES,PATCH,true);
+        return PATCH_CON;
     }
 
     @Override
     public IGenericSubConnection getPinConnection() {
-        return new GenericSubConnection(PINS,PIN,true);
+        return PIN_CON;
     }
 
     @Override
     public IGenericSubConnection getPlayerModelConnection() {
-        return new GenericSubConnection(PLAYERMODELS,PLAYERMODEL,true);
+        return PLAYER_MODEL_CON;
     }
 
     @Override
     public IGenericSubConnection getSkinConnection() {
-        return new GenericSubConnection(SKINS,SKIN,true);
+        return SKIN_CON;
     }
 
     @Override
     public IGenericSubConnection getSouvenirConnection() {
-        return new GenericSubConnection(SOUVENIRS,SOUVENIR,true);
+        return SOUVENIR_CON;
     }
 
     @Override
     public IGenericSubConnection getStickerConnection() {
-        return new GenericSubConnection(STICKERS,STICKER,true);
+        return STICKER_CON;
     }
 
     @Override
     public IGenericSubConnection getTicketConnection() {
-        return new GenericSubConnection(TICKETS,TICKET,true);
+        return TICKET_CON;
     }
 
     @Override
     public IGenericSubConnection getVaultConnection() {
-        return new GenericSubConnection(VAULTS,VAULT,false);
+        return VAULT_CON;
     }
 }
