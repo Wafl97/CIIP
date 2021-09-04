@@ -103,6 +103,8 @@ public final class GenericSubConnection implements IGenericSubConnection {
     }
 
     private boolean removeObjFromTable(long id, Attributes table, Attributes objName, boolean cascade) {
+        boolean finalRtn = false;
+
         JSONArray jsonArray = loadFile(table);
         if (jsonArray == null) {
             throw new NoSuchElementException();
@@ -114,6 +116,7 @@ public final class GenericSubConnection implements IGenericSubConnection {
                 jsonArray.remove(o);
                 break;
             }
+            finalRtn = saveFile(jsonArray, table);
         }
         if (cascade){
             //Remove from investments
@@ -132,10 +135,10 @@ public final class GenericSubConnection implements IGenericSubConnection {
                         }
                     }
                 }
-                return saveFile(investArray, VAULTS);
+                finalRtn = saveFile(jsonArray, table);
             }
         }
-        return saveFile(jsonArray, table);
+        return finalRtn;
     }
 
     @SuppressWarnings({"unchecked"})

@@ -85,7 +85,7 @@ public abstract class GenericItem<T> implements Item<T> {
 
     @Override
     public void setCurrPrice(double price) {
-        this.currPrice = price;
+        this.currPrice = Math.max(price, 0.0);
     }
 
     @Override
@@ -108,7 +108,7 @@ public abstract class GenericItem<T> implements Item<T> {
             input.close();
             Matcher priceMatcher = PRICE_PATTERN.matcher(result);
             if (priceMatcher.find()) {
-                d = Double.parseDouble(priceMatcher.group(1).replace(",", "."));
+                d = Double.parseDouble(priceMatcher.group(1).replace(",", ".").replace("-","0"));
             }
         } catch (IOException e) {
             e.printStackTrace();

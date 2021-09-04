@@ -580,7 +580,9 @@ public class ItemController extends App implements Initializable {
 
     private void updateCurrPrice() {
         if (loadedItem != null){
+            loadedItem.updateCurrPrice();
             currPriceLabel.setText(String.valueOf(loadedItem.getCurrPrice()));
+            updateItem();
         }
     }
 
