@@ -92,9 +92,9 @@ public class TestData {
 
     //Skins
     // TODO: 30-08-2021 Add more Skins to test data
-    public static ISkin i1 = new Skin().populate(1,100.0,0.0,"TEST","weapon_mp9_cu_mp9_food_chain_light_large.5895f4cc864387a61a3783470037e6ed1953f7df.png","https://csgostash.com/skin/1373/MP9-Food-Chain",1.0,false,false);
-    public static ISkin i2 = new Skin().populate(2,50.0,0.0,"ABC","weapon_galilar_cu_galil_chroma_pink_light_large.e29cb838de1fc6318d36ed2d7263b7fcef10a4d8.png","https://csgostash.com/skin/1375/Galil-AR-Chromatic-Aberration",0.0,true,false);
-    public static ISkin i3 = new Skin().populate(3,150.0,0.0,"ABC","weapon_xm1014_aq_xm1014_punk_light_large.8c6eb5bcf234179713a52b1a5e22c64c21c52007.png","https://csgostash.com/skin/1374/XM1014-XOXO",0.005,false,true);
+    public static ISkin i1 = new Skin().populate(1,100.0,0.0,"MP9 | Food Chain","weapon_mp9_cu_mp9_food_chain_light_large.5895f4cc864387a61a3783470037e6ed1953f7df.png","https://csgostash.com/skin/1373/MP9-Food-Chain",1.0,false,false);
+    public static ISkin i2 = new Skin().populate(2,50.0,0.0,"Galil AR | Chromatic Aberration","weapon_galilar_cu_galil_chroma_pink_light_large.e29cb838de1fc6318d36ed2d7263b7fcef10a4d8.png","https://csgostash.com/skin/1375/Galil-AR-Chromatic-Aberration",0.0,true,false);
+    public static ISkin i3 = new Skin().populate(3,150.0,0.0,"XM1014 | XOXO","weapon_xm1014_aq_xm1014_punk_light_large.8c6eb5bcf234179713a52b1a5e22c64c21c52007.png","https://csgostash.com/skin/1374/XM1014-XOXO",0.005,false,true);
     /*
     ISkin i4 = new Skin().populate
     ISkin i5 = new Skin().populate

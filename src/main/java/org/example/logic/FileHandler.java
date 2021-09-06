@@ -19,15 +19,13 @@ public final class FileHandler implements IFileHandler {
 
     @Override
     public void save(File file) {
-        Domain.getInstance().getActionWriter().printAction(GREEN,"SAVE","File",-1,true);
-        System.out.println("IMAGE MAP :: " + DataFacade.getInstance().getGFX().getImageMap().size());
+        Domain.getInstance().getActionWriter().printAction(GREEN,"SAVE","File",file.getName(),true);
         DataFacade.getInstance().getGFX().uploadImage(file);
-        System.out.println("IMAGE MAP :: " + DataFacade.getInstance().getGFX().getImageMap().size());
     }
 
     @Override
     public File load(String fileName) {
-        Domain.getInstance().getActionWriter().printAction(PURPLE,"LOAD","File",-1,true);
+        Domain.getInstance().getActionWriter().printAction(PURPLE,"LOAD","File",fileName,true);
         return DataFacade.getInstance().getGFX().getImageMap().get(fileName);
     }
 }

@@ -100,7 +100,6 @@ final class GFX implements IGFX {
             File dirPath = new File(Objects.requireNonNull(getClass().getClassLoader().getResource("org/example/gfx/saved/")).toURI());
             String imageFileName = imageFile.getName().replaceAll("\\s","_").replaceAll("%20","_"); //Remove Spaces and '%20';
             File newFile = new File(dirPath + "/" + imageFileName);
-            System.out.println(newFile.getPath());
             if (!newFile.exists()) newFile.createNewFile();
 
             //Copy the old file the new empty file
@@ -122,7 +121,6 @@ final class GFX implements IGFX {
     }
 
     private static void COPY_FILE(File source, File destination){
-        System.out.println("COPY FILE GFX");
         try (BufferedInputStream biStream = new BufferedInputStream(new FileInputStream(source));
              BufferedOutputStream boStream = new BufferedOutputStream(new FileOutputStream(destination))) {
             int length = 0;

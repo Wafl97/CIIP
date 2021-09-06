@@ -19,7 +19,6 @@ public class VaultDomainTest extends GenericDomainTest{
 
     @Test
     void readAllVaults() {
-        // TODO: 31-08-2021
         goodList = new ArrayList<>(Arrays.asList(m1,m2));
         List<Transferable<IVault>> mList = domain.getVaultDomain().readAll();
         IntStream.range(0, goodList.size()).forEach(i -> assertEquals(goodList.get(i).toString(), mList.get(i).toString()));
@@ -27,20 +26,17 @@ public class VaultDomainTest extends GenericDomainTest{
 
     @Test
     void createVault() {
-        // TODO: 31-08-2021
         IVault m7 = ((IVault) factory.makeNew(VAULT)).populate(-1,"new vault");
         assertTrue(domain.getVaultDomain().create(m7));
     }
 
     @Test
     void readVault() {
-        // TODO: 31-08-2021
         assertEquals(m1.toString(),domain.getVaultDomain().read(1).toString());
     }
 
     @Test
     void updateVault() {
-        // TODO: 31-08-2021
         m1.setName("Berlin++");
         assertTrue(domain.getVaultDomain().update(m1));
         m1.setName("Berlin");
@@ -48,7 +44,6 @@ public class VaultDomainTest extends GenericDomainTest{
 
     @Test
     void deleteVault() {
-        // TODO: 31-08-2021
         assertTrue(domain.getVaultDomain().delete(m1.findMaxID()));
     }
 }

@@ -27,4 +27,15 @@ public final class ActionWriter implements IActionWriter {
             logWriter.writeLog(log_msg);
         }
     }
+
+    @Override
+    public void printAction(String color, String action, String dataType, String dataName, boolean log) {
+        //Build msg
+        String log_msg = "== SYS == " + action + " :: " + dataType + " called: " + dataName + " ==";
+
+        System.out.println(color + log_msg + R);
+        if (log){
+            logWriter.writeLog(log_msg);
+        }
+    }
 }

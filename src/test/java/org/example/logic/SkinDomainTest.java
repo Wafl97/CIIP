@@ -37,9 +37,9 @@ public class SkinDomainTest extends GenericDomainTest{
 
     @Test
     void updateSkin() {
-        i1.setName("TEST++");
+        i1.setName("MP9 | Food Chain++");
         assertTrue(domain.getSkinDomain().update(i1));
-        i1.setName("TEST");
+        i1.setName("MP9 | Food Chain");
     }
 
     @Test
