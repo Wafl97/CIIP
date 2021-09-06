@@ -72,8 +72,6 @@ public abstract class GenericDomain<T> implements IGenericDomain<T> {
     public Transferable<T> read(long id) {
         if (cache == null) readAll();
         WRITER.printAction(YELLOW,"READ",TYPE.toNorm(),id,false);
-        boolean b = cache.stream().anyMatch(item -> item.getId() == id);
-        System.out.println("DEBUG :: item found " + b);
         return cache.stream().filter(item -> item.getId() == id).findFirst().get();
     }
 
